@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="contrato_brisa3" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b1e79cf5-b939-4a6c-8e4f-a693cc8d09e9">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="cNumero" class="java.lang.String"/>
+	<parameter name="Letra" class="java.lang.String"/>
+	<parameter name="cNombreEmpresa" class="java.lang.String"/>
+	<parameter name="cRucEmpresa" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Sistemas\\EvolutionII\\EvolutionII\\src\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT cabecera_descuento_documentos.idprestamos,cabecera_descuento_documentos.numero,cabecera_descuento_documentos.socio,clientes.ruc,clientes.nombre,clientes.direccion,clientes.localidad,
+localidades.nombre AS nombrelocalidad,
+(SELECT clientes.nombre FROM clientes WHERE clientes.codigo=cabecera_descuento_documentos.codcodeudor) codenombre,
+(SELECT clientes.ruc FROM clientes WHERE clientes.codigo=cabecera_descuento_documentos.codcodeudor) coderuc,
+(SELECT clientes.direccion FROM clientes WHERE clientes.codigo=cabecera_descuento_documentos.codcodeudor) codedireccion
+FROM cabecera_descuento_documentos
+INNER JOIN clientes
+ON clientes.codigo=cabecera_descuento_documentos.socio
+INNER JOIN localidades
+ON localidades.codigo=clientes.localidad
+WHERE cabecera_descuento_documentos.numero=$P{cNumero}]]>
+	</queryString>
+	<field name="idprestamos" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="numero" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="socio" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ruc" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="direccion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="localidad" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombrelocalidad" class="java.lang.String"/>
+	<field name="codenombre" class="java.lang.String"/>
+	<field name="coderuc" class="java.lang.String"/>
+	<field name="codedireccion" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="110" splitType="Stretch">
+			<image>
+				<reportElement x="10" y="3" width="211" height="100" uuid="fb6cfa99-dad1-4c57-a6d6-39d7cbec3429"/>
+				<imageExpression><![CDATA["C:\\Sistemas\\EvolutionII\\EvolutionII\\src\\Images\\BRISALOGO.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="664" splitType="Stretch">
+			<image>
+				<reportElement x="10" y="46" width="532" height="584" uuid="093c2b24-0faa-4ce6-9917-e65cced6651a"/>
+				<imageExpression><![CDATA["C:\\Sistemas\\EvolutionII\\EvolutionII\\src\\Images\\BRISA.jpg"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement mode="Transparent" x="10" y="536" width="535" height="63" forecolor="#000000" backcolor="#FFFFFF" uuid="85901f5d-55ab-4729-9e8b-af79083e6749"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["DÉCIMO QUINTA. Domicilios: Las partes fijan domicilio en los lugares indicados en el encabezado del presente contrato. Todas las notificaciones realizadas en los mismos se considerarán válidas para todos los actos emergentes de la ejecución y cumplimiento del presente contrato. Todo cambio del domicilio deberá ser comunicado fehacientemente a la otra parte contratante para su validez, siendo válidas todas las notificaciones efectuadas en el domicilio previo de no haberse esta notificación debida."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="10" y="164" width="535" height="25" forecolor="#000000" backcolor="#FFFFFF" uuid="719f4942-6cc9-4a25-8d86-03416cb4278e"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["DÉCIMO SEGUNDA. Refinanciación: En caso de que LA DEUDORA y/o EL CODEUDOR deseen refinanciar la presente operación, deberán suscribir una nueva solicitud y contrato de préstamo a tal efecto, quedando la aprobación del mismo a criterio de LA ACREEDORA."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="10" y="194" width="535" height="294" forecolor="#000000" backcolor="#FFFFFF" uuid="cfca9bfb-f840-4b10-a958-2bf014bc10b6"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["DÉCIMO TERCERA. Autorizaciones: Por el presente instrumento LA DEUDORA Y EL CODEUDOR autorizan, en forma irrevocable, a LA ACREEDORA, otorgándole suficiente mandato en los términos del Art. 917 inc. “a” del Código Civil, para que por propia cuenta o a través de empresas especializadas de nuestro medio, pueda recabar información de los registros públicos o privados en la plaza comercial o en tora, referente a la situación patrimonial, solvencia económica, o el cumplimiento de las obligaciones comerciales de LA DEUDORA Y CODEUDOR. Asimismo, autorizan en forma suficiente para que LA ACREEDORA proceda a la verificación, confirmación y/o certificación de los datos declarados por el deudor y el codeudor, ya sea por procedimientos telefónicos o por medio de visitas a domicilios particulares y/o laborales proveídos a fin de que LA ACREEDORA pueda contar con los elementos de juicio y análisis necesarios para el otorgamiento y la ejecución del presente contrato de préstamo, y de las operaciones de crédito relacionadas a la misma. De igual manera, autorizan en forma irrevocable, para que en caso de un atraso superior a 90 (noventa) días en el pago de las obligaciones relacionadas a la ejecución del presente préstamo o de cualquier otro pendiente que mantenga con LA ACREEDORA, incluya el nombre de LA DEUDORA y de EL CODEUDOR, en el Registro General de Morosos de la firma “Informconf”, o de cualquier otra empresa de actividad similar que opere en plaza, como así también, proporcionar esa información a terceros interesados. Una vez cancelada la deuda de capital, gastos e intereses, la eliminación de dicho registro será realizada en los términos establecidos en la Ley 1.682/2001 y sus modificaciones legales. La DEUDORA Y EL CODEUDOR autorizan expresamente su inclusión en la base de datos del Acreedor o de quien este resuelva, con el fin de que le sean remitidos mensajes masivos de textos (SMS) y mensajes multimedia (MMS) masivos, sean de índole comercial, publicitario o de reclamo por el incumplimiento de las obligaciones asumidas en este contrato. LA DEUDORA y EL CODEUDOR autorizan expresa e incondicionalmente a LA ACREEDORA a destruir los pagarés a la orden suscritos por los mismos, siempre y cuando no sean retirados dentro de los 60 días posteriores a la cancelación de los mismos. LA DEUDORA y EL CODEUDOR otorgan su consentimiento para que se les tomen fotografías en el momento del desembolso del préstamo, en formato digital o de cualquier otro tipo y medio de reproducción de imágenes. Asimismo, LA DEUDORA y EL CODEUDOR autorizan el uso de las fotografías para fines privados de la Empresa y convienen en no reclamar a LA ACREEDORA por difamación, invasión a la privacidad u otra violación de cualesquiera derechos personales y patrimoniales."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="10" y="602" width="535" height="47" forecolor="#000000" backcolor="#FFFFFF" uuid="7021bc29-3c54-4f77-892d-66478d6d7170"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["DÉCIMO SEXTA. Jurisdicción: Las partes acuerdan que, en caso de discrepancia sobre la interpretación, aplicación o ejecución del presente contrato o sobre cualquier otro tipo de controversia que pudiere suscitarse con referencia al mismo, se someten a la jurisdicción de los Juzgados y Tribunales de la ciudad de Asunción, Capital de la República del Paraguay."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="11" y="492" width="535" height="40" forecolor="#000000" backcolor="#FFFFFF" uuid="fbdcd0a6-9ff3-49af-9001-266559cf24da"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["DÉCIMO CUARTA. Reglamento de Crédito: Constituyen también cláusulas del presente contrato, todas las prescripciones contenidas en el reglamento de crédito vigente, establecido por LA ACREEDOREA, y que LA DEUDORA y EL CODEUDOR declaran conocer y se comprometen a cumplir fielmente."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="10" y="92" width="535" height="38" forecolor="#000000" backcolor="#FFFFFF" uuid="7314a995-ed4e-4e76-b044-71fe7bbea1d7"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["DÉCIMA. Impuestos: LA DEUDORA se obliga a pagar todo tipo de impuestos, tasa y/o gravamen presente o futuro que incida sobre el presente contrato, así como sobre los documentos en que se formalicen, y/o sobre intereses, comisiones, gastos y accesorios que perciba la ACREEDORA en relación con el mismo."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="10" y="134" width="535" height="24" forecolor="#000000" backcolor="#FFFFFF" uuid="b44ef933-6e29-4c7c-94a2-9694cf43f48e"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["DÉCIMO PRIMERA. Destino del Préstamo: El préstamo deberá ser destinado exclusivamente a "+$F{nombre}+", estando LA ACREEDORA facultada a inspeccionar y verificar el uso del mismo."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="10" y="13" width="535" height="74" forecolor="#000000" backcolor="#FFFFFF" uuid="3d7ad37e-a407-4bb5-bafa-91f348eb0f87"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["NOVENA. Cesión y modificaciones: Los derechos y obligaciones derivadas del presente contrato no podrán ser cedidos o transferidos por LA DEUDORA a terceros, sin el previo y expreso consentimiento por escrito de LA ACREEDORA. No obstante, LA ACREEDORA queda suficientemente autorizada a ceder a terceros, en todo o en parte, los derechos de este crédito emergente y/o derivado del presente contrato. No podrán efectuarse modificaciones a este contrato sin el previo consentimiento por escrito de las partes. Ningún curso de acción adoptado por una de las partes podrá ser interpretado como una modificación (tácita o expresa) a una de las disposiciones del presente contrato."]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+</jasperReport>

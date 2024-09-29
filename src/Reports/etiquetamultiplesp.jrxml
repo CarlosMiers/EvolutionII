@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="etiquetamultiplesp" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="fe44d186-cce1-48b0-b10a-09e81bf95601">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="5"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="cNombreEmpresa" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="codprod" class="java.lang.String"/>
+	<field name="nombreproducto" class="java.lang.String"/>
+	<field name="cPrecio" class="java.lang.String"/>
+	<title>
+		<band height="7" splitType="Stretch"/>
+	</title>
+	<detail>
+		<band height="93" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement x="144" y="5" width="119" height="88" uuid="c0141387-4728-4887-aa26-6554cea738b0"/>
+			</rectangle>
+			<rectangle radius="10">
+				<reportElement x="288" y="5" width="119" height="88" uuid="30f7dd2a-0215-4179-9b5e-924ea508a98d"/>
+			</rectangle>
+			<rectangle radius="10">
+				<reportElement x="429" y="5" width="119" height="88" uuid="a56f08ed-c33b-4723-b9d8-d6ca053adcb9"/>
+			</rectangle>
+			<rectangle radius="10">
+				<reportElement x="3" y="5" width="119" height="88" uuid="5c3cbe2b-4bff-478c-9e29-a62504b31dc2"/>
+			</rectangle>
+			<textField>
+				<reportElement x="288" y="25" width="119" height="20" uuid="185117b4-6bc1-488d-a13a-891d21a5656b"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codprod}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="298" y="45" width="100" height="20" uuid="29b64c63-46b4-49b4-be64-01835cd5fce3"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombreproducto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="298" y="15" width="100" height="10" uuid="4419bf59-0035-4933-a09c-baa2bb2bca61"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cNombreEmpresa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="440" y="15" width="100" height="10" uuid="0e0cbd28-ca9c-4353-9397-52e95227bb1b"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cNombreEmpresa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="440" y="45" width="100" height="20" uuid="562664c2-7a63-4f0f-8e5f-597d7a00d622"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombreproducto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="429" y="25" width="119" height="20" uuid="90318cdd-4ab9-4485-bc03-bfc895fbf9fd"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codprod}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="152" y="15" width="100" height="10" uuid="b371eba5-604f-4620-8647-e17a32409e65"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cNombreEmpresa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="152" y="45" width="100" height="20" uuid="50e2ceaa-5c15-4734-ad17-12f97a290660"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombreproducto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="144" y="25" width="119" height="20" uuid="346764a9-936e-4a9b-99b8-2a7999be4a70"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codprod}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="12" y="45" width="100" height="20" uuid="630f4451-2911-4b86-a573-c5ebeadbfb87"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombreproducto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="3" y="25" width="119" height="20" uuid="49d121a1-6ff2-4b21-809c-7465bf08192e"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codprod}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="12" y="15" width="100" height="10" uuid="51c52a78-aea7-4ce0-8e67-b41342bf1ae2"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cNombreEmpresa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="12" y="71" width="100" height="16" uuid="b723bb33-1ce5-4164-ac9e-90988e2c3b24"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["GS. "+$F{cPrecio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="156" y="71" width="100" height="16" uuid="8c282045-c61a-4e38-a6e0-abe1c6c60502"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["GS. "+$F{cPrecio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="300" y="71" width="100" height="16" uuid="a09475d3-ddf4-4ede-9c1d-66742a39c21a"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["GS. "+$F{cPrecio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="440" y="71" width="100" height="16" uuid="64243312-feed-4e23-acfb-ea8859a50abb"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["GS. "+$F{cPrecio}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

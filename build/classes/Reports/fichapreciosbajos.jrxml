@@ -1,0 +1,845 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="fichapreciosbajos" pageWidth="612" pageHeight="1008" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="15724193-b574-49f8-865b-f4df501516b8">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Sistemas\\EvolutionII\\EvolutionII\\src\\Reports\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="cReferencia" class="java.lang.String"/>
+	<parameter name="nCliente" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[select clientes.*,prestamos.numero,prestamos.plazo,prestamos.importe,prestamos.fecha,prestamos.monto_cuota
+from clientes
+inner join prestamos
+on prestamos.socio=clientes.codigo
+where prestamos.idprestamos=$P{cReferencia}]]>
+	</queryString>
+	<field name="codigo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="comitente" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ruc" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fechanacimiento" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="estadocivil" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="conyugue" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="direccion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="telefono" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fax" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="celular" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="mail" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="profesion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="lugartrabajo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cargolaboral" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="salario" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="giraduria" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="direccionlaboral" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fechaingreso" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="telefonolaboral" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="faxlaboral" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="maillaboral" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="vendedor" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="categoria" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="salarioconyugue" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="otrosingresos" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="localidad" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="limitecredito" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="credito" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="notas" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="estado" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="saldo" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cedulaconyugue" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="garante" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="conyuguegarante" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cedulagarante" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cedulaconyuguegarante" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="direcciongarante" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="telefonogarante" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="lugartrabajogarante" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="profesiongarante" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="teloficinagarante" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="idcta" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="asesor" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="banco" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cuenta" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="casapropia" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="autopropio" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="informconf" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="sexo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="abogado" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="numero" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="plazo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="importe" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="monto_cuota" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="14" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="944" splitType="Stretch">
+			<staticText>
+				<reportElement x="22" y="275" width="89" height="0" uuid="33e80954-6725-4208-8527-ef668c171c34"/>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[1) Lugar de Trabajo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="346" width="68" height="0" uuid="b4841904-e87a-4fa4-9ad8-b5ac21ac5c14"/>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Otros Ingresos]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="101" y="129" width="154" height="24" uuid="ceaed281-654c-4e6f-a603-7b4de6445e2b"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="101" y="155" width="56" height="11" uuid="268cb116-81fa-4881-a479-6cddbeae483c"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fechanacimiento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="366" y="109" width="220" height="13" uuid="5354df55-8168-4b76-bcc2-57934410a4ef"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="366" y="124" width="100" height="11" uuid="464b4284-89d9-4a31-866f-8727ed48eebf"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{telefono}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="367" y="152" width="100" height="11" uuid="5aecad2a-fb4b-4649-98e1-887350633d9f"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{celular}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="367" y="138" width="100" height="11" uuid="354d8eb4-12e7-4672-876c-bcf6821971fb"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{telefonolaboral}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="311" y="98" width="31" height="10" uuid="a75b50b7-2538-48be-af2b-5d517d674ede"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{plazo}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="101" y="98" width="64" height="10" uuid="977ba743-0b36-4f87-a3b0-7fa469a0d35e"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{importe}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="312" y="81" width="54" height="10" uuid="31b0e557-5516-4465-a941-f13631806990"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="456" y="98" width="63" height="11" uuid="d5df2128-0890-4a97-8abb-2db8f9c344e6"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{monto_cuota}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="101" y="113" width="64" height="11" uuid="b791db77-6b17-4dca-8a58-ca717f3b2a29"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ruc}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="101" y="208" width="180" height="10" uuid="aafcff82-171f-4d8b-b786-88db736670e4"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{lugartrabajo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="101" y="221" width="180" height="11" uuid="f6b5ce04-cc3d-4fa7-8def-2b7582c62661"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cargolaboral}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="101" y="235" width="180" height="10" uuid="cedf2ff7-9f41-4b2a-8652-7afcce3a2710"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{direccionlaboral}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="101" y="248" width="76" height="12" uuid="84f489a8-7408-4235-b524-b71f52238fdb"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fechaingreso}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="101" y="261" width="71" height="10" uuid="dc89def2-44fe-4f15-8cbd-6b8268c85d44"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{salario}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="101" y="274" width="72" height="10" uuid="4bd0f3da-b92c-4aec-960b-499b0c20d979"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{otrosingresos}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="255" y="2" width="140" height="20" uuid="d4f3d068-cbca-424f-847c-49924b5f69bf"/>
+				<textElement>
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Solicitud de Crédito]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="22" y="78" width="135" height="13" uuid="b2be1b9a-62c2-4393-ab4f-76154b823936"/>
+				<textElement>
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Datos del Solicitante]]></text>
+			</staticText>
+			<line>
+				<reportElement x="10" y="94" width="576" height="1" uuid="b167361e-62f1-4a09-b2b0-3a92ffcbc643"/>
+			</line>
+			<staticText>
+				<reportElement x="276" y="81" width="30" height="13" uuid="977b3ac6-f8ad-4e59-86e3-9581122a8b25"/>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="99" width="81" height="10" uuid="a5a3fed4-beb9-4a21-ae6a-adc124534c0f"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Importe Solicitado:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="114" width="81" height="10" uuid="2b34c7ce-3a69-495d-a31c-59dfa0ba02c2"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Cédula Id. - RUC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="129" width="81" height="10" uuid="c5534dab-e840-48b1-b0cf-8a2f219c404e"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Nombre y Apellido]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="156" width="81" height="10" uuid="14e1bda4-9452-40d5-9f02-8643ea9cf53f"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Fecha Nacimiento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="37" y="169" width="51" height="10" uuid="47cfb1f2-71b3-417a-89bb-2e25da274e4e"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Estado Civil]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="255" y="98" width="26" height="10" uuid="be847b91-06ca-4437-bdd1-6fa62e9506e3"/>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Plazo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="405" y="98" width="34" height="10" uuid="10d6f1db-2d48-4a1c-b73f-1fb167fef2d5"/>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Cuota]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="291" y="111" width="51" height="10" uuid="3627d661-ada8-4bfc-81b9-1239cc43fcc4"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Dirección]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="276" y="126" width="66" height="10" uuid="6e6b3b91-635e-4e98-bbc3-b6c4cedaa947"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Fono Particular]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="275" y="139" width="66" height="10" uuid="f16ae755-27fc-42f5-a86d-0e831a1ea86c"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Fono Laboral]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="299" y="152" width="42" height="10" uuid="9dd52bc6-04d9-41d1-8d4d-fef1bceaffa4"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Celular]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="219" y="182" width="100" height="13" uuid="ca366afd-5478-44dc-8036-16abc65e967d"/>
+				<textElement>
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Actividad Laboral]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="17" y="208" width="79" height="10" uuid="2f94e02b-5ed9-41fa-bfb7-2ccb802989dc"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[1) Lugar de Trabajo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="71" y="221" width="25" height="10" uuid="cebbd7ae-bbe1-4764-abd8-1e72a73e2156"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Cargo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="28" y="234" width="68" height="10" uuid="cb5a4593-4cdb-408c-b7f5-26f73f27ab3e"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Dirección Laboral]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="15" y="247" width="81" height="10" uuid="89a1ccb7-6795-42de-be33-3071288c0492"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Antiguedad Laboral]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="54" y="260" width="42" height="10" uuid="c389391a-79c1-44a8-a0f2-9287634b059a"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Salario]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="38" y="273" width="58" height="10" uuid="38ac14da-323b-415c-a7f5-51f5d6bdd7ff"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Otros Ingresos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="291" y="207" width="76" height="10" uuid="bfd2dc82-fc5c-4fff-b852-d42afaa8b59a"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[2) Lugar de Trabajo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="338" y="220" width="27" height="10" uuid="1c704339-cd67-4d91-9356-de37f43c7a15"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Cargo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="292" y="234" width="75" height="10" uuid="319a4c6d-8104-46d6-819b-9f178e4c1a24"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Dirección Laboral]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="291" y="247" width="75" height="10" uuid="1bc1334f-c7a4-4f7b-834e-d8c7b337c7a2"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Antiguedad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="291" y="259" width="75" height="10" uuid="0aaf4b93-f4ae-4e9e-8dfc-83673f5a3641"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Sueldo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="291" y="271" width="75" height="10" uuid="00aa18bb-83a3-4069-a006-ad48097d8f91"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Total de Ingresos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="24" y="291" width="72" height="10" uuid="6aa54927-82e3-4c24-9ef4-c964e4587cd5"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Egresos Alquiler]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="260" y="291" width="58" height="10" uuid="91c75c37-6cf2-4642-a6ba-7184c0d9d375"/>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Casa Propia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="409" y="291" width="58" height="10" uuid="ccfc3527-035d-4c2c-825b-e61924fb3cd7"/>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Egreso Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="214" y="384" width="165" height="13" uuid="7be26f87-ca62-4779-bad1-2a177a260f4b"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Datos del Deudor Solidario]]></text>
+			</staticText>
+			<line>
+				<reportElement x="13" y="197" width="576" height="1" uuid="1ee74fa8-9cf1-4406-9448-96ccc9ab96b2"/>
+			</line>
+			<staticText>
+				<reportElement x="223" y="316" width="119" height="13" uuid="ec0e56b3-e1b0-47eb-b8ab-f5be60e59e2c"/>
+				<textElement>
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Referencias Personales]]></text>
+			</staticText>
+			<line>
+				<reportElement x="17" y="331" width="576" height="1" uuid="c7f90c4d-decf-48eb-885a-d7298313ac2e"/>
+			</line>
+			<staticText>
+				<reportElement x="43" y="644" width="79" height="10" uuid="81da5695-ed2e-4d1e-bb58-996e2b5e5d92"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Nombre y Apellido]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="43" y="658" width="79" height="10" uuid="326956ba-3eab-4725-b2ea-817613c4dfe2"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Teléfono]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="364" y="644" width="79" height="10" uuid="e79bd6e7-51f6-4f3c-b6cf-469300d4b6bf"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Nombre y Apellido]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="364" y="658" width="79" height="10" uuid="42779523-c357-4b44-99a8-4ef9cc454aa0"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Teléfono]]></text>
+			</staticText>
+			<line>
+				<reportElement x="18" y="400" width="576" height="1" uuid="7204d640-94d2-4582-8703-69bb4a97d7f4"/>
+			</line>
+			<staticText>
+				<reportElement x="44" y="578" width="58" height="10" uuid="ddb6dd6b-7862-4b87-90d1-d339a807a9ef"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Otros Ingresos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="77" y="526" width="25" height="10" uuid="3a9bd9b3-369a-4b88-96d1-54e607161505"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Cargo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="60" y="566" width="42" height="10" uuid="edad2aea-4bf9-4f62-ad47-12b46fa293b9"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Salario]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="513" width="79" height="10" uuid="93786156-9c36-403e-940b-98f5a7be3060"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[1) Lugar de Trabajo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="21" y="553" width="81" height="10" uuid="94889d8b-556b-4353-8c80-0d5f9d84c5fa"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Antiguedad Laboral]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="34" y="539" width="68" height="10" uuid="1fbc3e11-ea45-4762-9107-bb60be83d9e9"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Dirección Laboral]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="18" y="413" width="81" height="10" uuid="d0d48018-6a5d-4c25-88a2-ece457c58e35"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Cédula Id. - RUC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="73" y="458" width="26" height="10" uuid="1f588427-3957-4241-b4c2-d07b7c7bcff9"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Edad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="48" y="473" width="51" height="10" uuid="328bec8c-c044-498b-b324-95511c94a3fd"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Estado Civil]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="18" y="443" width="81" height="10" uuid="903e279c-1368-4874-bfb1-7dac1952f0ed"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Fecha Nacimiento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="18" y="428" width="81" height="10" uuid="210b8be1-53d7-4e34-b0cb-9386df2bcf8c"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Nombre y Apellido]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="299" y="443" width="66" height="10" uuid="70ec549e-c861-49fe-869c-f335587fff20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Fono Particular]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="322" y="469" width="42" height="10" uuid="bc954af4-4f23-4f6f-a621-5b2925ac2c26"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Celular]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="298" y="456" width="66" height="10" uuid="4442cf44-c209-47b7-8ab2-3393f663bf9f"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Fono Laboral]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="314" y="413" width="51" height="10" uuid="d6678293-e010-4dfe-89d1-0eac0e57d8d6"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Dirección]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="333" y="428" width="31" height="10" uuid="9fd11a96-f7a2-415d-9641-95b283a87dd1"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Ciudad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="217" y="487" width="128" height="13" uuid="fb065092-92e4-470b-9655-5b2014fdc555"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Actividad Laboral]]></text>
+			</staticText>
+			<line>
+				<reportElement x="21" y="503" width="576" height="1" uuid="477fe3a5-8cee-4256-80f8-37c630468d50"/>
+			</line>
+			<staticText>
+				<reportElement x="290" y="551" width="75" height="10" uuid="18f4cda2-5668-4b96-aee5-84808015ae77"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Antiguedad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="291" y="538" width="75" height="10" uuid="9fb1d4ac-e5c6-42f1-8874-f23e7bd9f009"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Dirección Laboral]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="575" width="75" height="10" uuid="20a57529-7b9a-4046-9ce4-c554b40a5503"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Total de Ingresos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="337" y="524" width="27" height="10" uuid="f1f5f540-9074-489f-9803-0a3964c264f0"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Cargo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="511" width="76" height="10" uuid="43e77461-10ed-4e3e-a47b-e0096186945b"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[2) Lugar de Trabajo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="563" width="75" height="10" uuid="d6c64968-dd25-483a-85cc-461240713241"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Sueldo]]></text>
+			</staticText>
+			<line>
+				<reportElement x="20" y="286" width="576" height="1" uuid="77459666-73d8-4d9e-896c-14ba527e5ec2"/>
+			</line>
+			<staticText>
+				<reportElement x="264" y="596" width="58" height="10" uuid="bdb6d690-6610-46cd-971d-68826d98ffd7"/>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Casa Propia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="413" y="596" width="58" height="10" uuid="0ffc41b3-534d-49cc-a383-8eea44f33a9a"/>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Egreso Total]]></text>
+			</staticText>
+			<line>
+				<reportElement x="24" y="591" width="576" height="1" uuid="86befd3c-322c-4b20-8cf1-3093116cf9c7"/>
+			</line>
+			<staticText>
+				<reportElement x="23" y="596" width="77" height="10" uuid="7f1ef256-2006-4fa7-b5a3-201680ed2f84"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Egresos Alquiler]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="234" y="620" width="119" height="13" uuid="00bfb989-ca18-42e7-b316-f32c01d31ff7"/>
+				<textElement>
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Referencias Laborales]]></text>
+			</staticText>
+			<line>
+				<reportElement x="28" y="634" width="572" height="1" uuid="9467a414-9db5-451d-8373-006c220e1fb9"/>
+			</line>
+			<staticText>
+				<reportElement x="34" y="673" width="551" height="179" uuid="cd9ecbfb-2d45-4814-9aab-0beb293ef121"/>
+				<textElement textAlignment="Justified" markup="none">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Declaramos que la información presentada a la Entidad en este formulario es verdadera, y tanto ella como los demás documentos adjuntos corresponden al fiel reflejo de la realidad de mi (nuestra) situación actual. Al mismo tiempo, me (nos) comprometo (emos) a informar por escrito a la Entidad, cualquier modificación en la información aquí suministrada.
+
+Así mismo Autorizo(mos) en los términos del Art. 917 Inc. A del Código Civil y la ley N° 6.534/20 de Protección de Datos Personales Crediticios para que por propia cuenta o a través de Empresas Especializadas de nuestro medio (Equifax S.A. y BIC S.A.) y otros, puedan recabar información en plaza referente a mi (nuestra) situación patrimonial, solvencia económica o el incumplimiento de nuestras obligaciones comerciales, como así también, a la verificación, confirmación y/o certificación de los datos por mi (nosotros) proveídos, a fin de que puedan contar con elementos de juicio y análisis necesarios para la viabilidad del crédito que me (nos) encuentro (amos) gestionando ante la Entidad, así mismo autorizo realizar consultas y recabar información, siempre y cuando cuente (mos) con un préstamo o servicio bancario vigentes, tales como giros, pagina web transaccional, aplicativo móvil. Autorizo también a reportar y publicar mi morosidad (en caso de que ocurriere) en las mencionadas entidades, conforme a los plazos establecidos en las leyes vigentes, así también como dar información a terceros interesados en conformidad a la ley 1682/01 y 1969/02.
+
+Por último, autorizo a la empresa a que me informen sobre productos o promociones vigentes por cualquier medio que considere factible.
+
+
+ ------------------------------------                                         ------------------------------------                       -----------------------------------------------------
+       Firma del Solicitante                                                       Firma Deudor Solidario                       Vendedor - PRECIOS BAJOS PARAGUAY S.A.
+    ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="395" y="78" width="64" height="13" uuid="1e153bf4-a8ea-471e-85f2-a954455853cf"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[N° Operación :]]></text>
+			</staticText>
+			<textField pattern="###0">
+				<reportElement x="466" y="79" width="68" height="10" uuid="61e4fe52-649e-4910-bce2-135386b103bb"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numero}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="10" y="2" width="209" height="61" uuid="67de8f11-0baf-4c5f-aa44-b84b305b58ce"/>
+				<imageExpression><![CDATA["C:\\Sistemas\\EvolutionII\\EvolutionII\\src\\Iconos\\logocash.jpg"]]></imageExpression>
+			</image>
+			<subreport>
+				<reportElement x="24" y="335" width="565" height="35" uuid="79c61fbd-544f-42b5-9e2f-5cae5075a2cc"/>
+				<subreportParameter name="nCliente">
+					<subreportParameterExpression><![CDATA[$P{nCliente}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["C:\\Sistemas\\EvolutionII\\EvolutionII\\src\\Reports\\detalle_ficha_refpersonal.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="5" splitType="Stretch"/>
+	</columnFooter>
+</jasperReport>

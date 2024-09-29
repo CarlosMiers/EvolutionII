@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="carta_declaracion_jurada" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c3ad0422-6852-49df-b1da-173322e3e884">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="144"/>
+	<property name="ireport.y" value="504"/>
+	<import value="Sistemas.EvolutionII.EvolutionII.src.Reports.jasper.*"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="cNombreEmpresa" class="java.lang.String"/>
+	<parameter name="nNumero" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT precierre_operacion.fechacierre,comprador,clientes.nombre as nombrecliente, precierre_operacion.fechacierre,
+DAY(precierre_operacion.fecha) AS dia,
+YEAR(precierre_operacion.fecha) AS periodo,
+emisores.nombre as nombreemisor,
+titulos.rescnv,
+date_format(titulos.fechacnv, "%d/%m/%Y") as fecha_formateada,
+CASE MONTH(precierre_operacion.fechacierre)
+  WHEN 1 THEN 'Enero'
+  WHEN 2 THEN 'Febrero'
+  WHEN 3 THEN 'Marzo'
+  WHEN 4 THEN 'Abril'
+  WHEN 5 THEN 'Mayo'
+  WHEN 6 THEN 'Junio'
+  WHEN 7 THEN 'Julio'
+  WHEN 8 THEN 'Agosto'
+  WHEN 9 THEN 'Setiembre'
+  WHEN 10 THEN 'Octubre'
+  WHEN 11 THEN 'Noviembre'
+  WHEN 12 THEN 'Diciembre'
+END AS nombremes
+FROM precierre_operacion
+LEFT JOIN clientes
+ON clientes.codigo=precierre_operacion.comprador
+LEFT JOIN emisores
+ON emisores.codigo=precierre_operacion.emisor
+LEFT JOIN titulos
+ON titulos.codigo=precierre_operacion.titulo
+WHERE precierre_operacion.numero=$P{nNumero}]]>
+	</queryString>
+	<field name="fechacierre" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="comprador" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombrecliente" class="java.lang.String"/>
+	<field name="dia" class="java.lang.Long"/>
+	<field name="periodo" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombreemisor" class="java.lang.String"/>
+	<field name="rescnv" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha_formateada" class="java.lang.String"/>
+	<field name="nombremes" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="87" splitType="Stretch">
+			<staticText>
+				<reportElement x="71" y="54" width="412" height="18" uuid="bd717295-3961-4f89-b961-a8d8a2bec908"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CARTA DE DECLARACIÓN DEL INVERSIONISTA]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="433" splitType="Stretch">
+			<line>
+				<reportElement x="369" y="336" width="133" height="1" uuid="917aa9fa-0170-486a-9fbf-55290bc90ffc"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="369" y="350" width="136" height="18" uuid="60f11986-80a7-4ff1-8089-c8a299edcc9f"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[Firma del Inversionista]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="39" y="18" width="472" height="104" forecolor="#000000" backcolor="#FFFFFF" uuid="72e41729-9f0d-4293-acf4-4d0beb25a63e"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["En la Ciudad de Asunción, a los "+$F{dia} +" días del mes de "+$F{nombremes} +" del año "+$F{periodo}+" por la presente, "+$F{nombrecliente}+" con Código de Cliente Nº "+$F{comprador}+" en la Casa de Bolsa, declaro/aramos que al invertir en los títulos emitidos por "+$F{nombreemisor}+" inscriptos bajo el Nº de Resolución de la CNV "+$F{rescnv}+" con fecha "+$F{fecha_formateada}+" del Registro de Valores, a través del Intermediario "+$P{cNombreEmpresa}+", he sido debido y claramente informado de los siguientes puntos:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="39" y="129" width="472" height="44" forecolor="#000000" backcolor="#FFFFFF" uuid="a5cc8314-1d89-4b0b-b845-27c6574511d9"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Que la circunstancia que la Comisión Nacional de Valores haya inscrito esta emisión en el Registro de Valores a su cargo, no significa que garantice su pago o la solvencia del emisor."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="39" y="181" width="472" height="44" forecolor="#000000" backcolor="#FFFFFF" uuid="589b433a-d52e-4019-a963-c1ab0b77cb06"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Que la Comisión Nacional de Valores no se pronuncia sobre la calidad de los valores ofrecidos como inversión y, por ende, el riesgo en su adquisición es de mi exclusiva responsabilidad."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="39" y="233" width="472" height="44" forecolor="#000000" backcolor="#FFFFFF" uuid="1dcf91f1-624c-4ecd-b9bb-2615f590061d"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Asi mismo, declaro que al momento de adquirir estos valores, he tenido la oportunidad de consultar los  antecedentes necesarios para  una  cabal comprensión del riesgo asumido en la adquisición de estos valores."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="39" y="352" width="302" height="18" uuid="0dc80637-21cb-457f-8189-fd19d442c60f"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cNombreEmpresa}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

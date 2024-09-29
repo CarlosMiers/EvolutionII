@@ -1,0 +1,2427 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Vista;
+
+import Clases.Config;
+import Clases.ControlGrabado;
+import Clases.ConvertirMayusculas;
+import Conexion.BDConexion;
+import Conexion.Conexion;
+import Conexion.Control;
+import Conexion.ObtenerFecha;
+import DAO.calificadoraDAO;
+import DAO.emisorDAO;
+import DAO.paisDAO;
+import DAO.rubro_emisorDAO;
+import Modelo.Tablas;
+import Modelo.calificadora;
+import Modelo.emisor;
+import Modelo.pais;
+import Modelo.rubro_emisor;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.net.URL;
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
+import javax.swing.ImageIcon;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.RowFilter;
+import javax.swing.RowSorter;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.plaf.ColorUIResource;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
+import org.openide.util.Exceptions;
+
+/**
+ *
+ * @author FedeXavier
+ */
+public class emisores extends javax.swing.JFrame {
+
+    Conexion con = null;
+    Statement stm = null;
+    Tablas modelo = new Tablas();
+    Tablas modelopaises = new Tablas();
+    Tablas modelorubros = new Tablas();
+    Tablas modelocalificadora = new Tablas();
+
+    JScrollPane scroll = new JScrollPane();
+    private TableRowSorter trsfiltro, trsfiltropais, trsfiltrorubro, trsfiltroca;
+    ImageIcon iconograbar = new ImageIcon("src/Iconos/grabar.png");
+    ImageIcon iconobuscar = new ImageIcon("src/Iconos/buscar.png");
+    ImageIcon icononuevo = new ImageIcon("src/Iconos/nuevo.png");
+    ImageIcon iconoeditar = new ImageIcon("src/Iconos/editar.png");
+    ImageIcon iconoborrar = new ImageIcon("src/Iconos/eliminar.png");
+    ImageIcon iconoprint = new ImageIcon("src/Iconos/impresora.png");
+    ImageIcon iconosalir = new ImageIcon("src/Iconos/salir.png");
+    ObtenerFecha ODate = new ObtenerFecha();
+    SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+    DecimalFormat formato = new DecimalFormat("#,###.##");
+    DecimalFormat formatosinpunto = new DecimalFormat("###");
+
+    /**
+     * Creates new form Template
+     */
+    public emisores() {
+        initComponents();
+        this.BotonAgregar.setIcon(icononuevo);
+        this.BotonEditar.setIcon(iconoeditar);
+        this.BuscarRubro.setIcon(iconobuscar);
+        this.BuscarCalificadora.setIcon(iconobuscar);
+        this.BuscarNacionalidad.setIcon(iconobuscar);
+        this.BotonDelete.setIcon(iconoborrar);
+        this.BotonPrint.setIcon(iconoprint);
+        this.BotonClose.setIcon(iconosalir);
+        this.BotonGrabar.setIcon(iconograbar);
+        this.BotonSalir.setIcon(iconosalir);
+        this.tablaemisor.setShowGrid(false);
+        this.tablaemisor.setOpaque(true);
+        this.tablaemisor.setBackground(new Color(102, 204, 255));
+        this.tablaemisor.setForeground(Color.BLACK);
+
+        this.setLocationRelativeTo(null); //Centramos el formulario
+        this.jTextOpciones1.setVisible(false);
+        this.Inicializar();
+        this.cargarTitulo();
+        this.TitPaises();
+        this.TitRubros();
+        this.TitCalificadora();
+        GrillaEmisores GrillaOC = new GrillaEmisores();
+        Thread HiloGrilla = new Thread(GrillaOC);
+        HiloGrilla.start();
+
+        GrillaPaises grillapa = new GrillaPaises();
+        Thread hilodo = new Thread(grillapa);
+        hilodo.start();
+
+        GrillaRubros grillaru = new GrillaRubros();
+        Thread hiloru = new Thread(grillaru);
+        hiloru.start();
+
+        GrillaCalificadora grillaca = new GrillaCalificadora();
+        Thread hiloca = new Thread(grillaca);
+        hiloca.start();
+
+    }
+
+    Control hand = new Control();
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        detalle_emisor = new javax.swing.JDialog();
+        panel1 = new org.edisoncor.gui.panel.Panel();
+        jLabel1 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        codigo = new javax.swing.JTextField();
+        nombre = new javax.swing.JTextField();
+        cedula = new javax.swing.JTextField();
+        direccion = new javax.swing.JTextField();
+        responsable = new javax.swing.JTextField();
+        email = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        tiposociedad = new javax.swing.JComboBox<>();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        pais = new javax.swing.JTextField();
+        BuscarNacionalidad = new javax.swing.JButton();
+        nombrenacionalidad = new javax.swing.JTextField();
+        estado = new javax.swing.JCheckBox();
+        jLabel4 = new javax.swing.JLabel();
+        telefono = new javax.swing.JTextField();
+        fax = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        rubro = new javax.swing.JTextField();
+        BuscarRubro = new javax.swing.JButton();
+        nombrerubro = new javax.swing.JTextField();
+        tipoentidad = new javax.swing.JComboBox<>();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        clase = new javax.swing.JComboBox<>();
+        jLabel8 = new javax.swing.JLabel();
+        nomalias = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
+        situacion = new javax.swing.JComboBox<>();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        calificadora = new javax.swing.JTextField();
+        calificacion = new javax.swing.JTextField();
+        BuscarCalificadora = new javax.swing.JButton();
+        nombrecalificadora = new javax.swing.JTextField();
+        panel3 = new org.edisoncor.gui.panel.Panel();
+        BotonGrabar = new javax.swing.JButton();
+        BotonSalir = new javax.swing.JButton();
+        Bpaises = new javax.swing.JDialog();
+        jPanel19 = new javax.swing.JPanel();
+        combopais = new javax.swing.JComboBox<>();
+        jTBuscarPais = new javax.swing.JTextField();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        tablapaises = new javax.swing.JTable();
+        jPanel20 = new javax.swing.JPanel();
+        AceptarPais = new javax.swing.JButton();
+        SalirPais = new javax.swing.JButton();
+        Brubros = new javax.swing.JDialog();
+        jPanel21 = new javax.swing.JPanel();
+        comborubro = new javax.swing.JComboBox<>();
+        jTBuscarRubro = new javax.swing.JTextField();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        tablarubros = new javax.swing.JTable();
+        jPanel22 = new javax.swing.JPanel();
+        AceptarRubro = new javax.swing.JButton();
+        SalirRubro = new javax.swing.JButton();
+        Bcalificadora = new javax.swing.JDialog();
+        jPanel13 = new javax.swing.JPanel();
+        combocaja = new javax.swing.JComboBox();
+        jTBuscarCa = new javax.swing.JTextField();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tablaca = new javax.swing.JTable();
+        jPanel15 = new javax.swing.JPanel();
+        AceptarCaja = new javax.swing.JButton();
+        SalirCaja = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        BotonEditar = new javax.swing.JButton();
+        BotonAgregar = new javax.swing.JButton();
+        BotonDelete = new javax.swing.JButton();
+        BotonPrint = new javax.swing.JButton();
+        BotonClose = new javax.swing.JButton();
+        jTextOpciones1 = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablaemisor = new javax.swing.JTable();
+        panel2 = new org.edisoncor.gui.panel.Panel();
+        etiquetasucursal = new org.edisoncor.gui.label.LabelMetric();
+        jComboBox1 = new javax.swing.JComboBox();
+        jTextField1 = new javax.swing.JTextField();
+
+        detalle_emisor.setTitle("Actualizar Sociedad Emisora");
+        detalle_emisor.setName("detalle_emisor"); // NOI18N
+        detalle_emisor.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                detalle_emisorFocusGained(evt);
+            }
+        });
+        detalle_emisor.addWindowFocusListener(new java.awt.event.WindowFocusListener() {
+            public void windowGainedFocus(java.awt.event.WindowEvent evt) {
+                detalle_emisorWindowGainedFocus(evt);
+            }
+            public void windowLostFocus(java.awt.event.WindowEvent evt) {
+            }
+        });
+
+        panel1.setBackground(new java.awt.Color(255, 255, 255));
+        panel1.setForeground(new java.awt.Color(255, 0, 0));
+        panel1.setToolTipText("");
+        panel1.setColorPrimario(new java.awt.Color(102, 153, 255));
+        panel1.setColorSecundario(new java.awt.Color(0, 204, 255));
+        panel1.setName("panel1"); // NOI18N
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Ingresar Emisor");
+        jLabel1.setName("jLabel1"); // NOI18N
+
+        javax.swing.GroupLayout panel1Layout = new javax.swing.GroupLayout(panel1);
+        panel1.setLayout(panel1Layout);
+        panel1Layout.setHorizontalGroup(
+            panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(250, 250, 250))
+        );
+        panel1Layout.setVerticalGroup(
+            panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addContainerGap(16, Short.MAX_VALUE))
+        );
+
+        jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.setName("jPanel1"); // NOI18N
+
+        codigo.setEditable(false);
+        codigo.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        codigo.setEnabled(false);
+        codigo.setName("codigo"); // NOI18N
+
+        nombre.setName("nombre"); // NOI18N
+        nombre.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                nombreFocusLost(evt);
+            }
+        });
+        nombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                nombreKeyPressed(evt);
+            }
+        });
+
+        cedula.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        cedula.setName("cedula"); // NOI18N
+        cedula.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                cedulaKeyPressed(evt);
+            }
+        });
+
+        direccion.setName("direccion"); // NOI18N
+        direccion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                direccionKeyPressed(evt);
+            }
+        });
+
+        responsable.setName("responsable"); // NOI18N
+        responsable.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                responsableKeyPressed(evt);
+            }
+        });
+
+        email.setName("email"); // NOI18N
+        email.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                emailKeyPressed(evt);
+            }
+        });
+
+        jLabel7.setText("Código");
+        jLabel7.setName("jLabel7"); // NOI18N
+
+        jLabel9.setText("Nombre");
+        jLabel9.setName("jLabel9"); // NOI18N
+
+        jLabel10.setText("RUC");
+        jLabel10.setName("jLabel10"); // NOI18N
+
+        jLabel11.setText("Dirección");
+        jLabel11.setName("jLabel11"); // NOI18N
+
+        jLabel12.setText("Responsable");
+        jLabel12.setName("jLabel12"); // NOI18N
+
+        jLabel2.setText("Mail");
+        jLabel2.setName("jLabel2"); // NOI18N
+
+        tiposociedad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "EMISOR", "SAECA" }));
+        tiposociedad.setName("tiposociedad"); // NOI18N
+        tiposociedad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tiposociedadActionPerformed(evt);
+            }
+        });
+        tiposociedad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tiposociedadKeyPressed(evt);
+            }
+        });
+
+        jLabel13.setText("Tipo Sociedad");
+        jLabel13.setName("jLabel13"); // NOI18N
+
+        jLabel3.setText("País de Origen");
+        jLabel3.setName("jLabel3"); // NOI18N
+
+        pais.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        pais.setName("pais"); // NOI18N
+        pais.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                paisActionPerformed(evt);
+            }
+        });
+        pais.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                paisKeyPressed(evt);
+            }
+        });
+
+        BuscarNacionalidad.setName("BuscarNacionalidad"); // NOI18N
+        BuscarNacionalidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BuscarNacionalidadActionPerformed(evt);
+            }
+        });
+
+        nombrenacionalidad.setEditable(false);
+        nombrenacionalidad.setName("nombrenacionalidad"); // NOI18N
+
+        estado.setText("Estado");
+        estado.setName("estado"); // NOI18N
+
+        jLabel4.setText("Teléfono");
+        jLabel4.setName("jLabel4"); // NOI18N
+
+        telefono.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        telefono.setName("telefono"); // NOI18N
+        telefono.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                telefonoKeyPressed(evt);
+            }
+        });
+
+        fax.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        fax.setName("fax"); // NOI18N
+        fax.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                faxKeyPressed(evt);
+            }
+        });
+
+        jLabel5.setText("FAX");
+        jLabel5.setName("jLabel5"); // NOI18N
+
+        jLabel6.setText("Rubro del Emisor");
+        jLabel6.setName("jLabel6"); // NOI18N
+
+        rubro.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        rubro.setName("rubro"); // NOI18N
+        rubro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rubroActionPerformed(evt);
+            }
+        });
+        rubro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                rubroKeyPressed(evt);
+            }
+        });
+
+        BuscarRubro.setName("BuscarRubro"); // NOI18N
+        BuscarRubro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BuscarRubroActionPerformed(evt);
+            }
+        });
+
+        nombrerubro.setEditable(false);
+        nombrerubro.setName("nombrerubro"); // NOI18N
+
+        tipoentidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ENTIDADES NO FINANCIERAS", "ENTIDADES FINANCIERAS", "ENTIDADES NO PUBLICAS" }));
+        tipoentidad.setName("tipoentidad"); // NOI18N
+        tipoentidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tipoentidadActionPerformed(evt);
+            }
+        });
+        tipoentidad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tipoentidadKeyPressed(evt);
+            }
+        });
+
+        jLabel14.setText("Tipo Entidad");
+        jLabel14.setName("jLabel14"); // NOI18N
+
+        jLabel15.setText("Clase");
+        jLabel15.setName("jLabel15"); // NOI18N
+
+        clase.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SOCIEDADES EMISORAS DE CAPITAL ABIERTO", "SOCIEDADES EMISORAS", "FONDOS DE INVERSION", "OTRAS ENTIDADES Y TITULOS", "ENTIDADES PUBLICAS" }));
+        clase.setName("clase"); // NOI18N
+        clase.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                claseActionPerformed(evt);
+            }
+        });
+        clase.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                claseKeyPressed(evt);
+            }
+        });
+
+        jLabel8.setText("Alias");
+        jLabel8.setName("jLabel8"); // NOI18N
+
+        nomalias.setName("nomalias"); // NOI18N
+        nomalias.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                nomaliasFocusLost(evt);
+            }
+        });
+        nomalias.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                nomaliasKeyPressed(evt);
+            }
+        });
+
+        jLabel16.setText("Situación del Emisor");
+        jLabel16.setName("jLabel16"); // NOI18N
+
+        situacion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Activo", "Convocatoria de Acreedores" }));
+        situacion.setName("situacion"); // NOI18N
+        situacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                situacionActionPerformed(evt);
+            }
+        });
+        situacion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                situacionKeyPressed(evt);
+            }
+        });
+
+        jLabel17.setText("Calificadora de Riesgo");
+        jLabel17.setName("jLabel17"); // NOI18N
+
+        jLabel18.setText("Calificación");
+        jLabel18.setName("jLabel18"); // NOI18N
+
+        calificadora.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        calificadora.setName("calificadora"); // NOI18N
+        calificadora.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                calificadoraActionPerformed(evt);
+            }
+        });
+
+        calificacion.setName("calificacion"); // NOI18N
+        calificacion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                calificacionKeyPressed(evt);
+            }
+        });
+
+        BuscarCalificadora.setName("BuscarCalificadora"); // NOI18N
+        BuscarCalificadora.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BuscarCalificadoraActionPerformed(evt);
+            }
+        });
+
+        nombrecalificadora.setEnabled(false);
+        nombrecalificadora.setName("nombrecalificadora"); // NOI18N
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel11))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 107, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cedula, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(direccion, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(118, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel7)
+                                    .addGap(117, 117, 117)
+                                    .addComponent(codigo, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jLabel8)
+                                    .addGap(22, 22, 22)
+                                    .addComponent(nomalias))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel9)
+                                    .addGap(113, 113, 113)
+                                    .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel13)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel14)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel15))
+                                .addGap(70, 70, 70)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(calificacion)
+                                        .addGap(165, 165, 165))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(rubro, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(BuscarRubro, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(nombrerubro, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(tipoentidad, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(tiposociedad, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(clase, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                    .addComponent(calificadora, javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(pais, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                    .addComponent(BuscarNacionalidad, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(BuscarCalificadora, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                                                .addGap(18, 18, 18)
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                    .addComponent(nombrenacionalidad, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
+                                                    .addComponent(nombrecalificadora))))
+                                        .addGap(0, 0, Short.MAX_VALUE))))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel16)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(estado)))
+                        .addContainerGap(96, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel12)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(2, 2, 2)
+                                        .addComponent(jLabel2)))
+                                .addGap(108, 108, 108)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(fax, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(telefono, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(responsable, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(situacion, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel17)
+                            .addComponent(jLabel18))
+                        .addGap(0, 0, Short.MAX_VALUE))))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(codigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel8)
+                    .addComponent(nomalias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(direccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(rubro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(BuscarRubro, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(nombrerubro, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tiposociedad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tipoentidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel14))
+                .addGap(9, 9, 9)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel15)
+                    .addComponent(clase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(BuscarNacionalidad, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nombrenacionalidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(pais, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel3)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel17)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(calificadora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(nombrecalificadora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(BuscarCalificadora, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel18)
+                    .addComponent(calificacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(responsable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(9, 9, 9)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(telefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(fax, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(9, 9, 9)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(estado)
+                        .addComponent(situacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.TRAILING)))
+        );
+
+        panel3.setBackground(new java.awt.Color(255, 255, 255));
+        panel3.setForeground(new java.awt.Color(255, 0, 0));
+        panel3.setToolTipText("");
+        panel3.setColorPrimario(new java.awt.Color(102, 153, 255));
+        panel3.setColorSecundario(new java.awt.Color(0, 204, 255));
+        panel3.setName("panel3"); // NOI18N
+
+        BotonGrabar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        BotonGrabar.setText("Grabar");
+        BotonGrabar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        BotonGrabar.setName("BotonGrabar"); // NOI18N
+        BotonGrabar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonGrabarActionPerformed(evt);
+            }
+        });
+
+        BotonSalir.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        BotonSalir.setText("Salir");
+        BotonSalir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        BotonSalir.setName("BotonSalir"); // NOI18N
+        BotonSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonSalirActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panel3Layout = new javax.swing.GroupLayout(panel3);
+        panel3.setLayout(panel3Layout);
+        panel3Layout.setHorizontalGroup(
+            panel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel3Layout.createSequentialGroup()
+                .addGap(154, 154, 154)
+                .addComponent(BotonGrabar, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(108, 108, 108)
+                .addComponent(BotonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(65, Short.MAX_VALUE))
+        );
+        panel3Layout.setVerticalGroup(
+            panel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(panel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(BotonGrabar)
+                    .addComponent(BotonSalir))
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout detalle_emisorLayout = new javax.swing.GroupLayout(detalle_emisor.getContentPane());
+        detalle_emisor.getContentPane().setLayout(detalle_emisorLayout);
+        detalle_emisorLayout.setHorizontalGroup(
+            detalle_emisorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(detalle_emisorLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(detalle_emisorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        detalle_emisorLayout.setVerticalGroup(
+            detalle_emisorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(detalle_emisorLayout.createSequentialGroup()
+                .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(panel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        Bpaises.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        Bpaises.setTitle("Buscar Pa\u00eds");
+        Bpaises.setName("Bpaises"); // NOI18N
+
+        jPanel19.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel19.setName("jPanel19"); // NOI18N
+
+        combopais.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        combopais.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Buscar por Nombre", "Buscar por Código" }));
+        combopais.setName("combopais"); // NOI18N
+
+        jTBuscarPais.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jTBuscarPais.setName("jTBuscarPais"); // NOI18N
+        jTBuscarPais.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTBuscarPaisKeyPressed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
+        jPanel19.setLayout(jPanel19Layout);
+        jPanel19Layout.setHorizontalGroup(
+            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel19Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(combopais, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addComponent(jTBuscarPais, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel19Layout.setVerticalGroup(
+            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel19Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(combopais, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTBuscarPais, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(23, Short.MAX_VALUE))
+        );
+
+        jScrollPane7.setName("jScrollPane7"); // NOI18N
+
+        tablapaises.setModel(modelopaises);
+        tablapaises.setName("tablapaises"); // NOI18N
+        tablapaises.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablapaisesMouseClicked(evt);
+            }
+        });
+        tablapaises.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tablapaisesKeyPressed(evt);
+            }
+        });
+        jScrollPane7.setViewportView(tablapaises);
+
+        jPanel20.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel20.setName("jPanel20"); // NOI18N
+
+        AceptarPais.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        AceptarPais.setText("Aceptar");
+        AceptarPais.setName("AceptarPais"); // NOI18N
+        AceptarPais.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AceptarPaisActionPerformed(evt);
+            }
+        });
+
+        SalirPais.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        SalirPais.setText("Salir");
+        SalirPais.setName("SalirPais"); // NOI18N
+        SalirPais.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SalirPaisActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel20Layout = new javax.swing.GroupLayout(jPanel20);
+        jPanel20.setLayout(jPanel20Layout);
+        jPanel20Layout.setHorizontalGroup(
+            jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel20Layout.createSequentialGroup()
+                .addGap(154, 154, 154)
+                .addComponent(AceptarPais, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(SalirPais, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel20Layout.setVerticalGroup(
+            jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel20Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(AceptarPais)
+                    .addComponent(SalirPais))
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout BpaisesLayout = new javax.swing.GroupLayout(Bpaises.getContentPane());
+        Bpaises.getContentPane().setLayout(BpaisesLayout);
+        BpaisesLayout.setHorizontalGroup(
+            BpaisesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 590, Short.MAX_VALUE)
+            .addComponent(jPanel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        BpaisesLayout.setVerticalGroup(
+            BpaisesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(BpaisesLayout.createSequentialGroup()
+                .addComponent(jPanel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        Brubros.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        Brubros.setTitle("Buscar Rubro");
+        Brubros.setName("Brubros"); // NOI18N
+
+        jPanel21.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel21.setName("jPanel21"); // NOI18N
+
+        comborubro.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        comborubro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Buscar por Nombre", "Buscar por Código" }));
+        comborubro.setName("comborubro"); // NOI18N
+
+        jTBuscarRubro.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jTBuscarRubro.setName("jTBuscarRubro"); // NOI18N
+        jTBuscarRubro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTBuscarRubroKeyPressed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel21Layout = new javax.swing.GroupLayout(jPanel21);
+        jPanel21.setLayout(jPanel21Layout);
+        jPanel21Layout.setHorizontalGroup(
+            jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel21Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(comborubro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addComponent(jTBuscarRubro, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel21Layout.setVerticalGroup(
+            jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel21Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(comborubro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTBuscarRubro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(23, Short.MAX_VALUE))
+        );
+
+        jScrollPane8.setName("jScrollPane8"); // NOI18N
+
+        tablarubros.setModel(modelorubros        );
+        tablarubros.setName("tablarubros"); // NOI18N
+        tablarubros.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablarubrosMouseClicked(evt);
+            }
+        });
+        tablarubros.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tablarubrosKeyPressed(evt);
+            }
+        });
+        jScrollPane8.setViewportView(tablarubros);
+
+        jPanel22.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel22.setName("jPanel22"); // NOI18N
+
+        AceptarRubro.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        AceptarRubro.setText("Aceptar");
+        AceptarRubro.setName("AceptarRubro"); // NOI18N
+        AceptarRubro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AceptarRubroActionPerformed(evt);
+            }
+        });
+
+        SalirRubro.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        SalirRubro.setText("Salir");
+        SalirRubro.setName("SalirRubro"); // NOI18N
+        SalirRubro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SalirRubroActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel22Layout = new javax.swing.GroupLayout(jPanel22);
+        jPanel22.setLayout(jPanel22Layout);
+        jPanel22Layout.setHorizontalGroup(
+            jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel22Layout.createSequentialGroup()
+                .addGap(154, 154, 154)
+                .addComponent(AceptarRubro, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(SalirRubro, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel22Layout.setVerticalGroup(
+            jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel22Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(AceptarRubro)
+                    .addComponent(SalirRubro))
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout BrubrosLayout = new javax.swing.GroupLayout(Brubros.getContentPane());
+        Brubros.getContentPane().setLayout(BrubrosLayout);
+        BrubrosLayout.setHorizontalGroup(
+            BrubrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 590, Short.MAX_VALUE)
+            .addComponent(jPanel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        BrubrosLayout.setVerticalGroup(
+            BrubrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(BrubrosLayout.createSequentialGroup()
+                .addComponent(jPanel21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        Bcalificadora.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        Bcalificadora.setTitle("Buscar Calificadora");
+        Bcalificadora.setName("Bcalificadora"); // NOI18N
+
+        jPanel13.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel13.setName("jPanel13"); // NOI18N
+
+        combocaja.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        combocaja.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Buscar por Nombre", "Buscar por Código" }));
+        combocaja.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        combocaja.setName("combocaja"); // NOI18N
+        combocaja.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                combocajaActionPerformed(evt);
+            }
+        });
+
+        jTBuscarCa.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jTBuscarCa.setText(org.openide.util.NbBundle.getMessage(emisores.class, "ventas.jTBuscarClientes.text")); // NOI18N
+        jTBuscarCa.setName("jTBuscarCa"); // NOI18N
+        jTBuscarCa.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTBuscarCaFocusGained(evt);
+            }
+        });
+        jTBuscarCa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTBuscarCaActionPerformed(evt);
+            }
+        });
+        jTBuscarCa.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTBuscarCaKeyPressed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
+        jPanel13.setLayout(jPanel13Layout);
+        jPanel13Layout.setHorizontalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addComponent(combocaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jTBuscarCa, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel13Layout.setVerticalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(combocaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTBuscarCa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(19, Short.MAX_VALUE))
+        );
+
+        jScrollPane4.setName("jScrollPane4"); // NOI18N
+
+        tablaca.setModel(modelocalificadora);
+        tablaca.setName("tablaca"); // NOI18N
+        tablaca.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablacaMouseClicked(evt);
+            }
+        });
+        tablaca.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tablacaKeyPressed(evt);
+            }
+        });
+        jScrollPane4.setViewportView(tablaca);
+
+        jPanel15.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel15.setName("jPanel15"); // NOI18N
+
+        AceptarCaja.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        AceptarCaja.setText(org.openide.util.NbBundle.getMessage(emisores.class, "ventas.Aceptarcliente.text")); // NOI18N
+        AceptarCaja.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        AceptarCaja.setName("AceptarCaja"); // NOI18N
+        AceptarCaja.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AceptarCajaActionPerformed(evt);
+            }
+        });
+
+        SalirCaja.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        SalirCaja.setText(org.openide.util.NbBundle.getMessage(emisores.class, "ventas.SalirCliente.text")); // NOI18N
+        SalirCaja.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        SalirCaja.setName("SalirCaja"); // NOI18N
+        SalirCaja.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SalirCajaActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
+        jPanel15.setLayout(jPanel15Layout);
+        jPanel15Layout.setHorizontalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel15Layout.createSequentialGroup()
+                .addGap(91, 91, 91)
+                .addComponent(AceptarCaja, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(85, 85, 85)
+                .addComponent(SalirCaja, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel15Layout.setVerticalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel15Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(AceptarCaja)
+                    .addComponent(SalirCaja))
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout BcalificadoraLayout = new javax.swing.GroupLayout(Bcalificadora.getContentPane());
+        Bcalificadora.getContentPane().setLayout(BcalificadoraLayout);
+        BcalificadoraLayout.setHorizontalGroup(
+            BcalificadoraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(BcalificadoraLayout.createSequentialGroup()
+                .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        BcalificadoraLayout.setVerticalGroup(
+            BcalificadoraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(BcalificadoraLayout.createSequentialGroup()
+                .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Ingresar Datos de Sociedades Emisoras");
+        setName("Form"); // NOI18N
+        addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                formFocusGained(evt);
+            }
+        });
+        addWindowFocusListener(new java.awt.event.WindowFocusListener() {
+            public void windowGainedFocus(java.awt.event.WindowEvent evt) {
+                formWindowGainedFocus(evt);
+            }
+            public void windowLostFocus(java.awt.event.WindowEvent evt) {
+            }
+        });
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
+
+        jPanel2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel2.setName("jPanel2"); // NOI18N
+
+        BotonEditar.setBackground(new java.awt.Color(255, 255, 255));
+        BotonEditar.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        BotonEditar.setText("Editar Registro");
+        BotonEditar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        BotonEditar.setName("BotonEditar"); // NOI18N
+        BotonEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonEditarActionPerformed(evt);
+            }
+        });
+
+        BotonAgregar.setBackground(new java.awt.Color(255, 255, 255));
+        BotonAgregar.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        BotonAgregar.setText(" Agregar Registro");
+        BotonAgregar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        BotonAgregar.setName("BotonAgregar"); // NOI18N
+        BotonAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonAgregarActionPerformed(evt);
+            }
+        });
+
+        BotonDelete.setBackground(new java.awt.Color(255, 255, 255));
+        BotonDelete.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        BotonDelete.setText("Eliminar Registro");
+        BotonDelete.setToolTipText("");
+        BotonDelete.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        BotonDelete.setName("BotonDelete"); // NOI18N
+        BotonDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonDeleteActionPerformed(evt);
+            }
+        });
+
+        BotonPrint.setBackground(new java.awt.Color(255, 255, 255));
+        BotonPrint.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        BotonPrint.setText("Listar/Imprimir");
+        BotonPrint.setToolTipText("");
+        BotonPrint.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        BotonPrint.setName("BotonPrint"); // NOI18N
+        BotonPrint.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonPrintActionPerformed(evt);
+            }
+        });
+
+        BotonClose.setBackground(new java.awt.Color(255, 255, 255));
+        BotonClose.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        BotonClose.setText("     Salir");
+        BotonClose.setToolTipText("");
+        BotonClose.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        BotonClose.setName("BotonClose"); // NOI18N
+        BotonClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonCloseActionPerformed(evt);
+            }
+        });
+
+        jTextOpciones1.setEditable(false);
+        jTextOpciones1.setName("jTextOpciones1"); // NOI18N
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(BotonClose, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(BotonPrint, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(BotonEditar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(BotonAgregar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(BotonDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(29, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                    .addContainerGap(82, Short.MAX_VALUE)
+                    .addComponent(jTextOpciones1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(31, 31, 31)))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addComponent(BotonAgregar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(BotonEditar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(BotonDelete)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(BotonPrint)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(BotonClose)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                    .addContainerGap(331, Short.MAX_VALUE)
+                    .addComponent(jTextOpciones1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(245, 245, 245)))
+        );
+
+        tablaemisor.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        jScrollPane1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jScrollPane1.setName("jScrollPane1"); // NOI18N
+        jScrollPane1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jScrollPane1FocusGained(evt);
+            }
+        });
+
+        tablaemisor.setModel(modelo);
+        tablaemisor.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        tablaemisor.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tablaemisor.setName("tablaemisor"); // NOI18N
+        tablaemisor.setSelectionBackground(new java.awt.Color(51, 204, 255));
+        tablaemisor.setSelectionForeground(new java.awt.Color(0, 0, 255));
+        tablaemisor.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tablaemisorFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tablaemisorFocusLost(evt);
+            }
+        });
+        tablaemisor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaemisorMouseClicked(evt);
+            }
+        });
+        tablaemisor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tablaemisorKeyPressed(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tablaemisor);
+
+        panel2.setColorPrimario(new java.awt.Color(102, 153, 255));
+        panel2.setColorSecundario(new java.awt.Color(0, 204, 255));
+        panel2.setName("panel2"); // NOI18N
+
+        etiquetasucursal.setText("Sociedades Emisoras");
+        etiquetasucursal.setName("etiquetasucursal"); // NOI18N
+
+        jComboBox1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nombre", "Código" }));
+        jComboBox1.setName("jComboBox1"); // NOI18N
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+
+        jTextField1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jTextField1.setName("jTextField1"); // NOI18N
+        jTextField1.setSelectionColor(new java.awt.Color(0, 63, 62));
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField1KeyPressed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panel2Layout = new javax.swing.GroupLayout(panel2);
+        panel2.setLayout(panel2Layout);
+        panel2Layout.setHorizontalGroup(
+            panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel2Layout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addComponent(etiquetasucursal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        panel2Layout.setVerticalGroup(
+            panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel2Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(etiquetasucursal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(25, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 850, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(panel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(panel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 602, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyPressed
+        this.jTextField1.addKeyListener(new KeyAdapter() {
+            public void keyReleased(final KeyEvent e) {
+                String cadena = (jTextField1.getText()).toUpperCase();
+                jTextField1.setText(cadena);
+                int indiceColumnaTabla = 0;
+                switch (jComboBox1.getSelectedIndex()) {
+                    case 0:
+                        indiceColumnaTabla = 1;
+                        break;//por nombre
+                    case 1:
+                        indiceColumnaTabla = 0;
+                        break;//por codigo
+                }
+                repaint();
+                filtro(indiceColumnaTabla);
+            }
+        });
+        trsfiltro = new TableRowSorter(tablaemisor.getModel());
+        tablaemisor.setRowSorter(trsfiltro);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1KeyPressed
+
+    public void filtropais(int nNumeroColumna) {
+        trsfiltropais.setRowFilter(RowFilter.regexFilter(this.jTBuscarPais.getText(), nNumeroColumna));
+    }
+
+    private void TitCalificadora() {
+        modelocalificadora.addColumn("Código");
+        modelocalificadora.addColumn("Nombre");
+
+        int[] anchos = {90, 200};
+        for (int i = 0; i < modelocalificadora.getColumnCount(); i++) {
+            tablaca.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
+        }
+        ((DefaultTableCellRenderer) tablaca.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);// Este código es para centrar las cabeceras de la tabla.
+        tablaca.getTableHeader().setFont(new Font("Arial Black", 1, 10));
+
+        // Hacemos Invisible la Celda de Costos de los Productos
+        Font font = new Font("Arial", Font.BOLD, 9);
+        this.tablaca.setFont(font);
+
+        DefaultTableCellRenderer TablaRenderer = new DefaultTableCellRenderer();
+        TablaRenderer.setHorizontalAlignment(SwingConstants.RIGHT); // aqui defines donde alinear 
+        this.tablaca.getColumnModel().getColumn(0).setCellRenderer(TablaRenderer);
+    }
+
+    private void TitPaises() {
+        modelopaises.addColumn("Código");
+        modelopaises.addColumn("Nombre");
+
+        int[] anchos = {90, 200};
+        for (int i = 0; i < modelopaises.getColumnCount(); i++) {
+            tablapaises.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
+        }
+        ((DefaultTableCellRenderer) tablapaises.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);// Este código es para centrar las cabeceras de la tabla.
+        tablapaises.getTableHeader().setFont(new Font("Arial Black", 1, 10));
+
+        // Hacemos Invisible la Celda de Costos de los Productos
+        Font font = new Font("Arial", Font.BOLD, 9);
+        this.tablapaises.setFont(font);
+
+        DefaultTableCellRenderer TablaRenderer = new DefaultTableCellRenderer();
+        TablaRenderer.setHorizontalAlignment(SwingConstants.RIGHT); // aqui defines donde alinear 
+        this.tablapaises.getColumnModel().getColumn(0).setCellRenderer(TablaRenderer);
+    }
+
+    public void filtrorubro(int nNumeroColumna) {
+        trsfiltrorubro.setRowFilter(RowFilter.regexFilter(this.jTBuscarRubro.getText(), nNumeroColumna));
+    }
+
+    private void TitRubros() {
+        modelorubros.addColumn("Código");
+        modelorubros.addColumn("Nombre");
+
+        int[] anchos = {90, 200};
+        for (int i = 0; i < modelorubros.getColumnCount(); i++) {
+            tablarubros.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
+        }
+        ((DefaultTableCellRenderer) tablarubros.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);// Este código es para centrar las cabeceras de la tabla.
+        tablarubros.getTableHeader().setFont(new Font("Arial Black", 1, 10));
+
+        // Hacemos Invisible la Celda de Costos de los Productos
+        Font font = new Font("Arial", Font.BOLD, 9);
+        this.tablarubros.setFont(font);
+
+        DefaultTableCellRenderer TablaRenderer = new DefaultTableCellRenderer();
+        TablaRenderer.setHorizontalAlignment(SwingConstants.RIGHT); // aqui defines donde alinear 
+        this.tablarubros.getColumnModel().getColumn(0).setCellRenderer(TablaRenderer);
+    }
+
+    private void BotonCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonCloseActionPerformed
+        this.dispose();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BotonCloseActionPerformed
+
+    private void Inicializar() {
+        Calendar c2 = new GregorianCalendar();
+    }
+
+    private void limpiar() {
+        Calendar c2 = new GregorianCalendar();
+        this.codigo.setText("0");
+        this.nomalias.setText("");
+        this.nombre.setText("");
+        this.cedula.setText("");
+        this.direccion.setText("");
+        this.responsable.setText("");
+        this.telefono.setText("");
+        this.fax.setText("");
+        this.rubro.setText("0");
+        this.nombrerubro.setText("");
+        this.email.setText("");
+        this.pais.setText("0");
+        this.nombrenacionalidad.setText("");
+        this.responsable.setText("");
+        this.calificadora.setText("0");
+        this.nombrecalificadora.setText("");
+        this.calificacion.setText("");
+        this.tiposociedad.setSelectedIndex(0);
+        this.tipoentidad.setSelectedIndex(0);
+        this.clase.setSelectedIndex(0);
+        this.email.setText("");
+        this.estado.setSelected(true);
+    }
+
+
+    private void BotonAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonAgregarActionPerformed
+        codigo.setEnabled(true);
+        this.limpiar();
+        detalle_emisor.setModal(true);
+        detalle_emisor.setSize(670, 625);
+        //Establecemos un título para el jDialog
+        detalle_emisor.setTitle("Agregar nuevo Emisor");
+        detalle_emisor.setLocationRelativeTo(null);
+        detalle_emisor.setVisible(true);
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BotonAgregarActionPerformed
+
+    private void tablaemisorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tablaemisorKeyPressed
+        int nFila = this.tablaemisor.getSelectedRow();
+        this.jTextOpciones1.setText(this.tablaemisor.getValueAt(nFila, 0).toString());
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tablaemisorKeyPressed
+
+    private void tablaemisorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaemisorMouseClicked
+        int nFila = this.tablaemisor.getSelectedRow();
+        this.jTextOpciones1.setText(this.tablaemisor.getValueAt(nFila, 0).toString());
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tablaemisorMouseClicked
+
+    private void BotonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonEditarActionPerformed
+        this.limpiar();
+        if (Integer.valueOf(Config.cNivelUsuario) == 1) {
+            int nFila = this.tablaemisor.getSelectedRow();
+            if (nFila < 0) {
+                JOptionPane.showMessageDialog(null, "Debe Seleccionar un Registro");
+                this.tablaemisor.requestFocus();
+                return;
+            }
+
+            this.codigo.setText(this.tablaemisor.getValueAt(nFila, 0).toString());
+            emisorDAO emDAO = new emisorDAO();
+            emisor em = null;
+            try {
+                em = emDAO.buscarId(Integer.valueOf(this.codigo.getText()));
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "ERROR:" + e.getMessage());
+            }
+            if (em != null) {
+                nomalias.setText(em.getNomalias());
+                nombre.setText(em.getNombre());
+                cedula.setText(em.getCedula());
+                pais.setText(String.valueOf(em.getPais().getCodigo()));
+                nombrenacionalidad.setText(em.getPais().getNombre().trim());
+                telefono.setText(em.getTelefono());
+                fax.setText(em.getFax());
+                responsable.setText(em.getResponsable());
+                email.setText(em.getEmail());
+                direccion.setText(em.getDireccion());
+                rubro.setText(String.valueOf(em.getRubro().getCodigo()));
+
+                nombrerubro.setText(em.getRubro().getNombre());
+                tiposociedad.setSelectedIndex(em.getTiposociedad() - 1);
+                tipoentidad.setSelectedIndex(em.getTipoentidad() - 1);
+                situacion.setSelectedItem(em.getSituacion());
+                clase.setSelectedIndex(em.getClase() - 1);
+                calificadora.setText(String.valueOf(em.getCalificadora().getCodigo()));
+                nombrecalificadora.setText(em.getCalificadora().getNombre());
+                calificacion.setText(em.getCalificacion());
+                if (em.getEstado() == 0) {
+                    this.estado.setSelected(false);
+                } else {
+                    this.estado.setSelected(true);
+                }
+
+                detalle_emisor.setModal(true);
+                detalle_emisor.setSize(670, 625);
+                //Establecemos un título para el jDialog
+                detalle_emisor.setTitle("Modificar Datos del Emisor");
+                detalle_emisor.setLocationRelativeTo(null);
+                detalle_emisor.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(null, "USUARIO NO AUTORIZADO");
+            }
+        }
+
+        //Envio como parametro el Codigo para saber si voy a modificar
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BotonEditarActionPerformed
+
+    private void tablaemisorFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tablaemisorFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tablaemisorFocusGained
+
+    private void jScrollPane1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jScrollPane1FocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jScrollPane1FocusGained
+
+    private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowGainedFocus
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowActivated
+
+    private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formFocusGained
+
+    private void BotonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonDeleteActionPerformed
+        if (Integer.valueOf(Config.cNivelUsuario) == 1) {
+            int nFila = tablaemisor.getSelectedRow();
+            String num = tablaemisor.getValueAt(nFila, 0).toString();
+            Object[] opciones = {"   Si   ", "   No   "};
+            int ret = JOptionPane.showOptionDialog(null, "Desea Eliminar el Registro ? ", "Confirmación", 0, 3, null, opciones, opciones[0]);
+            if (ret == 0) {
+                emisorDAO emDAO = new emisorDAO();
+                try {
+                    emisor em = emDAO.buscarId((Integer.valueOf(num)));
+                    if (em == null) {
+                        JOptionPane.showMessageDialog(null, "Registro no Existe");
+                    } else {
+                        emDAO.eliminarEmisor(Integer.valueOf(num));
+                        JOptionPane.showMessageDialog(null, "Registro Eliminado Exitosamente");
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "ERROR: " + e.getMessage());
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Usuario no Autorizado");
+            }
+            GrillaEmisores GrillaOC = new GrillaEmisores();
+            Thread HiloGrilla = new Thread(GrillaOC);
+            HiloGrilla.start();
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BotonDeleteActionPerformed
+
+    private void tablaemisorFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tablaemisorFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tablaemisorFocusLost
+
+    private void BotonPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonPrintActionPerformed
+        con = new Conexion();
+        stm = con.conectar();
+        try {
+            Map parameters = new HashMap();
+            parameters.put("", new String(""));
+            JasperReport jr = null;
+            URL url = getClass().getClassLoader().getResource("Reports/sucursales.jasper");
+            jr = (JasperReport) JRLoader.loadObject(url);
+            JasperPrint masterPrint = null;
+            masterPrint = JasperFillManager.fillReport(jr, null, stm.getConnection());
+            JasperViewer ventana = new JasperViewer(masterPrint, false);
+            ventana.setTitle("Vista Previa");
+            ventana.setVisible(true);
+        } catch (Exception e) {
+            JDialog.setDefaultLookAndFeelDecorated(true);
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", 1);
+        }
+    }//GEN-LAST:event_BotonPrintActionPerformed
+
+    private void detalle_emisorFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_detalle_emisorFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_detalle_emisorFocusGained
+
+    private void detalle_emisorWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_detalle_emisorWindowGainedFocus
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_detalle_emisorWindowGainedFocus
+
+    private void BotonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonSalirActionPerformed
+        this.detalle_emisor.setVisible(false);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BotonSalirActionPerformed
+
+    private void BotonGrabarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonGrabarActionPerformed
+        Object[] opciones = {"   Si   ", "   No   "};
+        int ret = JOptionPane.showOptionDialog(null, "Desea Guardar los Datos? ", "Confirmación", 0, 3, null, opciones, opciones[0]);
+        if (ret == 0) {
+
+            emisorDAO grabar = new emisorDAO();
+            emisor em = new emisor();
+            paisDAO pDAO = new paisDAO();
+            pais p = null;
+            rubro_emisorDAO emDAO = new rubro_emisorDAO();
+            rubro_emisor r = null;
+            calificadoraDAO calDAO = new calificadoraDAO();
+            calificadora cal = null;
+
+            try {
+                p = pDAO.buscarId(Integer.valueOf(pais.getText()));
+                r = emDAO.buscarId(Integer.valueOf(rubro.getText()));
+                cal = calDAO.buscarId(Integer.valueOf(calificadora.getText()));
+            } catch (SQLException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+            int nestado = 0;
+            if (this.estado.isSelected()) {
+                nestado = 1;
+            }
+            em.setNombre(nombre.getText());
+            em.setCedula(cedula.getText());
+            em.setDireccion(direccion.getText());
+            em.setPais(p);
+            em.setRubro(r);
+            em.setCalificadora(cal);
+            em.setCalificacion(calificacion.getText());
+            em.setResponsable(responsable.getText().trim());
+            em.setTiposociedad(tiposociedad.getSelectedIndex() + 1);
+            em.setTipoentidad(tipoentidad.getSelectedIndex() + 1);
+            em.setClase(clase.getSelectedIndex() + 1);
+            em.setTelefono(telefono.getText());
+            em.setFax(fax.getText());
+            em.setEmail(this.email.getText());
+            em.setNomalias(this.nomalias.getText());
+            em.setSituacion(this.situacion.getSelectedItem().toString());
+            em.setEstado(nestado);
+            try {
+                if (Integer.valueOf(codigo.getText()) == 0) {
+                    grabar.insertarEmisor(em);
+                } else {
+                    em.setCodigo(Integer.valueOf(codigo.getText()));
+                    grabar.actualizarEmisor(em);
+                }
+            } catch (SQLException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+            detalle_emisor.setVisible(false);
+            detalle_emisor.setModal(false);
+
+            GrillaEmisores GrillaOC = new GrillaEmisores();
+            Thread HiloGrilla = new Thread(GrillaOC);
+            HiloGrilla.start();
+        }
+    }//GEN-LAST:event_BotonGrabarActionPerformed
+
+    private void nombreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nombreKeyPressed
+        if (evt.getKeyCode() == 10 || evt.getKeyCode() == KeyEvent.VK_DOWN) { //Si pulso enter o cursor abajo obtiene el foco el sgte objeto
+            this.cedula.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            this.nomalias.requestFocus();
+        }
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nombreKeyPressed
+
+    private void cedulaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cedulaKeyPressed
+        if (evt.getKeyCode() == 10 || evt.getKeyCode() == KeyEvent.VK_DOWN) { //Si pulso enter o cursor abajo obtiene el foco el sgte objeto
+            this.direccion.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            this.nombre.requestFocus();
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cedulaKeyPressed
+
+    private void direccionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_direccionKeyPressed
+        if (evt.getKeyCode() == 10 || evt.getKeyCode() == KeyEvent.VK_DOWN) { //Si pulso enter o cursor abajo obtiene el foco el sgte objeto
+            this.rubro.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            this.cedula.requestFocus();
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_direccionKeyPressed
+
+    private void emailKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_emailKeyPressed
+        if (evt.getKeyCode() == 10 || evt.getKeyCode() == KeyEvent.VK_DOWN) { //Si pulso enter o cursor abajo obtiene el foco el sgte objeto
+            this.situacion.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            this.fax.requestFocus();
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_emailKeyPressed
+
+    private void responsableKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_responsableKeyPressed
+        if (evt.getKeyCode() == 10 || evt.getKeyCode() == KeyEvent.VK_DOWN) { //Si pulso enter o cursor abajo obtiene el foco el sgte objeto
+            this.telefono.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            this.calificacion.requestFocus();
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_responsableKeyPressed
+
+    private void tiposociedadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tiposociedadActionPerformed
+        System.out.println(this.tiposociedad.getSelectedItem());
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tiposociedadActionPerformed
+
+    private void nombreFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nombreFocusLost
+        String letras = ConvertirMayusculas.cadena(nombre);
+        nombre.setText(letras);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nombreFocusLost
+
+    private void tablapaisesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablapaisesMouseClicked
+        this.AceptarPais.doClick();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tablapaisesMouseClicked
+
+    private void tablapaisesKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tablapaisesKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            this.AceptarPais.doClick();
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tablapaisesKeyPressed
+
+    private void jTBuscarPaisKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTBuscarPaisKeyPressed
+        this.jTBuscarPais.addKeyListener(new KeyAdapter() {
+            public void keyReleased(final KeyEvent e) {
+                String cadena = (jTBuscarPais.getText()).toUpperCase();
+                jTBuscarPais.setText(cadena);
+                int indiceColumnaTabla = 0;
+                switch (combopais.getSelectedIndex()) {
+                    case 0:
+                        indiceColumnaTabla = 1;
+                        break;//por nombre
+                    case 1:
+                        indiceColumnaTabla = 0;
+                }
+                repaint();
+                filtropais(indiceColumnaTabla);
+            }
+        });
+        trsfiltropais = new TableRowSorter(tablapaises.getModel());
+        tablapaises.setRowSorter(trsfiltropais);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTBuscarPaisKeyPressed
+
+    private void AceptarPaisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AceptarPaisActionPerformed
+        int nFila = this.tablapaises.getSelectedRow();
+        this.pais.setText(this.tablapaises.getValueAt(nFila, 0).toString());
+        this.nombrenacionalidad.setText(this.tablapaises.getValueAt(nFila, 1).toString());
+        this.Bpaises.setVisible(false);
+        this.jTBuscarPais.setText("");
+        // TODO add your handling code here:
+    }//GEN-LAST:event_AceptarPaisActionPerformed
+
+    private void SalirPaisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalirPaisActionPerformed
+        this.Bpaises.setVisible(false);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SalirPaisActionPerformed
+
+    private void BuscarNacionalidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarNacionalidadActionPerformed
+        paisDAO baDAO = new paisDAO();
+        pais ba = null;
+        try {
+            ba = baDAO.buscarId(Integer.valueOf(this.pais.getText()));
+            if (ba.getCodigo() == 0) {
+                Bpaises.setModal(true);
+                Bpaises.setSize(482, 575);
+                Bpaises.setLocationRelativeTo(null);
+                Bpaises.setVisible(true);
+                Bpaises.setTitle("Buscar Paises");
+            } else {
+                nombrenacionalidad.setText(ba.getNombre());
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "ERROR:" + e.getMessage());
+        }
+        responsable.requestFocus();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BuscarNacionalidadActionPerformed
+
+    private void paisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paisActionPerformed
+        this.BuscarNacionalidad.doClick();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_paisActionPerformed
+
+    private void paisKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_paisKeyPressed
+        if (evt.getKeyCode() == 10 || evt.getKeyCode() == KeyEvent.VK_DOWN) { //Si pulso enter o cursor abajo obtiene el foco el sgte objeto
+            this.responsable.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            this.clase.requestFocus();
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_paisKeyPressed
+
+    private void telefonoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_telefonoKeyPressed
+        if (evt.getKeyCode() == 10 || evt.getKeyCode() == KeyEvent.VK_DOWN) { //Si pulso enter o cursor abajo obtiene el foco el sgte objeto
+            this.fax.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            this.responsable.requestFocus();
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_telefonoKeyPressed
+
+    private void tiposociedadKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tiposociedadKeyPressed
+        if (evt.getKeyCode() == 10 || evt.getKeyCode() == KeyEvent.VK_DOWN) { //Si pulso enter o cursor abajo obtiene el foco el sgte objeto
+            this.tipoentidad.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            this.rubro.requestFocus();
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tiposociedadKeyPressed
+
+    private void faxKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_faxKeyPressed
+        if (evt.getKeyCode() == 10 || evt.getKeyCode() == KeyEvent.VK_DOWN) { //Si pulso enter o cursor abajo obtiene el foco el sgte objeto
+            this.email.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            this.telefono.requestFocus();
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_faxKeyPressed
+
+    private void rubroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rubroActionPerformed
+        this.BuscarRubro.doClick();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rubroActionPerformed
+
+    private void rubroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rubroKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            this.direccion.requestFocus();
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rubroKeyPressed
+
+    private void BuscarRubroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarRubroActionPerformed
+        rubro_emisorDAO ruDAO = new rubro_emisorDAO();
+        rubro_emisor ru = null;
+        try {
+            ru = ruDAO.buscarId(Integer.valueOf(this.rubro.getText()));
+            if (ru.getCodigo() == 0) {
+                Brubros.setModal(true);
+                Brubros.setSize(482, 575);
+                Brubros.setLocationRelativeTo(null);
+                Brubros.setVisible(true);
+                Brubros.setTitle("Buscar Rubro");
+            } else {
+                nombrenacionalidad.setText(ru.getNombre());
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "ERROR:" + e.getMessage());
+        }
+        tiposociedad.requestFocus();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BuscarRubroActionPerformed
+
+    private void tipoentidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipoentidadActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tipoentidadActionPerformed
+
+    private void tipoentidadKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tipoentidadKeyPressed
+        if (evt.getKeyCode() == 10 || evt.getKeyCode() == KeyEvent.VK_DOWN) { //Si pulso enter o cursor abajo obtiene el foco el sgte objeto
+            this.clase.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            this.tiposociedad.requestFocus();
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tipoentidadKeyPressed
+
+    private void claseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_claseActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_claseActionPerformed
+
+    private void claseKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_claseKeyPressed
+        if (evt.getKeyCode() == 10 || evt.getKeyCode() == KeyEvent.VK_DOWN) { //Si pulso enter o cursor abajo obtiene el foco el sgte objeto
+            this.pais.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            this.tiposociedad.requestFocus();
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_claseKeyPressed
+
+    private void jTBuscarRubroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTBuscarRubroKeyPressed
+        this.jTBuscarRubro.addKeyListener(new KeyAdapter() {
+            public void keyReleased(final KeyEvent e) {
+                String cadena = (jTBuscarRubro.getText()).toUpperCase();
+                jTBuscarRubro.setText(cadena);
+                int indiceColumnaTabla = 0;
+                switch (comborubro.getSelectedIndex()) {
+                    case 0:
+                        indiceColumnaTabla = 1;
+                        break;//por nombre
+                    case 1:
+                        indiceColumnaTabla = 0;
+                }
+                repaint();
+                filtrorubro(indiceColumnaTabla);
+            }
+        });
+        trsfiltropais = new TableRowSorter(tablapaises.getModel());
+        tablapaises.setRowSorter(trsfiltropais);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTBuscarRubroKeyPressed
+
+    private void tablarubrosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablarubrosMouseClicked
+        this.AceptarRubro.doClick();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tablarubrosMouseClicked
+
+    private void tablarubrosKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tablarubrosKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            this.AceptarRubro.doClick();
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tablarubrosKeyPressed
+
+    private void AceptarRubroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AceptarRubroActionPerformed
+        int nFila = this.tablarubros.getSelectedRow();
+        this.rubro.setText(this.tablarubros.getValueAt(nFila, 0).toString());
+        this.nombrerubro.setText(this.tablarubros.getValueAt(nFila, 1).toString());
+        this.Brubros.setVisible(false);
+        this.jTBuscarRubro.setText("");
+        // TODO add your handling code here:
+    }//GEN-LAST:event_AceptarRubroActionPerformed
+
+    private void SalirRubroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalirRubroActionPerformed
+        this.Brubros.setVisible(false);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SalirRubroActionPerformed
+
+    private void nomaliasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nomaliasKeyPressed
+        if (evt.getKeyCode() == 10 || evt.getKeyCode() == KeyEvent.VK_DOWN) { //Si pulso enter o cursor abajo obtiene el foco el sgte objeto
+            this.nombre.requestFocus();
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nomaliasKeyPressed
+
+    private void nomaliasFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nomaliasFocusLost
+        String letras = ConvertirMayusculas.cadena(nomalias);
+        nomalias.setText(letras);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nomaliasFocusLost
+
+    private void situacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_situacionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_situacionActionPerformed
+
+    private void situacionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_situacionKeyPressed
+        if (evt.getKeyCode() == 10 || evt.getKeyCode() == KeyEvent.VK_DOWN) { //Si pulso enter o cursor abajo obtiene el foco el sgte objeto
+            this.estado.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            this.email.requestFocus();
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_situacionKeyPressed
+
+    private void combocajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combocajaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_combocajaActionPerformed
+
+    private void jTBuscarCaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTBuscarCaFocusGained
+        jTBuscarCa.selectAll();
+    }//GEN-LAST:event_jTBuscarCaFocusGained
+
+    private void jTBuscarCaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTBuscarCaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTBuscarCaActionPerformed
+
+    private void jTBuscarCaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTBuscarCaKeyPressed
+        this.jTBuscarCa.addKeyListener(new KeyAdapter() {
+            public void keyReleased(final KeyEvent e) {
+                String cadena = (jTBuscarCa.getText()).toUpperCase();
+                jTBuscarCa.setText(cadena);
+                int indiceColumnaTabla = 0;
+                switch (combocaja.getSelectedIndex()) {
+                    case 0:
+                        indiceColumnaTabla = 1;
+                        break;//por nombre
+                    case 1:
+                        indiceColumnaTabla = 0;
+                        break;//por codigo
+                    case 2:
+                        indiceColumnaTabla = 2;
+                        break;//por RUC
+                }
+                repaint();
+                filtroca(indiceColumnaTabla);
+            }
+        });
+        trsfiltroca = new TableRowSorter(tablaca.getModel());
+        tablaca.setRowSorter(trsfiltroca);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTBuscarCaKeyPressed
+
+    public void filtroca(int nNumeroColumna) {
+        trsfiltroca.setRowFilter(RowFilter.regexFilter(jTBuscarCa.getText(), nNumeroColumna));
+    }
+
+    private void tablacaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablacaMouseClicked
+        this.AceptarCaja.doClick();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tablacaMouseClicked
+
+    private void tablacaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tablacaKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            this.AceptarCaja.doClick();
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tablacaKeyPressed
+
+    private void AceptarCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AceptarCajaActionPerformed
+        int nFila = this.tablaca.getSelectedRow();
+        this.calificadora.setText(this.tablaca.getValueAt(nFila, 0).toString());
+        this.nombrecalificadora.setText(this.tablaca.getValueAt(nFila, 1).toString());
+        this.Bcalificadora.setVisible(false);
+        this.jTBuscarCa.setText("");
+        this.calificacion.requestFocus();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_AceptarCajaActionPerformed
+
+    private void SalirCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalirCajaActionPerformed
+        this.Bcalificadora.setVisible(false);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SalirCajaActionPerformed
+
+    private void BuscarCalificadoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarCalificadoraActionPerformed
+        Bcalificadora.setModal(true);
+        Bcalificadora.setSize(482, 575);
+        Bcalificadora.setLocationRelativeTo(null);
+        Bcalificadora.setVisible(true);
+        Bcalificadora.setTitle("Buscar Calificadora");
+        calificacion.requestFocus();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BuscarCalificadoraActionPerformed
+
+    private void calificadoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calificadoraActionPerformed
+        calificadoraDAO caDAO = new calificadoraDAO();
+        calificadora ca = null;
+        try {
+            ca = caDAO.buscarId(Integer.valueOf(this.calificadora.getText()));
+            if (ca.getCodigo() == 0) {
+                Bcalificadora.setModal(true);
+                Bcalificadora.setSize(482, 575);
+                Bcalificadora.setLocationRelativeTo(null);
+                Bcalificadora.setVisible(true);
+                Bcalificadora.setTitle("Buscar Calificadora");
+            } else {
+                nombrecalificadora.setText(ca.getNombre());
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "ERROR:" + e.getMessage());
+        }
+        calificacion.requestFocus();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_calificadoraActionPerformed
+
+    private void calificacionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_calificacionKeyPressed
+        if (evt.getKeyCode() == 10 || evt.getKeyCode() == KeyEvent.VK_DOWN) { //Si pulso enter o cursor abajo obtiene el foco el sgte objeto
+            this.responsable.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            this.calificadora.requestFocus();
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_calificacionKeyPressed
+
+    public void filtro(int nNumeroColumna) {
+        trsfiltro.setRowFilter(RowFilter.regexFilter(jTextField1.getText(), nNumeroColumna));
+    }
+
+    private void cargarTitulo() {
+        modelo.addColumn("Código");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("CIP/RUC");
+        modelo.addColumn("Dirección");
+        modelo.addColumn("Fono");
+        modelo.addColumn("Mail");
+        int[] anchos = {90, 150, 100, 250, 150, 150};
+        for (int i = 0; i < modelo.getColumnCount(); i++) {
+            tablaemisor.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
+        }
+        ((DefaultTableCellRenderer) tablaemisor.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);// Este código es para centrar las cabeceras de la tabla.
+        tablaemisor.getTableHeader().setFont(new Font("Arial Black", 1, 11));
+
+        Font font = new Font("Arial", Font.BOLD, 10);
+        this.tablaemisor.setFont(font);
+
+        DefaultTableCellRenderer TablaRenderer = new DefaultTableCellRenderer();
+        DefaultTableCellRenderer AlinearCentro = new DefaultTableCellRenderer();
+        TablaRenderer.setHorizontalAlignment(SwingConstants.RIGHT); // aqui defines donde alinear 
+        AlinearCentro.setHorizontalAlignment(SwingConstants.CENTER);
+        this.tablaemisor.getColumnModel().getColumn(0).setCellRenderer(TablaRenderer);
+
+    }
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            javax.swing.UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {    //</editor-fold>
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new emisores().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AceptarCaja;
+    private javax.swing.JButton AceptarPais;
+    private javax.swing.JButton AceptarRubro;
+    private javax.swing.JDialog Bcalificadora;
+    private javax.swing.JButton BotonAgregar;
+    private javax.swing.JButton BotonClose;
+    private javax.swing.JButton BotonDelete;
+    private javax.swing.JButton BotonEditar;
+    private javax.swing.JButton BotonGrabar;
+    private javax.swing.JButton BotonPrint;
+    private javax.swing.JButton BotonSalir;
+    private javax.swing.JDialog Bpaises;
+    private javax.swing.JDialog Brubros;
+    private javax.swing.JButton BuscarCalificadora;
+    private javax.swing.JButton BuscarNacionalidad;
+    private javax.swing.JButton BuscarRubro;
+    private javax.swing.JButton SalirCaja;
+    private javax.swing.JButton SalirPais;
+    private javax.swing.JButton SalirRubro;
+    private javax.swing.JTextField calificacion;
+    private javax.swing.JTextField calificadora;
+    private javax.swing.JTextField cedula;
+    private javax.swing.JComboBox<String> clase;
+    private javax.swing.JTextField codigo;
+    private javax.swing.JComboBox combocaja;
+    private javax.swing.JComboBox<String> combopais;
+    private javax.swing.JComboBox<String> comborubro;
+    private javax.swing.JDialog detalle_emisor;
+    private javax.swing.JTextField direccion;
+    private javax.swing.JTextField email;
+    private javax.swing.JCheckBox estado;
+    private org.edisoncor.gui.label.LabelMetric etiquetasucursal;
+    private javax.swing.JTextField fax;
+    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel19;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel20;
+    private javax.swing.JPanel jPanel21;
+    private javax.swing.JPanel jPanel22;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JTextField jTBuscarCa;
+    private javax.swing.JTextField jTBuscarPais;
+    private javax.swing.JTextField jTBuscarRubro;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextOpciones1;
+    private javax.swing.JTextField nomalias;
+    private javax.swing.JTextField nombre;
+    private javax.swing.JTextField nombrecalificadora;
+    private javax.swing.JTextField nombrenacionalidad;
+    private javax.swing.JTextField nombrerubro;
+    private javax.swing.JTextField pais;
+    private org.edisoncor.gui.panel.Panel panel1;
+    private org.edisoncor.gui.panel.Panel panel2;
+    private org.edisoncor.gui.panel.Panel panel3;
+    private javax.swing.JTextField responsable;
+    private javax.swing.JTextField rubro;
+    private javax.swing.JComboBox<String> situacion;
+    private javax.swing.JTable tablaca;
+    private javax.swing.JTable tablaemisor;
+    private javax.swing.JTable tablapaises;
+    private javax.swing.JTable tablarubros;
+    private javax.swing.JTextField telefono;
+    private javax.swing.JComboBox<String> tipoentidad;
+    private javax.swing.JComboBox<String> tiposociedad;
+    // End of variables declaration//GEN-END:variables
+
+    private class GrillaEmisores extends Thread {
+
+        public void run() {
+
+            //Antes de Cargar el Jtable Ajustamos el ancho de las columnas con el Ancho que se nos antoje
+            int cantidadRegistro = modelo.getRowCount();
+            for (int i = 1; i <= cantidadRegistro; i++) {
+                modelo.removeRow(0);
+            }
+
+            emisorDAO DAO = new emisorDAO();
+            try {
+                for (emisor em : DAO.todos()) {
+                    String Datos[] = {String.valueOf(em.getCodigo()), em.getNombre(), em.getCedula(), em.getDireccion(), em.getTelefono(), em.getEmail()};
+                    modelo.addRow(Datos);
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "ERROR: " + e.getMessage());
+            }
+
+            tablaemisor.setRowSorter(new TableRowSorter(modelo));
+            int cantFilas = tablaemisor.getRowCount();
+            if (cantFilas > 0) {
+                BotonEditar.setEnabled(true);
+                BotonDelete.setEnabled(true);
+                BotonPrint.setEnabled(true);
+            } else {
+                BotonEditar.setEnabled(false);
+                BotonDelete.setEnabled(false);
+                BotonPrint.setEnabled(false);
+            }
+        }
+    }
+
+    private class GrillaPaises extends Thread {
+
+        public void run() {
+
+            //Antes de Cargar el Jtable Ajustamos el ancho de las columnas con el Ancho que se nos antoje
+            int cantidadRegistro = modelopaises.getRowCount();
+            for (int i = 1; i <= cantidadRegistro; i++) {
+                modelopaises.removeRow(0);
+            }
+            paisDAO bcDAO = new paisDAO();
+            try {
+                for (pais ba : bcDAO.todos()) {
+                    String Datos[] = {String.valueOf(ba.getCodigo()), ba.getNombre()};
+                    modelopaises.addRow(Datos);
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "ERROR: " + e.getMessage());
+            }
+
+            tablapaises.setRowSorter(new TableRowSorter(modelopaises));
+            int cantFilas = tablapaises.getRowCount();
+        }
+    }
+
+    private class GrillaRubros extends Thread {
+
+        public void run() {
+
+            //Antes de Cargar el Jtable Ajustamos el ancho de las columnas con el Ancho que se nos antoje
+            int cantidadRegistro = modelorubros.getRowCount();
+            for (int i = 1; i <= cantidadRegistro; i++) {
+                modelorubros.removeRow(0);
+            }
+            rubro_emisorDAO ruDAO = new rubro_emisorDAO();
+            try {
+                for (rubro_emisor ru : ruDAO.todos()) {
+                    String Datos[] = {String.valueOf(ru.getCodigo()), ru.getNombre()};
+                    modelorubros.addRow(Datos);
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "ERROR: " + e.getMessage());
+            }
+
+            tablarubros.setRowSorter(new TableRowSorter(modelorubros));
+            int cantFilas = tablarubros.getRowCount();
+        }
+    }
+
+    private class GrillaCalificadora extends Thread {
+
+        public void run() {
+
+            //Antes de Cargar el Jtable Ajustamos el ancho de las columnas con el Ancho que se nos antoje
+            int cantidadRegistro = modelocalificadora.getRowCount();
+            for (int i = 1; i <= cantidadRegistro; i++) {
+                modelocalificadora.removeRow(0);
+            }
+            calificadoraDAO caDAO = new calificadoraDAO();
+            try {
+                for (calificadora ca : caDAO.todos()) {
+                    String Datos[] = {String.valueOf(ca.getCodigo()), ca.getNombre()};
+                    modelocalificadora.addRow(Datos);
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "ERROR: " + e.getMessage());
+            }
+
+            tablaca.setRowSorter(new TableRowSorter(modelocalificadora));
+            int cantFilas = tablaca.getRowCount();
+        }
+    }
+
+}

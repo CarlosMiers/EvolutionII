@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="abogados" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6034848f-e095-4fb9-a25c-057dfebd9eaf">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="168"/>
+	<parameter name="cCodigoAbogado" class="java.lang.String"/>
+	<parameter name="cNombreEmpresa" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT clientes.codigo,clientes.nombre AS nombrecliente,
+clientes.cedula,clientes.direccion,clientes.telefono,
+clientes.abogado,clientes.situacion,clientes.motivosituacion,
+abogados.nombre AS nombreabogado,situacion.nombre AS nombresituacion
+FROM clientes
+LEFT JOIN abogados
+ON abogados.codigo=clientes.abogado
+LEFT JOIN situacion
+ON situacion.codigo=clientes.situacion
+WHERE clientes.abogado=$P{cCodigoAbogado}
+ORDER BY situacion.codigo,clientes.nombre]]>
+	</queryString>
+	<field name="codigo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombrecliente" class="java.lang.String"/>
+	<field name="cedula" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="direccion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="telefono" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="abogado" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="situacion" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="motivosituacion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombreabogado" class="java.lang.String"/>
+	<field name="nombresituacion" class="java.lang.String"/>
+	<group name="situacion" isStartNewPage="true" isReprintHeaderOnEachPage="true">
+		<groupExpression><![CDATA[$F{situacion}]]></groupExpression>
+		<groupHeader>
+			<band height="43">
+				<line>
+					<reportElement x="0" y="21" width="799" height="1" uuid="37fd5e6c-0b42-477d-aadb-39ecfd05216c"/>
+				</line>
+				<line>
+					<reportElement x="0" y="41" width="799" height="1" uuid="da615b41-e6e5-44d8-87c7-c26d4004d8b7"/>
+				</line>
+				<staticText>
+					<reportElement x="320" y="27" width="52" height="10" uuid="a8f7ff0f-a54e-4d40-9b91-5dc1c9d20150"/>
+					<textElement>
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<text><![CDATA[Dirección]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="3" y="27" width="49" height="10" uuid="5a3cf90d-7517-4aae-84c8-c79245e227da"/>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<text><![CDATA[N° Cédula]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="61" y="27" width="100" height="10" uuid="d2a8ae9f-fa0f-4e8c-9aa1-23fa11179fbf"/>
+					<textElement>
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<text><![CDATA[Nombre del Cliente]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="243" y="27" width="66" height="10" uuid="fc65f633-9963-43dd-861c-511bd5223821"/>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<text><![CDATA[Teléfono]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="502" y="27" width="300" height="10" uuid="d2cccb51-f71b-48b6-a46b-522e0f62fc46"/>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<text><![CDATA[Motivo de la Situación]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="2" y="4" width="254" height="11" uuid="9214b441-a7f0-412f-b603-00da610f16cf"/>
+					<textElement>
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Situación Legal : "+$F{nombresituacion}
+]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="11"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="2" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="64" splitType="Stretch">
+			<staticText>
+				<reportElement x="9" y="24" width="212" height="16" uuid="1c2fec0f-e19d-4a5b-8afd-44fa5760de93"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Situación Comercial de Clientes]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="9" y="8" width="181" height="15" uuid="00a6fb42-4341-4a40-995c-ba57374b48d7"/>
+				<textElement>
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cNombreEmpresa}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="477" y="31" width="31" height="11" uuid="d6936019-1819-4974-b706-2a3ba5fe6abd"/>
+				<textElement>
+					<font fontName="Arial" size="8" isUnderline="false" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[Fecha :]]></text>
+			</staticText>
+			<textField pattern="d/M/yyyy">
+				<reportElement x="511" y="30" width="45" height="12" uuid="5f33e8aa-85bd-4819-9102-ad0777ce134e"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="516" y="8" width="40" height="20" uuid="7d51b83c-330d-40df-85b5-daa9ebce86ce"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="341" y="8" width="174" height="20" uuid="8439d3d9-8a7e-450d-8de1-e40f951e6f05"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="9" y="46" width="254" height="11" uuid="577972d6-8628-48ab-9770-370e2f2512cf"/>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Representante Legal : "+$F{nombreabogado}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="11" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="14" splitType="Stretch">
+			<textField>
+				<reportElement x="61" y="2" width="178" height="12" uuid="6c29d597-45a5-4290-979e-5effc8426872"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombrecliente}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement x="4" y="2" width="52" height="12" uuid="7a7e7b64-f34a-48a3-87f7-9ad791297140"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cedula}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="248" y="2" width="58" height="12" uuid="3f1d432d-2435-4c0b-bcff-92d09f7dbadf"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{telefono}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="314" y="2" width="183" height="12" uuid="332d4720-87c6-42db-86e8-c372264a1e24"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="501" y="2" width="301" height="12" uuid="3aaac30b-6842-404a-adc4-d9b0c8a4a58f"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{motivosituacion}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="2" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="15" splitType="Stretch">
+			<line>
+				<reportElement x="3" y="2" width="799" height="1" uuid="bb77f698-66f0-4d0d-bb62-b89a111e55e5"/>
+			</line>
+		</band>
+	</summary>
+</jasperReport>

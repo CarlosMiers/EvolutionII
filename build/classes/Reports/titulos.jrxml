@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="titulos" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="d5da92c9-36f6-47d2-99e5-c1ab3daa6648">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="cNombreEmpresa" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT titulos.codigo,titulos.nombre,titulos.tipo,
+IF(titulos.tipo=1,"RENTA FIJA","RENTA VARIABLE") AS tiporenta,
+emisores.nombre AS nombreemisor,titulos.nomalias,
+titulos.empresa,titulos.rescnv
+FROM titulos
+LEFT JOIN emisores
+ON emisores.codigo=titulos.empresa
+ORDER BY titulos.tipo,titulos.codigo]]>
+	</queryString>
+	<field name="codigo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tipo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tiporenta" class="java.lang.String"/>
+	<field name="nombreemisor" class="java.lang.String"/>
+	<field name="nomalias" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="empresa" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="rescnv" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<group name="tipo" isReprintHeaderOnEachPage="true">
+		<groupExpression><![CDATA[$F{tipo}]]></groupExpression>
+		<groupHeader>
+			<band height="50">
+				<rectangle>
+					<reportElement x="0" y="21" width="549" height="24" uuid="074e5afb-4da5-4f15-a748-2f3eaca13b26"/>
+				</rectangle>
+				<staticText>
+					<reportElement x="200" y="29" width="75" height="10" uuid="05e90bf9-679e-46b3-9dfa-404f659ea989"/>
+					<textElement>
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Alias]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="466" y="29" width="75" height="10" uuid="424cd495-97c7-482b-8f9f-e030e847e661"/>
+					<textElement>
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[RES. CNV.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="288" y="30" width="74" height="10" uuid="89cbe720-41b1-4fc0-b863-af38816af151"/>
+					<textElement>
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Entidad Emisora]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="7" y="29" width="100" height="10" uuid="bfc00e80-ae31-4b6d-9831-19bfcc674c9f"/>
+					<textElement>
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Nombre]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="0" y="5" width="259" height="11" uuid="51da8254-37b5-4e7b-a136-190e51bed02d"/>
+					<textElement>
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tiporenta}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="2"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="206" y="39" width="172" height="17" uuid="e961147c-2983-41b5-9498-65331b6b288c"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Listado de Títulos]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="7" y="6" width="277" height="15" uuid="9fb9da23-93d1-4122-8976-55a90f02af18"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cNombreEmpresa}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="420" y="11" width="48" height="20" uuid="dbdb0e82-9c6d-4c4d-a720-24cb029467fb"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Página]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="481" y="11" width="62" height="20" uuid="099e4abb-f497-45a2-872a-883cf6bc3d4f"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="13" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<textField>
+				<reportElement x="4" y="4" width="181" height="10" uuid="0fa599fc-b0da-4763-abc1-18f596fbfcde"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="198" y="4" width="77" height="10" uuid="35e66441-0d18-4f30-b253-189d8a1e2a61"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nomalias}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="288" y="4" width="169" height="10" uuid="55be65aa-f4a4-4903-ab5c-0a50a438d4cc"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombreemisor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="466" y="4" width="75" height="10" uuid="f6aa9be3-e942-4d1d-a666-302b7ed4ed1e"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{rescnv}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="18" splitType="Stretch">
+			<staticText>
+				<reportElement x="9" y="4" width="106" height="10" uuid="211a63e9-93bf-4ca0-8008-19200ac5fe36"/>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[*** Fin del Informe ***]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="339" y="4" width="106" height="10" uuid="6b4ab804-3682-442f-a60d-43e180de5a8d"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Fecha de Impresión]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="455" y="4" width="100" height="10" uuid="71ac1baf-b627-496d-92a1-bb6803078a7b"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="10" y="-1" width="552" height="1" uuid="af0d76d9-3798-4831-b9d2-f8db1a04b74b"/>
+			</line>
+		</band>
+	</summary>
+</jasperReport>

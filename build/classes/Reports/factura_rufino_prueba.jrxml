@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="factura_rufino_prueba" pageWidth="612" pageHeight="1008" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="15724193-b574-49f8-865b-f4df501516b8">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="12"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Sistemas\\EvolutionII\\EvolutionII\\src\\Reports\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="Letra" class="java.lang.String"/>
+	<parameter name="Fecha" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="codprod" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="979" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="333" y="30" width="56" height="10" uuid="1ed0e523-e010-48ff-bba1-fb1c808bac71"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="321" y="50" width="197" height="10" uuid="b8946176-5ab3-4c7a-8266-f2e4a2204dcb"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codprod}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="89" y="250" width="314" height="10" uuid="1ca48691-6d62-489e-af00-ccad6911e00c"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Letra}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+</jasperReport>

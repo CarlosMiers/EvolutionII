@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="listadoempleados" printOrder="Horizontal" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="15626d40-29b7-4762-96d3-f22a87d7f738">
+	<property name="ireport.zoom" value="1.948717100000002"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.callouts" value="##Thu Nov 17 10:45:59 PYST 2016"/>
+	<parameter name="Sucursal" class="java.lang.Integer"/>
+	<parameter name="cNombreEmpresa" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+    empleados.codigo as nro,
+    empleados.apellidos as apellidos,
+    empleados.nombres as nombres,
+    empleados.cedula as cedula,
+    empleados.fechanacimiento as nacimiento,
+    localidades.nombre as localidad,
+    paises.nombre as nacionalidad,
+    empleados.direccion as direccion,
+    empleados.telefono as telefono,
+    empleados.e_mail as email,
+    profesiones.nombre as profesion,
+    sucursales.nombre as sucursal,
+    empleados.salario as salario,
+    departamento_laboral.Nombre as departamento,
+    secciones.Nombre as seccion,
+    cargos.nombre as cargo,
+    empleados.ips as ips,
+    (CASE WHEN empleados.bonificacion=0 THEN 'No' ELSE 'Si' END )as bonificacion,
+    empleados.adicionalxformacion as adicional,
+    (CASE WHEN empleados.nroseguroips=null THEN '' ELSE empleados.nroseguroips END) as nroips,
+    empleados.giraduria as giraduria,
+    giradurias.nombre as nombregiraduria
+FROM empleados
+INNER JOIN localidades on localidades.codigo=empleados.localidad
+INNER JOIN paises on paises.codigo=empleados.nacionalidad
+INNER JOIN sucursales on sucursales.codigo=empleados.sucursal
+INNER JOIN profesiones on profesiones.codigo=empleados.profesion
+LEFT JOIN departamento_laboral on departamento_laboral.codigo=empleados.departamento
+INNER JOIN secciones on secciones.codigo=empleados.seccion
+INNER JOIN cargos on cargos.Codigo=empleados.cargo
+INNER JOIN giradurias on giradurias.codigo=empleados.giraduria
+ORDER BY empleados.giraduria,empleados.sucursal, empleados.departamento,empleados.seccion,empleados.apellidos]]>
+	</queryString>
+	<field name="nro" class="java.lang.Integer"/>
+	<field name="apellidos" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombres" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cedula" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nacimiento" class="java.sql.Date"/>
+	<field name="localidad" class="java.lang.String"/>
+	<field name="nacionalidad" class="java.lang.String"/>
+	<field name="direccion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="telefono" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="email" class="java.lang.String"/>
+	<field name="profesion" class="java.lang.String"/>
+	<field name="sucursal" class="java.lang.String"/>
+	<field name="salario" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="departamento" class="java.lang.String"/>
+	<field name="seccion" class="java.lang.String"/>
+	<field name="cargo" class="java.lang.String"/>
+	<field name="ips" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="bonificacion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="adicional" class="java.math.BigDecimal"/>
+	<field name="nroips" class="java.lang.String"/>
+	<field name="giraduria" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombregiraduria" class="java.lang.String"/>
+	<group name="giraduria" isReprintHeaderOnEachPage="true">
+		<groupExpression><![CDATA[$F{giraduria}]]></groupExpression>
+		<groupHeader>
+			<band height="21">
+				<textField>
+					<reportElement x="7" y="0" width="159" height="21" uuid="03f89c81-4827-4c5b-8339-54327d01b389"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Giraduría "+$F{nombregiraduria}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="6"/>
+		</groupFooter>
+	</group>
+	<group name="Sucursal" isReprintHeaderOnEachPage="true">
+		<groupExpression><![CDATA[$F{sucursal}]]></groupExpression>
+		<groupHeader>
+			<band height="22">
+				<textField>
+					<reportElement x="46" y="6" width="135" height="16" uuid="2bbbbb0c-e096-47c3-bddb-c08117a88e1d"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["SUCURSAL "+$F{sucursal}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="6"/>
+		</groupFooter>
+	</group>
+	<group name="departamento" isReprintHeaderOnEachPage="true">
+		<groupExpression><![CDATA[$F{departamento}]]></groupExpression>
+		<groupHeader>
+			<band height="17">
+				<textField>
+					<reportElement x="57" y="2" width="155" height="12" uuid="11cb6063-4fe5-45a4-b661-6b5ed91b800c"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Departamento "+$F{departamento}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="7"/>
+		</groupFooter>
+	</group>
+	<group name="seccion" isReprintHeaderOnEachPage="true">
+		<groupExpression><![CDATA[$F{seccion}]]></groupExpression>
+		<groupHeader>
+			<band height="31">
+				<rectangle>
+					<reportElement x="1" y="13" width="802" height="15" uuid="d97952b0-f8f4-4942-a55d-f2bb20f50478"/>
+				</rectangle>
+				<staticText>
+					<reportElement x="27" y="16" width="39" height="10" uuid="6a6182de-9931-4d20-b047-4914237c4e1f"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="7"/>
+					</textElement>
+					<text><![CDATA[Cédula Id.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="72" y="16" width="109" height="10" uuid="b0689447-c738-4902-b53a-d2dc643249be"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="7"/>
+					</textElement>
+					<text><![CDATA[Apellidos y Nombres]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="603" y="16" width="57" height="10" uuid="36658758-a2f3-47b4-bd49-4f9f42a02c8c"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="7"/>
+					</textElement>
+					<text><![CDATA[Ad. x Formacion]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="664" y="16" width="41" height="10" uuid="fff34026-98fd-4dec-82dc-49d2911e668a"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="7"/>
+					</textElement>
+					<text><![CDATA[B. Familiar]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="709" y="16" width="47" height="10" uuid="038bd2b1-1915-477c-8ca9-5845d1b120ca"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="7"/>
+					</textElement>
+					<text><![CDATA[N° IPS]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="75" y="0" width="155" height="12" uuid="6fc8d633-b701-4a57-80fd-42f045d56d4c"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Sección "+$F{seccion}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="756" y="16" width="43" height="10" uuid="e49483f9-9191-4d50-a5a4-30f9461a8bbd"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="7"/>
+					</textElement>
+					<text><![CDATA[Salario Base]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="4" y="16" width="18" height="10" uuid="09ffa4a3-9c5f-45ac-a5e1-f85939b8e633"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="7"/>
+					</textElement>
+					<text><![CDATA[Cód.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="187" y="16" width="40" height="10" uuid="52e06c85-4961-4431-81f9-a7f8e3f8d7fa"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="7"/>
+					</textElement>
+					<text><![CDATA[Nacimiento]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="232" y="16" width="46" height="10" uuid="4144ec99-f366-434c-baf8-538ee7da0577"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="7"/>
+					</textElement>
+					<text><![CDATA[Nacionalidad]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="284" y="16" width="51" height="10" uuid="f97d9ec6-f932-421e-a652-c659e3f6af98"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="7"/>
+					</textElement>
+					<text><![CDATA[Localidad]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="393" y="16" width="77" height="10" uuid="ef7fdfc4-1169-44ac-9e3d-48188939b56b"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="7"/>
+					</textElement>
+					<text><![CDATA[Dirección]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="474" y="16" width="41" height="10" uuid="3a50dd8a-8f3b-43f1-ab0d-72efdca8d998"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="7"/>
+					</textElement>
+					<text><![CDATA[Teléfono]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="520" y="16" width="80" height="10" uuid="4224f0ef-c86c-482e-8bb3-47f183811107"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="7"/>
+					</textElement>
+					<text><![CDATA[E-mail]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="341" y="16" width="46" height="10" uuid="d179fa31-6225-4d65-99dd-e8c0c471af04"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="7"/>
+					</textElement>
+					<text><![CDATA[Profesión]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="6"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="1" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="41" splitType="Stretch">
+			<staticText>
+				<reportElement x="6" y="22" width="315" height="16" uuid="6424ab76-6b26-4d79-be16-90e35d6e32fd"/>
+				<textElement textAlignment="Justified">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Planilla de Empleados]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="343" y="4" width="150" height="15" uuid="c2e40999-203c-4757-a790-8c09fc18a984"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de "]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="494" y="4" width="40" height="15" uuid="b86a8325-228c-4937-bf18-d543b25a630f"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="d/M/yyyy">
+				<reportElement x="485" y="27" width="45" height="12" uuid="cb54d0a4-8574-4115-a254-dffeadeeb5d0"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="381" y="27" width="99" height="11" uuid="b3b43964-0394-474d-bd51-f0b343f70447"/>
+				<textElement>
+					<font fontName="Arial" size="8" isUnderline="false" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[FECHA DE IMPRESIÓN:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="7" y="4" width="221" height="15" uuid="da1c1c40-7e27-4edf-96fb-906fc6cdbb9b"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cNombreEmpresa}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField pattern="###0">
+				<reportElement x="4" y="1" width="18" height="10" uuid="ba985eba-b1c8-417c-bf81-a5776010ffa7"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="27" y="1" width="39" height="10" uuid="14daa29d-f985-459c-874b-24fee4a5ea4e"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cedula}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="72" y="1" width="109" height="10" uuid="f1b50fbc-a93c-4128-8fc1-d021d98a5205"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{apellidos}+' '+$F{nombres}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="603" y="1" width="57" height="10" uuid="a0e7b0ff-426e-4e9e-9852-d463b8e6a57e"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{adicional}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="671" y="1" width="22" height="10" uuid="2c5db5c4-d97e-4c88-b1bd-5189a127170c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bonificacion}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="709" y="1" width="47" height="10" uuid="b08fdaa6-c9e4-4377-bb11-5a49ef6e2fd7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nroips}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="756" y="1" width="43" height="10" uuid="818741b6-7765-430e-bd2c-fd4e79d49da2"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{salario}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="187" y="1" width="40" height="10" uuid="e4a05973-16c0-4777-8b94-e81ea3eb06da"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nacimiento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="233" y="2" width="45" height="10" uuid="273bac9e-3078-4d8c-a0f5-df1db3efcbe5"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nacionalidad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="284" y="1" width="51" height="10" uuid="94ff2ae2-a686-4787-8a85-ab30d6ccb8da"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{localidad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="392" y="1" width="78" height="10" uuid="94ebb36a-7e84-49dc-a4dd-46aa55cf7c54"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="474" y="1" width="41" height="10" uuid="0b6280c7-b780-44d2-bbb7-4537f7eac80d"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{telefono}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="520" y="1" width="80" height="10" uuid="75942230-f0f4-45db-9d3c-782a5aac5df6"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="341" y="2" width="46" height="10" uuid="2bc1a890-35e7-41d4-b05f-501d5c3d6f0a"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{profesion}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="6" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="11" splitType="Stretch"/>
+	</pageFooter>
+</jasperReport>

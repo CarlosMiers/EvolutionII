@@ -1,0 +1,2084 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Vista;
+
+import Clases.Config;
+import Conexion.Conexion;
+import Conexion.Control;
+import Conexion.ObtenerFecha;
+import DAO.ausenciaDAO;
+import DAO.ficha_empleadoDAO;
+import DAO.motivo_ausenciaDAO;
+import Modelo.Tablas;
+import Modelo.ausencia;
+import Modelo.ficha_empleado;
+import Modelo.motivo_ausencia;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.math.BigDecimal;
+import java.net.URL;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
+import javax.swing.ImageIcon;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.RowFilter;
+import javax.swing.UIManager;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableRowSorter;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
+import org.openide.util.Exceptions;
+
+/**
+ *
+ */
+public class ausencias extends javax.swing.JFrame {
+
+    Conexion con = null;
+    Statement stm = null;
+    Tablas modelo = new Tablas();
+    Tablas modeloempleado = new Tablas();
+    Tablas modeloausencia = new Tablas();
+    JScrollPane scroll = new JScrollPane();
+    private TableRowSorter trsfiltro, trsfiltroempleado, trsfiltroausencia;
+    SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+    DecimalFormat formatea = new DecimalFormat("###,###.##");
+    String cSql = null;
+    ObtenerFecha ODate = new ObtenerFecha();
+    Calendar c2 = new GregorianCalendar();
+    String cTasa, referencia = null;
+
+    /**
+     * Creates new form Template
+     */
+    ImageIcon icononuevo = new ImageIcon("src/Iconos/nuevo.png");
+    ImageIcon iconoeditar = new ImageIcon("src/Iconos/editar.png");
+    ImageIcon iconoborrar = new ImageIcon("src/Iconos/eliminar.png");
+    ImageIcon iconoprint = new ImageIcon("src/Iconos/impresora.png");
+    ImageIcon iconosalir = new ImageIcon("src/Iconos/salir.png");
+    ImageIcon iconograbar = new ImageIcon("src/Iconos/grabar.png");
+    ImageIcon icorefresh = new ImageIcon("src/Iconos/refrescar.png");
+    ImageIcon iconobuscar = new ImageIcon("src/Iconos/buscar.png");
+    int counter = 0;
+
+    public ausencias() {
+        initComponents();
+
+        fecha.getDateEditor().addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                counter++;
+                if (evt.getPropertyName().equals("date")) {
+                    empleado.requestFocus();
+                }
+            }
+        });
+
+        this.Agregar.setIcon(icononuevo);
+        this.Modificar.setIcon(iconoeditar);
+        this.Eliminar.setIcon(iconoborrar);
+        this.Listar.setIcon(iconoprint);
+        this.Salir.setIcon(iconosalir);
+        this.SalirCompleto.setIcon(iconosalir);
+        this.buscarEmpleado.setIcon(iconobuscar);
+        this.BuscarAusencia.setIcon(iconobuscar);
+        this.Grabar.setIcon(iconograbar);
+
+        this.jTable1.setShowGrid(false);
+        this.jTable1.setOpaque(true);
+        this.jTable1.setBackground(new Color(204, 204, 255));
+        this.jTable1.setForeground(Color.BLACK);
+        this.setLocationRelativeTo(null); //Centramos el formulario
+        this.salario.setVisible(false);
+        this.tipo_salario.setVisible(false);
+        this.idControl.setVisible(false);
+        this.idControl.setText("0");
+        this.cargarTitulo();
+        this.Inicializar();
+        this.TitEmpleado();
+        this.TitAusencia();
+
+        GrillaEmpleado grillaemple = new GrillaEmpleado();
+        Thread hiloemple = new Thread(grillaemple);
+        hiloemple.start();
+
+        GrillaAusencia GrillaAus = new GrillaAusencia();
+        Thread HiloGrilla = new Thread(GrillaAus);
+        HiloGrilla.start();
+    }
+
+    Control hand = new Control();
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        detalle_ausencia = new javax.swing.JDialog();
+        Grabar = new javax.swing.JButton();
+        Salir = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        Socio = new javax.swing.JLabel();
+        empleado = new javax.swing.JTextField();
+        buscarEmpleado = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        numero = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        importe = new javax.swing.JFormattedTextField();
+        fecha = new com.toedter.calendar.JDateChooser();
+        tiempo = new javax.swing.JTextField();
+        ausencia = new javax.swing.JTextField();
+        BuscarAusencia = new javax.swing.JButton();
+        nombreausencia = new javax.swing.JTextField();
+        Socio1 = new javax.swing.JLabel();
+        nombreempleado = new javax.swing.JTextField();
+        dia = new javax.swing.JRadioButton();
+        hora = new javax.swing.JRadioButton();
+        justificado = new javax.swing.JCheckBox();
+        salario = new javax.swing.JTextField();
+        tipo_salario = new javax.swing.JTextField();
+        minutos = new javax.swing.JRadioButton();
+        jLabel1 = new javax.swing.JLabel();
+        BEmpleado = new javax.swing.JDialog();
+        jPanel13 = new javax.swing.JPanel();
+        comboempleado = new javax.swing.JComboBox();
+        jTBuscarEmpleado = new javax.swing.JTextField();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tablaempleado = new javax.swing.JTable();
+        jPanel15 = new javax.swing.JPanel();
+        AceptarEmpleado = new javax.swing.JButton();
+        SalirEmpleado = new javax.swing.JButton();
+        BAusencia = new javax.swing.JDialog();
+        jPanel14 = new javax.swing.JPanel();
+        comboausencia = new javax.swing.JComboBox();
+        jTBuscarAusencia = new javax.swing.JTextField();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        tablaausencia = new javax.swing.JTable();
+        jPanel16 = new javax.swing.JPanel();
+        AceptarAusencia = new javax.swing.JButton();
+        SalirAusencia = new javax.swing.JButton();
+        panel1 = new org.edisoncor.gui.panel.Panel();
+        etiquetacredito = new org.edisoncor.gui.label.LabelMetric();
+        jComboBox1 = new javax.swing.JComboBox();
+        buscarcadena = new javax.swing.JTextField();
+        jPanel2 = new javax.swing.JPanel();
+        Modificar = new javax.swing.JButton();
+        Agregar = new javax.swing.JButton();
+        Eliminar = new javax.swing.JButton();
+        Listar = new javax.swing.JButton();
+        SalirCompleto = new javax.swing.JButton();
+        idControl = new javax.swing.JTextField();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        dFechaInicial = new com.toedter.calendar.JDateChooser();
+        jLabel8 = new javax.swing.JLabel();
+        dFechaFinal = new com.toedter.calendar.JDateChooser();
+        refrescar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+
+        detalle_ausencia.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                detalle_ausenciaFocusGained(evt);
+            }
+        });
+        detalle_ausencia.addWindowFocusListener(new java.awt.event.WindowFocusListener() {
+            public void windowGainedFocus(java.awt.event.WindowEvent evt) {
+                detalle_ausenciaWindowGainedFocus(evt);
+            }
+            public void windowLostFocus(java.awt.event.WindowEvent evt) {
+            }
+        });
+        detalle_ausencia.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                detalle_ausenciaWindowActivated(evt);
+            }
+        });
+
+        Grabar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        Grabar.setText("Grabar");
+        Grabar.setToolTipText("Guardar los Cambios");
+        Grabar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Grabar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                GrabarActionPerformed(evt);
+            }
+        });
+        Grabar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                GrabarKeyPressed(evt);
+            }
+        });
+
+        Salir.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        Salir.setText("Salir");
+        Salir.setToolTipText("Salir sin Guardar");
+        Salir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Salir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SalirActionPerformed(evt);
+            }
+        });
+
+        jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        Socio.setText("Funcionario");
+
+        empleado.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        empleado.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                empleadoFocusGained(evt);
+            }
+        });
+        empleado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                empleadoActionPerformed(evt);
+            }
+        });
+        empleado.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                empleadoKeyPressed(evt);
+            }
+        });
+
+        buscarEmpleado.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        buscarEmpleado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buscarEmpleadoActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Número");
+
+        numero.setEditable(false);
+        numero.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        numero.setEnabled(false);
+        numero.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                numeroFocusGained(evt);
+            }
+        });
+        numero.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                numeroActionPerformed(evt);
+            }
+        });
+        numero.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                numeroKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                numeroKeyReleased(evt);
+            }
+        });
+
+        jLabel12.setText("Importe");
+
+        jLabel14.setText("Tiempo");
+
+        importe.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
+        importe.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        importe.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                importeFocusGained(evt);
+            }
+        });
+        importe.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                importeKeyPressed(evt);
+            }
+        });
+
+        fecha.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                fechaFocusGained(evt);
+            }
+        });
+        fecha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                fechaKeyPressed(evt);
+            }
+        });
+
+        tiempo.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        tiempo.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tiempoFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tiempoFocusLost(evt);
+            }
+        });
+        tiempo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tiempoActionPerformed(evt);
+            }
+        });
+        tiempo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tiempoKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tiempoKeyReleased(evt);
+            }
+        });
+
+        ausencia.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        ausencia.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                ausenciaFocusGained(evt);
+            }
+        });
+        ausencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ausenciaActionPerformed(evt);
+            }
+        });
+        ausencia.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                ausenciaKeyPressed(evt);
+            }
+        });
+
+        BuscarAusencia.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        BuscarAusencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BuscarAusenciaActionPerformed(evt);
+            }
+        });
+
+        nombreausencia.setEnabled(false);
+        nombreausencia.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                nombreausenciaKeyPressed(evt);
+            }
+        });
+
+        Socio1.setText("Motivo de Ausencia");
+
+        nombreempleado.setEnabled(false);
+        nombreempleado.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                nombreempleadoKeyPressed(evt);
+            }
+        });
+
+        dia.setText("Día");
+        dia.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        dia.setName(""); // NOI18N
+        dia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                diaActionPerformed(evt);
+            }
+        });
+
+        hora.setText("Hora");
+        hora.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                horaActionPerformed(evt);
+            }
+        });
+
+        justificado.setText("Justificado");
+        justificado.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        minutos.setText("Mínutos");
+        minutos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                minutosActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Fecha");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(Socio)
+                        .addGap(4, 4, 4))
+                    .addComponent(jLabel12)
+                    .addComponent(Socio1)
+                    .addComponent(jLabel14)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(empleado, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(buscarEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(BuscarAusencia, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(nombreausencia, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(nombreempleado)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(fecha, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(numero, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(salario, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(tipo_salario, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(importe, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(justificado, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(tiempo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(ausencia, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(40, 40, 40)
+                                .addComponent(dia)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(hora)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(minutos)))
+                        .addGap(84, 84, 84)))
+                .addContainerGap(23, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(numero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(salario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tipo_salario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(fecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(empleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(Socio))
+                            .addComponent(buscarEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(ausencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(Socio1))
+                            .addComponent(nombreausencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(BuscarAusencia, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(14, 14, 14)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(tiempo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel14)
+                            .addComponent(hora)
+                            .addComponent(dia)
+                            .addComponent(minutos)))
+                    .addComponent(nombreempleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(importe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel12))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(justificado)
+                .addContainerGap(33, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout detalle_ausenciaLayout = new javax.swing.GroupLayout(detalle_ausencia.getContentPane());
+        detalle_ausencia.getContentPane().setLayout(detalle_ausenciaLayout);
+        detalle_ausenciaLayout.setHorizontalGroup(
+            detalle_ausenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(detalle_ausenciaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(detalle_ausenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(detalle_ausenciaLayout.createSequentialGroup()
+                        .addComponent(Grabar, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(31, 31, 31)
+                        .addComponent(Salir, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        detalle_ausenciaLayout.setVerticalGroup(
+            detalle_ausenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, detalle_ausenciaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, Short.MAX_VALUE)
+                .addGroup(detalle_ausenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Grabar)
+                    .addComponent(Salir))
+                .addContainerGap())
+        );
+
+        BEmpleado.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        BEmpleado.setTitle("null");
+
+        jPanel13.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        comboempleado.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        comboempleado.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Buscar por Nombre", "Buscar por Código" }));
+        comboempleado.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        comboempleado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboempleadoActionPerformed(evt);
+            }
+        });
+
+        jTBuscarEmpleado.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jTBuscarEmpleado.setText(org.openide.util.NbBundle.getMessage(ausencias.class, "ventas.jTBuscarClientes.text")); // NOI18N
+        jTBuscarEmpleado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTBuscarEmpleadoActionPerformed(evt);
+            }
+        });
+        jTBuscarEmpleado.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTBuscarEmpleadoKeyPressed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
+        jPanel13.setLayout(jPanel13Layout);
+        jPanel13Layout.setHorizontalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addComponent(comboempleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jTBuscarEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel13Layout.setVerticalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(comboempleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTBuscarEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(19, Short.MAX_VALUE))
+        );
+
+        tablaempleado.setModel(modeloempleado);
+        tablaempleado.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaempleadoMouseClicked(evt);
+            }
+        });
+        tablaempleado.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tablaempleadoKeyPressed(evt);
+            }
+        });
+        jScrollPane4.setViewportView(tablaempleado);
+
+        jPanel15.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        AceptarEmpleado.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        AceptarEmpleado.setText(org.openide.util.NbBundle.getMessage(ausencias.class, "ventas.Aceptarcliente.text")); // NOI18N
+        AceptarEmpleado.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        AceptarEmpleado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AceptarEmpleadoActionPerformed(evt);
+            }
+        });
+
+        SalirEmpleado.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        SalirEmpleado.setText(org.openide.util.NbBundle.getMessage(ausencias.class, "ventas.SalirCliente.text")); // NOI18N
+        SalirEmpleado.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        SalirEmpleado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SalirEmpleadoActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
+        jPanel15.setLayout(jPanel15Layout);
+        jPanel15Layout.setHorizontalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel15Layout.createSequentialGroup()
+                .addGap(91, 91, 91)
+                .addComponent(AceptarEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(85, 85, 85)
+                .addComponent(SalirEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel15Layout.setVerticalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel15Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(AceptarEmpleado)
+                    .addComponent(SalirEmpleado))
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout BEmpleadoLayout = new javax.swing.GroupLayout(BEmpleado.getContentPane());
+        BEmpleado.getContentPane().setLayout(BEmpleadoLayout);
+        BEmpleadoLayout.setHorizontalGroup(
+            BEmpleadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(BEmpleadoLayout.createSequentialGroup()
+                .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        BEmpleadoLayout.setVerticalGroup(
+            BEmpleadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(BEmpleadoLayout.createSequentialGroup()
+                .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        BAusencia.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        BAusencia.setTitle("null");
+
+        jPanel14.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        comboausencia.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        comboausencia.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Buscar por Nombre", "Buscar por Código" }));
+        comboausencia.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        comboausencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboausenciaActionPerformed(evt);
+            }
+        });
+
+        jTBuscarAusencia.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jTBuscarAusencia.setText(org.openide.util.NbBundle.getMessage(ausencias.class, "ventas.jTBuscarClientes.text")); // NOI18N
+        jTBuscarAusencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTBuscarAusenciaActionPerformed(evt);
+            }
+        });
+        jTBuscarAusencia.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTBuscarAusenciaKeyPressed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
+        jPanel14.setLayout(jPanel14Layout);
+        jPanel14Layout.setHorizontalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel14Layout.createSequentialGroup()
+                .addComponent(comboausencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jTBuscarAusencia, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel14Layout.setVerticalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel14Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(comboausencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTBuscarAusencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(19, Short.MAX_VALUE))
+        );
+
+        tablaausencia.setModel(modeloausencia       );
+        tablaausencia.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaausenciaMouseClicked(evt);
+            }
+        });
+        tablaausencia.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tablaausenciaKeyPressed(evt);
+            }
+        });
+        jScrollPane5.setViewportView(tablaausencia);
+
+        jPanel16.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        AceptarAusencia.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        AceptarAusencia.setText(org.openide.util.NbBundle.getMessage(ausencias.class, "ventas.Aceptarcliente.text")); // NOI18N
+        AceptarAusencia.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        AceptarAusencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AceptarAusenciaActionPerformed(evt);
+            }
+        });
+
+        SalirAusencia.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        SalirAusencia.setText(org.openide.util.NbBundle.getMessage(ausencias.class, "ventas.SalirCliente.text")); // NOI18N
+        SalirAusencia.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        SalirAusencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SalirAusenciaActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
+        jPanel16.setLayout(jPanel16Layout);
+        jPanel16Layout.setHorizontalGroup(
+            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel16Layout.createSequentialGroup()
+                .addGap(91, 91, 91)
+                .addComponent(AceptarAusencia, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(85, 85, 85)
+                .addComponent(SalirAusencia, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel16Layout.setVerticalGroup(
+            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel16Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(AceptarAusencia)
+                    .addComponent(SalirAusencia))
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout BAusenciaLayout = new javax.swing.GroupLayout(BAusencia.getContentPane());
+        BAusencia.getContentPane().setLayout(BAusenciaLayout);
+        BAusenciaLayout.setHorizontalGroup(
+            BAusenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(BAusenciaLayout.createSequentialGroup()
+                .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jPanel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        BAusenciaLayout.setVerticalGroup(
+            BAusenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(BAusenciaLayout.createSequentialGroup()
+                .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Ausencias");
+        setBounds(new java.awt.Rectangle(0, 0, 0, 0));
+        setName("frame_clientes"); // NOI18N
+        addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                formFocusGained(evt);
+            }
+        });
+        addWindowFocusListener(new java.awt.event.WindowFocusListener() {
+            public void windowGainedFocus(java.awt.event.WindowEvent evt) {
+                formWindowGainedFocus(evt);
+            }
+            public void windowLostFocus(java.awt.event.WindowEvent evt) {
+            }
+        });
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
+
+        panel1.setColorPrimario(new java.awt.Color(102, 153, 255));
+        panel1.setColorSecundario(new java.awt.Color(0, 204, 255));
+
+        etiquetacredito.setBackground(new java.awt.Color(255, 255, 255));
+        etiquetacredito.setText("Ausencias");
+
+        jComboBox1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nombre", "N°" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+
+        buscarcadena.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        buscarcadena.setSelectionColor(new java.awt.Color(0, 63, 62));
+        buscarcadena.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                buscarcadenaKeyPressed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panel1Layout = new javax.swing.GroupLayout(panel1);
+        panel1.setLayout(panel1Layout);
+        panel1Layout.setHorizontalGroup(
+            panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel1Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(etiquetacredito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(buscarcadena, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        panel1Layout.setVerticalGroup(
+            panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel1Layout.createSequentialGroup()
+                .addContainerGap(24, Short.MAX_VALUE)
+                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(buscarcadena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(etiquetacredito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(22, 22, 22))
+        );
+
+        Modificar.setBackground(new java.awt.Color(255, 255, 255));
+        Modificar.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        Modificar.setText("Editar Registro");
+        Modificar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Modificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ModificarActionPerformed(evt);
+            }
+        });
+
+        Agregar.setBackground(new java.awt.Color(255, 255, 255));
+        Agregar.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        Agregar.setText(" Agregar Registro");
+        Agregar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Agregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AgregarActionPerformed(evt);
+            }
+        });
+
+        Eliminar.setBackground(new java.awt.Color(255, 255, 255));
+        Eliminar.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        Eliminar.setText("Eliminar Registro");
+        Eliminar.setToolTipText("");
+        Eliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EliminarActionPerformed(evt);
+            }
+        });
+
+        Listar.setBackground(new java.awt.Color(255, 255, 255));
+        Listar.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        Listar.setText("Listar/Imprimir");
+        Listar.setToolTipText("");
+        Listar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Listar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ListarActionPerformed(evt);
+            }
+        });
+
+        SalirCompleto.setBackground(new java.awt.Color(255, 255, 255));
+        SalirCompleto.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        SalirCompleto.setText("     Salir");
+        SalirCompleto.setToolTipText("");
+        SalirCompleto.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        SalirCompleto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SalirCompletoActionPerformed(evt);
+            }
+        });
+
+        idControl.setEditable(false);
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(ausencias.class, "libroventaconsolidado.jPanel2.border.title"))); // NOI18N
+
+        jLabel3.setText(org.openide.util.NbBundle.getMessage(ausencias.class, "libroventaconsolidado.jLabel1.text")); // NOI18N
+
+        jLabel8.setText(org.openide.util.NbBundle.getMessage(ausencias.class, "libroventaconsolidado.jLabel2.text")); // NOI18N
+
+        refrescar.setText("Refrescar");
+        refrescar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refrescarActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(29, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(refrescar, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel8)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(dFechaInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(dFechaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(9, 9, 9))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(54, 54, 54)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(dFechaInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(dFechaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
+                .addComponent(refrescar)
+                .addContainerGap(57, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(SalirCompleto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(Listar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(Modificar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(Agregar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(Eliminar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(27, 27, 27))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(idControl, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(35, 35, 35))))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(Agregar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(Modificar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(Eliminar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(Listar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(SalirCompleto)
+                .addGap(26, 26, 26)
+                .addComponent(idControl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        jTable1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        jScrollPane1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jScrollPane1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jScrollPane1FocusGained(evt);
+            }
+        });
+
+        jTable1.setModel(modelo);
+        jTable1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jTable1.setSelectionBackground(new java.awt.Color(51, 204, 255));
+        jTable1.setSelectionForeground(new java.awt.Color(0, 0, 255));
+        jTable1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTable1FocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTable1FocusLost(evt);
+            }
+        });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
+        jTable1.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jTable1PropertyChange(evt);
+            }
+        });
+        jTable1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTable1KeyPressed(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 853, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void Inicializar() {
+        this.fecha.setCalendar(c2);
+        this.dFechaInicial.setCalendar(c2);
+        this.dFechaFinal.setCalendar(c2);
+    }
+
+    private void jComboBox1ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void CalcularxHora(String cSalario, int nTipoSalario, double nTiempo, int TipoTiempo) {
+        double salarioxhora = 0.00;
+        cSalario = cSalario.replace(".", "").replace(",", ".");
+        if (TipoTiempo == 3) {
+            nTiempo = nTiempo / 60;
+        }
+        System.out.println("SALARIO " + cSalario);
+        System.out.println("TIPO " + nTipoSalario);
+        System.out.println("TIEMPO " + nTiempo);
+        System.out.println("HORA/MINUTOS " + TipoTiempo);
+
+        // instrucción switch con tipo de datos int
+        switch (nTipoSalario) {
+            //SI EL SALARIO ES POR HORAS
+            case 1:
+                salarioxhora = Math.round(Double.valueOf(cSalario));
+                break;
+            //SI EL SALARIO ES POR DIA         
+            case 2:
+                salarioxhora = Math.round((Double.valueOf(cSalario) / 8));
+                break;
+            //SI EL SALARIO ES QUINCENAL         
+            case 3:
+                salarioxhora = Math.round((Double.valueOf(cSalario) * 2 / 30 / 8));
+                break;
+            //SI EL SALARIO ES MENSUAL
+            case 4:
+                salarioxhora = Math.round((Double.valueOf(cSalario) / 30 / 8));
+                break;
+        }
+        if (TipoTiempo == 1) {
+            nTiempo = nTiempo * 8;
+        }
+        this.importe.setText(formatea.format(Math.round(salarioxhora * nTiempo)));
+    }
+
+
+    private void buscarcadenaKeyPressed(KeyEvent evt) {//GEN-FIRST:event_buscarcadenaKeyPressed
+        this.buscarcadena.addKeyListener(new KeyAdapter() {
+            public void keyReleased(final KeyEvent e) {
+                String cadena = (buscarcadena.getText()).toUpperCase();
+                buscarcadena.setText(cadena);
+                int indiceColumnaTabla = 0;
+                switch (jComboBox1.getSelectedIndex()) {
+                    case 0:
+                        indiceColumnaTabla = 2;
+                        break;//por nombre
+                    case 1:
+                        indiceColumnaTabla = 0;
+                        break;//por codigo
+                }
+                repaint();
+                filtro(indiceColumnaTabla);
+            }
+        });
+        trsfiltro = new TableRowSorter(jTable1.getModel());
+        jTable1.setRowSorter(trsfiltro);
+
+    }//GEN-LAST:event_buscarcadenaKeyPressed
+
+    private void SalirCompletoActionPerformed(ActionEvent evt) {//GEN-FIRST:event_SalirCompletoActionPerformed
+        this.dispose();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SalirCompletoActionPerformed
+
+    private void AgregarActionPerformed(ActionEvent evt) {//GEN-FIRST:event_AgregarActionPerformed
+        idControl.setText("0");
+        this.limpiar();
+        detalle_ausencia.setModal(true);
+        detalle_ausencia.setSize(510, 380);
+        //Establecemos un título para el jDialog
+        detalle_ausencia.setTitle("Agregar Ausencias");
+        detalle_ausencia.setLocationRelativeTo(null);
+        detalle_ausencia.setVisible(true);
+        empleado.requestFocus();
+
+          }//GEN-LAST:event_AgregarActionPerformed
+
+    public void limpiar() {
+        this.numero.setText("0");
+        this.empleado.setText("0");
+        this.nombreempleado.setText("");
+        this.tiempo.setText("");
+        this.importe.setText("");
+        this.ausencia.setText("0");
+        this.nombreausencia.setText("");
+        this.dia.setSelected(true);
+        this.hora.setSelected(false);
+        this.minutos.setSelected(false);
+    }
+    private void jTable1KeyPressed(KeyEvent evt) {//GEN-FIRST:event_jTable1KeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_INSERT) {
+            Agregar.doClick();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            Modificar.doClick();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_DELETE) {
+            Eliminar.doClick();
+        }
+
+        if (evt.getKeyCode() == KeyEvent.VK_F2) {
+            refrescar.doClick();
+        }
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTable1KeyPressed
+
+    private void jTable1MouseClicked(MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        int nFila = this.jTable1.getSelectedRow();
+        this.idControl.setText(this.jTable1.getValueAt(nFila, 0).toString());
+        // TODO add your handling code here:
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void ModificarActionPerformed(ActionEvent evt) {//GEN-FIRST:event_ModificarActionPerformed
+        idControl.setText("2");
+        // int nunidad = 0;
+        this.limpiar();
+        if (Integer.valueOf(Config.cNivelUsuario) < 3) {
+            int nFila = this.jTable1.getSelectedRow();
+            if (nFila < 0) {
+                JOptionPane.showMessageDialog(null, "Debe Seleccionar un Registro");
+                this.jTable1.requestFocus();
+                return;
+            }
+
+            this.numero.setText(this.jTable1.getValueAt(nFila, 0).toString());
+            this.numero.setEnabled(false);
+            ausenciaDAO ausDAO = new ausenciaDAO();
+            ausencia aus = null;
+            try {
+                aus = ausDAO.buscarId(Integer.valueOf(this.numero.getText()));
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "ERROR:" + e.getMessage());
+            }
+            if (aus != null) {
+
+                fecha.setDate(aus.getFecha());
+                empleado.setText(String.valueOf(aus.getFicha_empleado().getCodigo()));
+                nombreempleado.setText(aus.getFicha_empleado().getNombreempleado());
+                salario.setText(formatea.format(aus.getFicha_empleado().getSalario()));
+                tipo_salario.setText(String.valueOf(aus.getFicha_empleado().getTipo_salario()));
+                ausencia.setText(String.valueOf(aus.getMotivo_ausencia().getCodigo()));
+                nombreausencia.setText(aus.getMotivo_ausencia().getNombre());
+                tiempo.setText(String.valueOf(aus.getDias()));
+                importe.setText(formatea.format(aus.getImporte()));
+
+                if (aus.getUnidmed().equals("Dias")) {
+                    dia.setSelected(true);
+                    hora.setSelected(false);
+                    minutos.setSelected(false);
+                }
+                if (aus.getUnidmed().equals("Horas")) {
+                    hora.setSelected(true);
+                    dia.setSelected(false);
+                    minutos.setSelected(false);
+                }
+                if (aus.getUnidmed().equals("Mínutos")) {
+                    minutos.setSelected(true);
+                    dia.setSelected(false);
+                    hora.setSelected(false);
+                }
+
+                if (aus.getJustificado().equals("Si")) {
+                    justificado.setSelected(true);
+                } else {
+                    if (aus.getJustificado().equals("No")) {
+                        justificado.setSelected(false);
+                    }
+
+                }
+
+                detalle_ausencia.setModal(true);
+                //                        (Ancho,Alto)
+                detalle_ausencia.setSize(510, 380);
+                //Establecemos un título para el jDialog
+                detalle_ausencia.setTitle("Modificar Ausencia");
+                detalle_ausencia.setLocationRelativeTo(null);
+                detalle_ausencia.setVisible(true);
+
+                empleado.requestFocus();
+
+            } else {
+                JOptionPane.showMessageDialog(null, "USUARIO NO AUTORIZADO");
+            }
+        }
+    }//GEN-LAST:event_ModificarActionPerformed
+
+    private void jTable1FocusGained(FocusEvent evt) {//GEN-FIRST:event_jTable1FocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTable1FocusGained
+
+    private void jScrollPane1FocusGained(FocusEvent evt) {//GEN-FIRST:event_jScrollPane1FocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jScrollPane1FocusGained
+
+    private void formWindowGainedFocus(WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowGainedFocus
+
+    private void formWindowActivated(WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowActivated
+
+    private void formFocusGained(FocusEvent evt) {//GEN-FIRST:event_formFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formFocusGained
+
+    private void EliminarActionPerformed(ActionEvent evt) {//GEN-FIRST:event_EliminarActionPerformed
+        int nFila = jTable1.getSelectedRow();
+        String num = jTable1.getValueAt(nFila, 0).toString();
+
+        if (Integer.valueOf(Config.cNivelUsuario) == 1) {
+            Object[] opciones = {"   Si   ", "   No   "};
+            int ret = JOptionPane.showOptionDialog(null, "Desea Eliminar el Registro ? ", "Confirmación", 0, 3, null, opciones, opciones[0]);
+            if (ret == 0) {
+                ausenciaDAO ausDAO = new ausenciaDAO();
+                try {
+                    ausencia aus = ausDAO.buscarId(Integer.valueOf(num));
+                    if (aus == null) {
+                        JOptionPane.showMessageDialog(null, "Registro no Existe");
+                    } else {
+                        ausDAO.eliminarausencia(Integer.valueOf(num));
+                        JOptionPane.showMessageDialog(null, "Registro Eliminado Exitosamente");
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "ERROR: " + e.getMessage());
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "USUARIO NO AUTORIZADO");
+        }
+        this.refrescar.doClick();
+    }//GEN-LAST:event_EliminarActionPerformed
+
+    private void jTable1FocusLost(FocusEvent evt) {//GEN-FIRST:event_jTable1FocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTable1FocusLost
+
+    private void ListarActionPerformed(ActionEvent evt) {//GEN-FIRST:event_ListarActionPerformed
+        GenerarReporte GenerarReporte = new GenerarReporte();
+        Thread HiloReporte = new Thread(GenerarReporte);
+        HiloReporte.start();
+    }//GEN-LAST:event_ListarActionPerformed
+
+    private void SalirActionPerformed(ActionEvent evt) {//GEN-FIRST:event_SalirActionPerformed
+        detalle_ausencia.setVisible(false);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SalirActionPerformed
+
+    private void GrabarActionPerformed(ActionEvent evt) {//GEN-FIRST:event_GrabarActionPerformed
+
+        if (this.empleado.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Ingrese Código de Empleado");
+            this.empleado.requestFocus();
+            return;
+        }
+
+        Object[] opciones = {"   Si   ", "   No   "};
+        int ret = JOptionPane.showOptionDialog(null, "Desea Guardar esta Operación? ", "Confirmación", 0, 3, null, opciones, opciones[0]);
+        if (ret == 0) {
+
+            // Date FechaProceso = ODate.de_java_a_sql(fecha.getDate());
+            Date Fecha = ODate.de_java_a_sql(fecha.getDate());
+            ausenciaDAO grabar = new ausenciaDAO();
+            ausencia aus = new ausencia();
+
+            ficha_empleadoDAO fichaDAO = new ficha_empleadoDAO();
+            ficha_empleado ficha = null;
+
+            motivo_ausenciaDAO motDAO = new motivo_ausenciaDAO();
+            motivo_ausencia mot = null;
+
+            try {
+                ficha = fichaDAO.buscarId(Integer.valueOf(this.empleado.getText()));
+                mot = motDAO.buscarId(Integer.valueOf(this.ausencia.getText()));
+            } catch (SQLException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+
+            //CAPTURAMOS LOS DATOS DE LA CABECERA
+            aus.setNumero(String.valueOf(this.numero.getText()));
+            aus.setFecha(Fecha);
+            aus.setFicha_empleado(ficha);
+            aus.setGiraduria(ficha.getGiraduria().getCodigo());
+            aus.setMotivo_ausencia(mot);
+            aus.setDias(Integer.valueOf(tiempo.getText()));
+
+            if (dia.isSelected()) {
+                aus.setUnidmed("Días");
+            }
+
+            if (hora.isSelected()) {
+                aus.setUnidmed("Horas");
+            }
+
+            if (minutos.isSelected()) {
+                aus.setUnidmed("Mínutos");
+            }
+
+            if (justificado.isSelected()) {
+                aus.setJustificado("Si");
+            } else {
+                aus.setJustificado("No");
+            }
+
+            String cImporte = importe.getText();
+            cImporte = cImporte.replace(".", "").replace(",", ".");
+            BigDecimal nImporte = new BigDecimal(cImporte);
+            aus.setImporte(nImporte);
+
+            //EMPEZAMOS A CAPTURAR DATOS NUMERICOS
+            if (Integer.valueOf(this.numero.getText()) == 0) {
+                try {
+                    grabar.insertarausencia(aus);
+                    JOptionPane.showMessageDialog(null, "Datos Agregados Correctamente");
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(null, "Error BD: " + e.getMessage());
+                }
+            } else {
+                //Actualizar 
+                try {
+                    aus.setNumero(String.valueOf(this.numero.getText()));
+                    grabar.actualizarausencia(aus);
+                    JOptionPane.showMessageDialog(null, "Datos Agregados Correctamente");
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(null, "Error BD: " + e.getMessage());
+                }
+            }
+            detalle_ausencia.setVisible(false);
+            this.detalle_ausencia.setModal(false);
+            GrillaAusencia GrillaAus = new GrillaAusencia();
+            Thread HiloGrilla = new Thread(GrillaAus);
+            HiloGrilla.start();
+        }
+
+    }//GEN-LAST:event_GrabarActionPerformed
+
+    private void detalle_ausenciaFocusGained(FocusEvent evt) {//GEN-FIRST:event_detalle_ausenciaFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_detalle_ausenciaFocusGained
+
+    private void detalle_ausenciaWindowGainedFocus(WindowEvent evt) {//GEN-FIRST:event_detalle_ausenciaWindowGainedFocus
+        // TODO add your handling code here:
+    }//GEN-LAST:event_detalle_ausenciaWindowGainedFocus
+
+    private void detalle_ausenciaWindowActivated(WindowEvent evt) {//GEN-FIRST:event_detalle_ausenciaWindowActivated
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_detalle_ausenciaWindowActivated
+
+    private void jTable1PropertyChange(PropertyChangeEvent evt) {//GEN-FIRST:event_jTable1PropertyChange
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTable1PropertyChange
+
+    private void SalirEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalirEmpleadoActionPerformed
+        this.BEmpleado.setModal(true);
+        this.BEmpleado.setVisible(false);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SalirEmpleadoActionPerformed
+
+    private void AceptarEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AceptarEmpleadoActionPerformed
+        int nFila = this.tablaempleado.getSelectedRow();
+        this.empleado.setText(this.tablaempleado.getValueAt(nFila, 0).toString());
+        this.nombreempleado.setText(this.tablaempleado.getValueAt(nFila, 1).toString());
+        this.tipo_salario.setText(this.tablaempleado.getValueAt(nFila, 2).toString());
+        this.salario.setText(this.tablaempleado.getValueAt(nFila, 3).toString());
+        this.BEmpleado.setVisible(false);
+        this.jTBuscarEmpleado.setText("");
+        this.ausencia.requestFocus();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_AceptarEmpleadoActionPerformed
+
+    private void tablaempleadoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tablaempleadoKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            this.AceptarEmpleado.doClick();
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tablaempleadoKeyPressed
+
+    private void tablaempleadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaempleadoMouseClicked
+        this.AceptarEmpleado.doClick();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tablaempleadoMouseClicked
+
+    private void jTBuscarEmpleadoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTBuscarEmpleadoKeyPressed
+        this.jTBuscarEmpleado.addKeyListener(new KeyAdapter() {
+            public void keyReleased(final KeyEvent e) {
+                String cadena = (jTBuscarEmpleado.getText()).toUpperCase();
+                jTBuscarEmpleado.setText(cadena);
+                int indiceColumnaTabla = 0;
+                switch (comboempleado.getSelectedIndex()) {
+                    case 0:
+                        indiceColumnaTabla = 1;
+                        break;//por nombre
+                    case 1:
+                        indiceColumnaTabla = 0;
+                }
+                repaint();
+                filtroempleado(indiceColumnaTabla);
+            }
+        });
+        trsfiltroempleado = new TableRowSorter(tablaempleado.getModel());
+        tablaempleado.setRowSorter(trsfiltroempleado);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTBuscarEmpleadoKeyPressed
+
+    private void jTBuscarEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTBuscarEmpleadoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTBuscarEmpleadoActionPerformed
+
+    private void comboempleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboempleadoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboempleadoActionPerformed
+
+
+    private void buscarEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarEmpleadoActionPerformed
+        ficha_empleadoDAO fichaDAO = new ficha_empleadoDAO();
+        ficha_empleado ficha = null;
+        try {
+            ficha = fichaDAO.buscarIdActivo(Integer.valueOf(this.empleado.getText()));
+            if (ficha.getCodigo() == 0) {
+                BEmpleado.setModal(true);
+                BEmpleado.setSize(482, 575);
+                BEmpleado.setLocationRelativeTo(null);
+                BEmpleado.setTitle("Buscar Empleado");
+                BEmpleado.setVisible(true);
+                BEmpleado.setModal(false);
+            } else {
+                nombreempleado.setText(ficha.getNombreempleado());
+                salario.setText(formatea.format(ficha.getSalario()));
+                tipo_salario.setText(String.valueOf(ficha.getTipo_salario()));
+                //Establecemos un título para el jDialog
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "ERROR:" + e.getMessage());
+        }
+        ausencia.requestFocus();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buscarEmpleadoActionPerformed
+
+    private void empleadoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_empleadoKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            this.fecha.requestFocus();
+        }   // TODO 
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_empleadoKeyPressed
+
+    private void empleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empleadoActionPerformed
+        this.buscarEmpleado.doClick();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_empleadoActionPerformed
+
+    private void empleadoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_empleadoFocusGained
+        empleado.selectAll();
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_empleadoFocusGained
+
+    private void numeroFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_numeroFocusGained
+        numero.selectAll();
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_numeroFocusGained
+
+    private void numeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_numeroActionPerformed
+
+    }//GEN-LAST:event_numeroActionPerformed
+
+    private void numeroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_numeroKeyPressed
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_numeroKeyPressed
+
+    private void numeroKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_numeroKeyReleased
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_numeroKeyReleased
+
+    private void importeFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_importeFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_importeFocusGained
+
+    private void importeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_importeKeyPressed
+        if (evt.getKeyCode() == 10 || evt.getKeyCode() == KeyEvent.VK_ENTER || evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            this.justificado.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            this.tiempo.requestFocus();
+        }   // TODO 
+
+    }//GEN-LAST:event_importeKeyPressed
+
+    private void fechaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fechaFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fechaFocusGained
+
+    private void fechaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fechaKeyPressed
+        if (evt.getKeyCode() == 10 || evt.getKeyCode() == KeyEvent.VK_ENTER || evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            this.empleado.requestFocus();
+        }
+
+    }//GEN-LAST:event_fechaKeyPressed
+
+    private void tiempoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tiempoFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tiempoFocusGained
+
+    private void tiempoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tiempoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tiempoActionPerformed
+
+    private void tiempoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tiempoKeyPressed
+        if (evt.getKeyCode() == 10 || evt.getKeyCode() == KeyEvent.VK_ENTER || evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            this.importe.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            this.ausencia.requestFocus();
+        }   // TODO 
+
+    }//GEN-LAST:event_tiempoKeyPressed
+
+    private void tiempoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tiempoKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tiempoKeyReleased
+
+    private void comboausenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboausenciaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboausenciaActionPerformed
+
+    private void jTBuscarAusenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTBuscarAusenciaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTBuscarAusenciaActionPerformed
+
+    private void jTBuscarAusenciaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTBuscarAusenciaKeyPressed
+        this.jTBuscarAusencia.addKeyListener(new KeyAdapter() {
+            public void keyReleased(final KeyEvent e) {
+                String cadena = (jTBuscarAusencia.getText()).toUpperCase();
+                jTBuscarAusencia.setText(cadena);
+                int indiceColumnaTabla = 0;
+                switch (comboausencia.getSelectedIndex()) {
+                    case 0:
+                        indiceColumnaTabla = 1;
+                        break;//por nombre
+                    case 1:
+                        indiceColumnaTabla = 0;
+                        break;//por codigo
+                }
+                repaint();
+                filtroausencia(indiceColumnaTabla);
+            }
+        });
+        trsfiltroausencia = new TableRowSorter(tablaausencia.getModel());
+        tablaausencia.setRowSorter(trsfiltroausencia);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTBuscarAusenciaKeyPressed
+
+    private void tablaausenciaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaausenciaMouseClicked
+        this.AceptarAusencia.doClick();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tablaausenciaMouseClicked
+
+    private void tablaausenciaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tablaausenciaKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            this.AceptarAusencia.doClick();
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tablaausenciaKeyPressed
+
+    private void AceptarAusenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AceptarAusenciaActionPerformed
+        int nFila = this.tablaausencia.getSelectedRow();
+        this.ausencia.setText(this.tablaausencia.getValueAt(nFila, 0).toString());
+        this.nombreausencia.setText(this.tablaausencia.getValueAt(nFila, 1).toString());
+
+        this.BAusencia.setVisible(false);
+        this.jTBuscarAusencia.setText("");
+        this.tiempo.requestFocus();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_AceptarAusenciaActionPerformed
+
+    private void SalirAusenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalirAusenciaActionPerformed
+        this.BAusencia.setVisible(false);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SalirAusenciaActionPerformed
+
+    private void ausenciaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ausenciaFocusGained
+        ausencia.selectAll();
+    }//GEN-LAST:event_ausenciaFocusGained
+
+    private void ausenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ausenciaActionPerformed
+        BuscarAusencia.doClick();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ausenciaActionPerformed
+
+    private void ausenciaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ausenciaKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            this.empleado.requestFocus();
+        }   // TODO 
+
+    }//GEN-LAST:event_ausenciaKeyPressed
+
+    private void BuscarAusenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarAusenciaActionPerformed
+        motivo_ausenciaDAO ausDAO = new motivo_ausenciaDAO();
+        motivo_ausencia aus = null;
+        try {
+            aus = ausDAO.buscarId(Integer.valueOf(this.ausencia.getText()));
+            if (aus.getCodigo() == 0) {
+                GrillaMotivo grillaMot = new GrillaMotivo();
+                Thread hiloaus = new Thread(grillaMot);
+                hiloaus.start();
+                BAusencia.setModal(true);
+                BAusencia.setSize(482, 575);
+                BAusencia.setLocationRelativeTo(null);
+                BAusencia.setVisible(true);
+                BAusencia.setTitle("Buscar Motivo Ausencia");
+                tiempo.requestFocus();
+                BAusencia.setModal(false);
+            } else {
+                nombreausencia.setText(aus.getNombre());
+                //Establecemos un título para el jDialog
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "ERROR:" + e.getMessage());
+        }
+        this.tiempo.requestFocus();
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_BuscarAusenciaActionPerformed
+
+    private void nombreausenciaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nombreausenciaKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nombreausenciaKeyPressed
+
+    private void nombreempleadoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nombreempleadoKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nombreempleadoKeyPressed
+
+    private void diaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_diaActionPerformed
+        if (dia.isSelected()) {
+            hora.setSelected(false);
+            minutos.setSelected(false);
+            this.CalcularxHora(salario.getText().toString(), Integer.valueOf(tipo_salario.getText()), Double.valueOf(tiempo.getText()), 1);
+        } else {
+            hora.setSelected(true);
+            minutos.setSelected(false);
+            this.CalcularxHora(salario.getText().toString(), Integer.valueOf(tipo_salario.getText()), Double.valueOf(tiempo.getText()), 2);
+        }
+    }//GEN-LAST:event_diaActionPerformed
+
+    private void horaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_horaActionPerformed
+        if (hora.isSelected()) {
+            minutos.setSelected(false);
+            dia.setSelected(false);
+            this.CalcularxHora(salario.getText().toString(), Integer.valueOf(tipo_salario.getText()), Double.valueOf(tiempo.getText()), 2);
+        } else {
+            minutos.setSelected(false);
+            dia.setSelected(true);
+            this.CalcularxHora(salario.getText().toString(), Integer.valueOf(tipo_salario.getText()), Double.valueOf(tiempo.getText()), 1);
+        }
+    }//GEN-LAST:event_horaActionPerformed
+
+    private void minutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_minutosActionPerformed
+        if (minutos.isSelected()) {
+            hora.setSelected(false);
+            dia.setSelected(false);
+            this.CalcularxHora(salario.getText().toString(), Integer.valueOf(tipo_salario.getText()), Double.valueOf(tiempo.getText()), 3);
+        } else {
+            hora.setSelected(false);
+            dia.setSelected(true);
+            this.CalcularxHora(salario.getText().toString(), Integer.valueOf(tipo_salario.getText()), Double.valueOf(tiempo.getText()), 1);
+        }
+    }//GEN-LAST:event_minutosActionPerformed
+
+    private void tiempoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tiempoFocusLost
+        if (dia.isSelected()) {
+            this.CalcularxHora(salario.getText().toString(), Integer.valueOf(tipo_salario.getText()), Double.valueOf(tiempo.getText()), 1);
+            hora.setSelected(false);
+            minutos.setSelected(false);
+        }
+        if (hora.isSelected()) {
+            this.CalcularxHora(salario.getText().toString(), Integer.valueOf(tipo_salario.getText()), Double.valueOf(tiempo.getText()), 2);
+            dia.setSelected(false);
+            minutos.setSelected(false);
+        }
+        if (minutos.isSelected()) {
+            this.CalcularxHora(salario.getText().toString(), Integer.valueOf(tipo_salario.getText()), Double.valueOf(tiempo.getText()), 3);
+            hora.setSelected(false);
+            dia.setSelected(false);
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tiempoFocusLost
+
+    private void refrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refrescarActionPerformed
+        GrillaAusencia GrillaLlega = new GrillaAusencia();
+        Thread HiloGrilla = new Thread(GrillaLlega);
+        HiloGrilla.start();
+    }//GEN-LAST:event_refrescarActionPerformed
+
+    private void GrabarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_GrabarKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            this.importe.requestFocus();
+        }   // TODO 
+        // TODO add your handling code here:
+    }//GEN-LAST:event_GrabarKeyPressed
+
+    public void filtro(int nNumeroColumna) {
+        trsfiltro.setRowFilter(RowFilter.regexFilter(buscarcadena.getText(), nNumeroColumna));
+    }
+
+    public void filtroempleado(int nNumeroColumna) {
+        trsfiltroempleado.setRowFilter(RowFilter.regexFilter(this.jTBuscarEmpleado.getText(), nNumeroColumna));
+    }
+
+    public void filtroausencia(int nNumeroColumna) {
+        trsfiltroausencia.setRowFilter(RowFilter.regexFilter(this.jTBuscarAusencia.getText(), nNumeroColumna));
+    }
+
+    private void cargarTitulo() {
+        modelo.addColumn("Numero");
+        modelo.addColumn("Fecha");
+        modelo.addColumn("Nombre de Funcionario");
+        modelo.addColumn("Motivo de Ausencia");
+        modelo.addColumn("Tiempo");
+        modelo.addColumn("Importe");
+
+        int[] anchos = {100, 100, 300, 150, 100, 100};
+        for (int i = 0; i < modelo.getColumnCount(); i++) {
+            jTable1.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
+        }
+        ((DefaultTableCellRenderer) jTable1.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);// Este código es para centrar las cabeceras de la tabla.
+        jTable1.getTableHeader().setFont(new Font("Arial Black", 1, 11));
+
+        Font font = new Font("Arial", Font.BOLD, 10);
+        this.jTable1.setFont(font);
+
+        DefaultTableCellRenderer TablaRenderer = new DefaultTableCellRenderer();
+        DefaultTableCellRenderer AlinearCentro = new DefaultTableCellRenderer();
+
+        TablaRenderer.setHorizontalAlignment(SwingConstants.RIGHT); // aqui defines donde alinear 
+        AlinearCentro.setHorizontalAlignment(SwingConstants.CENTER);
+
+        this.jTable1.getColumnModel().getColumn(0).setCellRenderer(TablaRenderer);
+        this.jTable1.getColumnModel().getColumn(1).setCellRenderer(AlinearCentro);
+        this.jTable1.getColumnModel().getColumn(4).setCellRenderer(TablaRenderer);
+        this.jTable1.getColumnModel().getColumn(5).setCellRenderer(TablaRenderer);
+
+    }
+
+    private void TitEmpleado() {
+        modeloempleado.addColumn("Código");
+        modeloempleado.addColumn("Nombre");
+        modeloempleado.addColumn("Tipo");
+        modeloempleado.addColumn("Salario");
+
+        int[] anchos = {90, 150, 1, 1};
+        for (int i = 0; i < modeloempleado.getColumnCount(); i++) {
+            tablaempleado.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
+        }
+        ((DefaultTableCellRenderer) tablaempleado.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);// Este código es para centrar las cabeceras de la tabla.
+        tablaempleado.getTableHeader().setFont(new Font("Arial Black", 1, 10));
+
+        // Hacemos Invisible la Celda de Costos de los Productos
+        Font font = new Font("Arial", Font.BOLD, 9);
+        this.tablaempleado.setFont(font);
+
+        DefaultTableCellRenderer TablaRenderer = new DefaultTableCellRenderer();
+        TablaRenderer.setHorizontalAlignment(SwingConstants.RIGHT); // aqui defines donde alinear 
+        this.tablaempleado.getColumnModel().getColumn(0).setCellRenderer(TablaRenderer);
+
+        this.tablaempleado.getColumnModel().getColumn(2).setMaxWidth(0);
+        this.tablaempleado.getColumnModel().getColumn(2).setMinWidth(0);
+        this.tablaempleado.getTableHeader().getColumnModel().getColumn(2).setMaxWidth(0);
+        this.tablaempleado.getTableHeader().getColumnModel().getColumn(2).setMinWidth(0);
+
+        this.tablaempleado.getColumnModel().getColumn(3).setMaxWidth(0);
+        this.tablaempleado.getColumnModel().getColumn(3).setMinWidth(0);
+        this.tablaempleado.getTableHeader().getColumnModel().getColumn(3).setMaxWidth(0);
+        this.tablaempleado.getTableHeader().getColumnModel().getColumn(3).setMinWidth(0);
+
+    }
+
+    private void TitAusencia() {
+        modeloausencia.addColumn("Código");
+        modeloausencia.addColumn("Nombre");
+
+        int[] anchos = {90, 150};
+        for (int i = 0; i < modeloausencia.getColumnCount(); i++) {
+            tablaausencia.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
+        }
+        ((DefaultTableCellRenderer) tablaausencia.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);// Este código es para centrar las cabeceras de la tabla.
+        tablaausencia.getTableHeader().setFont(new Font("Arial Black", 1, 10));
+
+        // Hacemos Invisible la Celda de Costos de los Productos
+        Font font = new Font("Arial", Font.BOLD, 9);
+        this.tablaausencia.setFont(font);
+
+        DefaultTableCellRenderer TablaRenderer = new DefaultTableCellRenderer();
+        TablaRenderer.setHorizontalAlignment(SwingConstants.RIGHT); // aqui defines donde alinear 
+        this.tablaausencia.getColumnModel().getColumn(0).setCellRenderer(TablaRenderer);
+    }
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            javax.swing.UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {    //</editor-fold>
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new ausencias().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AceptarAusencia;
+    private javax.swing.JButton AceptarEmpleado;
+    private javax.swing.JButton Agregar;
+    private javax.swing.JDialog BAusencia;
+    private javax.swing.JDialog BEmpleado;
+    private javax.swing.JButton BuscarAusencia;
+    private javax.swing.JButton Eliminar;
+    private javax.swing.JButton Grabar;
+    private javax.swing.JButton Listar;
+    private javax.swing.JButton Modificar;
+    private javax.swing.JButton Salir;
+    private javax.swing.JButton SalirAusencia;
+    private javax.swing.JButton SalirCompleto;
+    private javax.swing.JButton SalirEmpleado;
+    private javax.swing.JLabel Socio;
+    private javax.swing.JLabel Socio1;
+    private javax.swing.JTextField ausencia;
+    private javax.swing.JButton buscarEmpleado;
+    private javax.swing.JTextField buscarcadena;
+    private javax.swing.JComboBox comboausencia;
+    private javax.swing.JComboBox comboempleado;
+    private com.toedter.calendar.JDateChooser dFechaFinal;
+    private com.toedter.calendar.JDateChooser dFechaInicial;
+    private javax.swing.JDialog detalle_ausencia;
+    private javax.swing.JRadioButton dia;
+    private javax.swing.JTextField empleado;
+    private org.edisoncor.gui.label.LabelMetric etiquetacredito;
+    private com.toedter.calendar.JDateChooser fecha;
+    private javax.swing.JRadioButton hora;
+    private javax.swing.JTextField idControl;
+    private javax.swing.JFormattedTextField importe;
+    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
+    private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel16;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JTextField jTBuscarAusencia;
+    private javax.swing.JTextField jTBuscarEmpleado;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JCheckBox justificado;
+    private javax.swing.JRadioButton minutos;
+    private javax.swing.JTextField nombreausencia;
+    private javax.swing.JTextField nombreempleado;
+    private javax.swing.JTextField numero;
+    private org.edisoncor.gui.panel.Panel panel1;
+    private javax.swing.JButton refrescar;
+    private javax.swing.JTextField salario;
+    private javax.swing.JTable tablaausencia;
+    private javax.swing.JTable tablaempleado;
+    private javax.swing.JTextField tiempo;
+    private javax.swing.JTextField tipo_salario;
+    // End of variables declaration//GEN-END:variables
+
+    private class GrillaAusencia extends Thread {
+
+        public void run() {
+            Date FechaI = ODate.de_java_a_sql(dFechaInicial.getDate());
+            Date FechaF = ODate.de_java_a_sql(dFechaFinal.getDate());
+
+            //Antes de Cargar el Jtable Ajustamos el ancho de las columnas con el Ancho que se nos antoje
+            int cantidadRegistro = modelo.getRowCount();
+            for (int i = 1; i <= cantidadRegistro; i++) {
+                modelo.removeRow(0);
+            }
+
+            ausenciaDAO DAO = new ausenciaDAO();
+            try {
+                for (ausencia aus : DAO.Todos(FechaI, FechaF)) {
+                    String Datos[] = {String.valueOf(aus.getNumero()), formatoFecha.format(aus.getFecha()), aus.getFicha_empleado().getNombreempleado(), aus.getMotivo_ausencia().getNombre(), String.valueOf(aus.getTiempo()), formatea.format(aus.getImporte())};
+                    modelo.addRow(Datos);
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "ERROR: " + e.getMessage());
+            }
+            jTable1.setRowSorter(new TableRowSorter(modelo));
+            int cantFilas = jTable1.getRowCount();
+            if (cantFilas > 0) {
+                Modificar.setEnabled(true);
+                Eliminar.setEnabled(true);
+                Listar.setEnabled(true);
+            } else {
+                Modificar.setEnabled(false);
+                Eliminar.setEnabled(false);
+                Listar.setEnabled(false);
+            }
+        }
+    }
+
+    private class GrillaEmpleado extends Thread {
+
+        public void run() {
+
+            //Antes de Cargar el Jtable Ajustamos el ancho de las columnas con el Ancho que se nos antoje
+            int cantidadRegistro = modeloempleado.getRowCount();
+            for (int i = 1; i <= cantidadRegistro; i++) {
+                modeloempleado.removeRow(0);
+            }
+
+            ficha_empleadoDAO DAOFICHA = new ficha_empleadoDAO();
+            try {
+                for (ficha_empleado ficha : DAOFICHA.TodosActivo()) {
+                    String Datos[] = {String.valueOf(ficha.getCodigo()), ficha.getNombres(), String.valueOf(ficha.getTipo_salario()), formatea.format(ficha.getSalario())};
+                    modeloempleado.addRow(Datos);
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "ERROR: " + e.getMessage());
+            }
+
+            tablaempleado.setRowSorter(new TableRowSorter(modeloempleado));
+            int cantFilas = tablaempleado.getRowCount();
+        }
+    }
+
+    private class GrillaMotivo extends Thread {
+
+        public void run() {
+
+            //Antes de Cargar el Jtable Ajustamos el ancho de las columnas con el Ancho que se nos antoje
+            int cantidadRegistro = modeloausencia.getRowCount();
+            for (int i = 1; i <= cantidadRegistro; i++) {
+                modeloausencia.removeRow(0);
+            }
+
+            motivo_ausenciaDAO DAOMOT = new motivo_ausenciaDAO();
+            try {
+                for (motivo_ausencia mot : DAOMOT.Todos()) {
+                    String Datos[] = {String.valueOf(mot.getCodigo()), mot.getNombre()};
+                    modeloausencia.addRow(Datos);
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "ERROR: " + e.getMessage());
+            }
+
+            tablaausencia.setRowSorter(new TableRowSorter(modeloausencia));
+            int cantFilas = tablaausencia.getRowCount();
+        }
+    }
+
+    private class GenerarReporte extends Thread {
+
+        public void run() {
+            Date FechaI = ODate.de_java_a_sql(dFechaInicial.getDate());
+            Date FechaF = ODate.de_java_a_sql(dFechaFinal.getDate());
+            con = new Conexion();
+            stm = con.conectar();
+            try {
+                Map parameters = new HashMap();
+                //Ahora que hay parametros le enviamos uno con el mismo nombre del que creamos
+                //en el reporte
+                parameters.put("cNombreEmpresa", Config.cNombreEmpresa);
+                parameters.put("FechaI", FechaI);
+                parameters.put("FechaF", FechaF);
+                JasperReport jr = null;
+                URL url = getClass().getClassLoader().getResource("Reports/ausencias.jasper");
+                jr = (JasperReport) JRLoader.loadObject(url);
+                JasperPrint masterPrint = null;
+                //Se le incluye el parametro con el nombre parameters porque asi lo definimos
+                masterPrint = JasperFillManager.fillReport(jr, parameters, stm.getConnection());
+                JasperViewer ventana = new JasperViewer(masterPrint, false);
+                ventana.setTitle("Vista Previa");
+                ventana.setVisible(true);
+            } catch (Exception e) {
+                JDialog.setDefaultLookAndFeelDecorated(true);
+                JOptionPane.showMessageDialog(null, e.getMessage(), "Error", 1);
+            }
+        }
+    }
+}

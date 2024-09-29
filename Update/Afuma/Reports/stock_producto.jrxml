@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="stockproducto" printOrder="Horizontal" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="15626d40-29b7-4762-96d3-f22a87d7f738">
+	<property name="ireport.zoom" value="1.6105100000000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.callouts" value="##Thu Nov 17 10:45:59 PYST 2016"/>
+	<parameter name="cCodigo" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT	sucursales.nombre AS nombresucursal,
+ productos.nombre AS producto,
+stock.stock
+FROM stock
+INNER JOIN sucursales ON sucursales.codigo=stock.sucursal
+INNER JOIN productos ON productos.codigo=stock.producto
+WHERE stock.producto=$P{cCodigo}
+ORDER BY stock.sucursal, stock.stock]]>
+	</queryString>
+	<field name="nombresucursal" class="java.lang.String"/>
+	<field name="producto" class="java.lang.String"/>
+	<field name="stock" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="lenguas" class="java.lang.String"/>
+	<variable name="stock_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{stock}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="1" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="56" splitType="Stretch">
+			<rectangle>
+				<reportElement x="3" y="5" width="549" height="25" uuid="f49892f9-0cfc-4080-aab3-93cd3004d53f"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="3" y="8" width="549" height="20" uuid="f7aef003-a517-4cc5-b438-6e8274da3b2c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Stock por Sucursal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="32" y="35" width="204" height="15" uuid="e9fa16c0-45e1-447b-a3d6-3f0baf749f2d"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sucursal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="246" y="35" width="198" height="15" uuid="f4e50685-5598-4e6c-9fcd-789699a6f05e"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Producto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="450" y="35" width="93" height="15" uuid="eda6788b-0bdc-48af-b61b-055e6e447d44"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Stock]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="32" y="3" width="204" height="15" isPrintWhenDetailOverflows="true" uuid="1f37f02b-883f-48a7-a40c-0fedb40e34d3"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombresucursal}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="246" y="3" width="198" height="15" isPrintWhenDetailOverflows="true" uuid="12828f29-6511-434a-b025-3ce4c4d08c08"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{producto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="450" y="3" width="93" height="15" uuid="890d798f-3c41-4563-82d3-e6694383d0ca"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="false" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{stock}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="2" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="27">
+			<textField pattern="#,##0.00">
+				<reportElement x="450" y="5" width="94" height="15" uuid="69fe35a6-2296-4095-bb38-131c67b286a7"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{stock_1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="321" y="5" width="109" height="15" uuid="eca457e1-e106-461e-84c2-cbeb19a2f92a"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Disponible]]></text>
+			</staticText>
+			<line>
+				<reportElement x="3" y="1" width="549" height="1" uuid="86f834ee-da85-49bb-812b-ffb76ecba02e"/>
+			</line>
+			<line>
+				<reportElement x="3" y="25" width="549" height="1" uuid="0e6dd3cd-8b4c-4f93-9520-743686dc706e"/>
+			</line>
+		</band>
+	</summary>
+</jasperReport>

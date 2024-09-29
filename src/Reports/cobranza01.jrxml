@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="cobranza01" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="db15c77a-983f-420b-ab2a-50d1464b94c9">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<parameter name="dFechaInicio" class="java.util.Date"/>
+	<parameter name="dFechaFinal" class="java.util.Date"/>
+	<parameter name="cMoneda" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT 'BOCA' AS origen,SUM(cuenta_clientes.amortiza) AS tamortiza,
+SUM(cuenta_clientes.minteres) AS tinteres,SUM(pagoexpress.gastos) AS tgastos,
+SUM(pagoexpress.mora) AS tmora,SUM(pagoexpress.monto) AS tmonto,
+cuenta_clientes.comprobante,
+comprobantes.nombre AS nombreprestamo
+FROM pagoexpress
+INNER JOIN clientes
+ON clientes.codigo=pagoexpress.cliente
+INNER JOIN cuenta_clientes
+ON cuenta_clientes.iddocumento=pagoexpress.iddocumento
+INNER JOIN comprobantes
+ON comprobantes.codigo=cuenta_clientes.comprobante
+WHERE fechapago BETWEEN $P{dFechaInicio} AND $P{dFechaFinal}
+GROUP BY comprobantes.codigo
+UNION
+SELECT 'CAJA' AS origen,SUM(detalle_cobranzas.amortiza) AS tamortiza,
+SUM(detalle_cobranzas.minteres) as tinteres,
+SUM(detalle_cobranzas.gastos_cobranzas) AS tgastos,
+SUM(detalle_cobranzas.mora) AS tmora,
+SUM(detalle_cobranzas.pago) AS tmonto,
+detalle_cobranzas.comprobante,
+comprobantes.nombre AS nombreprestamo
+FROM cobranzas
+INNER JOIN clientes
+ON clientes.codigo=cobranzas.cliente
+INNER JOIN detalle_cobranzas
+ON detalle_cobranzas.iddetalle=cobranzas.idpagos
+INNER JOIN comprobantes
+ON comprobantes.codigo=detalle_cobranzas.comprobante
+WHERE fecha BETWEEN $P{dFechaInicio} AND $P{dFechaFinal}
+AND comprobante IN (8,9,10) AND cobranzas.moneda=$P{cMoneda}
+GROUP BY comprobantes.codigo]]>
+	</queryString>
+	<field name="origen" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tamortiza" class="java.math.BigDecimal"/>
+	<field name="tinteres" class="java.math.BigDecimal"/>
+	<field name="tgastos" class="java.math.BigDecimal"/>
+	<field name="tmora" class="java.math.BigDecimal"/>
+	<field name="tmonto" class="java.math.BigDecimal"/>
+	<field name="comprobante" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombreprestamo" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="6" splitType="Stretch"/>
+	</title>
+	<summary>
+		<band height="212" splitType="Stretch">
+			<crosstab>
+				<reportElement x="0" y="0" width="555" height="212" uuid="a1cb2ccb-a301-4906-9105-075e71ef0909"/>
+				<rowGroup name="origen" width="70" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{origen}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents backcolor="#F0F8FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="70" height="25" uuid="a256202e-ee14-4dd7-a15e-38dd54f70bed"/>
+								<textElement>
+									<font fontName="Arial" size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{origen}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents backcolor="#005FB3" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<staticText>
+								<reportElement x="0" y="0" width="140" height="25" forecolor="#FFFFFF" uuid="a2d0439f-3c2d-4582-9179-625e9798fcd8"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" size="8"/>
+								</textElement>
+								<text><![CDATA[Total origen]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<rowGroup name="nombreprestamo" width="70" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{nombreprestamo}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents backcolor="#F0F8FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="70" height="25" uuid="c878f8f2-5796-4974-93da-5f27d2d554fc"/>
+								<textElement>
+									<font fontName="Arial" size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{nombreprestamo}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents backcolor="#BFE1FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<staticText>
+								<reportElement x="0" y="0" width="70" height="25" uuid="34e765d6-55d9-485c-ac7d-23433e8ebffb"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" size="8"/>
+								</textElement>
+								<text><![CDATA[Total nombreprestamo]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="origen1" height="30" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{origen}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents backcolor="#F0F8FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="30" uuid="991086c8-97b0-47a5-9af2-46608a5b6a2e"/>
+								<textElement>
+									<font fontName="Arial" size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{origen1}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents backcolor="#005FB3" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="60" forecolor="#FFFFFF" uuid="8edac484-13df-41b6-bfc9-20b7789cfee0"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" size="8"/>
+								</textElement>
+								<text><![CDATA[Total origen1]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<columnGroup name="nombreprestamo1" height="30" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{nombreprestamo}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents backcolor="#F0F8FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="30" uuid="a0d46406-636b-4194-905c-f55e457364f4"/>
+								<textElement>
+									<font fontName="Arial" size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{nombreprestamo1}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents backcolor="#BFE1FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="30" uuid="9432712a-50ec-4712-9ca2-b9b72a315d46"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" size="8"/>
+								</textElement>
+								<text><![CDATA[Total nombreprestamo1]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="origenMeasure" class="java.lang.Integer" calculation="Count">
+					<measureExpression><![CDATA[$F{origen}]]></measureExpression>
+				</measure>
+				<crosstabCell width="50" height="25">
+					<cellContents>
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" uuid="46db2841-d32e-480a-b08c-1f3624bb7bd7"/>
+							<textElement>
+								<font fontName="Arial" size="8"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{origenMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell height="25" rowTotalGroup="origen">
+					<cellContents backcolor="#005FB3" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" forecolor="#FFFFFF" uuid="290b6045-a115-494d-a8d9-0ac02b52cbca"/>
+							<textElement>
+								<font fontName="Arial" size="8"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{origenMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="50" columnTotalGroup="origen1">
+					<cellContents backcolor="#005FB3" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" forecolor="#FFFFFF" uuid="55e2378d-7bd1-4724-b0eb-9d7f81f84a0f"/>
+							<textElement>
+								<font fontName="Arial" size="8"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{origenMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell rowTotalGroup="origen" columnTotalGroup="origen1">
+					<cellContents backcolor="#005FB3" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" forecolor="#FFFFFF" uuid="ea466e8b-d420-4e09-9a7e-d0c5bc48181b"/>
+							<textElement>
+								<font fontName="Arial" size="8"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{origenMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="50" columnTotalGroup="nombreprestamo1">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" uuid="1fd60701-d6d1-46c1-b388-d10b194d106b"/>
+							<textElement>
+								<font fontName="Arial" size="8"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{origenMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell rowTotalGroup="origen" columnTotalGroup="nombreprestamo1">
+					<cellContents backcolor="#005FB3" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" forecolor="#FFFFFF" uuid="0f3d7fe6-52a5-4077-b70a-cb02db770585"/>
+							<textElement>
+								<font fontName="Arial" size="8"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{origenMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell height="25" rowTotalGroup="nombreprestamo">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" uuid="17dbaeab-56b5-47ac-8e16-e465872ad150"/>
+							<textElement>
+								<font fontName="Arial" size="8"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{origenMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell rowTotalGroup="nombreprestamo" columnTotalGroup="origen1">
+					<cellContents backcolor="#005FB3" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" forecolor="#FFFFFF" uuid="0acb8736-4363-4c30-acf5-f85a6ee113f1"/>
+							<textElement>
+								<font fontName="Arial" size="8"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{origenMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell rowTotalGroup="nombreprestamo" columnTotalGroup="nombreprestamo1">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" uuid="4fd42cd6-342d-492b-92a6-f1a94aff000e"/>
+							<textElement>
+								<font fontName="Arial" size="8"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{origenMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+			</crosstab>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rescisiones" pageWidth="612" pageHeight="1008" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="15724193-b574-49f8-865b-f4df501516b8">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="156"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Sistemas\\EvolutionII\\EvolutionII\\src\\Reports\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="cReferencia" class="java.lang.String"/>
+	<parameter name="Letra" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT detalle_rescisiones.nrofactura,rescisiones.numero,rescisiones.totalpago,rescisiones.cliente,
+clientes.nombre AS clientenombre,rescisiones.observacion,
+clientes.ruc AS clienteruc,detalle_rescisiones.cuota, detalle_rescisiones.numerocuota,comprobantes.codigo,comprobantes.nombre,detalle_rescisiones.comprobante,
+DAY(rescisiones.fecha) AS dia,
+CASE MONTH(rescisiones.fecha)
+  WHEN 1 THEN 'Enero'
+  WHEN 2 THEN 'Febrero'
+  WHEN 3 THEN 'Marzo'
+  WHEN 4 THEN 'Abril'
+  WHEN 5 THEN 'Mayo'
+  WHEN 6 THEN 'Junio'
+  WHEN 7 THEN 'Julio'
+  WHEN 8 THEN 'Agosto'
+  WHEN 9 THEN 'Setiembre'
+  WHEN 10 THEN 'Octubre'
+  WHEN 11 THEN 'Noviembre'
+  WHEN 12 THEN 'Diciembre'
+END AS nombremes,
+YEAR(rescisiones.fecha) AS periodo
+FROM rescisiones
+LEFT JOIN clientes
+ON clientes.codigo=rescisiones.cliente
+LEFT JOIN detalle_rescisiones
+ON detalle_rescisiones.iddetalle=rescisiones.idpagos
+LEFT JOIN comprobantes
+ON comprobantes.codigo=detalle_rescisiones.comprobante
+WHERE rescisiones.idpagos=$P{cReferencia}
+GROUP BY detalle_rescisiones.nrofactura
+
+]]>
+	</queryString>
+	<field name="nrofactura" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="numero" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="totalpago" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cliente" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="clientenombre" class="java.lang.String"/>
+	<field name="observacion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="clienteruc" class="java.lang.String"/>
+	<field name="cuota" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="numerocuota" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="codigo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="comprobante" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="dia" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombremes" class="java.lang.String"/>
+	<field name="periodo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="28" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="894" splitType="Stretch">
+			<staticText>
+				<reportElement x="30" y="22" width="533" height="14" uuid="2d8cb64e-a9a8-44e0-a42f-7287efe46af5"/>
+				<textElement>
+					<font fontName="Copperplate Gothic Bold" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ASOCIACIÓN MUTUAL DE EMPLEADOS DE FARMACÉUTICA PARAGUAYA S.A.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="31" y="39" width="214" height="19" uuid="46eced9f-3a70-4f1e-aa94-069c4e105580"/>
+				<textElement>
+					<font fontName="Copperplate Gothic Bold" size="8"/>
+				</textElement>
+				<text><![CDATA[PERSONERÍA JURÍDICA Dcto. Nº 11 698/85 DIRECCIÓN: Del CARMEN 2400 esq. LAPACHO ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="31" y="59" width="214" height="11" uuid="05f670f9-c3e6-4a49-8356-5ef3db479bfe"/>
+				<textElement>
+					<font fontName="Copperplate Gothic Bold" size="8"/>
+				</textElement>
+				<text><![CDATA[E-MAIL: ASOCIACION.FAPASA@FAPASA.COM.Py ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="31" y="71" width="114" height="10" uuid="80b80cc8-bdb3-4906-a19a-ccb4b93351b1"/>
+				<textElement>
+					<font fontName="Copperplate Gothic Bold" size="8"/>
+				</textElement>
+				<text><![CDATA[Teléfono: 0992 400 600]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="31" y="82" width="244" height="10" uuid="39b60143-455b-4da4-8e48-435fc4d4c0e1"/>
+				<textElement>
+					<font fontName="Copperplate Gothic Bold" size="8"/>
+				</textElement>
+				<text><![CDATA[FERNANDO DE LA MORA, ZONA NORTe - PARAGUAy ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="31" y="92" width="85" height="10" uuid="8c7479fe-5bd4-4ae2-8686-f8984b2ad79b"/>
+				<textElement>
+					<font fontName="Copperplate Gothic Bold" size="8"/>
+				</textElement>
+				<text><![CDATA[RUC.: 80033305-5]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="167" y="118" width="196" height="15" uuid="1082c86a-701c-4dcc-8751-52d40d030c37"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Rescisión]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="371" y="116" width="197" height="20" uuid="5a2e5ba6-bb48-4811-88b7-99cf44874f0a"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="100" y="164" width="467" height="20" uuid="ebae5fac-d0a9-4e60-849f-53f3ec9642ad"/>
+			</rectangle>
+			<textField pattern="#,##0.00">
+				<reportElement x="406" y="118" width="142" height="15" uuid="de5b1e56-fa93-4f48-935e-c203fea91e21"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalpago}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="103" y="166" width="436" height="15" uuid="4165686c-4370-4f11-a68c-0bd2de282f30"/>
+				<textElement>
+					<font fontName="Arial" size="10" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Letra}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="525" y="40" width="58" height="53" uuid="23affabc-b280-4a8a-9ec5-c83b26cafcfd"/>
+				<imageExpression><![CDATA["C:\\Sistemas\\EvolutionII\\EvolutionII\\src\\Images\\fapasa_logo.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="90" y="150" width="279" height="10" uuid="e01bdb5a-ba8a-4c73-8e49-690e190f6873"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[-----------------------------------------------------------------------------------------------------------]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="142" width="60" height="16" uuid="9ab47b6c-87e2-4a3b-aacb-f6b308995b35"/>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[Rescisión de]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="92" y="142" width="275" height="12" uuid="6fd55cb3-986d-4a15-8085-71c0821c2550"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{clientenombre}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="415" y="142" width="33" height="16" uuid="17e8d0e0-4c57-4872-bd67-6f022685fe1c"/>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[R.U.C.:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="448" y="150" width="92" height="10" uuid="9bdd300e-1ba2-4477-9caa-6a43249baf91"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[---------------------------------------------------------------------------------]]></text>
+			</staticText>
+			<textField pattern="#,##0">
+				<reportElement x="457" y="142" width="83" height="12" uuid="bc762492-b445-481d-9870-a880088afe48"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{clienteruc}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="30" y="166" width="66" height="16" uuid="75b4ea01-eb42-428f-9df8-77991587e651"/>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[Total Importe]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="29" y="193" width="170" height="16" uuid="563965da-90a0-41ba-bb91-11b4e396ae4e"/>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[Por Rescisíón de la(s) factura(s) Nº:  ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="201" y="200" width="366" height="10" uuid="42c5ce4e-484a-4d1a-8b95-15f7c18446aa"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[------------------------------------------------------------------------------------------------------------------------------------------]]></text>
+			</staticText>
+			<textField pattern="#,##0">
+				<reportElement x="213" y="194" width="150" height="12" uuid="f3dd8b3b-edec-4b22-8f14-f6b9e591fc77"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nrofactura}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="29" y="217" width="55" height="12" uuid="41c14c5c-3182-47e9-b47f-ed9fd53cac35"/>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[Motivo:  ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="88" y="221" width="475" height="10" uuid="61ded4d8-0c3f-424f-8462-83f71f6124a8"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="396" y="239" width="34" height="12" uuid="9cc6561f-110a-4b7a-8c38-7f20434d3e74"/>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="432" y="239" width="132" height="12" uuid="6941c93b-029d-4b8f-b55f-0c30e5fc6c11"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[+$F{dia}+" / "+$F{nombremes}+" / "+$F{periodo}+"."]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="439" y="339" width="89" height="12" uuid="5cedb98e-7742-4509-8a1a-c262d3db24f9"/>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[Firma Funcionario]]></text>
+			</staticText>
+			<line>
+				<reportElement x="407" y="336" width="151" height="1" uuid="4d59878e-4f03-4026-8d82-45e96c398b02"/>
+			</line>
+			<textField>
+				<reportElement x="294" y="77" width="208" height="16" uuid="e050e381-8d6f-4dc3-8235-524f686a47b6"/>
+				<textElement>
+					<font fontName="Arial" size="13" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["RESCISIÓN N° "+$F{numero}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="87" y="213" width="476" height="12" uuid="be29f41f-f629-4449-a6e1-afb4a462ca03"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{observacion}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="3" splitType="Stretch"/>
+	</columnFooter>
+</jasperReport>

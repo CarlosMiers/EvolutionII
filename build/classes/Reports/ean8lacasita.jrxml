@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ean8lacasita" pageWidth="155" pageHeight="85" columnWidth="127" leftMargin="14" rightMargin="14" topMargin="14" bottomMargin="14" uuid="d942ebcb-5249-4950-9391-4bfc8160d7d3">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="cCodigo" class="java.lang.String"/>
+	<parameter name="vencimiento" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[select codigobarra,nombre,precio_maximo
+from productos
+WHERE codigo=$P{cCodigo}]]>
+	</queryString>
+	<field name="codigobarra" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="precio_maximo" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<detail>
+		<band height="57" splitType="Stretch">
+			<componentElement>
+				<reportElement x="0" y="23" width="72" height="34" uuid="772c8d53-1b7c-43e3-b676-0592f090042e"/>
+				<jr:EAN8 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" textPosition="bottom">
+					<jr:codeExpression><![CDATA[$F{codigobarra}]]></jr:codeExpression>
+				</jr:EAN8>
+			</componentElement>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="87" y="46" width="40" height="9" uuid="b826b536-1734-4702-ab17-bd88510c29ab"/>
+				<textElement>
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{vencimiento}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="87" y="29" width="40" height="9" uuid="b7ad2978-7658-494e-982d-a9f8e6a7bdbd"/>
+				<textElement>
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{precio_maximo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="127" height="9" uuid="be2cd9dc-79c6-4b94-aec7-2554e81fcc0c"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[La Casita Gourmet - Tel 021- 623750]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="9" width="127" height="9" uuid="19420bab-0173-4ee5-a4bb-fa875c3ff1d7"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="87" y="20" width="36" height="6" uuid="2f532054-3717-4bb5-adae-f5e8019ab17d"/>
+				<textElement>
+					<font fontName="Arial" size="5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Precio Gs.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="87" y="39" width="36" height="6" uuid="18ae124c-5c95-4c36-b2db-cabca2bc3f65"/>
+				<textElement>
+					<font fontName="Arial" size="5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Vencimiento]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

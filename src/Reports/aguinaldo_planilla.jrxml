@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="aguinaldo_planilla" printOrder="Horizontal" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="15626d40-29b7-4762-96d3-f22a87d7f738">
+	<property name="ireport.zoom" value="1.9487171000000019"/>
+	<property name="ireport.x" value="353"/>
+	<property name="ireport.y" value="37"/>
+	<property name="ireport.callouts" value="##Thu Nov 17 10:45:59 PYST 2016"/>
+	<parameter name="cNombreEmpresa" class="java.lang.String"/>
+	<parameter name="Giraduria" class="java.lang.String"/>
+	<parameter name="Periodo" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT planilla_aguinaldos.idnumero,planilla_aguinaldos.mes,
+planilla_aguinaldos.periodo,planilla_aguinaldos.sucursal,
+planilla_aguinaldos.giraduria,planilla_aguinaldos.funcionario,
+planilla_aguinaldos.salario_bruto,planilla_aguinaldos.aguinaldo,
+sucursales.nombre AS nombresucursal,CONCAT(empleados.nombres,', ',empleados.apellidos)
+AS nombreempleado,empleados.cedula,giradurias.nombre AS nombregiraduria,
+COALESCE(an.anticipo,0) AS anticipo
+FROM empleados emple
+LEFT JOIN (SELECT anticipo_aguinaldos.funcionario, SUM(anticipo_aguinaldos.importe) AS anticipo
+                    FROM anticipo_aguinaldos
+                    WHERE YEAR(anticipo_aguinaldos.fecha)=$P{Periodo}
+                    GROUP BY anticipo_aguinaldos.funcionario) an ON an.funcionario=emple.codigo
+LEFT JOIN planilla_aguinaldos
+ON planilla_aguinaldos.funcionario=emple.codigo
+INNER JOIN sucursales
+ON sucursales.codigo=planilla_aguinaldos.sucursal
+INNER JOIN empleados
+ON empleados.codigo=planilla_aguinaldos.funcionario
+INNER JOIN giradurias ON giradurias.codigo=planilla_aguinaldos.giraduria
+WHERE planilla_aguinaldos.periodo= $P{Periodo}
+AND planilla_aguinaldos.giraduria= $P{Giraduria}
+ORDER BY giradurias.codigo,planilla_aguinaldos.funcionario]]>
+	</queryString>
+	<field name="idnumero" class="java.lang.Float">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="mes" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="periodo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="sucursal" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="giraduria" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="funcionario" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="salario_bruto" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="aguinaldo" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombresucursal" class="java.lang.String"/>
+	<field name="nombreempleado" class="java.lang.String"/>
+	<field name="cedula" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombregiraduria" class="java.lang.String"/>
+	<field name="anticipo" class="java.math.BigDecimal"/>
+	<variable name="salariobase_3" class="java.math.BigDecimal" resetType="Group" resetGroup="Sucursal" calculation="Sum">
+		<variableExpression><![CDATA[$F{salario_bruto}]]></variableExpression>
+	</variable>
+	<variable name="salariobase_4" class="java.math.BigDecimal" resetType="Group" resetGroup="giraduria" calculation="Sum">
+		<variableExpression><![CDATA[$F{salario_bruto}]]></variableExpression>
+	</variable>
+	<variable name="adicionalformacion_3" class="java.math.BigDecimal" resetType="Group" resetGroup="Sucursal" calculation="Sum">
+		<variableExpression><![CDATA[$F{aguinaldo}]]></variableExpression>
+	</variable>
+	<variable name="adicionalformacion_4" class="java.math.BigDecimal" resetType="Group" resetGroup="giraduria" calculation="Sum">
+		<variableExpression><![CDATA[$F{aguinaldo}]]></variableExpression>
+	</variable>
+	<variable name="anticipo_1" class="java.math.BigDecimal" resetType="Group" resetGroup="Sucursal" calculation="Sum">
+		<variableExpression><![CDATA[$F{anticipo}]]></variableExpression>
+	</variable>
+	<variable name="anticipo_2" class="java.math.BigDecimal" resetType="Group" resetGroup="giraduria" calculation="Sum">
+		<variableExpression><![CDATA[$F{anticipo}]]></variableExpression>
+	</variable>
+	<group name="giraduria" isReprintHeaderOnEachPage="true">
+		<groupExpression><![CDATA[$F{giraduria}]]></groupExpression>
+		<groupHeader>
+			<band height="16">
+				<textField>
+					<reportElement x="48" y="3" width="154" height="12" uuid="03f89c81-4827-4c5b-8339-54327d01b389"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Giraduría "+$F{nombregiraduria}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="17">
+				<rectangle>
+					<reportElement x="-30" y="1" width="585" height="14" uuid="f18b7066-ba25-4a0f-8394-7c24083aafd2"/>
+				</rectangle>
+				<textField>
+					<reportElement x="44" y="3" width="150" height="12" uuid="8f976174-89f1-4938-8c12-cfdc49d534d2"/>
+					<textElement>
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Total Giraduría "+$F{nombregiraduria}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0">
+					<reportElement x="286" y="4" width="43" height="10" uuid="2187f544-fecf-4230-91a0-837b4b5de2cb"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{salariobase_4}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0">
+					<reportElement x="349" y="2" width="43" height="10" uuid="1c2656f1-c3e0-4d95-a965-30b01058d7da"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{adicionalformacion_4}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0">
+					<reportElement x="421" y="3" width="47" height="11" uuid="cc3d1bdd-4347-4864-93c4-76f8ed92ec16"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{anticipo_2}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0">
+					<reportElement x="481" y="2" width="43" height="10" uuid="7875e341-3af9-4c00-b616-1aa18370d179"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new Double($V{adicionalformacion_4}.doubleValue()-$V{anticipo_2}.doubleValue())]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="Sucursal" isReprintHeaderOnEachPage="true">
+		<groupExpression><![CDATA[$F{sucursal}]]></groupExpression>
+		<groupHeader>
+			<band height="48">
+				<textField>
+					<reportElement x="110" y="10" width="209" height="12" uuid="2bbbbb0c-e096-47c3-bddb-c08117a88e1d"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Sucursal "+$F{nombresucursal}]]></textFieldExpression>
+				</textField>
+				<rectangle>
+					<reportElement x="2" y="25" width="553" height="20" uuid="7495de9f-32e4-436a-91fc-74ac1dfa69f2"/>
+				</rectangle>
+				<staticText>
+					<reportElement x="11" y="30" width="46" height="10" uuid="318ea5eb-ff89-4301-9c1c-4723a8bd6dca"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[N° Cédula]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="77" y="30" width="205" height="10" uuid="8a86023a-e4c9-4a27-a43d-06fb8431d8fb"/>
+					<textElement>
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Nombres y Apellidos}]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="263" y="30" width="66" height="10" uuid="e2442bc7-a67b-4aee-acfe-af8a72c84d18"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Salario Total]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="349" y="30" width="43" height="10" uuid="5145b3dd-287f-4461-a86d-c8ebe26e2588"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Aguinaldo]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="413" y="30" width="43" height="10" uuid="148caf60-73f1-49b6-94ed-cd793d373ef1"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Anticipos]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="481" y="30" width="43" height="10" uuid="226e48a8-e7cc-48c4-831b-77c09780e540"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Saldo]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="19">
+				<rectangle>
+					<reportElement x="-30" y="3" width="585" height="14" uuid="8a3026e9-813e-4474-8d0e-c2dca1d0dc37"/>
+				</rectangle>
+				<textField>
+					<reportElement x="110" y="5" width="153" height="12" uuid="56f83ed6-22f7-4e22-bbd8-147ca9c4cce4"/>
+					<textElement>
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Total Sucursal "+$F{nombresucursal}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0">
+					<reportElement x="286" y="5" width="43" height="10" uuid="b27b9074-be67-4683-82df-3390e6391e3d"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{salariobase_3}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0">
+					<reportElement x="349" y="4" width="43" height="10" uuid="33600fb5-c6f3-4254-a1ab-ceff9f9ed57f"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{adicionalformacion_3}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0">
+					<reportElement x="416" y="5" width="52" height="9" uuid="aefef6da-b416-47ac-995e-d387020d9bde"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{anticipo_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0">
+					<reportElement x="481" y="4" width="43" height="10" uuid="5ceff5b7-2b6d-40d0-86b7-0ca4421aa9a8"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new Double($V{adicionalformacion_3}.doubleValue()-$V{anticipo_1}.doubleValue())]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="1" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="58" splitType="Stretch">
+			<staticText>
+				<reportElement x="6" y="22" width="217" height="16" uuid="6424ab76-6b26-4d79-be16-90e35d6e32fd"/>
+				<textElement textAlignment="Justified">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Planilla de Aguinaldos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="42" width="50" height="12" uuid="65abc5c2-8d96-4a6d-89a8-4955c0b5e7db"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Período]]></text>
+			</staticText>
+			<textField pattern="#,##0">
+				<reportElement x="61" y="42" width="49" height="13" uuid="3c437ac8-29d4-4e5a-bdb3-600024f4fcfd"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{periodo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="263" y="4" width="150" height="15" uuid="c2e40999-203c-4757-a790-8c09fc18a984"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de "]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="428" y="4" width="40" height="15" uuid="b86a8325-228c-4937-bf18-d543b25a630f"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="d/M/yyyy">
+				<reportElement x="397" y="38" width="45" height="12" uuid="cb54d0a4-8574-4115-a254-dffeadeeb5d0"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="286" y="38" width="99" height="11" uuid="b3b43964-0394-474d-bd51-f0b343f70447"/>
+				<textElement>
+					<font fontName="Arial" size="8" isUnderline="false" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[FECHA DE IMPRESIÓN:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="7" y="4" width="221" height="15" uuid="da1c1c40-7e27-4edf-96fb-906fc6cdbb9b"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cNombreEmpresa}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="12" splitType="Stretch">
+			<textField>
+				<reportElement x="4" y="1" width="53" height="10" uuid="14daa29d-f985-459c-874b-24fee4a5ea4e"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cedula}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="77" y="1" width="205" height="10" uuid="f1b50fbc-a93c-4128-8fc1-d021d98a5205"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombreempleado}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="286" y="2" width="43" height="10" uuid="818741b6-7765-430e-bd2c-fd4e79d49da2"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{salario_bruto}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="349" y="1" width="43" height="10" uuid="a0e7b0ff-426e-4e9e-9852-d463b8e6a57e"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{aguinaldo}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="413" y="1" width="55" height="10" uuid="f5b412be-b60f-4689-b6f7-567e6e2cdabc"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{anticipo}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="481" y="2" width="43" height="10" uuid="c03a0ad4-d96a-41b8-ad3e-7d97bc2e3dfe"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new Double($F{aguinaldo}.doubleValue()-$F{anticipo}.doubleValue())]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="11" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="11" splitType="Stretch"/>
+	</pageFooter>
+</jasperReport>

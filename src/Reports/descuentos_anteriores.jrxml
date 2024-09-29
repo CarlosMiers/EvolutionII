@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="descuentos_anteriores" printOrder="Horizontal" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="15626d40-29b7-4762-96d3-f22a87d7f738">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.callouts" value="##Thu Nov 17 10:45:59 PYST 2016"/>
+	<parameter name="cCliente" class="java.lang.String"/>
+	<parameter name="FechaI" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[SELECT YEAR(fecha_cobro)AS anio,MONTH(fecha_cobro) AS mes,SUM(enviado) AS tenviado,
+CURDATE()-fecha_cobro AS dias,
+SUM(cobrado) AS tcobrado,
+SUM(enviado-cobrado) AS tsaldo,
+CASE MONTH(fecha_cobro)
+WHEN 1 THEN 'ENE'
+WHEN 2 THEN 'FEB'
+WHEN 3 THEN 'MAR'
+WHEN 4 THEN 'ABR'
+WHEN 5 THEN 'MAY'
+WHEN 6 THEN 'JUN'
+WHEN 7 THEN 'JUL'
+WHEN 8 THEN 'AGO'
+WHEN 9 THEN 'SET'
+WHEN 10 THEN 'OCT'
+WHEN 11 THEN 'NOV'
+WHEN 12 THEN 'DIC'
+END AS nombremes
+FROM cierre_cobranzas
+WHERE fecha_cobro<=$P{FechaI}
+AND cliente=$P{cCliente}
+GROUP BY anio,mes
+ORDER BY dias  LIMIT 6]]>
+	</queryString>
+	<field name="anio" class="java.lang.Integer"/>
+	<field name="mes" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tenviado" class="java.math.BigDecimal"/>
+	<field name="dias" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tcobrado" class="java.math.BigDecimal"/>
+	<field name="tsaldo" class="java.math.BigDecimal"/>
+	<field name="nombremes" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="19" splitType="Stretch">
+			<staticText>
+				<reportElement x="4" y="5" width="206" height="12" uuid="05ba3b5a-5f37-4857-b9e5-7ec7dab560e0"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descuentos Anteriores]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement x="4" y="2" width="210" height="16" uuid="f1e34168-15bc-4305-87f2-4733c4f35253"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="4" y="5" width="28" height="12" uuid="7906dc50-838f-4b8a-b46b-80b8d2b61b1e"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Año]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="47" y="5" width="21" height="12" uuid="a2faf2ab-3e56-4913-a6d8-6772cae14734"/>
+				<textElement>
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Mes]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="81" y="5" width="41" height="12" uuid="0c315d29-e2f4-4e16-a650-3d9953b4287b"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Enviado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="128" y="5" width="41" height="12" uuid="b6a34d27-3103-4dd0-b36c-0063b528857a"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cobrado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="169" y="5" width="41" height="12" uuid="66c696f4-c062-4cab-9d5d-5a3559aa3185"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Rebotado]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="13" splitType="Stretch">
+			<textField>
+				<reportElement x="4" y="1" width="28" height="11" uuid="d4c057e5-fc4c-4a1b-83ca-2d7772a15948"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{anio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="79" y="1" width="43" height="11" uuid="dd5994b8-80db-4261-8b46-196aacafae45"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tenviado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="45" y="1" width="23" height="11" uuid="8fdcf141-3235-4646-b939-e3deccfcd760"/>
+				<textElement>
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombremes}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="126" y="1" width="43" height="11" uuid="f18bf011-eb91-4705-9aee-fbe818fe7ea5"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tcobrado}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="171" y="1" width="43" height="11" uuid="26ffd861-3e6f-4792-9340-0c61e70d4ae6"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tsaldo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="3" splitType="Stretch"/>
+	</columnFooter>
+	<summary>
+		<band height="8">
+			<line>
+				<reportElement x="4" y="1" width="210" height="1" uuid="f393f800-e4a6-442f-a36d-a1e67e81bb20"/>
+			</line>
+		</band>
+	</summary>
+</jasperReport>

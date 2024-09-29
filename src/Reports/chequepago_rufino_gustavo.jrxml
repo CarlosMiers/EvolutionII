@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="chequepago_rufino_gustavo" pageWidth="680" pageHeight="212" columnWidth="640" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6034848f-e095-4fb9-a25c-057dfebd9eaf">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="180"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="IdPagos" class="java.lang.String"/>
+	<parameter name="cLetra" class="java.lang.String"/>
+	<parameter name="cCheque" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT pagos.numero,pagos.recibo,pagos.fecha,pagos.observacion,proveedores.nombre AS nombrebeneficiario,
+detalle_forma_pago.nrocheque,detalle_forma_pago.banco,detalle_forma_pago.netocobrado,
+detalle_forma_pago.confirmacion,
+DAY(pagos.fecha) AS diaemision,
+MONTH(pagos.fecha) AS mesemision,
+CONVERT(SUBSTR(DATE_FORMAT(pagos.fecha, '%Y'),3,2),DECIMAL) AS anoemision,
+DAY(detalle_forma_pago.confirmacion) AS diavence,
+MONTH(detalle_forma_pago.confirmacion) AS mesvence,
+SUBSTR(DATE_FORMAT(detalle_forma_pago.confirmacion, '%Y'),3,2) AS periodovence
+FROM pagos
+LEFT JOIN proveedores
+ON proveedores.codigo=pagos.proveedor
+LEFT JOIN detalle_forma_pago
+ON detalle_forma_pago.idmovimiento=pagos.idpagos
+WHERE pagos.idpagos=$P{IdPagos}
+AND detalle_forma_pago.nrocheque=$P{cCheque}
+ORDER BY detalle_forma_pago.nrocheque]]>
+	</queryString>
+	<field name="numero" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="recibo" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="observacion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombrebeneficiario" class="java.lang.String"/>
+	<field name="nrocheque" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="banco" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="netocobrado" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="confirmacion" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="diaemision" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="mesemision" class="java.lang.Long"/>
+	<field name="anoemision" class="java.math.BigDecimal"/>
+	<field name="diavence" class="java.lang.Long"/>
+	<field name="mesvence" class="java.lang.Long"/>
+	<field name="periodovence" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="146" splitType="Stretch">
+			<textField>
+				<reportElement x="195" y="54" width="342" height="16" uuid="2ccc4125-c78e-4b29-87b8-0e84a1fe659a"/>
+				<textElement>
+					<font fontName="Courier New" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombrebeneficiario}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="393" y="-1" width="134" height="15" uuid="31d4da17-6663-4fc1-bac0-28a41f2ce11a"/>
+				<textElement textAlignment="Right">
+					<font fontName="Courier New" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{netocobrado}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement x="328" y="22" width="18" height="14" uuid="a4c18f70-c8d7-473d-95ca-7271ca30bdee"/>
+				<textElement textAlignment="Center">
+					<font fontName="Courier New" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{diaemision}.toString()]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement x="360" y="22" width="24" height="14" uuid="e36901a7-b006-4074-b4c6-e581f7f3498c"/>
+				<textElement textAlignment="Center">
+					<font fontName="Courier New" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{mesemision}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement x="476" y="22" width="17" height="14" uuid="e99e75cf-dea9-437b-90bf-c76bbaf23f5f"/>
+				<textElement textAlignment="Center">
+					<font fontName="Courier New" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{diavence}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement x="507" y="22" width="20" height="14" uuid="2610e582-9c71-47a4-9612-be510afb78a9"/>
+				<textElement textAlignment="Center">
+					<font fontName="Courier New" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{mesvence}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement x="552" y="22" width="20" height="14" uuid="aa3ad777-ae78-4532-b144-9286f012ca6b"/>
+				<textElement>
+					<font fontName="Courier New" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{periodovence}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="195" y="72" width="360" height="52" uuid="3ec4f24b-665b-453f-b01a-a1ed896366bb"/>
+				<textElement>
+					<font fontName="Courier New" size="12" isBold="true"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cLetra}+"------"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="53" width="65" height="34" uuid="20bdda37-1fe3-4db3-9dab-3460dfe82878"/>
+				<textElement>
+					<font fontName="DialogInput"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{observacion}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="1" y="132" width="65" height="14" uuid="e2ed7f82-e564-4801-8b53-6b6485a5711a"/>
+				<textElement>
+					<font fontName="Courier New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{netocobrado}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="0" y="24" width="65" height="13" uuid="67b4249f-5de9-4351-bcb9-5075ce3cf199"/>
+				<textElement>
+					<font fontName="Courier New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="1" y="11" width="65" height="13" uuid="d5c3f330-52b1-408a-977e-e6011e22ca69"/>
+				<textElement>
+					<font fontName="Courier New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{confirmacion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1" y="89" width="64" height="34" uuid="9bbdc01a-fe7c-4713-8bf7-8a7d2c1fb037"/>
+				<textElement>
+					<font fontName="DialogInput"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombrebeneficiario}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement x="408" y="23" width="20" height="14" uuid="09d39618-8551-4286-95bd-61c4661acbb5"/>
+				<textElement>
+					<font fontName="Courier New" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{anoemision}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="26" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+</jasperReport>

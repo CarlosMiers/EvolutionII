@@ -1,0 +1,107 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Modelo;
+
+import java.math.BigDecimal;
+import java.sql.Date;
+
+/**
+ *
+ * @author Pc_Server
+ */
+public class anticipo {
+
+    double idcontrol;
+    Date fecha;
+    ficha_empleado funcionario;
+    BigDecimal importe;
+    Date fechagrabado;
+    int idusuario;
+    int giraduria;
+    int cierre;
+
+    public anticipo() {
+
+    }
+
+    public anticipo(double idcontrol, Date fecha, ficha_empleado funcionario, BigDecimal importe, Date fechagrabado, int idusuario, int giraduria, int cierre) {
+        this.idcontrol = idcontrol;
+        this.fecha = fecha;
+        this.funcionario = funcionario;
+        this.importe = importe;
+        this.fechagrabado = fechagrabado;
+        this.idusuario = idusuario;
+        this.giraduria = giraduria;
+        this.cierre = cierre;
+    }
+
+    public double getIdcontrol() {
+        return idcontrol;
+    }
+
+    public void setIdcontrol(double idcontrol) {
+        this.idcontrol = idcontrol;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
+    public ficha_empleado getFuncionario() {
+        return funcionario;
+    }
+
+    public void setFuncionario(ficha_empleado funcionario) {
+        this.funcionario = funcionario;
+    }
+
+    public BigDecimal getImporte() {
+        return importe;
+    }
+
+    public void setImporte(BigDecimal importe) {
+        this.importe = importe;
+    }
+
+    public Date getFechagrabado() {
+        return fechagrabado;
+    }
+
+    public void setFechagrabado(Date fechagrabado) {
+        this.fechagrabado = fechagrabado;
+    }
+
+    public int getIdusuario() {
+        return idusuario;
+    }
+
+    public void setIdusuario(int idusuario) {
+        this.idusuario = idusuario;
+    }
+
+    public int getGiraduria() {
+        return giraduria;
+    }
+
+    public void setGiraduria(int giraduria) {
+        this.giraduria = giraduria;
+    }
+
+    public int getCierre() {
+        return cierre;
+    }
+
+    public void setCierre(int cierre) {
+        this.cierre = cierre;
+    }
+
+
+
+}

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="pagares_credi_efectivo_ocredito" pageWidth="578" pageHeight="495" orientation="Landscape" columnWidth="538" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c3ad0422-6852-49df-b1da-173322e3e884">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="121"/>
+	<import value="Sistemas.EvolutionII.EvolutionII.src.Reports.jasper.*"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="Letra" class="java.lang.String"/>
+	<parameter name="nNumeroPrestamo" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT ordenes_de_credito.numero,ordenes_de_credito.socio,clientes.nombre,ordenes_de_credito.importe AS totalprestamo,
+ordenes_de_credito.importe AS montopagare,clientes.nombre,clientes.direccion,clientes.telefono,clientes.ruc,
+ordenes_de_credito.plazo,
+ ordenes_de_credito.monto_cuota,
+DAY(ordenes_de_credito.fecha) AS dia,
+CASE MONTH(ordenes_de_credito.fecha)
+  WHEN 1 THEN 'Enero'
+  WHEN 2 THEN 'Febrero'
+  WHEN 3 THEN 'Marzo'
+  WHEN 4 THEN 'Abril'
+  WHEN 5 THEN 'Mayo'
+  WHEN 6 THEN 'Junio'
+  WHEN 7 THEN 'Julio'
+  WHEN 8 THEN 'Agosto'
+  WHEN 9 THEN 'Setiembre'
+  WHEN 10 THEN 'Octubre'
+  WHEN 11 THEN 'Noviembre'
+  WHEN 12 THEN 'Diciembre'
+END AS nombremes,YEAR(ordenes_de_credito.fecha) AS periodo
+FROM ordenes_de_credito
+INNER JOIN clientes
+ON clientes.codigo=ordenes_de_credito.socio
+WHERE ordenes_de_credito.numero=$P{nNumeroPrestamo}
+ORDER BY ordenes_de_credito.numero]]>
+	</queryString>
+	<field name="numero" class="java.lang.Float">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="socio" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="totalprestamo" class="java.math.BigDecimal"/>
+	<field name="montopagare" class="java.math.BigDecimal"/>
+	<field name="direccion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="telefono" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ruc" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="plazo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="monto_cuota" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="dia" class="java.lang.Long"/>
+	<field name="nombremes" class="java.lang.String"/>
+	<field name="periodo" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="143">
+			<textField pattern="#,##0">
+				<reportElement x="66" y="63" width="92" height="21" uuid="1988fed8-b672-4354-806e-1663dc7549e6"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Lucida Sans" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalprestamo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="223" y="115" width="86" height="21" uuid="4082d428-c1ef-4b6b-9b62-5edb1b629e0c"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Meiryo UI" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Asunción,  "+$F{dia}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="350" y="64" width="87" height="21" uuid="c97e7f90-3c41-47d2-96eb-8d60f1bd4e10"/>
+				<textElement textAlignment="Right">
+					<font fontName="Lucida Sans" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numero}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="463" y="116" width="45" height="21" uuid="b68c635a-b9fe-4e0d-92c3-4cded0a78e95"/>
+				<textElement textAlignment="Right">
+					<font fontName="Meiryo UI" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{periodo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="370" y="116" width="74" height="21" uuid="a5de6809-e88e-43de-955c-08f10f5a8e92"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Meiryo UI" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombremes}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="254" splitType="Stretch">
+			<textField>
+				<reportElement x="98" y="217" width="325" height="14" uuid="356ff44e-4c57-44e9-821c-95af0032669e"/>
+				<textElement>
+					<font fontName="Verdana" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="64" y="235" width="288" height="14" uuid="0872719c-690f-43ca-8810-7da41d19755e"/>
+				<textElement>
+					<font fontName="Meiryo UI" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="293" y="62" width="48" height="16" uuid="da7bb70b-7dd2-467e-93cf-06a4fd455bbe"/>
+				<textElement>
+					<font fontName="Meiryo UI" size="10"/>
+				</textElement>
+				<text><![CDATA[Efectivo]]></text>
+			</staticText>
+			<textField pattern="#,##0">
+				<reportElement x="41" y="79" width="47" height="18" uuid="0257ffa6-4558-4b29-8811-685d91e0a830"/>
+				<textElement>
+					<font fontName="Lucida Sans" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{plazo}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="121" y="79" width="67" height="18" uuid="70253a30-8865-4006-adc4-6cab6542deae"/>
+				<textElement>
+					<font fontName="Lucida Sans" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{monto_cuota}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="74" y="109" width="88" height="18" uuid="42cb11a3-d2f1-4f77-ba05-570cd442ae91"/>
+				<textElement>
+					<font fontName="Lucida Sans" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="44" y="31" width="456" height="15" uuid="d8b02c1a-be28-4ab2-84ca-fd046bcd5f00"/>
+				<textElement>
+					<font fontName="Meiryo UI" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Letra}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

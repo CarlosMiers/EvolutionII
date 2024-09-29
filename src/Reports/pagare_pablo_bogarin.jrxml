@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="pagare_pablo_bogarin" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c3ad0422-6852-49df-b1da-173322e3e884">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="222"/>
+	<property name="ireport.y" value="0"/>
+	<import value="Sistemas.EvolutionII.EvolutionII.src.Reports.jasper.*"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="Letra" class="java.lang.String"/>
+	<parameter name="cNumero" class="java.lang.String"/>
+	<parameter name="cDireccion" class="java.lang.String"/>
+	<parameter name="cEmpresa" class="java.lang.String"/>
+	<parameter name="cImportePrestamo" class="java.lang.String"/>
+	<parameter name="LetraCuota" class="java.lang.String"/>
+	<parameter name="LetraImporteCuota" class="java.lang.String"/>
+	<parameter name="cImporteCuota" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT numero,socio,clientes.nombre,totalprestamo,monedas.etiqueta,monedas.nombre AS nombremoneda,SUM(totalprestamo+interes) AS montopagare,
+clientes.nombre,clientes.direccion,clientes.telefono,clientes.ruc, prestamos.plazo, prestamos.monto_cuota,
+DAY(prestamos.fecha) AS dia,
+CASE MONTH(prestamos.fecha)
+  WHEN 1 THEN 'enero'
+  WHEN 2 THEN 'febrero'
+  WHEN 3 THEN 'marzo'
+  WHEN 4 THEN 'abril'
+  WHEN 5 THEN 'mayo'
+  WHEN 6 THEN 'junio'
+  WHEN 7 THEN 'julio'
+  WHEN 8 THEN 'agosto'
+  WHEN 9 THEN 'setiembre'
+  WHEN 10 THEN 'octubre'
+  WHEN 11 THEN 'noviembre'
+  WHEN 12 THEN 'diciembre'
+END AS nombremes,
+YEAR(prestamos.fecha) AS periodo,
+DAY(vence) AS  diavence,
+ MONTH(vence) AS mesvence,
+ YEAR(vence) AS anualvence
+FROM prestamos
+INNER JOIN detalle_prestamo
+ON detalle_prestamo.nprestamo=prestamos.numero
+INNER JOIN clientes
+ON clientes.codigo=prestamos.socio
+INNER JOIN monedas
+ON monedas.codigo=prestamos.moneda
+WHERE prestamos.numero=$P{cNumero}
+and detalle_prestamo.nrocuota=8
+GROUP BY prestamos.numero]]>
+	</queryString>
+	<field name="numero" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="socio" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="totalprestamo" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="etiqueta" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombremoneda" class="java.lang.String"/>
+	<field name="montopagare" class="java.math.BigDecimal"/>
+	<field name="direccion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="telefono" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ruc" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="plazo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="monto_cuota" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="dia" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombremes" class="java.lang.String"/>
+	<field name="periodo" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="diavence" class="java.lang.Long"/>
+	<field name="mesvence" class="java.lang.Long"/>
+	<field name="anualvence" class="java.lang.Long"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="180" splitType="Stretch">
+			<textField pattern="#,##0">
+				<reportElement x="390" y="143" width="85" height="14" uuid="1988fed8-b672-4354-806e-1663dc7549e6"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalprestamo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="365" y="143" width="20" height="14" uuid="206aed3a-9a04-4dc6-b230-a1929d28aa8a"/>
+				<textElement>
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[GS:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="135" y="10" width="304" height="71" uuid="a6e84b54-41ad-47c5-9ed2-f64724124091"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COOPERATIVA MULTIACTIVA DE AHORRO Y CREDITO,
+CONSUMO Y SERVICIOS
+“PABLO PATRICIO BOGARIN LTDA."
+RUC: 80123679-7
+Personería Jurídica No. 23.882/21 del 25/05/2021 - Registro INCOOP No. 1.794
+10 de Agosto c/ Juan Pio Troche - Barrio Centro -Ñemby
+Correo: cooppablopatriciobogarin21@gmail.com - Teléfono: (0982) 544-471
+]]></text>
+			</staticText>
+			<image>
+				<reportElement x="14" y="5" width="106" height="104" uuid="5f1e77b4-957d-4b92-99db-95e751a9016e"/>
+				<imageExpression><![CDATA["C:\\Sistemas\\EvolutionII\\EvolutionII\\src\\Images\\logo_pablo_patricio.jpg"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="35" y="127" width="201" height="10" uuid="c57d709e-92fe-427c-a300-6bb87ad4f738"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Préstamo N° : "+$F{numero}+"/"+$F{periodo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="35" y="145" width="56" height="10" uuid="4e0724c9-c890-467e-93ca-d30573e1b031"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Vencimiento: "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="93" y="145" width="62" height="10" uuid="28f1d56b-d5b5-4fac-b880-c2b62af01b2d"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{diavence}+"/"+$F{mesvence}+"/"+$F{anualvence}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="37" y="109" width="201" height="10" uuid="1d0dbe7d-6f69-4f37-a385-b54f5e7ef2b8"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Ñemby, "+$F{dia}+" de "+$F{nombremes}+" de "+$F{periodo}+".-"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="480" y="143" width="20" height="14" uuid="c48a415e-c717-4ffd-a594-547b89ca8425"/>
+				<textElement>
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[-----]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="572" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="371" width="226" height="10" uuid="356ff44e-4c57-44e9-821c-95af0032669e"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="131" y="387" width="63" height="10" uuid="ab851aba-d89b-4120-a386-f56add8fdde0"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ruc}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="403" width="302" height="10" uuid="0872719c-690f-43ca-8810-7da41d19755e"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="420" width="100" height="10" uuid="df486b63-379e-4055-bac5-d1a6cfe5c985"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{telefono}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="41" y="386" width="77" height="10" uuid="c45e90a6-ff3c-488c-a3b1-29f0aa1cae41"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Cédula de Identidad:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="41" y="370" width="77" height="10" uuid="db5dc244-3989-41d4-af19-4f559e7e3a36"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Nombre del Deudor:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="41" y="421" width="53" height="10" uuid="5144a3db-02c7-4afc-851c-5c851b9826ee"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Teléfono:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="41" y="403" width="53" height="10" uuid="bdd57d43-01e4-495f-9fb5-290170ba133d"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Dirección:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="133" y="339" width="224" height="1" uuid="917aa9fa-0170-486a-9fbf-55290bc90ffc"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="41" y="332" width="77" height="10" uuid="9f748e2f-5122-43cc-9237-2e5cb08b38dd"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Firma del Socio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="41" y="352" width="77" height="10" uuid="60f11986-80a7-4ff1-8089-c8a299edcc9f"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Aclaración de Firma]]></text>
+			</staticText>
+			<line>
+				<reportElement x="133" y="360" width="224" height="1" uuid="42826bd8-93fe-431d-a761-e7102d25af4b"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement mode="Transparent" x="35" y="0" width="482" height="87" forecolor="#000000" backcolor="#FFFFFF" uuid="1a6f98f1-ad56-482a-b926-84da8c4095f4"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["PAGARÉ A LA ORDEN DE LA  Cooperativa Multiactiva de Ahorro y Crédito de Consumo y Servicios  PABLO PATRICIO BOGARIN LTDA. Ubicado en: 10 de agosto c/ Juan Pio Troche del Barrio Centro” LA SUMA DE GUARANIES: "+$P{cImportePrestamo}+" ("+ $P{Letra} +"), intereses de cada cuota incluido, en "+$P{LetraCuota}+" ("+$F{plazo}+") cuotas consecutivas conforme al detalle que figura al pie siendo pagadera la primera de dichas cuotas y accesorios el día "+$F{diavence}+"/"+$F{mesvence}+"/"+$F{anualvence} +", y las restantes el mismo día fijado en las semanas subsiguientes o el día inmediato anterior cuando el día fijado sea feriado."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="35" y="126" width="482" height="84" forecolor="#000000" backcolor="#FFFFFF" uuid="72e41729-9f0d-4293-acf4-4d0beb25a63e"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["La falta de pago de una cualesquiera de dichas cuotas de capital y accesorios producirá la mora por el solo vencimiento del plazo respectivo sin necesidad de protesto o interpelación de ninguna clase, y harán decaer de pleno derecho los plazo de las cuotas no vencidas, EL ESTADO DE CUENTA DEL SOCIO DEUDOR SERÁN DE SUFICIENTE “TITULO EJECUTIVO”, conforme Ley de Cooperativas Nº: 5501/2015, en cuyo caso el Acreedor podrá exigir el pago total del saldo  adeudado, como obligación vencida por la vía del juicio ejecutivo, más un interés moratorio del  2,25% y un interés punitorio del 0,68% mensuales por la demora del pago de las cuotas vencidas y los impuestos correspondientes sobre los mismos conforme a la Ley."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="35" y="222" width="482" height="41" forecolor="#000000" backcolor="#FFFFFF" uuid="6395af7a-bf78-4757-8311-38ee31833b7d"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["A todos los efectos legales y procesales aceptamos la jurisdicción de los tribunales de ÑEMBY y constituimos domicilio en la calle arriba mencionada quedando entendido que cualquier notificación judicial o extrajudicial que en ellos se practique será válida y se tendrá como efectuada personalmente."]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="150" y="103" width="210" height="14" uuid="2720a03b-62b5-431a-a35a-6ad00ae97b54"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PAGARÉ A LA ORDEN (ART. 1.535 C. C.) ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="35" y="278" width="482" height="22" uuid="1225bc6d-823e-4c64-b696-32b047af3d79"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{plazo}+"("+$P{LetraCuota}+") CUOTAS DE "+$P{cImporteCuota}+".-(Guaraníes "+$P{LetraImporteCuota}+")."]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="listado_inscripciones" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6034848f-e095-4fb9-a25c-057dfebd9eaf">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="cNombreEmpresa" class="java.lang.String"/>
+	<parameter name="FechaI" class="java.util.Date"/>
+	<parameter name="FechaF" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[SELECT idreferencia,contrato,inscripciones.periodo,fecha,sede,codalumno,inscripciones.carrera,curso,
+turno,codmatricula,codcuota,importecuota,importematricula,inscripciones.semestre,
+primeracuota,periodo_lectivo.nombre AS nombreperiodo,
+clientes.nombre AS nombrealumno,sucursales.nombre AS nombresede,
+(SELECT nombre FROM productos WHERE codmatricula=productos.codigo) nombrematricula,
+(SELECT nombre FROM productos WHERE codcuota=productos.codigo)  nombrecuota,
+carreras.nombre AS nombrecarrera,inscripciones.pensum,pensum.nombre AS nombrepensum
+FROM inscripciones
+LEFT JOIN periodo_lectivo
+ON periodo_lectivo.codigo=inscripciones.periodo
+LEFT JOIN clientes
+ON clientes.codigo=inscripciones.codalumno
+LEFT JOIN sucursales
+ON sucursales.codigo=inscripciones.sede
+LEFT JOIN carreras
+ON carreras.codigo=inscripciones.carrera
+ LEFT JOIN pensum
+ ON pensum.iditem=inscripciones.pensum
+WHERE inscripciones.fecha BETWEEN $P{FechaI} AND  $P{FechaF}
+ORDER BY inscripciones.carrera,inscripciones.contrato]]>
+	</queryString>
+	<field name="idreferencia" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="contrato" class="java.lang.Float">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="periodo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="sede" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="codalumno" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="carrera" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="curso" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="turno" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="codmatricula" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="codcuota" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="importecuota" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="importematricula" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="semestre" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="primeracuota" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombreperiodo" class="java.lang.String"/>
+	<field name="nombrealumno" class="java.lang.String"/>
+	<field name="nombresede" class="java.lang.String"/>
+	<field name="nombrematricula" class="java.lang.String"/>
+	<field name="nombrecuota" class="java.lang.String"/>
+	<field name="nombrecarrera" class="java.lang.String"/>
+	<field name="pensum" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombrepensum" class="java.lang.String"/>
+	<variable name="variable1" class="java.lang.Integer" resetType="Group" resetGroup="carrera" calculation="Count">
+		<variableExpression><![CDATA[$F{contrato}]]></variableExpression>
+	</variable>
+	<variable name="variable2" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$F{contrato}]]></variableExpression>
+	</variable>
+	<group name="carrera">
+		<groupExpression><![CDATA[$F{carrera}]]></groupExpression>
+		<groupHeader>
+			<band height="71">
+				<staticText>
+					<reportElement x="6" y="32" width="231" height="14" uuid="fd0e07f0-be5e-44bb-afdd-3351fe82cc72"/>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Datos del Alumno]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="9" y="55" width="49" height="10" uuid="5a3cf90d-7517-4aae-84c8-c79245e227da"/>
+					<textElement>
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<text><![CDATA[N° Matrícula]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="69" y="55" width="147" height="10" uuid="d2a8ae9f-fa0f-4e8c-9aa1-23fa11179fbf"/>
+					<textElement>
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<text><![CDATA[Nombres y Apellidos]]></text>
+				</staticText>
+				<line>
+					<reportElement x="6" y="69" width="549" height="1" uuid="da615b41-e6e5-44d8-87c7-c26d4004d8b7"/>
+				</line>
+				<line>
+					<reportElement x="6" y="27" width="549" height="1" uuid="37fd5e6c-0b42-477d-aadb-39ecfd05216c"/>
+				</line>
+				<staticText>
+					<reportElement x="302" y="30" width="144" height="14" uuid="f64c5b1c-e6bc-484b-a789-c74bb5404931"/>
+					<textElement>
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Datos de la Operación]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="9" y="7" width="213" height="16" uuid="819cfaa1-b589-4136-b492-0222835c9fee"/>
+					<textElement>
+						<font fontName="Arial" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Carrera "+$F{nombrecarrera}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="294" y="55" width="31" height="10" uuid="be2c13f3-dba8-4498-bc2a-bce64158b52a"/>
+					<textElement>
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<text><![CDATA[Fecha]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="233" y="55" width="45" height="10" uuid="9bc439c7-f849-4b80-968e-cdc0c2a1bb07"/>
+					<textElement>
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<text><![CDATA[N° Contrato]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="355" y="55" width="34" height="10" uuid="3e5c4dd3-1e2f-49ad-b4ad-9381f8811df5"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<text><![CDATA[Curso]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="401" y="55" width="45" height="10" uuid="3e73b627-773d-45a6-b9a4-e88d663f71cc"/>
+					<textElement>
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<text><![CDATA[Semestre]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="464" y="55" width="45" height="10" uuid="84424cb0-2055-4128-b190-4bf90f2ebad0"/>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<text><![CDATA[Turno]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+			<band height="23">
+				<staticText>
+					<reportElement x="6" y="7" width="97" height="10" uuid="063c3998-7e25-4d5f-9a85-1293a1811a0e"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<text><![CDATA[Cantidad de Alumnos]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="111" y="7" width="61" height="10" uuid="44b1cc72-fa4b-4b23-bea3-0885df650abd"/>
+					<textElement>
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{variable1}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="6" y="2" width="549" height="1" uuid="9b95c155-3234-416b-a5c8-240962dfc384"/>
+				</line>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="2" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="73" splitType="Stretch">
+			<staticText>
+				<reportElement x="9" y="53" width="50" height="12" uuid="2f570fda-be4d-4735-b263-3632853e5c07"/>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DESDE EL:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="132" y="53" width="50" height="12" uuid="de03b8c1-50bd-4933-b30d-172ed33db39b"/>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[HASTA  EL:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="196" y="53" width="41" height="12" uuid="63161062-9238-4a77-a119-e789eb544d8a"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{FechaF}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="7" y="30" width="295" height="16" uuid="1c2fec0f-e19d-4a5b-8afd-44fa5760de93"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Informe de Inscripciones]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="9" y="8" width="361" height="15" uuid="00a6fb42-4341-4a40-995c-ba57374b48d7"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cNombreEmpresa}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="69" y="53" width="50" height="12" uuid="a59f5a64-bb09-40aa-a7db-ae7e4f56eae5"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{FechaI}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="464" y="31" width="31" height="11" uuid="d6936019-1819-4974-b706-2a3ba5fe6abd"/>
+				<textElement>
+					<font fontName="Arial" size="8" isUnderline="false" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[Fecha :]]></text>
+			</staticText>
+			<textField pattern="d/M/yyyy">
+				<reportElement x="498" y="30" width="45" height="12" uuid="5f33e8aa-85bd-4819-9102-ad0777ce134e"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="503" y="8" width="40" height="20" uuid="7d51b83c-330d-40df-85b5-daa9ebce86ce"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="328" y="8" width="174" height="20" uuid="8439d3d9-8a7e-450d-8de1-e40f951e6f05"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de "]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="18" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<textField>
+				<reportElement x="68" y="3" width="148" height="10" uuid="6c29d597-45a5-4290-979e-5effc8426872"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombrealumno}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement x="6" y="3" width="52" height="10" uuid="7a7e7b64-f34a-48a3-87f7-9ad791297140"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codalumno}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="288" y="3" width="45" height="10" uuid="9086e726-b9dc-4230-981b-02381aeba314"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement x="233" y="3" width="45" height="10" uuid="fe489afd-2788-4c17-a6a3-4541dd72ee3f"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{contrato}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement x="355" y="3" width="34" height="10" uuid="bd3da60f-3c88-4cf7-a429-38c8e47692bb"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{curso}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement x="406" y="3" width="25" height="10" uuid="46094429-5263-415a-b63c-ba18dd9cadf3"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{semestre}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement x="464" y="3" width="45" height="10" uuid="3bd5c0f0-7d43-4e57-b78e-91ed69f0cba1"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{turno}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="2" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="31" splitType="Stretch">
+			<line>
+				<reportElement x="6" y="3" width="549" height="1" uuid="bb77f698-66f0-4d0d-bb62-b89a111e55e5"/>
+			</line>
+			<line>
+				<reportElement x="6" y="29" width="549" height="1" uuid="7e2038db-1166-4f01-a67a-71f5ee6c1995"/>
+			</line>
+			<textField>
+				<reportElement x="116" y="11" width="41" height="10" uuid="c93aec01-bccb-4856-819e-de59166e3613"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{variable2}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="7" y="11" width="97" height="10" uuid="16d2d9ba-abd0-4fb8-ae9e-f99e2d265926"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Cantidad total de Alumnos]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

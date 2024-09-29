@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subcobrocaja" printOrder="Horizontal" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="15626d40-29b7-4762-96d3-f22a87d7f738">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.callouts" value="##Thu Nov 17 10:45:59 PYST 2016"/>
+	<parameter name="cCliente" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT numero,fecha,totalpago
+FROM cobranzas
+WHERE cobranzas.cliente=$P{cCliente}
+ORDER BY cobranzas.fecha DESC
+LIMIT 4
+]]>
+	</queryString>
+	<field name="numero" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="totalpago" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="totalpago_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{totalpago}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="1" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="46" splitType="Stretch">
+			<staticText>
+				<reportElement x="2" y="3" width="166" height="10" uuid="6424ab76-6b26-4d79-be16-90e35d6e32fd"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Pagos por Caja del Período ]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="19" width="168" height="23" uuid="d97952b0-f8f4-4942-a55d-f2bb20f50478"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="7" y="29" width="43" height="13" uuid="7b45fa63-cbc1-4256-991c-5d519f4c07e0"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<text><![CDATA[N° Recibo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="57" y="29" width="37" height="13" uuid="74e344ce-f690-404d-b44c-b041f3918ba9"/>
+				<textElement>
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<text><![CDATA[Fecha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="104" y="22" width="52" height="20" uuid="11674e61-7d05-430d-be03-eceb93000e8f"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="7" isUnderline="false" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[Importe Abonado]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="11" splitType="Stretch">
+			<textField pattern="###0">
+				<reportElement x="-2" y="0" width="52" height="10" uuid="ba985eba-b1c8-417c-bf81-a5776010ffa7"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numero}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="57" y="1" width="38" height="10" uuid="c4f616c4-5b5d-4936-b45c-3415123044cc"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="104" y="0" width="52" height="10" uuid="28c9181e-2d38-4080-8551-d69db8464ef6"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalpago}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="20">
+			<textField pattern="#,##0">
+				<reportElement x="104" y="5" width="52" height="10" uuid="333db138-36d6-4332-85bb-a2631ed18912"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{totalpago_1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="7" y="5" width="43" height="10" uuid="6b529863-277e-46ad-a4f1-e9b255b76cbe"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<text><![CDATA[Total Pago]]></text>
+			</staticText>
+			<line>
+				<reportElement x="2" y="0" width="166" height="1" uuid="74a6b01c-fe0b-4383-9c71-45e2136e166d"/>
+			</line>
+		</band>
+	</summary>
+</jasperReport>

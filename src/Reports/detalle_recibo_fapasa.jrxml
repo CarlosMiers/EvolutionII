@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="detalle_recibo_fapasa" pageWidth="200" pageHeight="150" columnWidth="200" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="e8d658d7-fed4-4998-beb0-e52a87a868ee">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="cReferencia" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT nrofactura,emision,pago,cuota,numerocuota
+FROM detalle_cobranzas
+WHERE detalle_cobranzas.iddetalle=$P{cReferencia}]]>
+	</queryString>
+	<field name="nrofactura" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="emision" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="pago" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cuota" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="numerocuota" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="1" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="24" splitType="Stretch">
+			<textField>
+				<reportElement x="10" y="2" width="55" height="12" uuid="f5f9f723-81e5-4eea-aced-d0872a73d89b"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nrofactura}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="86" y="2" width="43" height="12" uuid="15dba17f-f178-47ed-9ead-9e3d51c3871f"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{emision}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="141" y="2" width="49" height="12" uuid="4025b675-019a-4237-b69c-e48485accfdb"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pago}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="11" y="12" width="55" height="10" uuid="d5f7b1b8-40d5-4925-a963-cedfbab8552a"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["("+$F{cuota}+"/"+$F{numerocuota}+")"]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

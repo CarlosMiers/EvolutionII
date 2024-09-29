@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Libro_Iva_Compra_Proveedor" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="bbbb92bd-902b-4c6e-9b99-70fd8d6740d3">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="FechaInicio" class="java.util.Date"/>
+	<parameter name="FechaFinal" class="java.util.Date"/>
+	<parameter name="cNombreEmpresa" class="java.lang.String"/>
+	<parameter name="cNombreCliente" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="factura" class="java.lang.String"/>
+	<field name="fecha" class="java.lang.String"/>
+	<field name="nombreproveedor" class="java.lang.String"/>
+	<field name="ruc" class="java.lang.String"/>
+	<field name="gravada5" class="java.lang.Double"/>
+	<field name="iva5" class="java.lang.Double"/>
+	<field name="gravada10" class="java.lang.Double"/>
+	<field name="iva10" class="java.lang.Double"/>
+	<field name="exenta" class="java.lang.Double"/>
+	<field name="total" class="java.lang.Double"/>
+	<field name="nombrecomprobante" class="java.lang.String"/>
+	<field name="comprobante" class="java.lang.Integer"/>
+	<variable name="nombrecomprobante_1" class="java.lang.Integer" resetType="Group" resetGroup="comprobante" calculation="DistinctCount">
+		<variableExpression><![CDATA[$F{nombrecomprobante}]]></variableExpression>
+	</variable>
+	<variable name="gravadas5_1" class="java.math.BigDecimal" resetType="Group" resetGroup="comprobante" calculation="Sum">
+		<variableExpression><![CDATA[$F{gravada5}]]></variableExpression>
+	</variable>
+	<variable name="gravadas10_1" class="java.math.BigDecimal" resetType="Group" resetGroup="comprobante" calculation="Sum">
+		<variableExpression><![CDATA[$F{gravada10}]]></variableExpression>
+	</variable>
+	<variable name="gravadas5_2" class="java.math.BigDecimal" resetType="Group" resetGroup="comprobante" calculation="Sum">
+		<variableExpression><![CDATA[$F{gravada5}]]></variableExpression>
+	</variable>
+	<variable name="totaliva10_1" class="java.math.BigDecimal" resetType="Group" resetGroup="comprobante" calculation="Sum">
+		<variableExpression><![CDATA[$F{iva10}]]></variableExpression>
+	</variable>
+	<variable name="totaliva5_1" class="java.math.BigDecimal" resetType="Group" resetGroup="comprobante" calculation="Sum">
+		<variableExpression><![CDATA[$F{iva5}]]></variableExpression>
+	</variable>
+	<variable name="totalexentas_1" class="java.math.BigDecimal" resetType="Group" resetGroup="comprobante" calculation="Sum">
+		<variableExpression><![CDATA[$F{exenta}]]></variableExpression>
+	</variable>
+	<variable name="total_1" class="java.math.BigDecimal" resetType="Group" resetGroup="comprobante" calculation="Sum">
+		<variableExpression><![CDATA[$F{total}]]></variableExpression>
+	</variable>
+	<variable name="gravadas5_3" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{gravada5}]]></variableExpression>
+	</variable>
+	<variable name="totaliva5_2" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{iva5}]]></variableExpression>
+	</variable>
+	<variable name="gravadas10_2" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{gravada10}]]></variableExpression>
+	</variable>
+	<variable name="totaliva10_2" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{iva10}]]></variableExpression>
+	</variable>
+	<variable name="total_2" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{total}]]></variableExpression>
+	</variable>
+	<variable name="totalexentas_2" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{exenta}]]></variableExpression>
+	</variable>
+	<variable name="gravada5_1" class="java.lang.Double" resetType="Group" resetGroup="comprobante" calculation="Sum">
+		<variableExpression><![CDATA[$F{gravada5}]]></variableExpression>
+	</variable>
+	<variable name="gravada10_1" class="java.lang.Double" resetType="Group" resetGroup="comprobante" calculation="Sum">
+		<variableExpression><![CDATA[$F{gravada10}]]></variableExpression>
+	</variable>
+	<variable name="gravada5_2" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{gravada5}]]></variableExpression>
+	</variable>
+	<variable name="gravada10_2" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{gravada10}]]></variableExpression>
+	</variable>
+	<variable name="gravada10_3" class="java.lang.Double" resetType="Group" resetGroup="comprobante" calculation="Sum">
+		<variableExpression><![CDATA[$F{gravada10}]]></variableExpression>
+	</variable>
+	<variable name="iva10_1" class="java.lang.Double" resetType="Group" resetGroup="comprobante" calculation="Sum">
+		<variableExpression><![CDATA[$F{iva10}]]></variableExpression>
+	</variable>
+	<variable name="iva10_2" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{iva10}]]></variableExpression>
+	</variable>
+	<variable name="total_3" class="java.lang.Double" resetType="Group" resetGroup="comprobante" calculation="Sum">
+		<variableExpression><![CDATA[$F{total}]]></variableExpression>
+	</variable>
+	<variable name="total_4" class="java.lang.Double" resetType="Group" resetGroup="comprobante" calculation="Sum">
+		<variableExpression><![CDATA[$F{total}]]></variableExpression>
+	</variable>
+	<variable name="total_5" class="java.lang.Double" resetType="Group" resetGroup="comprobante" calculation="Sum">
+		<variableExpression><![CDATA[$F{total}]]></variableExpression>
+	</variable>
+	<variable name="total_6" class="java.lang.Double" resetType="Group" resetGroup="comprobante" calculation="Sum">
+		<variableExpression><![CDATA[$F{total}]]></variableExpression>
+	</variable>
+	<variable name="iva5_1" class="java.lang.Double" resetType="Group" resetGroup="comprobante" calculation="Sum">
+		<variableExpression><![CDATA[$F{iva5}]]></variableExpression>
+	</variable>
+	<variable name="gravada5_3" class="java.lang.Double" resetType="Group" resetGroup="comprobante" calculation="Sum">
+		<variableExpression><![CDATA[$F{gravada5}]]></variableExpression>
+	</variable>
+	<variable name="iva5_2" class="java.lang.Double" resetType="Group" resetGroup="comprobante" calculation="Sum">
+		<variableExpression><![CDATA[$F{iva5}]]></variableExpression>
+	</variable>
+	<variable name="gravada5_4" class="java.lang.Double" resetType="Group" resetGroup="comprobante" calculation="Sum">
+		<variableExpression><![CDATA[$F{gravada5}]]></variableExpression>
+	</variable>
+	<variable name="gravada5_5" class="java.lang.Double" resetType="Group" resetGroup="comprobante" calculation="Sum">
+		<variableExpression><![CDATA[$F{gravada5}]]></variableExpression>
+	</variable>
+	<variable name="total_7" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{total}]]></variableExpression>
+	</variable>
+	<variable name="exenta_1" class="java.lang.Double" resetType="Group" resetGroup="comprobante" calculation="Sum">
+		<variableExpression><![CDATA[$F{exenta}]]></variableExpression>
+	</variable>
+	<group name="comprobante" isReprintHeaderOnEachPage="true">
+		<groupExpression><![CDATA[$F{nombrecomprobante}]]></groupExpression>
+		<groupHeader>
+			<band height="37">
+				<staticText>
+					<reportElement x="18" y="16" width="37" height="12" uuid="a8501de8-35f5-4b28-a4ec-3a84f575e9aa"/>
+					<textElement>
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Factura]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="68" y="16" width="35" height="12" uuid="b64b7a37-97f7-4bcd-9694-75830b501e4d"/>
+					<textElement>
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Fecha]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="111" y="5" width="105" height="12" uuid="f3056c64-1d03-4dc3-afdd-24c963cd4fc8"/>
+					<textElement textAlignment="Center">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Cliente/Bienes y Servicios]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="219" y="17" width="27" height="12" uuid="8bde66ac-1a2b-487a-996c-70576428097f"/>
+					<textElement>
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[RUC]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="374" y="17" width="42" height="12" uuid="9bca2a02-9862-4793-9bae-90d23bbba0c4"/>
+					<textElement>
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Grav. 10%]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="263" y="17" width="43" height="12" uuid="d7f15012-1a83-4013-9e2a-d985d2bc646a"/>
+					<textElement>
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Grav. 5%]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="321" y="17" width="38" height="12" uuid="e0e74883-50cc-4512-8af3-9fc87fce5eb5"/>
+					<textElement>
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[IVA 5%]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="425" y="17" width="44" height="12" uuid="82adb480-b5bd-4d9f-bc4c-40f3f56fc7e5"/>
+					<textElement>
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[IVA 10%]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="475" y="17" width="34" height="12" uuid="5adc5c48-1052-4acc-b385-25cce7e5fead"/>
+					<textElement>
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Exentas]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="519" y="17" width="34" height="12" uuid="a5dc0991-dd09-4595-ab2b-a1a90a750e23"/>
+					<textElement>
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Total]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="108" y="17" width="97" height="12" uuid="f2f7483c-007d-494a-841f-2dbfe9ff6425"/>
+					<textElement textAlignment="Center">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Razón Social/Apellidos Nombres]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="16" y="5" width="76" height="12" uuid="6a21c35e-34c2-4314-917e-b0f5ed548a3b"/>
+					<textElement textAlignment="Center">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[DOCUMENTO]]></text>
+				</staticText>
+				<line>
+					<reportElement x="1" y="0" width="553" height="1" uuid="94ef5d7b-0e7f-48e3-879f-0ac4fc3c140a"/>
+				</line>
+				<line>
+					<reportElement x="1" y="36" width="553" height="1" uuid="6e626e8e-29bf-4bb1-b99f-b3ab8812e293"/>
+				</line>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="22">
+				<textField>
+					<reportElement x="92" y="7" width="100" height="11" uuid="5fff858d-1528-4e3d-9627-0ec75bb1fdad"/>
+					<textElement>
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nombrecomprobante}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="0" y="3" width="555" height="1" uuid="1828fd03-3562-4fdd-bb39-b9f2564da7d1"/>
+				</line>
+				<staticText>
+					<reportElement x="34" y="8" width="50" height="10" uuid="39bb0225-6eb6-4dc6-a96c-d62c95c8dbba"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[TOTAL]]></text>
+				</staticText>
+				<textField pattern="#,##0">
+					<reportElement x="361" y="8" width="48" height="10" uuid="053c9395-c9d8-4b42-9c66-a10b58979d8a"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{gravadas10_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0">
+					<reportElement x="261" y="8" width="45" height="10" uuid="7ef467d6-1b77-49ea-a274-a3f260beac25"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{gravadas5_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0">
+					<reportElement x="410" y="8" width="51" height="10" uuid="23d7a4e8-86bc-4ab9-a42e-fd73506d4870"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{totaliva10_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0">
+					<reportElement x="313" y="8" width="43" height="10" uuid="88672fee-75c9-4702-9ee2-86786962490c"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{totaliva5_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0">
+					<reportElement x="462" y="8" width="45" height="10" uuid="4ba1b1ae-722a-4c6c-86ca-b49f178bc24f"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{totalexentas_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0">
+					<reportElement x="510" y="8" width="43" height="10" uuid="4797eded-f27b-4a0c-bb6c-46dfc259ba4b"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{total_1}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="3" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="73" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="56" y="58" width="50" height="12" uuid="d54c8b02-1ec0-41cf-9061-4c69b92b9bb1"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{FechaInicio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="188" y="58" width="41" height="13" uuid="fd2aa2a8-d124-44cc-a612-d518e64728c3"/>
+				<textElement textAlignment="Left">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{FechaFinal}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="9" y="58" width="46" height="12" uuid="a31b6043-1a3a-462f-80dd-11f77c71655e"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DESDE EL:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="135" y="58" width="50" height="12" uuid="019e4eae-3d26-4b07-b83d-1eee0d576bdd"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[HASTA  EL:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="9" y="0" width="480" height="15" uuid="34bb4a2d-b9ae-4ae1-b74f-b8117e4c21c1"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cNombreEmpresa}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="8" y="19" width="221" height="16" uuid="1e34a2b4-275e-46b4-8b27-b9621aa0217b"/>
+				<textElement textAlignment="Justified">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[LIBRO IVA COMPRA LEY 125/91]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="8" y="38" width="54" height="18" uuid="b80cdf31-f7c3-4daa-8b85-e2962f3df610"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Proveedor:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="64" y="38" width="100" height="19" uuid="8f0342f4-4026-47c9-9b5a-a71d0bdd9682"/>
+				<textFieldExpression><![CDATA[$F{nombreproveedor}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField pattern="">
+				<reportElement x="219" y="2" width="44" height="10" uuid="0065cbd2-b790-4418-8735-18ef1b23655e"/>
+				<textElement>
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ruc}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="68" y="2" width="38" height="10" uuid="db6a0b71-c8e3-4e0c-a56e-50ba332fcc5d"/>
+				<textElement>
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="4" y="2" width="58" height="10" uuid="59316e52-3304-4b49-acd4-22805a755bc3"/>
+				<textElement>
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{factura}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement x="113" y="2" width="103" height="10" uuid="0fda9f79-788e-42dc-8d18-9d1dfb86969c"/>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombreproveedor}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;-#,##0">
+				<reportElement x="462" y="2" width="45" height="10" uuid="6ce5fcd1-8918-4c83-87f3-1463b6e88e09"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{exenta}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;-#,##0">
+				<reportElement x="261" y="2" width="45" height="10" uuid="b002b988-9446-4c68-909f-5dce97ae7395"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{gravada5}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;-#,##0">
+				<reportElement x="359" y="2" width="50" height="10" uuid="b9360e19-2692-4252-8a34-541e970f95b1"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{gravada10}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;-#,##0">
+				<reportElement x="313" y="2" width="43" height="10" uuid="9d3d7b21-9bd1-4157-afc7-94104cf8078f"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{iva5}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;-#,##0">
+				<reportElement x="411" y="2" width="50" height="10" uuid="ba29af4f-7d8c-40e0-b412-3837db1c54bb"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{iva10}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;-#,##0">
+				<reportElement x="506" y="2" width="48" height="10" uuid="f343f4ef-6cb1-4e9e-8625-1d6631eb9a5d"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="4" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="3" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="29" splitType="Stretch">
+			<staticText>
+				<reportElement x="47" y="8" width="86" height="12" uuid="c14845ae-ad07-4c78-8063-11a9fbbfd93f"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL GENERAL]]></text>
+			</staticText>
+			<line>
+				<reportElement x="1" y="23" width="553" height="1" uuid="8270d9b3-03dc-441a-b9b7-e585fd3295cf"/>
+			</line>
+			<line>
+				<reportElement x="1" y="4" width="553" height="1" uuid="c3840e74-90a3-4baf-9f35-add3ced37748"/>
+			</line>
+			<textField pattern="#,##0">
+				<reportElement x="356" y="8" width="53" height="10" uuid="1a87fc2e-2f51-449f-86a5-80262a48dde8"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{gravadas10_2}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="410" y="8" width="50" height="10" uuid="a318203c-1c7d-414f-8d36-37901a35cc69"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{iva10_2}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="512" y="8" width="42" height="9" uuid="416c5f86-8a39-45d0-8bb0-4a8bb816f88c"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{total_7}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="313" y="8" width="43" height="10" uuid="7ebf2d5a-e66e-4b50-9e20-da80667e0337"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{totaliva5_2}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="267" y="8" width="43" height="9" uuid="2d5c0936-9630-419e-8acf-b31f91700000"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{gravada5_2}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="461" y="8" width="45" height="10" uuid="395f6122-50a9-40ff-958e-cc31109ca917"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{totalexentas_2}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

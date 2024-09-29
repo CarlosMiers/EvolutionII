@@ -1,0 +1,1106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="contrato_msa2" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b1e79cf5-b939-4a6c-8e4f-a693cc8d09e9">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="401"/>
+	<parameter name="cNumero" class="java.lang.String"/>
+	<parameter name="Letra" class="java.lang.String"/>
+	<parameter name="cNombreEmpresa" class="java.lang.String"/>
+	<parameter name="cRucEmpresa" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Sistemas\\EvolutionII\\EvolutionII\\src\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT cabecera_descuento_documentos.idprestamos,cabecera_descuento_documentos.numero,cabecera_descuento_documentos.socio,clientes.ruc,clientes.nombre,clientes.direccion,clientes.localidad,
+localidades.nombre AS nombrelocalidad,
+(SELECT clientes.nombre FROM clientes WHERE clientes.codigo=cabecera_descuento_documentos.codcodeudor) codenombre,
+(SELECT clientes.ruc FROM clientes WHERE clientes.codigo=cabecera_descuento_documentos.codcodeudor) coderuc,
+(SELECT clientes.direccion FROM clientes WHERE clientes.codigo=cabecera_descuento_documentos.codcodeudor) codedireccion
+FROM cabecera_descuento_documentos
+INNER JOIN clientes
+ON clientes.codigo=cabecera_descuento_documentos.socio
+INNER JOIN localidades
+ON localidades.codigo=clientes.localidad
+WHERE cabecera_descuento_documentos.numero=$P{cNumero}]]>
+	</queryString>
+	<field name="idprestamos" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="numero" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="socio" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ruc" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="direccion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="localidad" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombrelocalidad" class="java.lang.String"/>
+	<field name="codenombre" class="java.lang.String"/>
+	<field name="coderuc" class="java.lang.String"/>
+	<field name="codedireccion" class="java.lang.String"/>
+	<title>
+		<band height="105" splitType="Stretch">
+			<image>
+				<reportElement x="9" y="9" width="208" height="89" uuid="c3dd2378-4fa2-4d5d-b39e-30ef7766994a"/>
+				<imageExpression><![CDATA["C:\\Sistemas\\EvolutionII\\EvolutionII\\src\\Images\\MSALOGO.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="669" splitType="Stretch">
+			<image>
+				<reportElement x="9" y="73" width="532" height="561" uuid="04e177f5-c741-4f8d-8329-1ddd7a5a6059"/>
+				<imageExpression><![CDATA["C:\\Sistemas\\EvolutionII\\EvolutionII\\src\\Images\\MSA.jpg"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement mode="Transparent" x="9" y="197" width="535" height="27" forecolor="#000000" backcolor="#FFFFFF" uuid="21104ae8-7d78-43b2-ae0c-3b9ea68beb72"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["c) En caso de que LA DEUDORA no diere cumplimiento a cualquiera de las obligaciones consignadas en cualquiera de las cláusulas del contrato;"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="430" y="439" width="44" height="12" uuid="d4a1348e-de00-490a-9ad9-040dd7cc57e5"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[26.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="492" width="44" height="12" uuid="bbd9b1f0-1984-4347-9589-18e20ac9e63b"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[300.001]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="493" y="400" width="44" height="12" uuid="8909d4dc-e03b-4aa8-a876-337e7673990a"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[21.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="90" y="532" width="44" height="12" uuid="1ecf1074-17b1-491b-ba64-4a6ac3d47550"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[700.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="494" y="493" width="44" height="12" uuid="ccbac19d-30fa-4586-90d0-1c253740aa6c"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[37.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="246" y="370" width="31" height="12" uuid="3aab6348-7c70-4ad2-80ea-671bb23bee46"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[11-20]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="430" y="493" width="44" height="12" uuid="82492d87-86ea-45db-a80f-b20a2ea080a4"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[35.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="9" y="386" width="44" height="12" uuid="ec2afb1b-e138-434b-b95f-95c85eea6736"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[50.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="90" y="558" width="44" height="12" uuid="0d9159c0-c0c2-4267-9d70-073f147d6220"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[900.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="465" width="44" height="12" uuid="ff6ffad1-bc29-4f11-8551-a13699475db7"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[200.001]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="430" y="466" width="44" height="12" uuid="c51efa94-0dcb-4d14-92e3-409265eed5c4"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[30.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="233" y="493" width="44" height="12" uuid="1e10df37-64e7-4a7d-af2e-48b14372a058"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[23.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="430" y="545" width="44" height="12" uuid="f9118b81-ab0d-41fc-8c99-17ea241cd8da"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[43.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="90" y="466" width="44" height="12" uuid="e0b78ec3-aac5-44a5-bf69-3b32c2f97ff3"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[250.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="494" y="570" width="44" height="12" uuid="0ff86780-d4fa-4704-849d-9b1a13abef80"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[50.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="494" y="427" width="44" height="12" uuid="a2d29f27-4962-4fc6-96b8-07f964aee499"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[26.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="164" y="518" width="44" height="12" uuid="2a0eb90e-17c7-4895-aca6-365bfbb5b2e8"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[10.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="298" y="558" width="44" height="12" uuid="a426ecad-0a23-4715-89e8-dbd4a08dcbc6"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[40.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="298" y="453" width="44" height="12" uuid="7f91c497-d4d3-4052-a221-4946900d766a"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[24.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="298" y="439" width="44" height="12" uuid="d19ae7e4-db7f-4380-8809-22c900c66da6"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[21.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="164" y="545" width="44" height="12" uuid="18502e3d-b2cb-48d6-a1e0-e319c6d7a8f9"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[10.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="233" y="466" width="44" height="12" uuid="5da23b3b-102d-4319-8eb8-56635a619e3a"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[20.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="90" y="453" width="44" height="12" uuid="2db14c2b-8723-4732-951a-7ca624d4d8ce"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[200.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="478" width="44" height="12" uuid="8d7aaf70-f649-4b1f-80be-9296aeb77a75"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[250.001]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="10" y="229" width="535" height="40" forecolor="#000000" backcolor="#FFFFFF" uuid="4e3011fd-df21-4855-826d-4459ccd42195"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["d) En caso de que LA DEUDORA haya suministrado a LA ACREEDORA informaciones manifestación de bienes, balances, declaraciones y/o datos de cualquier tipo de manifestaciones, que fueran incorrectas, incompletas y/o engañosas a criterio de LA ACREEDORA;"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="430" y="453" width="44" height="12" uuid="18d8fe54-8a4f-47c9-a8be-c8ddcb740682"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[28.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="452" width="44" height="12" uuid="4a993f6c-b0ac-4684-850d-ec703e08ece6"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[175.001]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="494" y="518" width="44" height="12" uuid="74faa595-f15e-44d4-8ab2-7f3eb9b7211f"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[41.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="364" y="584" width="44" height="12" uuid="156d31de-c510-4ae3-85b3-ad34d7f95a66"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[47.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="9" y="399" width="44" height="12" uuid="6b799d49-3ec2-47ec-8708-3d28a86da2a5"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[75.001]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="164" y="453" width="44" height="12" uuid="f8c4dfb1-b948-4aed-9467-e5d11ca337f8"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[9.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="298" y="506" width="44" height="12" uuid="51eed611-dff6-455d-ac8e-a8ed38ba47e6"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[34.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="494" y="584" width="44" height="12" uuid="201dd52c-dc84-4473-b70e-69cb11ffba58"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[57.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="504" y="370" width="31" height="12" uuid="010d1a3e-fdaf-40f0-a131-a08ec0313ce1"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[61-90]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="363" y="414" width="44" height="12" uuid="364d01a7-f271-4799-96d8-9cae900245e9"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[19.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="363" y="387" width="44" height="12" uuid="76e984d5-2d05-477f-9d58-0f7518d8ce6d"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[16.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="90" y="518" width="44" height="12" uuid="6042e6bb-cd58-4b0d-a91e-fc31d51ec0e0"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[600.000]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="10" y="142" width="535" height="50" forecolor="#000000" backcolor="#FFFFFF" uuid="121af30b-baad-4c2e-a71d-5217d5f54479"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["b) En caso de que LA DEUDORA cayera en estado de insolvencia, celebrare acuerdos preventivos extrajudiciales, llamare a concurso de acreedores y/o pidiere su quiebra, o se declare la quiebra de la misma a pedido de terceras personas, o de cualquier situación judicial o extrajudicial que modifique y/o disminuya la solvencia económica o la capacidad patrimonial de pago de LA DEUDORA."]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="494" y="453" width="44" height="12" uuid="6df1224b-6c13-4ea1-ac77-b7d824e0027c"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[30.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="233" y="479" width="44" height="12" uuid="82687b15-fc21-49ed-a308-823548f80f46"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[21.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="9" y="413" width="44" height="12" uuid="6bcd5491-3d07-46ce-83c4-db896f213751"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[100.001]]></text>
+			</staticText>
+			<line>
+				<reportElement x="15" y="369" width="530" height="1" uuid="ea328960-d0d2-46dc-8afb-7bbba5107960"/>
+			</line>
+			<staticText>
+				<reportElement x="193" y="356" width="203" height="12" uuid="c6ed716e-0d49-4987-8deb-87c8fb2f94cb"/>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Monto de las Cargos de acuerdo a los dias de mora]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="493" y="414" width="44" height="12" uuid="182a7078-f7cb-410c-b6e5-576db2cb4a69"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[24.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="90" y="545" width="44" height="12" uuid="84f731f0-0955-4452-9be6-4d61c0b378d1"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[800.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="90" y="427" width="44" height="12" uuid="23edefaf-d736-4425-9b0f-1e863f334502"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[150.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="232" y="414" width="44" height="12" uuid="851c90d4-a0cb-41b1-860e-d06e265fd106"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[11.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="298" y="532" width="44" height="12" uuid="e375816e-2561-4f80-bfec-c5af1269b4f2"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[37.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="164" y="439" width="44" height="12" uuid="9bf010eb-0367-4327-8f4e-1d060ddcdecc"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[8.000]]></text>
+			</staticText>
+			<line>
+				<reportElement x="14" y="353" width="530" height="1" uuid="95b85282-0e31-4ff5-a71c-30dcb9483f0e"/>
+			</line>
+			<staticText>
+				<reportElement x="364" y="479" width="44" height="12" uuid="fa6e7f6a-e858-4693-8a8e-7f4442453c1b"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[30.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="505" width="44" height="12" uuid="5bdfaed7-5e2c-4e6b-b6e3-6b964aa66420"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[400.001]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="429" y="414" width="44" height="12" uuid="349c4a93-0292-4877-b884-c88286d992a3"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[21.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="164" y="584" width="44" height="12" uuid="8a39a7d0-b007-4903-b2e3-7f7669c5f1fa"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[11.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="426" width="44" height="12" uuid="2570fa0b-514c-4f81-813d-0312b8277c8c"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[125.001]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="298" y="570" width="44" height="12" uuid="ea5f467b-a271-4b3a-8e55-68f698bafffb"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[41.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="544" width="44" height="12" uuid="fbdda1b2-8404-4042-80fc-4d21a5601cc5"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[700.001]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="90" y="479" width="44" height="12" uuid="dabcdc37-de80-4f1b-b18a-c68117503938"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[300.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="298" y="427" width="44" height="12" uuid="ac8f85d7-7a62-40df-9e54-98b546843583"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[19.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="364" y="518" width="44" height="12" uuid="a135435b-7e58-45aa-9851-2efa160bb1a4"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[36.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="163" y="414" width="44" height="12" uuid="b601e1e4-4536-4bf8-9443-d0a15d6eb4db"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[6.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="430" y="558" width="44" height="12" uuid="9261602c-2978-4284-b246-480eb9eca992"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[46.000]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="15" y="605" width="536" height="49" forecolor="#000000" backcolor="#FFFFFF" uuid="6bf67e7c-f0b1-451a-98d3-3683969dc2bd"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["OCTAVA. Cancelación anticipada: LA DEUDORA podrá cancelar anticipadamente el préstamo antes de su vencimiento, no obstante, deberá abonar a LA ACREEDORA todas las comisiones y/o gastos correspondientes, más los intereses devengados hasta la fecha de la cancelación, así como una penalidad equivalente al porcentaje del 10 % sobre el saldo de capital pendiente. "]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="363" y="400" width="44" height="12" uuid="459d0fd3-2e9a-4527-ae39-8a5eeadc5a6f"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[16.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="233" y="506" width="44" height="12" uuid="5bccc71d-eca8-45cc-a491-3548a803cd36"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[26.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="164" y="427" width="44" height="12" uuid="08ec1031-285a-41b8-b9de-8dabbdcf8826"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[7.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="233" y="532" width="44" height="12" uuid="b83ac50e-a466-4475-96a6-cec21ef23ee1"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[31.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="494" y="439" width="44" height="12" uuid="c620b0c2-ec7e-4e96-b2bc-5b090142986b"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[28.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="233" y="453" width="44" height="12" uuid="59653b15-0db9-40ca-8b17-f3f129343b95"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[18.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="517" width="44" height="12" uuid="82730e59-c759-4a10-8a59-4ebe1465c1a4"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[500.001]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="494" y="545" width="44" height="12" uuid="7a4d78bc-6063-4d9c-a5c0-21b864e4c21f"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[46.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="163" y="400" width="44" height="12" uuid="53130e53-8138-41f8-9cfe-2c02d0b54339"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[5.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="90" y="506" width="44" height="12" uuid="22c5af58-f235-458c-be0c-96f2845c049a"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[500.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="364" y="466" width="44" height="12" uuid="332bd679-100d-4737-8aa8-2d7dd5aec4b7"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[28.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="569" width="44" height="12" uuid="f1ea4254-9567-4b9d-acde-a759251116a4"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[900.001]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="298" y="493" width="44" height="12" uuid="33eabda2-ad91-4258-8fcd-d75e45b23330"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[32.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="429" y="400" width="44" height="12" uuid="a14002d3-e276-4dc2-97e5-0f3773f09b47"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[19.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="557" width="44" height="12" uuid="59fde86a-cccb-47f9-ba70-2208c3b273bd"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[800.001]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="90" y="584" width="44" height="12" uuid="e3e84a16-5afb-4278-8aee-f787a9bdc864"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[99.999.999]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="430" y="570" width="44" height="12" uuid="4c3f4ad1-0d4c-4030-9c71-9dfb2edcabf3"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[48.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="297" y="387" width="44" height="12" uuid="ad293944-e8d3-47cc-b0a7-8f2af23f9300"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[13.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="233" y="584" width="44" height="12" uuid="cb0929b1-f493-47dc-be49-0c1de87bf79b"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[41.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="364" y="453" width="44" height="12" uuid="7c7e11c0-ca59-4554-a963-f41c2862f6e1"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[26.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="164" y="506" width="44" height="12" uuid="aae1b387-03d9-4d70-a77d-add5eba4df2c"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[10.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="101" y="370" width="31" height="12" uuid="28de5c5a-d5df-4705-9068-8d638259d4f5"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Hasta]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="531" width="44" height="12" uuid="cd564b6c-88c6-4dd1-ae63-42de688ead2d"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[600.001]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="10" y="13" width="535" height="75" forecolor="#000000" backcolor="#FFFFFF" uuid="d8051e19-80a8-40b0-8e80-9365a38450cb"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["SEXTA. Decaimiento de plazos: La mora de LA DEUDORA se producirá de pleno derecho por el simple vencimiento de los plazos acordados para cada obligación, sin necesidad de protesto, ni interpelación judicial o extrajudicial alguna (art. 424 del Código Civil). LA ACREEDORA queda facultada a dar por decaído los plazos previstos en este contrato y a exigir el monto total adeudado más sus intereses correspondientes, como si estuvieran íntegramente vencidos, sin necesidad de interpelación judicial o extrajudicial alguna, ni el cumplimiento de cualquier otra formalidad alguna, en los siguientes casos:"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="430" y="479" width="44" height="12" uuid="70bc5e10-3a80-413e-a1cc-956aa0feab58"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[32.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="164" y="570" width="44" height="12" uuid="a686dd90-68e5-4cf8-8f46-f707815c8477"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[10.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="494" y="558" width="44" height="12" uuid="b6f51910-eb1c-4494-9542-d7ab80408c35"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[48.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="364" y="570" width="44" height="12" uuid="4c4ed9c6-9040-4171-b0ae-efd199701916"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[42.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="494" y="506" width="44" height="12" uuid="2dd34960-c835-4aac-95fc-2b2406a1c4d3"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[39.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="89" y="387" width="44" height="12" uuid="fc66cfac-feff-4544-b62a-a059b857ea4c"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[75.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="90" y="493" width="44" height="12" uuid="6c802474-a3f7-4853-8924-7382cfc2d7d2"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[400.000]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="9" y="305" width="536" height="39" forecolor="#000000" backcolor="#FFFFFF" uuid="6a0f4cc4-ef04-4723-843d-1403afeaf112"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["SEPTIMA. Gastos de Cobranza: En caso de atrasos producidos en el pago de las cuotas por parte de LA DEUDORA, el siguiente cuadro establece el monto a ser abonado en concepto de gastos de cobranzas. Estos cargos financieros se aplicarán sin perjuicio del cobro de los intereses moratorios establecidos en la cláusula segunda del presente contrato. "]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="15" y="384" width="530" height="1" uuid="acd818b4-0301-4230-9ed2-bb6383c176e7"/>
+			</line>
+			<staticText>
+				<reportElement x="298" y="479" width="44" height="12" uuid="5eec0ab9-e9f5-4138-9e03-92fb7603bf4d"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[29.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="232" y="387" width="44" height="12" uuid="0e12b7ad-4289-422c-aeb8-f3e1c317885e"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[7.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="364" y="558" width="44" height="12" uuid="c146165f-8430-43d4-854d-f472f618373d"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[40.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="232" y="400" width="44" height="12" uuid="387e4381-e462-4c84-89cf-9a331cdd5f94"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[9.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="364" y="493" width="44" height="12" uuid="cd67b82b-0ce5-4e9e-9c75-00f280ae2fbb"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[33.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="370" width="31" height="12" uuid="c59d1f07-f781-4f65-84b9-fd80ff5ee758"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Desde]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="364" y="532" width="44" height="12" uuid="32a22bf0-dd18-445f-b181-b3739925898f"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[37.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="298" y="584" width="44" height="12" uuid="7bc44b19-d9cf-4d1b-ac67-383a1b3ad230"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[47.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="297" y="400" width="44" height="12" uuid="d73fac8f-a982-449f-9089-a5bd0c30af77"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[15.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="164" y="558" width="44" height="12" uuid="6aeadda1-dbbc-4851-9748-7961a7ff8351"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[10.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="90" y="570" width="44" height="12" uuid="c7354acc-c16d-4fc9-8d48-f34f710b283a"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[1.000.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="174" y="370" width="31" height="12" uuid="283d52ad-b271-4a91-8eb0-1d81bcffff1e"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[6-10]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="311" y="370" width="31" height="12" uuid="39934134-2f79-4e6f-aad7-37251476ed06"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[21-30]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="233" y="545" width="44" height="12" uuid="da52c120-1c30-46e9-af8d-347f9a913bce"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[33.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="89" y="414" width="44" height="12" uuid="3edd7ca6-2eeb-4570-b4a6-ef85e7f05721"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[125.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="364" y="506" width="44" height="12" uuid="d24d13ab-387a-4838-bf56-55fce5add405"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[35.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="494" y="479" width="44" height="12" uuid="1a88490d-70a7-4eee-9eb6-51282d43fd05"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[35.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="164" y="493" width="44" height="12" uuid="2a756b92-a6bb-44bb-8d56-db0a56e4875d"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[10.000]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="9" y="275" width="535" height="25" forecolor="#000000" backcolor="#FFFFFF" uuid="a740c5cd-1260-4156-b773-4c8ab5b29bf3"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["e) En caso de que LA DEUDORA incurriera en actos de disposición o comprometiera sus activos o ingresos con fines ajenos al giro normal de sus negocios."]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="163" y="387" width="44" height="12" uuid="185caf84-a255-4eb0-b658-dfcc3a55ba2c"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[4.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="90" y="439" width="44" height="12" uuid="9d8cce2c-c42d-4694-9924-cc6e89969e29"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[175.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="298" y="545" width="44" height="12" uuid="e149c056-cd30-4562-9df6-cd814a14b8ca"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[38.000]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="10" y="91" width="535" height="47" forecolor="#000000" backcolor="#FFFFFF" uuid="8424bc58-2c97-48ee-85cd-ec5fa8092d53"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["a) En caso de falta de pago de las obligaciones de este préstamo a su vencimiento, o de cualquier cuota, o de los intereses, o de las comisiones, o de las cláusulas del presente contrato, o convenios de crédito modificatorios y/o de renovación y/o reestructuración de la deuda, o de los gastos y/o costos relacionados con los créditos, como consecuencia, quedará expedita la vía ejecutiva para su cobro compulsivo"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="430" y="427" width="44" height="12" uuid="6657ff21-6de1-4a63-b9dc-8fbc3c5ba79a"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[24.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="364" y="545" width="44" height="12" uuid="5b25571c-a853-4c11-9a76-0e5cc4c4c874"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[39.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="430" y="518" width="44" height="12" uuid="a3c5bd9b-d682-4913-a0b2-10ee92b5ab88"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[39.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="583" width="44" height="12" uuid="d7fa4870-4924-4ee9-ab36-d715f762a6c6"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[1.000.001]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="233" y="439" width="44" height="12" uuid="2c3118c1-6093-4eb3-a43d-2b7a7ed55534"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[16.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="364" y="439" width="44" height="12" uuid="38ed7f92-eefb-4ba0-b957-14746dc4199a"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[24.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="233" y="518" width="44" height="12" uuid="968f5cf2-de01-4e24-9051-7db11b3602d7"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[28.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="298" y="518" width="44" height="12" uuid="568c7eec-574c-4114-aec8-90a24fc06a8b"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[35.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="89" y="400" width="44" height="12" uuid="413c8b20-ee05-42c8-8649-d2929132c1d5"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[100.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="438" width="44" height="12" uuid="c4a0c2f8-8004-4bb6-8b7c-b7e25997d6cf"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[150.001]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="441" y="370" width="31" height="12" uuid="38703869-5e93-46d2-b13b-d7cad6a32371"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[61-90]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="297" y="414" width="44" height="12" uuid="859d7bc6-286a-40bc-a131-3ccb0ac03e50"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[17.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="233" y="558" width="44" height="12" uuid="5b29080e-1b5b-464d-8d9e-7960c4b00b1c"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[34.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="164" y="466" width="44" height="12" uuid="2c9ad069-a41a-4a83-a528-6bb2100f8e6c"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[10.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="18" y="355" width="119" height="12" uuid="6d6c817d-6a95-4c89-8f7d-e111c811d7d5"/>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Monto de las Cuotas Vencidas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="493" y="387" width="44" height="12" uuid="d1f11549-126f-4db6-b925-3681456a41ea"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[19.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="375" y="370" width="31" height="12" uuid="46ac4bc3-22ab-4637-8347-c2cb37fcf328"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[31-60]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="430" y="532" width="44" height="12" uuid="c5fa68fc-6ac1-4b41-8fe2-53d1583245d5"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[41.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="364" y="427" width="44" height="12" uuid="4535e8ad-1b9d-4e91-8ff7-e21d51010185"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[21.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="494" y="466" width="44" height="12" uuid="4003b921-efb1-48ec-9ae3-567e1418af83"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[32.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="233" y="427" width="44" height="12" uuid="bfe059c3-2a3b-4572-941a-a17249538518"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[14.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="429" y="387" width="44" height="12" uuid="b5693e23-81c7-4058-85ab-6a1738c9ca38"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[17.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="430" y="506" width="44" height="12" uuid="c8f59bac-6744-4a9d-a6fa-2889c2650cce"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[37.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="164" y="532" width="44" height="12" uuid="ac57b9fe-78e7-47d8-a136-a86b7004223e"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[10.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="494" y="532" width="44" height="12" uuid="69e72a1c-36f8-4996-abfc-c5e02552ad0f"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[43.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="430" y="584" width="44" height="12" uuid="c479f01f-be76-4df6-98f0-74a12ff3b310"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[55.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="298" y="466" width="44" height="12" uuid="852c567d-eeae-499e-b3cb-eb08dde45c37"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[26.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="233" y="570" width="44" height="12" uuid="e497d584-a23a-4389-8129-ff2ab6d627f8"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[36.000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="164" y="479" width="44" height="12" uuid="644cba92-8a26-448e-a373-c1141dbc59c5"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[10.000]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+</jasperReport>

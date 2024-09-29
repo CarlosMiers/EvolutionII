@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="recibocomundetalle" pageWidth="360" pageHeight="20" columnWidth="360" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="0f94f723-7961-40b6-9bfb-d9fc8f92950c">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="cReferencia" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT detalle_forma_cobro.nrocheque,detalle_forma_cobro.confirmacion,
+detalle_forma_cobro.forma,formaspago.nombre AS nombreforma,
+detalle_forma_cobro.banco,bancos_plaza.nombre AS nombrebanco,
+detalle_forma_cobro.netocobrado
+FROM detalle_forma_cobro
+INNER JOIN formaspago
+ON formaspago.codigo=detalle_forma_cobro.forma
+LEFT JOIN bancos_plaza
+ON bancos_plaza.codigo=detalle_forma_cobro.banco
+WHERE detalle_forma_cobro.idmovimiento=$P{cReferencia}]]>
+	</queryString>
+	<field name="nrocheque" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="confirmacion" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="forma" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombreforma" class="java.lang.String"/>
+	<field name="banco" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombrebanco" class="java.lang.String"/>
+	<field name="netocobrado" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="pago_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[]]></variableExpression>
+	</variable>
+	<variable name="netocobrado_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{netocobrado}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="12" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="155" y="1" width="42" height="10" uuid="620d26d3-d262-4be3-b870-09d1b91feaaf"/>
+				<textElement>
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{confirmacion}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="274" y="1" width="61" height="10" uuid="1cb352da-3b3b-4f6a-8ca4-6dac09860f8d"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{netocobrado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="4" y="1" width="55" height="10" uuid="28194229-c5aa-4628-960f-a3ae9703f945"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nrocheque}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="58" y="1" width="96" height="11" uuid="1433ff4f-5007-4ba5-b85e-3d930bec75f3"/>
+				<textElement>
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombreforma}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="202" y="1" width="68" height="11" uuid="14f05985-3eb6-4039-92c4-d79a5e07d8d5"/>
+				<textElement>
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombrebanco}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="20">
+			<textField pattern="#,##0.00">
+				<reportElement x="274" y="2" width="61" height="10" uuid="0f7f9a1d-c25c-43c6-af95-205c4059a003"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{netocobrado_1}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="7" y="0" width="332" height="1" uuid="20318f7c-82fa-4c14-955e-4a0252099029"/>
+			</line>
+			<line>
+				<reportElement x="8" y="12" width="331" height="1" uuid="7598c52d-f7c6-413a-8c55-bd8a189af74f"/>
+			</line>
+			<staticText>
+				<reportElement x="166" y="2" width="90" height="10" uuid="20668b52-94d3-4550-bdc6-e22a790da6a2"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Valores]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

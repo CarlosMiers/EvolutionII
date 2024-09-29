@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="plan_cuenta" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6f8a795e-8596-41bf-bdd1-fa396d3d6fc2">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="cNombreEmpresa" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT plan.codigo, plan.nombre, plan.naturaleza, plan.nivel,
+IF(plan.asentable=0, "No", "Si") AS asentable
+FROM plan]]>
+	</queryString>
+	<field name="codigo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="naturaleza" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nivel" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="asentable" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<pageHeader>
+		<band height="54" splitType="Stretch">
+			<textField>
+				<reportElement x="348" y="11" width="151" height="16" uuid="47893c4f-fdc6-4d05-a29b-e7e5fe1d3b6e"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de "]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="150" y="7" width="191" height="18" uuid="a4de966c-db4f-4154-a123-be0991870f74"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Plan de Cuentas]]></text>
+			</staticText>
+			<line>
+				<reportElement x="7" y="53" width="542" height="1" uuid="fa5bdbeb-64fe-4184-b51f-946e2c1f47b1"/>
+			</line>
+			<textField>
+				<reportElement x="13" y="7" width="100" height="20" uuid="ed5f6a29-1fd3-4a4d-af11-5a173ce1473a"/>
+				<textFieldExpression><![CDATA[$P{cNombreEmpresa}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="499" y="11" width="40" height="20" uuid="3a540ee5-e70c-459e-8dfd-48edd7480881"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="19" splitType="Stretch">
+			<line>
+				<reportElement x="7" y="16" width="542" height="1" uuid="3b2eedb3-1266-4229-96d0-2480cb6e8945"/>
+			</line>
+			<staticText>
+				<reportElement x="10" y="0" width="47" height="15" uuid="c19aff32-8325-4dd8-ad0a-4ed49726b41f"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Código]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="80" y="2" width="136" height="15" uuid="c9f25a59-c90a-4cbf-b391-979f8d9b79d8"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Denominación de la Cuenta]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="380" y="1" width="47" height="15" uuid="65355ae9-980c-46d1-8b5a-f953e6c37f9f"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nivel]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="465" y="0" width="63" height="15" uuid="41f9a9f6-2276-4759-8ed0-1da3b692cb72"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Asentable]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="267" y="0" width="56" height="15" uuid="30951b73-77b3-4c3b-bae6-491a27d95e1b"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Naturaleza]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField>
+				<reportElement x="13" y="0" width="67" height="12" uuid="d9e074f9-07a8-4ade-acfb-09b155836b46"/>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="103" y="0" width="134" height="12" uuid="2c67c4b3-868c-4ee7-8833-3cca8a60f59a"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="369" y="0" width="68" height="12" uuid="fae02021-ee11-45ae-becd-9360635dc639"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nivel}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="455" y="0" width="100" height="12" uuid="17d30590-ead4-4c29-a61c-c04c70921067"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{asentable}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="245" y="0" width="115" height="12" uuid="2db43087-9bfc-4594-bdec-828fd81e8f45"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{naturaleza}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="27">
+			<line>
+				<reportElement x="6" y="1" width="543" height="1" uuid="55321fda-a365-408c-a23f-f6e440c65f52"/>
+			</line>
+		</band>
+	</pageFooter>
+</jasperReport>

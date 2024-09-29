@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="recibocomunitem" pageWidth="612" pageHeight="1008" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="0f94f723-7961-40b6-9bfb-d9fc8f92950c">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="cReferencia" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT detalle_cobranzas.emision,detalle_cobranzas.nrofactura,
+detalle_cobranzas.pago,detalle_cobranzas.vence,
+comprobantes.nombre AS nombrecomprobante,numerocuota,
+cuota
+FROM detalle_cobranzas
+LEFT JOIN comprobantes
+ON comprobantes.codigo=detalle_cobranzas.comprobante
+WHERE detalle_cobranzas.iddetalle=$P{cReferencia}]]>
+	</queryString>
+	<field name="emision" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nrofactura" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="pago" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="vence" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombrecomprobante" class="java.lang.String"/>
+	<field name="numerocuota" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cuota" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="pago_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[]]></variableExpression>
+	</variable>
+	<variable name="pago_2" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{pago}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="11" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="6" y="1" width="37" height="10" uuid="b3830a93-adc9-44f0-b5ca-ed09aa18afe1"/>
+				<textElement>
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{emision}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="88" y="1" width="53" height="10" uuid="a381180a-4113-47b8-90b5-0e97dd7d64c5"/>
+				<textElement>
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nrofactura}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="146" y="1" width="50" height="10" uuid="162bb730-7127-4cc8-a4ca-f5c2b745e737"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pago}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="47" y="1" width="37" height="10" uuid="05c4b079-1bb0-4735-9141-a4e31eba8a3f"/>
+				<textElement>
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{vence}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="20">
+			<textField pattern="#,##0.00">
+				<reportElement x="146" y="3" width="48" height="10" uuid="4449a84b-7a42-4ce2-b6fa-f8d8d5426dad"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{pago_2}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="1" width="196" height="1" uuid="1a70c4e0-05e9-498f-9cb6-9a21b2a174f1"/>
+			</line>
+			<line>
+				<reportElement x="0" y="13" width="196" height="1" uuid="9ad42f29-0a84-4772-aec5-14dcf23017b8"/>
+			</line>
+			<staticText>
+				<reportElement x="43" y="2" width="79" height="10" uuid="3e78097d-1e54-470b-a39f-950a0939e81a"/>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Comprobantes]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

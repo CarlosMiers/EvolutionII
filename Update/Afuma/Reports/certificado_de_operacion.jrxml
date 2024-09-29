@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="certificado_de_operacion" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c3ad0422-6852-49df-b1da-173322e3e884">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="383"/>
+	<import value="Sistemas.EvolutionII.EvolutionII.src.Reports.jasper.*"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="LetraNominal" class="java.lang.String"/>
+	<parameter name="nNumero" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Sistemas\\EvolutionII\\EvolutionII\\src\\Reports\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="cNombreEmpresa" class="java.lang.String"/>
+	<parameter name="cTipo" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT creferencia,precierre_operacion.numero,negociado,numerobolsa,
+precierre_operacion.fecha,validohasta,fechacierre,
+precierre_operacion.fechaemision,
+day(precierre_operacion.fechacierre) as dia,
+year(precierre_operacion.fechacierre) as periodo,
+CASE MONTH(precierre_operacion.fechacierre)
+  WHEN 1 THEN 'Enero'
+  WHEN 2 THEN 'Febrero'
+  WHEN 3 THEN 'Marzo'
+  WHEN 4 THEN 'Abril'
+  WHEN 5 THEN 'Mayo'
+  WHEN 6 THEN 'Junio'
+  WHEN 7 THEN 'Julio'
+  WHEN 8 THEN 'Agosto'
+  WHEN 9 THEN 'Setiembre'
+  WHEN 10 THEN 'Octubre'
+  WHEN 11 THEN 'Noviembre'
+  WHEN 12 THEN 'Diciembre'
+END AS nombremes,
+precierre_operacion.vencimiento,precierre_operacion.comprador,
+precierre_operacion.vendedor,(SELECT nombre FROM clientes WHERE comprador=clientes.codigo) nombreclientecomprador,
+(SELECT nombre FROM clientes WHERE precierre_operacion.vendedor=clientes.codigo)  nombreclientevendedor ,
+(SELECT comitente FROM clientes WHERE precierre_operacion.comprador=clientes.codigo) comitentecomprador,
+(SELECT comitente FROM clientes WHERE precierre_operacion.vendedor=clientes.codigo) comitentevendedor,
+asesorcompra,asesorventa,
+(SELECT nombre FROM vendedores WHERE asesorcompra=vendedores.codigo) nombreasesorcomprador,
+(SELECT nombre FROM vendedores WHERE asesorventa=vendedores.codigo)  nombreasesorvendedor,
+precierre_operacion.operacion,tipooperacion,
+precierre_operacion.mercado,precierre_operacion.moneda,
+monedas.nombre AS nombremoneda,
+monedas.etiqueta,
+emisor,emisores.nombre AS nombreemisor,
+emisores.nomalias AS aliasemisor,
+titulo,titulos.nombre AS nombretitulo,
+titulos.nomalias as aliastitulo,
+titulos.pagointeres,
+IF(precierre_operacion.cuentapago="","1","2") AS depositadoen,
+valor_nominal,cantidad,precio,valor_inversion,
+ROUND(precierre_operacion.valor_nominal/titulos.nominal) as ncantidad,
+REPLACE(FORMAT(titulos.nominal,0),",", ".") AS nnominal,
+precierre_operacion.tasa,plazo,tipoplazo,numerobolsa,
+precierre_operacion.base,precierre_operacion.cortes,
+precierre_operacion.preciocorte,precierre_operacion.periodopago,
+precierre_operacion.custodia,
+titulos.rescnv,titulos.resbvpasa,
+DATE_FORMAT(titulos.fechacnv, "%d/%m/%Y") AS fecharescnv
+ FROM precierre_operacion
+ LEFT JOIN monedas
+ ON precierre_operacion.moneda=monedas.codigo
+ LEFT JOIN emisores
+ ON precierre_operacion.emisor=emisores.codigo
+ LEFT JOIN titulos
+ ON precierre_operacion.titulo=titulos.codigo
+ WHERE precierre_operacion.numero= $P{nNumero}
+ AND operacion=1 ORDER BY numero]]>
+	</queryString>
+	<field name="creferencia" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="numero" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="negociado" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="numerobolsa" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="validohasta" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fechacierre" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fechaemision" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="dia" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="periodo" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombremes" class="java.lang.String"/>
+	<field name="vencimiento" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="comprador" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="vendedor" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombreclientecomprador" class="java.lang.String"/>
+	<field name="nombreclientevendedor" class="java.lang.String"/>
+	<field name="comitentecomprador" class="java.lang.Integer"/>
+	<field name="comitentevendedor" class="java.lang.Integer"/>
+	<field name="asesorcompra" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="asesorventa" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombreasesorcomprador" class="java.lang.String"/>
+	<field name="nombreasesorvendedor" class="java.lang.String"/>
+	<field name="operacion" class="java.lang.Integer">
+		<fieldDescription><![CDATA[Indica si la operación es de Renta Fija-Renta Variable u Otro tipo de Título]]></fieldDescription>
+	</field>
+	<field name="tipooperacion" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="mercado" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="moneda" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombremoneda" class="java.lang.String"/>
+	<field name="etiqueta" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="emisor" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombreemisor" class="java.lang.String"/>
+	<field name="aliasemisor" class="java.lang.String"/>
+	<field name="titulo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombretitulo" class="java.lang.String"/>
+	<field name="aliastitulo" class="java.lang.String"/>
+	<field name="pagointeres" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="depositadoen" class="java.lang.String"/>
+	<field name="valor_nominal" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cantidad" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="precio" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="valor_inversion" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ncantidad" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nnominal" class="java.lang.String"/>
+	<field name="tasa" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="plazo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tipoplazo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="base" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cortes" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="preciocorte" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="periodopago" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="custodia" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="rescnv" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="resbvpasa" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecharescnv" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="65" splitType="Stretch">
+			<staticText>
+				<reportElement x="152" y="28" width="227" height="18" uuid="bd717295-3961-4f89-b961-a8d8a2bec908"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CERTIFICADO DE OPERACIÓN]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="514" splitType="Stretch">
+			<textField>
+				<reportElement x="34" y="0" width="457" height="108" uuid="c7574db5-ea5f-4c83-a0db-bc58977134a0"/>
+				<textElement textAlignment="Justified" markup="none">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Certificamos por este instrumento que el Comitente Nº "+$F{comitentecomprador}+", ha realizado operación (es) bursátil (es), COMPRA, con títulos de deuda emitidos por el Emisor (Código del Emisor) "+$F{aliasemisor}+", del Título Global representativo de la Serie "+$F{aliastitulo}+", por una cantidad de "+$F{ncantidad}+" títulos con valor nominal unitario de "+$F{etiqueta}+" "+$F{nnominal}+".-("+$F{nombremoneda}+" "+$P{LetraNominal}+")"+", registrada por Resolución BVPASA Nº " +$F{resbvpasa}+", correspondiente a la Emisión Global autorizada por Resolución CNV Nº "+$F{rescnv} +" de fecha "+ $F{fecharescnv}+"."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="34" y="119" width="457" height="44" uuid="64c72efe-b7a7-40ef-abfb-4e4cd453330c"/>
+				<textElement textAlignment="Justified" markup="none">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["El presente CERTIFICADO NO ES TRANSFERIBLE, lo consignado en el presente certificado no tiene carácter definitivo, si el comitente realiza operaciones, que modifiquen la cantidad consignada en este CERTIFICADO."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="34" y="174" width="457" height="67" uuid="f6cb0008-1d19-4efe-ba2a-109ed81fa328"/>
+				<textElement textAlignment="Justified" markup="none">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["El presente CERTIFICADO acredita la operación realizada por el comitente, a los efectos de su presentación ante la Asamblea de Obligacionistas. La validación del mismo deberá realizarla el representante de obligacionistas en virtud a lo establecido en el Capítulo VII de Procedimiento en caso de Incumplimiento del Emisor establecido en el Reglamento Operativo del Sistema Electrónico de Negociación (SEN).-"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="34" y="271" width="457" height="121" uuid="60b8b9b2-62a4-4350-988c-2e3320d4d8f3"/>
+				<textElement textAlignment="Justified" markup="none">
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["BONOS FINANCIEROS: Res. CNV CG Nº 3/11, Artículo 4: Cortes mínimos. Para negociaciones en el mercado primario: No deberán ser inferiores a 300 (trescientos) salarios mínimos o su equivalente en moneda extranjera, representados en múltiplos de G. 100.000.000 (guaraníes Cien millones) o su equivalente en moneda extranjera, en cuyo caso el múltiplo aplicable será de US$ 25.000 (dólares americanos Veinticinco mil). Para negociaciones en el mercado secundario: No deberán ser inferiores a G. 100.000.000 (guaraníes Cien millones), para emisiones en guaraníes; y para emisiones en moneda extranjera el equivalente a US$ 25.000 (dólares americanos Veinticinco mil). El mismo no se encuentra alcanzado por la garantía de depósito."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="34" y="246" width="305" height="15" uuid="4082d428-c1ef-4b6b-9b62-5edb1b629e0c"/>
+				<textElement>
+					<font fontName="Arial" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Asunción, "+$F{dia}+" de "+$F{nombremes}+" de "+$F{periodo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="208" y="482" width="283" height="15" uuid="cae58c4e-f6fe-46d0-aae0-86a4359b939a"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cNombreEmpresa}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="210" y="476" width="281" height="1" uuid="caddd8e8-126e-41a2-a423-c351917c1780"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="8" y="464" width="185" height="12" uuid="e0fb2c7a-0bbf-4f3d-9760-7530bda340a5"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cTipo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="20" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

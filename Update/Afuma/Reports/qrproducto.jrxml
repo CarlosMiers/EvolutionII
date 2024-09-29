@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="qrproducto" pageWidth="269" pageHeight="141" columnWidth="241" leftMargin="14" rightMargin="14" topMargin="14" bottomMargin="14" uuid="d942ebcb-5249-4950-9391-4bfc8160d7d3">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="cCodigo" class="java.lang.String"/>
+	<parameter name="cPrecio" class="java.lang.String"/>
+	<parameter name="cNombreRubro" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select codigo,codigobarra,nombre
+from productos
+WHERE codigo=$P{cCodigo}]]>
+	</queryString>
+	<field name="codigo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="codigobarra" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<detail>
+		<band height="106" splitType="Stretch">
+			<image onErrorType="Blank">
+				<reportElement x="64" y="1" width="104" height="100" uuid="4161b79d-acf3-44a2-8be8-5c563f1472cf"/>
+				<imageExpression><![CDATA[com.google.zxing.client.j2se.MatrixToImageWriter.toBufferedImage(
+ new com.google.zxing.qrcode.QRCodeWriter().encode(
+ "Código: "+$F{codigo}.toString()+" Código Barra: "+$F{codigobarra}.toString()+" Nombre del Producto :"+$F{nombre}.toString()+" Rubro: "+$P{cNombreRubro}.toString()+" PRECIO VENTA "+$P{cPrecio}.toString(),com.google.zxing.BarcodeFormat.QR_CODE,300 ,300))]]></imageExpression>
+			</image>
+		</band>
+	</detail>
+</jasperReport>

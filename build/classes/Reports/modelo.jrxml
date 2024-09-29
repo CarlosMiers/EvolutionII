@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="modelo" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="357c285e-d2bf-48e2-bdd5-2e907e6a401d">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="401"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="17" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="611" splitType="Stretch">
+			<rectangle>
+				<reportElement x="464" y="112" width="13" height="12" uuid="83c21e7f-3b33-41a7-84fe-3ecbd33abc19"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="14" y="205" width="43" height="12" uuid="981244ec-ca8f-452b-a4b1-969a903c2ba3"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[CANTIDAD]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="513" y="35" width="41" height="11" uuid="21c38f53-9b2d-41ae-b3e2-3f72d4a0a1e5"/>
+				<textElement>
+					<font fontName="Calibri Light" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{vencimientotimbrado}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="127" y="386" width="20" height="12" uuid="56227702-df7f-4d36-9982-c7e5234b3688"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[5%]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="552" y="113" width="9" height="11" uuid="62bebc43-7298-4d80-8115-f7928e61577f"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{comprobante}.equals( new Integer(2)) ? "X" : "" )]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="310" y="111" width="76" height="13" uuid="58189ced-0d3c-478b-8c39-5f4e2cdcefa4"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Condición de Venta:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="394" y="36" width="110" height="10" uuid="f43cd54b-8a8a-4cc6-9f40-7deebf2560c8"/>
+				<textElement>
+					<font fontName="Copperplate Gothic Bold" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Fecha Fin Vigencia]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="10" y="194" width="588" height="32" uuid="fdf59aec-c1fa-4f78-83df-21be5dd487e0"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="11" y="383" width="586" height="20" uuid="c1e0ecc7-924e-4422-9156-68149c2433bb"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="21" y="386" width="84" height="12" uuid="670ecbb3-fe97-46ba-a4c3-55d522b5f7f0"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Liquidación del I.V.A.:]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="548" y="112" width="13" height="12" uuid="02a4df6d-0c34-4f95-a9c2-d2bfe9423923"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="472" y="212" width="43" height="12" uuid="0585a3ec-d894-455c-84fb-f54b41a5a540"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[5%]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="513" y="24" width="41" height="11" uuid="edc0a23d-1854-45cc-8943-d7252faec01f"/>
+				<textElement>
+					<font fontName="Calibri Light" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{iniciotimbrado}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="535" y="212" width="43" height="12" uuid="d6e1eb9f-3579-4465-8b46-0ed72e18eead"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[10%]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="16" y="149" width="283" height="12" uuid="fdca4092-7c87-4a58-8340-bff9585bdf50"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["NOMBRE O RAZÓN SOCIAL :"+$F{nombre}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="394" y="26" width="110" height="10" uuid="dd4ea7b1-1898-4bbb-bbf7-180b00519542"/>
+				<textElement>
+					<font fontName="Copperplate Gothic Bold" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Fecha Inicio Vigencia]]></text>
+			</staticText>
+			<rectangle radius="10">
+				<reportElement x="10" y="10" width="268" height="88" uuid="ba797b27-d9e0-401a-95c4-2a91dee8ebfe"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="406" y="212" width="43" height="14" uuid="617daaca-5892-4128-a6bc-819f56488b41"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[EXENTAS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="25" y="325" width="66" height="12" uuid="b949d3a4-8a64-460e-9694-371f76c99a7b"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[SUB-TOTALES]]></text>
+			</staticText>
+			<line>
+				<reportElement x="401" y="210" width="197" height="1" uuid="8194cb79-8432-4259-8df5-00573b640a96"/>
+			</line>
+			<staticText>
+				<reportElement x="394" y="16" width="71" height="10" uuid="1b718c90-e933-4798-a70b-e609c8a14ec2"/>
+				<textElement>
+					<font fontName="Copperplate Gothic Bold" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Timbrado N°:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="401" y="194" width="1" height="32" uuid="b46ee81c-7a1d-447d-bcd2-cbc0cab7d4d6"/>
+			</line>
+			<textField pattern="#,##0">
+				<reportElement x="480" y="387" width="73" height="13" uuid="fdd245ab-bc62-4973-9043-719832c832c7"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totaliva10}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="394" y="77" width="130" height="11" uuid="59511952-d849-4d42-ae91-ba10fc553b18"/>
+				<textElement>
+					<font fontName="Copperplate Gothic Bold" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{formatofactura}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="11" y="321" width="587" height="20" uuid="bfab4c7f-25e1-40cd-bf2d-470c1fb7f70e"/>
+			</rectangle>
+			<rectangle radius="10">
+				<reportElement x="329" y="13" width="268" height="85" uuid="34318459-c958-4356-ab8d-429402e046d2"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="10" y="131" width="588" height="53" uuid="9a4da164-a2b4-4cb7-8089-cd1cabcdc16e"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="477" y="197" width="101" height="12" uuid="861bc78a-7a4b-402a-a20d-b5b10cab2bb5"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[VALOR DE VENTAS]]></text>
+			</staticText>
+			<image>
+				<reportElement x="17" y="16" width="46" height="46" uuid="cc442dcf-7986-43e7-8c9f-e39e22398482"/>
+				<imageExpression><![CDATA["C:\\Sistemas\\EvolutionII\\EvolutionII\\src\\Iconos\\fapasalogo.jpg"]]></imageExpression>
+			</image>
+			<rectangle>
+				<reportElement x="10" y="230" width="588" height="87" uuid="992a086c-796b-43dd-917b-1c5167fbc4db"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="65" y="205" width="204" height="12" uuid="4b79ec01-d2f5-4862-8c92-7230f870ac4e"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[DETALLE DE LAS MERCADERIAS Y/O SERVICIOS]]></text>
+			</staticText>
+			<textField pattern="#,##0">
+				<reportElement x="491" y="324" width="80" height="13" uuid="eb8d19b4-3127-4f31-bced-0a43671a58d0"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalneto}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="67" y="16" width="191" height="20" uuid="84637b65-8563-4af9-a14d-78a79c67b6f1"/>
+				<textElement>
+					<font fontName="Copperplate Gothic Bold" size="8"/>
+				</textElement>
+				<text><![CDATA[ASOCIACIÓN MUTUAL DE EMPLEADOS DE FARMACÉUTICA PARAGUAYA S.A.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="492" y="112" width="43" height="12" uuid="b770ba74-0696-4d6a-8d6e-bd348312a058"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[CRÉDITO]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="11" y="344" width="587" height="35" uuid="682fb13c-c4ae-4431-9ef2-bed1010bc654"/>
+			</rectangle>
+			<line>
+				<reportElement x="304" y="107" width="1" height="20" uuid="47cd117a-315b-4f96-be11-13051c36948c"/>
+			</line>
+			<staticText>
+				<reportElement x="430" y="387" width="47" height="12" uuid="b6ff218e-2cd2-47e0-8484-5633cb533a91"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Total I.V.A.]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="10" y="107" width="587" height="20" uuid="2b937322-f799-46a3-90ae-fdb81082ecbc"/>
+			</rectangle>
+			<subreport>
+				<reportElement x="21" y="235" width="564" height="72" uuid="9c914c29-e4c7-4506-8a55-5b9266532dc5"/>
+				<subreportParameter name="cReferencia">
+					<subreportParameterExpression><![CDATA[$P{cReferencia}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "detalle_factura_fapasa.jasper"]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement x="395" y="52" width="109" height="10" uuid="53f1f67c-6515-429a-9781-7f53cd84ef8c"/>
+				<textElement>
+					<font fontName="Copperplate Gothic Bold" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[RUC: 800033305-5]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="269" y="387" width="20" height="12" uuid="0b822cda-cd37-4436-a1c5-05df5f19d30a"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[10%]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="16" y="348" width="466" height="31" uuid="1133112a-698c-4e7d-9c4b-8efe4e389da2"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["TOTAL A PAGAR (Guaraníes) "+$P{Letra}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="67" y="36" width="191" height="62" uuid="b0630b7c-a99b-4db4-99b1-d67b3c432a68"/>
+				<textElement>
+					<font fontName="Calibri Light" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[PERSONERÍA JURÍDICA Dcto. Nº 11 698/85
+DIRECCION: DEL CARMEN 2400 ESQ. LAPACHO
+E-MAIL: ASOCIACION.FAPASA@FAPASA.COM.Py
+Teléfono: 0992400600
+FERNANDO DE LA MORA, ZONA NORTE – Paraguay
+RUC: 800033305-5
+]]></text>
+			</staticText>
+			<textField pattern="###0">
+				<reportElement x="513" y="13" width="41" height="11" uuid="63cdde1a-bd8b-455c-8a06-2de52f44f5d1"/>
+				<textElement>
+					<font fontName="Calibri Light" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nrotimbrado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="16" y="136" width="113" height="13" uuid="fe579869-2da7-4627-869f-33aa122c19a1"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["RUC :"+$F{ruc}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="490" y="347" width="80" height="13" uuid="6d914387-a73e-475a-b293-cad0821286c2"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalneto}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="352" y="199" width="43" height="22" uuid="317f126f-0e30-4129-9ffe-5ba7736b1bf8"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[PRECIO UNITARIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="414" y="62" width="51" height="10" uuid="988fc863-9ad1-40d5-84b5-9bbcb0bca1fe"/>
+				<textElement textAlignment="Center">
+					<font fontName="Copperplate Gothic Bold" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[FACTURA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="402" y="112" width="43" height="12" uuid="af2656a1-abff-4ec2-a007-b367dc4e5fb8"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[CONTADO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="21" y="110" width="76" height="13" uuid="d2bf10b4-e91a-497b-8bcb-d1296a66ecfd"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Fecha de Emisión]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="104" y="111" width="56" height="11" uuid="26beb765-dff8-49e7-a3b0-e2ff5424cc14"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="294" y="387" width="73" height="13" uuid="1f458a90-d1f4-4b0a-bef0-febf3fd4f7cb"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totaliva10}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="466" y="112" width="9" height="11" uuid="f56c93df-8b43-42c0-b458-dea970d4e71d"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{comprobante}.equals( new Integer(1)) ? "X" : "" )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="16" y="164" width="283" height="12" uuid="15c9609b-9c15-4050-8abd-7a89bb315d09"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["DIRECCIÓN :"+$F{direccion}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="174" splitType="Stretch"/>
+	</columnHeader>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

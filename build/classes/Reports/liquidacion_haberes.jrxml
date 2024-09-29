@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="liquidacion_haberes" printOrder="Horizontal" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="15626d40-29b7-4762-96d3-f22a87d7f738">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="49"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.callouts" value="##Thu Nov 17 10:45:59 PYST 2016"/>
+	<parameter name="cNombreEmpresa" class="java.lang.String"/>
+	<parameter name="cNumero" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT desvinculaciones.numero,desvinculaciones.fecha,
+empleados.cedula,empleados.direccion,empleados.telefono,
+desvinculaciones.inicio,desvinculaciones.fin,desvinculaciones.antiguedad,
+desvinculaciones.funcionario,desvinculaciones.tipo_desvinculacion,
+desvinculaciones.dias_preaviso,desvinculaciones.salario_ordinario,
+desvinculaciones.vacaciones,desvinculaciones.aguinaldo,
+desvinculaciones.preaviso,desvinculaciones.indemnizacion,
+desvinculaciones.ips,
+CASE
+    WHEN desvinculaciones.tipo_desvinculacion= 1 THEN "FINALIZACION CONTRATO"
+    WHEN desvinculaciones.tipo_desvinculacion= 2 THEN "RENUNCIA"
+    WHEN desvinculaciones.tipo_desvinculacion= 3 THEN "DESPIDO JUSTIFICADO"
+    WHEN desvinculaciones.tipo_desvinculacion= 4 THEN "DESPIDO INJUSTIFICADO"
+    ELSE "JUBILACION"
+END AS motivosalida,
+CONCAT(empleados.nombres,', ',empleados.apellidos) AS nombreempleado
+FROM desvinculaciones
+INNER JOIN empleados
+ON empleados.codigo=desvinculaciones.funcionario
+WHERE desvinculaciones.numero=$P{cNumero}]]>
+	</queryString>
+	<field name="numero" class="java.lang.Float">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cedula" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="direccion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="telefono" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="inicio" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fin" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="antiguedad" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="funcionario" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tipo_desvinculacion" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="dias_preaviso" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="salario_ordinario" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="vacaciones" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="aguinaldo" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="preaviso" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="indemnizacion" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ips" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="motivosalida" class="java.lang.String"/>
+	<field name="nombreempleado" class="java.lang.String"/>
+	<group name="numero">
+		<groupExpression><![CDATA[$F{numero}]]></groupExpression>
+		<groupHeader>
+			<band height="25"/>
+		</groupHeader>
+	</group>
+	<group name="Funcionario" isStartNewPage="true" isReprintHeaderOnEachPage="true">
+		<groupExpression><![CDATA[]]></groupExpression>
+		<groupHeader>
+			<band height="33">
+				<rectangle>
+					<reportElement x="108" y="4" width="337" height="23" uuid="d97952b0-f8f4-4942-a55d-f2bb20f50478"/>
+				</rectangle>
+				<staticText>
+					<reportElement x="127" y="7" width="76" height="18" uuid="6a6182de-9931-4d20-b047-4914237c4e1f"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Conceptos:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="255" y="7" width="78" height="18" uuid="f976e9e1-8af0-4285-a71c-0c7c5c1a2ccc"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Ingresos]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="345" y="7" width="86" height="18" uuid="fb679ff6-4089-4c2b-9b6e-40d6707f6372"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Egresos]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="12"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="1" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="159" splitType="Stretch">
+			<textField pattern="d/M/yyyy">
+				<reportElement x="180" y="79" width="61" height="12" uuid="cb54d0a4-8574-4115-a254-dffeadeeb5d0"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="113" y="4" width="217" height="15" uuid="da1c1c40-7e27-4edf-96fb-906fc6cdbb9b"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cNombreEmpresa}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="116" y="64" width="45" height="13" uuid="b0689447-c738-4902-b53a-d2dc643249be"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[EMPLEADO:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="182" y="64" width="249" height="12" uuid="f1b50fbc-a93c-4128-8fc1-d021d98a5205"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombreempleado}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="280" y="80" width="45" height="13" uuid="fa005914-ba63-4210-a5df-4c0f2f55ff1f"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[N° C.I:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="330" y="80" width="66" height="13" uuid="14daa29d-f985-459c-874b-24fee4a5ea4e"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cedula}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="116" y="79" width="45" height="13" uuid="66a49a66-c15f-4930-b33b-84c4e8664da9"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="116" y="93" width="45" height="13" uuid="90c4cd3a-ff1b-40c5-a19a-8835abe67424"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ingreso:]]></text>
+			</staticText>
+			<textField pattern="d/M/yyyy">
+				<reportElement x="180" y="93" width="61" height="12" uuid="9e001af4-d831-4574-b6d3-43c1573f301e"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{inicio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="d/M/yyyy">
+				<reportElement x="180" y="108" width="61" height="12" uuid="962f3695-5164-4105-b4b8-1d6a9b543f8e"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fin}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="116" y="108" width="45" height="13" uuid="636353ea-9476-49ff-9aa6-5239b3d0c7de"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Egreso]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="116" y="125" width="45" height="13" uuid="e404296a-bfe5-4b3b-a58b-5de7eb47cbb6"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Antiguedad]]></text>
+			</staticText>
+			<textField pattern="###0">
+				<reportElement x="182" y="125" width="21" height="15" uuid="ddb1f378-6310-406b-873e-1dfee5b3d4df"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{antiguedad}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="116" y="140" width="45" height="13" uuid="3495c74a-7b82-4b77-8791-c455770bfca4"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Motivo]]></text>
+			</staticText>
+			<textField pattern="###0">
+				<reportElement x="182" y="140" width="128" height="15" uuid="a17760e0-bd4e-43e6-9bfc-e4d051faee7f"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{motivosalida}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="210" y="127" width="35" height="13" uuid="df60e6f1-7cad-4427-a56e-1cf5ee604bcd"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Años]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="118" y="32" width="313" height="32" uuid="58e29230-7595-4cce-ad0b-d409025ffcc8"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[LIQUIDACIÓN FINAL  DE HABERES POR TÉRMINO DE LA RELACIÓN LABORAL
+]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="374" splitType="Stretch">
+			<textField pattern="#,##0">
+				<reportElement x="350" y="144" width="75" height="15" uuid="2f220dab-bc3b-4910-b88a-134ec16d8241"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new Double($F{aguinaldo}.doubleValue() + $F{vacaciones}.doubleValue()+$F{salario_ordinario}.doubleValue()+$F{preaviso}.doubleValue()+$F{indemnizacion}.doubleValue()-$F{ips}.doubleValue())]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="113" y="5" width="120" height="16" uuid="e49483f9-9191-4d50-a5a4-30f9461a8bbd"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<text><![CDATA[PREAVISO ART. 87 C.T. ()
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="113" y="23" width="89" height="16" uuid="36658758-a2f3-47b4-bd49-4f9f42a02c8c"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<text><![CDATA[INDEMNIZACIÓN  ART. 91 C.T. ()
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="113" y="42" width="89" height="15" uuid="0a8f3f0e-c672-44c3-ae5c-8c4e78a4609a"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<text><![CDATA[DIAS TRABAJADOS ()
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="114" y="77" width="127" height="15" uuid="8e9a08dd-d411-48d8-9fdf-8315949a5ac2"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<text><![CDATA[AGUINALDO PROPORCIONAL ()
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="114" y="95" width="88" height="15" uuid="b4eb77b5-5fb0-4f45-8301-b575446e3c49"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<text><![CDATA[I.P.S 9%]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="114" y="60" width="131" height="15" uuid="fff34026-98fd-4dec-82dc-49d2911e668a"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<text><![CDATA[VACACIONES PROPORCIONALES ()
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="260" y="144" width="76" height="15" uuid="84e038e2-6657-4581-b8a5-8995be7e293f"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[Neto a Cobrar]]></text>
+			</staticText>
+			<textField pattern="#,##0">
+				<reportElement x="256" y="8" width="77" height="15" uuid="7137e0ef-3b8c-476c-9d0a-41ce13226bf8"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{preaviso}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="139" y="337" width="70" height="18" uuid="5ca6696b-0676-4834-8f2b-d493121812a5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA["C.I."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="140" y="309" width="70" height="12" uuid="c4066a2a-1134-4668-9cb7-e8b61cb72bb7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA["FIRMA"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="139" y="324" width="70" height="12" uuid="82e75ea8-5d41-4f51-bf77-85478a15cab5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ACLARACIÓN"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="241" y="309" width="159" height="12" uuid="70dc1836-8a91-4fd9-9e67-97c1d429a65f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[_____________________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="241" y="324" width="157" height="14" uuid="c14a3c0a-62eb-4a4b-9be8-a59a0b68575d"/>
+				<box>
+					<pen lineWidth="0.0" lineStyle="Dotted"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted"/>
+					<bottomPen lineWidth="0.0" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top" markup="none">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[_____________________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="241" y="341" width="157" height="14" uuid="b330e7b8-7760-4ef6-91f9-4685ed16fe2b"/>
+				<box>
+					<pen lineWidth="0.0" lineStyle="Dotted"/>
+					<topPen lineWidth="0.0" lineStyle="Dotted"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted"/>
+					<bottomPen lineWidth="0.0" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[_____________________________]]></text>
+			</staticText>
+			<textField pattern="#,##0">
+				<reportElement x="256" y="27" width="77" height="15" uuid="fb42deca-dbbb-4729-83b9-0e372137413a"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{indemnizacion}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="256" y="45" width="77" height="15" uuid="0a53d7ed-37bf-41eb-9f4f-eded4cbc8a55"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{salario_ordinario}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="256" y="62" width="77" height="15" uuid="e47044a6-97de-42c8-8b8a-de782985948d"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{vacaciones}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="256" y="80" width="77" height="15" uuid="c5c6c20e-e2a8-4a06-982d-a0cc0f140ad1"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{aguinaldo}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="350" y="95" width="77" height="15" uuid="38f395a5-b2ed-4c2a-9154-a8acb1a5e95e"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ips}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="114" y="116" width="313" height="1" uuid="d1b23199-c753-4876-b2a4-4f7561c712f3"/>
+			</line>
+			<textField pattern="#,##0">
+				<reportElement x="248" y="121" width="77" height="15" uuid="6cb3e836-9227-4839-95c5-94a328cfdd0d"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new Double($F{aguinaldo}.doubleValue() + $F{vacaciones}.doubleValue()+$F{salario_ordinario}.doubleValue()+$F{preaviso}.doubleValue()+$F{indemnizacion}.doubleValue())
+
+]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="350" y="121" width="77" height="15" uuid="3cc4f840-c5eb-40ca-a2bb-60e661c0e001"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ips}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="114" y="121" width="86" height="15" uuid="69f2df1a-96cd-4334-a53e-af96c6f36f12"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<text><![CDATA[TOTAL GENERAL]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="114" y="178" width="317" height="100" uuid="92e66a53-2be9-41c2-b9bd-bae3d0b799b2"/>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression><![CDATA["RECIBÍ MIS HABERES CORRESPONDIENTES DE CONFORMIDAD A LA LIQUIDACIÓN QUE ANTECEDE, EN CONCEPTO DE HABERES POR "+$F{motivosalida} +", MANIFESTANDO QUE LOS DATOS DE ANTIGÜEDAD Y SALARIOS EXPRESADOS EN LA LIQUIDACIÓN SON CORRECTOS Y VERÍDICOS; ACLARANDO NO TENER NADA MÁS QUE RECLAMAR JUDICIAL Y/O EXTRAJUDICIALMENTE A LA EMPRESA."
+]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="11" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="11" splitType="Stretch"/>
+	</pageFooter>
+</jasperReport>

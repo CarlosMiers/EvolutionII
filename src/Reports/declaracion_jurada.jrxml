@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="declaracion_jurada" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6034848f-e095-4fb9-a25c-057dfebd9eaf">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="204"/>
+	<parameter name="cNombreEmpresa" class="java.lang.String"/>
+	<parameter name="cCliente" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Sistemas\\EvolutionII\\EvolutionII\\src\\Reports\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="FechaI" class="java.util.Date"/>
+	<parameter name="cUsuario" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT clientes.codigo,clientes.categoria,clientes.asesor,clientes.nombre AS nombrecliente,clientes.fechaingreso,clientes.fechaingresofuncionario,
+clientes.celular, clientes.direccion, clientes.mail,giradurias.nombre AS nombregiraduria,
+clientes.salario,clientes.ruc,clientes.telefono
+FROM CLIENTES
+LEFT JOIN giradurias
+ON giradurias.codigo=clientes.giraduria
+WHERE clientes.codigo= $P{cCliente}]]>
+	</queryString>
+	<field name="codigo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="categoria" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="asesor" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombrecliente" class="java.lang.String"/>
+	<field name="fechaingreso" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fechaingresofuncionario" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="celular" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="direccion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="mail" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombregiraduria" class="java.lang.String"/>
+	<field name="salario" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ruc" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="telefono" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="181" splitType="Stretch">
+			<staticText>
+				<reportElement x="77" y="49" width="407" height="22" uuid="1c2fec0f-e19d-4a5b-8afd-44fa5760de93"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DECLARACIÓN JURADA]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="77" y="92" width="331" height="17" uuid="a287872b-2fd7-41bf-8d2b-a521fcafd170"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["El /la que suscribe:  "+$F{nombrecliente}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="-128" y="10" width="90" height="10" uuid="2b8fe7b6-0020-4f9c-892a-3b2de589164d"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Monto del Crédito]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="77" y="124" width="331" height="15" uuid="1a4ef81f-2ffe-4da5-8793-d1cbe44aa1b6"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Con Cédula de Identidad N° "+$F{ruc}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="77" y="164" width="331" height="17" uuid="6036615d-b7aa-41c2-a9bf-2b90981cec6f"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["DECLARO BAJO JURAMENTO"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="10" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="200" splitType="Stretch">
+			<textField>
+				<reportElement x="77" y="0" width="407" height="180" uuid="85b99508-9d94-445f-9a7e-f4b5b64da384"/>
+				<textElement textAlignment="Justified" markup="none">
+					<font fontName="Times New Roman" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Que, AUTORIZO suficientemente a la Asociación de Funcionarios de la Municipalidad"+
+" de Asunción (AFUMA), en forma voluntaria e irrevocable a realizar los descuentos de créditos "+
+"y otras obligaciones asumidas libre y responsablemente, de mi salario mensual "+
+"hasta la cancelación del mismo. "+
+
+"En ese sentido autorizo el descuento hasta el 100% de mi salario."+
+
+"Y para que así conste a los efectos oportunos, firmo la presente declaración "]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="96" splitType="Stretch">
+			<staticText>
+				<reportElement x="80" y="9" width="98" height="15" uuid="439ca6d1-0d8f-40d8-95a8-ca572ab4617c"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FIRMA]]></text>
+			</staticText>
+			<line>
+				<reportElement x="228" y="19" width="276" height="1" uuid="47a5eb24-609b-42a6-ad2e-b31642b46c97"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="77" y="41" width="137" height="15" uuid="3c25f92b-9c97-42b6-85ff-82361f20c7cc"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOMBRE Y APELLIDO:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="228" y="55" width="276" height="1" uuid="48a47c25-4d56-4b23-b67b-068887d7afb5"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="224" y="36" width="280" height="17" uuid="8ab58b02-e6a9-4a06-a4a9-7675ab22a4c9"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombrecliente}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="77" y="71" width="137" height="15" uuid="2455c390-db2c-4b3b-ba10-6dd55c84d9a7"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CÉDULA N°: ]]></text>
+			</staticText>
+			<line>
+				<reportElement x="228" y="85" width="276" height="1" uuid="58f7248a-dae0-4779-bc7b-98eeb645339a"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="224" y="69" width="110" height="15" uuid="b521acb3-8f6a-4d8b-a600-dfffea1cf305"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ruc}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

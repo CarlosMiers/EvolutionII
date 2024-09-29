@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="detalle_facturamillard" pageWidth="570" pageHeight="850" columnWidth="570" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="0f94f723-7961-40b6-9bfb-d9fc8f92950c">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="157"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="cReferencia" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT dreferencia,codprod,cantidad,comentario,precio,monto,impiva,CAST(porcentaje AS CHAR) iva,porcentaje,productos.nombre
+FROM detalle_ventas
+LEFT JOIN productos
+ON productos.codigo=detalle_ventas.codprod
+WHERE detalle_ventas.dreferencia=$P{cReferencia}]]>
+	</queryString>
+	<field name="dreferencia" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="codprod" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cantidad" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="comentario" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="precio" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="monto" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="impiva" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="iva" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="porcentaje" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="9" splitType="Stretch">
+			<textField pattern="###0">
+				<reportElement x="3" y="1" width="25" height="7" uuid="833114a9-7edb-4c0c-82c8-18ca3183b624"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="91" y="1" width="205" height="7" uuid="eb62fa14-d0f4-4a91-9f15-69a470eca25c"/>
+				<textElement>
+					<font fontName="Arial" size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="333" y="1" width="44" height="7" uuid="b6d98c62-6f10-4603-a8c6-dd90ef7fa4a8"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{precio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="498" y="1" width="49" height="7" uuid="c47aef31-2d4b-4861-9b1c-ac9b6501d021">
+					<printWhenExpression><![CDATA[$F{iva}.equals( "10.00")]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{monto}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="440" y="1" width="48" height="7" uuid="d9142f29-c8ac-4b61-b7d4-6fbab46dba5c">
+					<printWhenExpression><![CDATA[$F{iva}.equals( "5.00")]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{monto}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="384" y="1" width="48" height="7" uuid="52666f21-a722-431a-8390-f0ccdcbfbd79">
+					<printWhenExpression><![CDATA[$F{iva}.equals( "0.00")]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{monto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="39" y="1" width="43" height="7" uuid="725a3194-be99-4fb0-99c2-bf4ccb0852b3"/>
+				<textElement>
+					<font fontName="Arial" size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codprod}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

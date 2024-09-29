@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="historico_gestiones" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6034848f-e095-4fb9-a25c-057dfebd9eaf">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="cNombreEmpresa" class="java.lang.String"/>
+	<parameter name="nCliente" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT novedades.numero,novedades.fecha,novedades.cliente,
+novedades.gestor,novedades.proxima_llamada,novedades.estado,novedades.observacion,
+clientes.nombre AS nombrecliente,cobradores.nombre AS nombregestor
+FROM novedades
+LEFT JOIN clientes
+ON clientes.codigo=novedades.cliente
+LEFT JOIN cobradores
+ON cobradores.codigo=novedades.gestor
+WHERE cliente=$P{nCliente}
+ORDER BY novedades.fecha]]>
+	</queryString>
+	<field name="numero" class="java.lang.Float">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cliente" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="gestor" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="proxima_llamada" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="estado" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="observacion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombrecliente" class="java.lang.String"/>
+	<field name="nombregestor" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="2" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="73" splitType="Stretch">
+			<staticText>
+				<reportElement x="7" y="30" width="230" height="16" uuid="1c2fec0f-e19d-4a5b-8afd-44fa5760de93"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Histórico de Gestión de Cobranza]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="9" y="8" width="209" height="15" uuid="00a6fb42-4341-4a40-995c-ba57374b48d7"/>
+				<textElement>
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cNombreEmpresa}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="6" y="55" width="86" height="16" uuid="cda508ba-0911-4229-8290-9c1d8c00efb1"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cuenta cliente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="467" y="31" width="31" height="11" uuid="d6936019-1819-4974-b706-2a3ba5fe6abd"/>
+				<textElement>
+					<font fontName="Arial" size="8" isUnderline="false" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[Fecha :]]></text>
+			</staticText>
+			<textField pattern="d/M/yyyy">
+				<reportElement x="501" y="30" width="45" height="12" uuid="5f33e8aa-85bd-4819-9102-ad0777ce134e"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="506" y="8" width="40" height="20" uuid="7d51b83c-330d-40df-85b5-daa9ebce86ce"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="331" y="8" width="174" height="20" uuid="8439d3d9-8a7e-450d-8de1-e40f951e6f05"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="96" y="57" width="277" height="12" uuid="6c29d597-45a5-4290-979e-5effc8426872"/>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cliente}+" / "+$F{nombrecliente}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<staticText>
+				<reportElement x="159" y="9" width="100" height="10" uuid="d2a8ae9f-fa0f-4e8c-9aa1-23fa11179fbf"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Observaciones]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="113" y="3" width="43" height="21" uuid="9bc439c7-f849-4b80-968e-cdc0c2a1bb07"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Próxima Llamada]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="421" y="9" width="75" height="10" uuid="ec09e24a-f4e5-43c3-a91c-07b125360563"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Gestor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="505" y="9" width="44" height="10" uuid="d2cccb51-f71b-48b6-a46b-522e0f62fc46"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Estado]]></text>
+			</staticText>
+			<line>
+				<reportElement x="6" y="24" width="549" height="1" uuid="da615b41-e6e5-44d8-87c7-c26d4004d8b7"/>
+			</line>
+			<line>
+				<reportElement x="6" y="-2" width="549" height="1" uuid="37fd5e6c-0b42-477d-aadb-39ecfd05216c"/>
+			</line>
+			<staticText>
+				<reportElement x="9" y="9" width="49" height="10" uuid="5a3cf90d-7517-4aae-84c8-c79245e227da"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[N° Operación]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="68" y="3" width="40" height="21" uuid="be2c13f3-dba8-4498-bc2a-bce64158b52a"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Fecha Llamada]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="111" y="3" width="45" height="12" uuid="fe489afd-2788-4c17-a6a3-4541dd72ee3f"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{proxima_llamada}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement x="6" y="3" width="52" height="12" uuid="7a7e7b64-f34a-48a3-87f7-9ad791297140"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numero}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="63" y="3" width="45" height="12" uuid="9086e726-b9dc-4230-981b-02381aeba314"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="159" y="3" width="251" height="11" uuid="c87c5d0d-e291-48d1-8c6b-dbcc7f57655d"/>
+				<textElement>
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{observacion}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement x="421" y="3" width="75" height="11" uuid="de8a1def-5811-48bb-bc9b-13c6d2c9e513"/>
+				<textElement>
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombregestor}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement x="505" y="3" width="44" height="11" uuid="00402fad-9744-471b-9a04-0411f976a942"/>
+				<textElement>
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{estado}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="2" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="16" splitType="Stretch">
+			<line>
+				<reportElement x="6" y="-1" width="549" height="1" uuid="bb77f698-66f0-4d0d-bb62-b89a111e55e5"/>
+			</line>
+			<staticText>
+				<reportElement x="8" y="3" width="84" height="11" uuid="fb8300d3-0d76-4c76-be41-3f71767aa1c6"/>
+				<textElement>
+					<font fontName="Arial" size="8" isUnderline="false" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[*** Fin del Informe***]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="pagare_incresa_cuotas" pageWidth="708" pageHeight="425" columnWidth="668" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c3ad0422-6852-49df-b1da-173322e3e884">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="144"/>
+	<import value="Sistemas.EvolutionII.EvolutionII.src.Reports.jasper.*"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="Letra" class="java.lang.String"/>
+	<parameter name="nNumeroPrestamo" class="java.lang.String"/>
+	<parameter name="nCuota" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT numero,prestamos.fecha,socio,clientes.nombre,
+detalle_prestamo.monto,monedas.etiqueta,monedas.nombre as nombremoneda,
+clientes.nombre,clientes.direccion,clientes.telefono,
+clientes.ruc,prestamos.plazo,detalle_prestamo.nrocuota,
+detalle_prestamo.vence,
+DAY(detalle_prestamo.vence) AS vencedia,
+CASE MONTH(detalle_prestamo.vence)
+  WHEN 1 THEN 'Enero'
+  WHEN 2 THEN 'Febrero'
+  WHEN 3 THEN 'Marzo'
+  WHEN 4 THEN 'Abril'
+  WHEN 5 THEN 'Mayo'
+  WHEN 6 THEN 'Junio'
+  WHEN 7 THEN 'Julio'
+  WHEN 8 THEN 'Agosto'
+  WHEN 9 THEN 'Setiembre'
+  WHEN 10 THEN 'Octubre'
+  WHEN 11 THEN 'Noviembre'
+  WHEN 12 THEN 'Diciembre'
+END AS vencemes
+FROM prestamos
+INNER JOIN clientes
+ON clientes.codigo=prestamos.socio
+INNER JOIN monedas
+ON monedas.codigo=prestamos.moneda
+INNER JOIN detalle_prestamo
+ON detalle_prestamo.nprestamo=prestamos.numero
+WHERE prestamos.numero=$P{nNumeroPrestamo}
+AND detalle_prestamo.nrocuota=$P{nCuota}
+ORDER BY detalle_prestamo.nrocuota]]>
+	</queryString>
+	<field name="numero" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="socio" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="monto" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="etiqueta" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombremoneda" class="java.lang.String"/>
+	<field name="direccion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="telefono" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ruc" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="plazo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nrocuota" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="vence" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="vencedia" class="java.lang.Long"/>
+	<field name="vencemes" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="331" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="390" y="73" width="79" height="14" uuid="a6d75704-e716-40e9-b3b0-d4ced105907d"/>
+				<textElement>
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="298" y="87" width="86" height="14" uuid="990a8538-329f-4fd2-923d-c448f5cd961e"/>
+				<textElement>
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Monto "+$F{etiqueta}+" :"]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="486" y="45" width="101" height="14" uuid="1988fed8-b672-4354-806e-1663dc7549e6"/>
+				<textElement>
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{monto}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="270" y="45" width="79" height="14" uuid="f582bbab-fcc0-423f-940e-9e6c57d4e533"/>
+				<textElement>
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{vence}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="164" y="73" width="101" height="14" uuid="17dc146c-2a8a-4e10-bcfb-a8feae293356"/>
+				<textElement>
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nrocuota}.toString()+"/"+$F{plazo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch">
+			<textField>
+				<reportElement x="115" y="-156" width="517" height="32" uuid="bfcf9a68-b598-43e9-87a3-e6347dd04de2"/>
+				<textElement>
+					<font fontName="SansSerif" size="10" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Letra}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="5" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="11" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="79" y="-82" width="282" height="14" uuid="dbe2bd8d-53fc-40c0-9c7a-d84db35ea489"/>
+				<textElement>
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="80" y="-109" width="279" height="13" uuid="07a4dfa6-24f7-46f8-ba98-d109cd09c359"/>
+				<textElement>
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch">
+			<textField>
+				<reportElement x="-168" y="-803" width="517" height="15" uuid="a5678036-ac5b-4ec7-bfc8-5468e38b0274"/>
+				<textElement>
+					<font fontName="Book Antiqua" size="10" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Letra}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

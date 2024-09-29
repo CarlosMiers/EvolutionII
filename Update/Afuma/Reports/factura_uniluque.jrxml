@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="factura_uniluque" printOrder="Horizontal" pageWidth="651" pageHeight="538" columnWidth="651" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="15724193-b574-49f8-865b-f4df501516b8">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="88"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Sistemas\\EvolutionII\\EvolutionII\\src\\Reports\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="cNombreEmpresa" class="java.lang.String"/>
+	<parameter name="cReferencia" class="java.lang.String"/>
+	<parameter name="Letra" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT cabecera_ventas.creferencia,cabecera_ventas.factura,
+cabecera_ventas.fecha,cabecera_ventas.cliente,
+cabecera_ventas.vencimiento,cabecera_ventas.cliente,clientes.nombre,clientes.ruc,clientes.direccion,
+IFNULL(ROUND((`cabecera_ventas`.`exentas` * `cabecera_ventas`.`cotizacion`),0),0) AS `totalexentas`,
+IFNULL(ROUND(((`cabecera_ventas`.`gravadas10` * `cabecera_ventas`.`cotizacion`) / 11),0),0) AS `totaliva10`,
+IFNULL(ROUND(((`cabecera_ventas`.`gravadas5` * `cabecera_ventas`.`cotizacion`) / 21),0),0) AS `totaliva5`,
+cabecera_ventas.comprobante,cabecera_ventas.moneda,cabecera_ventas.gravadas10,
+cabecera_ventas.exentas,cabecera_ventas.gravadas5,cabecera_ventas.totalneto,
+detalle_ventas.codprod,detalle_ventas.cantidad,detalle_ventas.precio,
+detalle_ventas.monto,detalle_ventas.impiva,
+CAST(detalle_ventas.porcentaje AS CHAR) iva,detalle_ventas.porcentaje,
+detalle_ventas.cuota,
+productos.nombre AS nombreproducto,carreras.nombre as nombrecarrera
+FROM cabecera_ventas
+LEFT JOIN clientes
+ON clientes.codigo=cabecera_ventas.cliente
+LEFT JOIN carreras
+ON carreras.codigo=clientes.carrera
+LEFT JOIN detalle_ventas
+ON detalle_ventas.dreferencia=cabecera_ventas.creferencia
+LEFT JOIN productos
+ON productos.codigo=detalle_ventas.codprod
+WHERE cabecera_ventas.creferencia=$P{cReferencia}]]>
+	</queryString>
+	<field name="creferencia" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="factura" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cliente" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="vencimiento" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ruc" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="direccion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="totalexentas" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="totaliva10" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="totaliva5" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="comprobante" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="moneda" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="gravadas10" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="exentas" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="gravadas5" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="totalneto" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="codprod" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cantidad" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="precio" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="monto" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="impiva" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="iva" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="porcentaje" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cuota" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombreproducto" class="java.lang.String"/>
+	<field name="nombrecarrera" class="java.lang.String"/>
+	<variable name="totaliva5_1" class="java.math.BigDecimal" resetType="Page" calculation="Sum">
+		<variableExpression><![CDATA[$F{totaliva5}]]></variableExpression>
+	</variable>
+	<variable name="totalexentas_1" class="java.math.BigDecimal" resetType="Page" calculation="Sum">
+		<variableExpression><![CDATA[$F{totalexentas}]]></variableExpression>
+	</variable>
+	<variable name="monto_1" class="java.math.BigDecimal" resetType="Page" calculation="Sum">
+		<variableExpression><![CDATA[$F{monto}]]></variableExpression>
+	</variable>
+	<pageHeader>
+		<band height="243" splitType="Stretch">
+			<textField>
+				<reportElement x="122" y="162" width="61" height="10" uuid="f06fa5c0-e7ab-4261-b10a-d1fb11ab5986"/>
+				<textElement>
+					<font fontName="Lucida Sans" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ruc}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="120" y="138" width="194" height="10" uuid="b8946176-5ab3-4c7a-8266-f2e4a2204dcb"/>
+				<textElement>
+					<font fontName="Verdana" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="483" y="119" width="16" height="11" uuid="058b4115-2453-44d7-9d82-302e1f553779"/>
+				<textElement textAlignment="Right">
+					<font fontName="Verdana" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{comprobante}.equals( new Integer(1)) ? "X" : "" )]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="584" y="119" width="17" height="11" uuid="d18cfa14-be6b-4287-bb48-2b1bb5ea4179"/>
+				<textElement textAlignment="Right">
+					<font fontName="Verdana" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{comprobante}.equals( new Integer(2)) ? "X" : "" )]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="118" y="116" width="61" height="10" uuid="0dbbd44f-20db-4dd2-b54e-bef14548a86f"/>
+				<textElement>
+					<font fontName="Lucida Sans" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="120" y="185" width="211" height="10" uuid="72facdfd-6b2c-4700-9609-b66bb4aceed3"/>
+				<textElement>
+					<font fontName="Lucida Sans" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="343" y="185" width="241" height="10" uuid="f786a95c-3e4b-4fa6-8daa-903279aa1559"/>
+				<textElement>
+					<font fontName="Lucida Sans" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["CARRERA: "+$F{nombrecarrera}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="270" y="162" width="91" height="10" uuid="d7c6d83e-8932-4be4-b07a-54e05a0cdb2b"/>
+				<textElement>
+					<font fontName="Lucida Sans" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Código "+$F{cliente}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="11">
+			<textField>
+				<reportElement x="93" y="1" width="151" height="9" uuid="c6b1b1aa-1df4-41a9-ac5a-3c1f292a7cc0"/>
+				<textElement>
+					<font fontName="Lucida Sans" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombreproducto}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="343" y="1" width="46" height="9" uuid="0ebc73fb-7447-4cda-9ebc-2b834a5bdf3c"/>
+				<textElement textAlignment="Right">
+					<font fontName="Lucida Sans" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{precio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="402" y="1" width="62" height="9" uuid="5091c69e-8d0f-4347-b713-b06fa18d635b"/>
+				<textElement textAlignment="Right">
+					<font fontName="Lucida Sans" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{monto}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="14" y="1" width="44" height="9" uuid="7552ba4f-d715-4e88-9aa6-8b0f3daac741"/>
+				<textElement textAlignment="Right">
+					<font fontName="Lucida Sans" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="101">
+			<textField>
+				<reportElement x="93" y="10" width="406" height="10" uuid="1ca48691-6d62-489e-af00-ccad6911e00c"/>
+				<textElement>
+					<font fontName="Verdana" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Letra}+"-"]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="515" y="7" width="60" height="10" uuid="1b69ec69-2a4f-443f-aac7-ec01966e7bb4"/>
+				<textElement textAlignment="Right">
+					<font fontName="Lucida Sans" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalneto}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="402" y="0" width="62" height="10" uuid="4f633373-d0f5-4dbe-8520-33713183e9f1"/>
+				<textElement textAlignment="Right">
+					<font fontName="Lucida Sans" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{monto_1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

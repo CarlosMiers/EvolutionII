@@ -1,0 +1,3891 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Vista;
+
+import Clases.Config;
+import Clases.UUID;
+import Conexion.Conexion;
+import Conexion.Control;
+import Conexion.ObtenerFecha;
+import DAO.clienteDAO;
+import DAO.comprobanteDAO;
+import DAO.configuracionDAO;
+import DAO.cuenta_clienteDAO;
+import DAO.lista_precios_lotesDAO;
+import DAO.lotesDAO;
+import DAO.monedaDAO;
+import DAO.sucursalDAO;
+import DAO.vendedorDAO;
+import DAO.venta_lotesDAO;
+import Modelo.Tablas;
+import Modelo.cliente;
+import Modelo.comprobante;
+import Modelo.configuracion;
+import Modelo.lista_precios_lotes;
+import Modelo.lote;
+import Modelo.moneda;
+import Modelo.sucursal;
+import Modelo.vendedor;
+import Modelo.ventas_lotes;
+import com.toedter.calendar.JDateChooser;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.math.BigDecimal;
+import java.net.URL;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
+import javax.swing.ImageIcon;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.RowFilter;
+import javax.swing.UIManager;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableRowSorter;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
+import org.openide.util.Exceptions;
+
+/**
+ *
+ */
+public class venta_lotes extends javax.swing.JFrame {
+
+    Conexion con = null;
+    Statement stm = null;
+    Tablas modelo = new Tablas();
+    Tablas modeloprecios = new Tablas();
+    Tablas modelocliente = new Tablas();
+    Tablas modelolote = new Tablas();
+    Tablas modelocomprobante = new Tablas();
+    Tablas modelovendedor = new Tablas();
+    Tablas modelosucursal = new Tablas();
+    Tablas modelomoneda = new Tablas();
+    JScrollPane scroll = new JScrollPane();
+    private TableRowSorter trsfiltro, trsfiltrolote, trsfiltrocli, trsfiltroprecios,trsfiltrovendedor, trsfiltrosuc, trsfiltrocomp, trsfiltromoneda;
+    SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+    DecimalFormat formatea = new DecimalFormat("###,###.##");
+    DecimalFormat formatosinpunto = new DecimalFormat("############");
+    String cSql = null;
+    ObtenerFecha ODate = new ObtenerFecha();
+    Calendar c2 = new GregorianCalendar();
+    String cTasa, referencia = null;
+
+    /**
+     * Creates new form Template
+     */
+    ImageIcon icononuevo = new ImageIcon("src/Iconos/nuevo.png");
+    ImageIcon iconoeditar = new ImageIcon("src/Iconos/editar.png");
+    ImageIcon iconoborrar = new ImageIcon("src/Iconos/eliminar.png");
+    ImageIcon iconoprint = new ImageIcon("src/Iconos/impresora.png");
+    ImageIcon iconosalir = new ImageIcon("src/Iconos/salir.png");
+
+    public venta_lotes() {
+        initComponents();
+        this.Agregar.setIcon(icononuevo);
+        this.Modificar.setIcon(iconoeditar);
+        this.Eliminar.setIcon(iconoborrar);
+        this.Listar.setIcon(iconoprint);
+        this.SalirCompleto.setIcon(iconosalir);
+        this.Salir.setIcon(iconosalir);
+        this.creferencia.setVisible(true);
+        //this.jTable1.setShowHorizontalLines(false);
+        //  this.setAlwaysOnTop(true); Convierte en Modal un jFrame
+        this.jTable1.setShowGrid(false);
+        this.jTable1.setOpaque(true);
+        this.jTable1.setBackground(new Color(204, 204, 255));
+        this.jTable1.setForeground(Color.BLACK);
+        this.setLocationRelativeTo(null); //Centramos el formulario
+        this.idControl.setVisible(false);
+        this.idControl.setText("0");
+        this.Inicializar();
+        this.cargarTitulo();
+        this.TituloComprobante();
+        this.TitLote();
+        this.TitPrecios();
+        this.TitClie();
+        this.TitSuc();
+        this.TitVendedor();
+        this.TitMoneda();
+        refrescar.doClick();
+        
+        
+        Config.cNivelUsuario="1";
+    }
+
+    Control hand = new Control();
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        detalle_venta_lote = new javax.swing.JDialog();
+        Grabar = new javax.swing.JButton();
+        Salir = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        numero = new javax.swing.JFormattedTextField();
+        jLabel2 = new javax.swing.JLabel();
+        fecha = new com.toedter.calendar.JDateChooser();
+        jLabel13 = new javax.swing.JLabel();
+        primervence = new com.toedter.calendar.JDateChooser();
+        nombrecliente = new javax.swing.JTextField();
+        creferencia = new javax.swing.JTextField();
+        buscarCliente = new javax.swing.JButton();
+        cliente = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        direccioncliente = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        comprobante = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        buscarcomprobante = new javax.swing.JButton();
+        nombrecomprobante = new javax.swing.JTextField();
+        lote = new javax.swing.JTextField();
+        buscarLote = new javax.swing.JButton();
+        nombrelote = new javax.swing.JTextField();
+        Socio = new javax.swing.JLabel();
+        Socio1 = new javax.swing.JLabel();
+        precio = new javax.swing.JTextField();
+        buscarPrecio = new javax.swing.JButton();
+        nombrePrecio = new javax.swing.JTextField();
+        valorprecio = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        cuotas = new javax.swing.JFormattedTextField();
+        cotizacion = new javax.swing.JFormattedTextField();
+        jLabel15 = new javax.swing.JLabel();
+        nombremoneda = new javax.swing.JTextField();
+        buscarMoneda = new javax.swing.JButton();
+        moneda = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        plazo = new javax.swing.JFormattedTextField();
+        jLabel6 = new javax.swing.JLabel();
+        factura = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        sucursal = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        buscarSucursal = new javax.swing.JButton();
+        nombresucursal = new javax.swing.JTextField();
+        vendedor = new javax.swing.JTextField();
+        etiquetavendedor = new javax.swing.JLabel();
+        BuscarVendedor = new javax.swing.JButton();
+        nombrevendedor = new javax.swing.JTextField();
+        BCliente = new javax.swing.JDialog();
+        jPanel14 = new javax.swing.JPanel();
+        combocliente = new javax.swing.JComboBox();
+        jTBuscarCliente = new javax.swing.JTextField();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        tablacliente = new javax.swing.JTable();
+        jPanel16 = new javax.swing.JPanel();
+        AceptarCli = new javax.swing.JButton();
+        SalirCli = new javax.swing.JButton();
+        BComprobante = new javax.swing.JDialog();
+        jPanel19 = new javax.swing.JPanel();
+        combocomprobante = new javax.swing.JComboBox();
+        jTBuscarComprobante = new javax.swing.JTextField();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        tablacomprobante = new javax.swing.JTable();
+        jPanel20 = new javax.swing.JPanel();
+        AceptarComprobante = new javax.swing.JButton();
+        SalirComprobante = new javax.swing.JButton();
+        BLote = new javax.swing.JDialog();
+        jPanel13 = new javax.swing.JPanel();
+        combolote = new javax.swing.JComboBox();
+        jTBuscarLote = new javax.swing.JTextField();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tablalote = new javax.swing.JTable();
+        jPanel15 = new javax.swing.JPanel();
+        AceptarLote = new javax.swing.JButton();
+        SalirLote = new javax.swing.JButton();
+        BPrecios = new javax.swing.JDialog();
+        jPanel17 = new javax.swing.JPanel();
+        comboprecios = new javax.swing.JComboBox();
+        jTBuscarPrecios = new javax.swing.JTextField();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        tablaprecios = new javax.swing.JTable();
+        jPanel18 = new javax.swing.JPanel();
+        AceptarPrecio = new javax.swing.JButton();
+        SalirPrecio = new javax.swing.JButton();
+        BMoneda = new javax.swing.JDialog();
+        jPanel21 = new javax.swing.JPanel();
+        combomoneda = new javax.swing.JComboBox();
+        jTBuscarMoneda = new javax.swing.JTextField();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        tablamoneda = new javax.swing.JTable();
+        jPanel22 = new javax.swing.JPanel();
+        AceptarMoneda = new javax.swing.JButton();
+        SalirMoneda = new javax.swing.JButton();
+        BSucursal = new javax.swing.JDialog();
+        jPanel23 = new javax.swing.JPanel();
+        combosucursal = new javax.swing.JComboBox();
+        jTBuscarSucursal = new javax.swing.JTextField();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        tablasucursal = new javax.swing.JTable();
+        jPanel24 = new javax.swing.JPanel();
+        AceptarSuc = new javax.swing.JButton();
+        SalirSuc = new javax.swing.JButton();
+        BVendedor = new javax.swing.JDialog();
+        jPanel25 = new javax.swing.JPanel();
+        combovendedor = new javax.swing.JComboBox();
+        jTBuscarVendedor = new javax.swing.JTextField();
+        jScrollPane10 = new javax.swing.JScrollPane();
+        tablavendedor = new javax.swing.JTable();
+        jPanel26 = new javax.swing.JPanel();
+        AceptarVendedor = new javax.swing.JButton();
+        SalirVendedor = new javax.swing.JButton();
+        panel1 = new org.edisoncor.gui.panel.Panel();
+        etiquetacredito = new org.edisoncor.gui.label.LabelMetric();
+        jComboBox1 = new javax.swing.JComboBox();
+        buscarcadena = new javax.swing.JTextField();
+        jPanel2 = new javax.swing.JPanel();
+        Modificar = new javax.swing.JButton();
+        Agregar = new javax.swing.JButton();
+        Eliminar = new javax.swing.JButton();
+        Listar = new javax.swing.JButton();
+        SalirCompleto = new javax.swing.JButton();
+        idControl = new javax.swing.JTextField();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        dInicial = new com.toedter.calendar.JDateChooser();
+        jLabel8 = new javax.swing.JLabel();
+        dFinal = new com.toedter.calendar.JDateChooser();
+        refrescar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+
+        detalle_venta_lote.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                detalle_venta_loteFocusGained(evt);
+            }
+        });
+        detalle_venta_lote.addWindowFocusListener(new java.awt.event.WindowFocusListener() {
+            public void windowGainedFocus(java.awt.event.WindowEvent evt) {
+                detalle_venta_loteWindowGainedFocus(evt);
+            }
+            public void windowLostFocus(java.awt.event.WindowEvent evt) {
+            }
+        });
+        detalle_venta_lote.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                detalle_venta_loteWindowActivated(evt);
+            }
+        });
+
+        Grabar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        Grabar.setText("Grabar");
+        Grabar.setToolTipText("Guardar los Cambios");
+        Grabar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Grabar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                GrabarActionPerformed(evt);
+            }
+        });
+
+        Salir.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        Salir.setText("Salir");
+        Salir.setToolTipText("Salir sin Guardar");
+        Salir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Salir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SalirActionPerformed(evt);
+            }
+        });
+
+        jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jPanel4.setBackground(new java.awt.Color(102, 153, 255));
+        jPanel4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, null, null, new java.awt.Color(102, 153, 255)));
+
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel1.setText("Nro");
+
+        numero.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0"))));
+        numero.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        numero.setEnabled(false);
+
+        jLabel2.setText("Fecha");
+
+        fecha.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                fechaFocusGained(evt);
+            }
+        });
+        fecha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                fechaKeyPressed(evt);
+            }
+        });
+
+        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel13.setText("Venc. 1° Cuota");
+
+        primervence.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                primervenceKeyPressed(evt);
+            }
+        });
+
+        nombrecliente.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        nombrecliente.setEnabled(false);
+
+        creferencia.setEnabled(false);
+
+        buscarCliente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        buscarCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buscarClienteActionPerformed(evt);
+            }
+        });
+
+        cliente.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        cliente.setText("0");
+        cliente.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                clienteFocusGained(evt);
+            }
+        });
+        cliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clienteActionPerformed(evt);
+            }
+        });
+        cliente.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                clienteKeyPressed(evt);
+            }
+        });
+
+        jLabel4.setText("Cliente");
+
+        direccioncliente.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        direccioncliente.setEnabled(false);
+        direccioncliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                direccionclienteActionPerformed(evt);
+            }
+        });
+
+        jLabel10.setText("Cuota");
+
+        comprobante.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        comprobante.setText("0");
+        comprobante.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                comprobanteFocusGained(evt);
+            }
+        });
+        comprobante.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comprobanteActionPerformed(evt);
+            }
+        });
+        comprobante.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                comprobanteKeyPressed(evt);
+            }
+        });
+
+        jLabel14.setText(org.openide.util.NbBundle.getMessage(venta_lotes.class, "ventas.jLabel6.text")); // NOI18N
+
+        buscarcomprobante.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        buscarcomprobante.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buscarcomprobanteActionPerformed(evt);
+            }
+        });
+
+        nombrecomprobante.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        nombrecomprobante.setEnabled(false);
+
+        lote.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        lote.setText("0");
+        lote.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                loteFocusGained(evt);
+            }
+        });
+        lote.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loteActionPerformed(evt);
+            }
+        });
+        lote.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                loteKeyPressed(evt);
+            }
+        });
+
+        buscarLote.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        buscarLote.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buscarLoteActionPerformed(evt);
+            }
+        });
+
+        nombrelote.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        nombrelote.setEnabled(false);
+
+        Socio.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        Socio.setText("Lote");
+
+        Socio1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        Socio1.setText("Precio Lote");
+
+        precio.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        precio.setText("0");
+        precio.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                precioFocusGained(evt);
+            }
+        });
+        precio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                precioActionPerformed(evt);
+            }
+        });
+        precio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                precioKeyPressed(evt);
+            }
+        });
+
+        buscarPrecio.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        buscarPrecio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buscarPrecioActionPerformed(evt);
+            }
+        });
+
+        nombrePrecio.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        nombrePrecio.setEnabled(false);
+
+        valorprecio.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        valorprecio.setEnabled(false);
+
+        jLabel5.setText("Dirección");
+
+        cuotas.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
+        cuotas.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        cuotas.setText("0");
+        cuotas.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                cuotasFocusGained(evt);
+            }
+        });
+        cuotas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cuotasActionPerformed(evt);
+            }
+        });
+        cuotas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                cuotasKeyPressed(evt);
+            }
+        });
+
+        cotizacion.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,###.00"))));
+        cotizacion.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        cotizacion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                cotizacionKeyPressed(evt);
+            }
+        });
+
+        jLabel15.setText(org.openide.util.NbBundle.getMessage(venta_lotes.class, "ventas.jLabel14.text")); // NOI18N
+
+        nombremoneda.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        nombremoneda.setEnabled(false);
+
+        buscarMoneda.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        buscarMoneda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buscarMonedaActionPerformed(evt);
+            }
+        });
+
+        moneda.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        moneda.setText("0");
+        moneda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                monedaActionPerformed(evt);
+            }
+        });
+        moneda.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                monedaKeyPressed(evt);
+            }
+        });
+
+        jLabel9.setText(org.openide.util.NbBundle.getMessage(venta_lotes.class, "ventas.jLabel9.text")); // NOI18N
+
+        plazo.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        plazo.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        plazo.setText("0");
+        plazo.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                plazoFocusGained(evt);
+            }
+        });
+        plazo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                plazoActionPerformed(evt);
+            }
+        });
+        plazo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                plazoKeyPressed(evt);
+            }
+        });
+
+        jLabel6.setText("Plazo:");
+
+        factura.setText(org.openide.util.NbBundle.getMessage(venta_lotes.class, "ventas.factura.text")); // NOI18N
+        factura.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                facturaKeyPressed(evt);
+            }
+        });
+
+        jLabel7.setText(org.openide.util.NbBundle.getMessage(venta_lotes.class, "ventas.jLabel1.text")); // NOI18N
+
+        sucursal.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        sucursal.setText("0");
+        sucursal.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                sucursalFocusGained(evt);
+            }
+        });
+        sucursal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sucursalActionPerformed(evt);
+            }
+        });
+        sucursal.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                sucursalKeyPressed(evt);
+            }
+        });
+
+        jLabel12.setText(org.openide.util.NbBundle.getMessage(venta_lotes.class, "ventas.jLabel12.text")); // NOI18N
+
+        buscarSucursal.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        buscarSucursal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buscarSucursalActionPerformed(evt);
+            }
+        });
+
+        nombresucursal.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        nombresucursal.setEnabled(false);
+
+        vendedor.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        vendedor.setText("0");
+        vendedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                vendedorActionPerformed(evt);
+            }
+        });
+        vendedor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                vendedorKeyPressed(evt);
+            }
+        });
+
+        etiquetavendedor.setText(org.openide.util.NbBundle.getMessage(venta_lotes.class, "ventas.etiquetavendedor.text")); // NOI18N
+
+        BuscarVendedor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        BuscarVendedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BuscarVendedorActionPerformed(evt);
+            }
+        });
+
+        nombrevendedor.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        nombrevendedor.setEnabled(false);
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel14)
+                                            .addComponent(Socio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(Socio1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel2)
+                                        .addComponent(jLabel4)
+                                        .addComponent(jLabel10)
+                                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel12))
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(primervence, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(direccioncliente)
+                                    .addGroup(jPanel4Layout.createSequentialGroup()
+                                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(cliente, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
+                                                .addComponent(sucursal)
+                                                .addGap(2, 2, 2))
+                                            .addComponent(comprobante, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(lote)
+                                            .addComponent(precio))
+                                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addGroup(jPanel4Layout.createSequentialGroup()
+                                                        .addComponent(buscarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addComponent(nombrecliente, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                    .addComponent(buscarcomprobante, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(buscarLote, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(buscarPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                                .addGap(5, 5, 5)
+                                                .addComponent(buscarSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(nombresucursal))))
+                                    .addGroup(jPanel4Layout.createSequentialGroup()
+                                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                                .addComponent(fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                                .addComponent(cuotas)
+                                                .addGap(6, 6, 6)))
+                                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(nombrecomprobante)
+                                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                                .addGap(1, 1, 1)
+                                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(nombrelote)
+                                                    .addGroup(jPanel4Layout.createSequentialGroup()
+                                                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                            .addComponent(nombrePrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                            .addComponent(valorprecio)
+                                                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                                                .addComponent(plazo, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addGap(0, 86, Short.MAX_VALUE))))))
+                                            .addComponent(creferencia)))))
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGap(43, 43, 43)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(numero, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(factura, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGap(37, 37, 37)
+                                .addComponent(etiquetavendedor)
+                                .addGap(19, 19, 19)
+                                .addComponent(vendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(BuscarVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(nombrevendedor))))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(69, 69, 69)
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(moneda, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGap(79, 79, 79)
+                                .addComponent(buscarMoneda, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(8, 8, 8)
+                                .addComponent(nombremoneda, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel15)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cotizacion, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(54, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(numero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel7)
+                    .addComponent(factura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel12)
+                            .addComponent(sucursal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(nombresucursal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(11, 11, 11)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(creferencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel4)
+                                        .addComponent(cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(buscarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel5)
+                                    .addComponent(direccioncliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(nombrecliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(buscarSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(5, 5, 5)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(vendedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(etiquetavendedor))
+                            .addComponent(nombrevendedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel14)
+                                        .addComponent(comprobante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(buscarcomprobante, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(lote, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(Socio))
+                                    .addComponent(buscarLote, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(Socio1)
+                                    .addComponent(buscarPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(precio, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                                .addComponent(nombrecomprobante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(nombrelote, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(nombrePrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(valorprecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(2, 2, 2)))
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(plazo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(cuotas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel6))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(primervence, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(buscarMoneda, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(nombremoneda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel15)
+                                    .addComponent(cotizacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(moneda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel9)))
+                        .addGap(54, 54, 54))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(BuscarVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+        );
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout detalle_venta_loteLayout = new javax.swing.GroupLayout(detalle_venta_lote.getContentPane());
+        detalle_venta_lote.getContentPane().setLayout(detalle_venta_loteLayout);
+        detalle_venta_loteLayout.setHorizontalGroup(
+            detalle_venta_loteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, detalle_venta_loteLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(Grabar, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(Salir, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20))
+            .addGroup(detalle_venta_loteLayout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 9, Short.MAX_VALUE))
+        );
+        detalle_venta_loteLayout.setVerticalGroup(
+            detalle_venta_loteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, detalle_venta_loteLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(detalle_venta_loteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(Salir, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(detalle_venta_loteLayout.createSequentialGroup()
+                        .addComponent(Grabar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(2, 2, 2)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        BCliente.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        BCliente.setTitle("null");
+
+        jPanel14.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        combocliente.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        combocliente.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Buscar por Nombre", "Buscar por Código", "Buscar por RUC" }));
+        combocliente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        combocliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboclienteActionPerformed(evt);
+            }
+        });
+
+        jTBuscarCliente.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jTBuscarCliente.setText(org.openide.util.NbBundle.getMessage(venta_lotes.class, "ventas.jTBuscarClientes.text")); // NOI18N
+        jTBuscarCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTBuscarClienteActionPerformed(evt);
+            }
+        });
+        jTBuscarCliente.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTBuscarClienteKeyPressed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
+        jPanel14.setLayout(jPanel14Layout);
+        jPanel14Layout.setHorizontalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel14Layout.createSequentialGroup()
+                .addComponent(combocliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jTBuscarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel14Layout.setVerticalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel14Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(combocliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTBuscarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(19, Short.MAX_VALUE))
+        );
+
+        tablacliente.setModel(modelocliente        );
+        tablacliente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaclienteMouseClicked(evt);
+            }
+        });
+        tablacliente.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tablaclienteKeyPressed(evt);
+            }
+        });
+        jScrollPane5.setViewportView(tablacliente);
+
+        jPanel16.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        AceptarCli.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        AceptarCli.setText(org.openide.util.NbBundle.getMessage(venta_lotes.class, "ventas.Aceptarcliente.text")); // NOI18N
+        AceptarCli.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        AceptarCli.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AceptarCliActionPerformed(evt);
+            }
+        });
+
+        SalirCli.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        SalirCli.setText(org.openide.util.NbBundle.getMessage(venta_lotes.class, "ventas.SalirCliente.text")); // NOI18N
+        SalirCli.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        SalirCli.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SalirCliActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
+        jPanel16.setLayout(jPanel16Layout);
+        jPanel16Layout.setHorizontalGroup(
+            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel16Layout.createSequentialGroup()
+                .addGap(91, 91, 91)
+                .addComponent(AceptarCli, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(85, 85, 85)
+                .addComponent(SalirCli, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel16Layout.setVerticalGroup(
+            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel16Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(AceptarCli)
+                    .addComponent(SalirCli))
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout BClienteLayout = new javax.swing.GroupLayout(BCliente.getContentPane());
+        BCliente.getContentPane().setLayout(BClienteLayout);
+        BClienteLayout.setHorizontalGroup(
+            BClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(BClienteLayout.createSequentialGroup()
+                .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jPanel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        BClienteLayout.setVerticalGroup(
+            BClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(BClienteLayout.createSequentialGroup()
+                .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        BComprobante.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        BComprobante.setTitle("null");
+
+        jPanel19.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        combocomprobante.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        combocomprobante.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Buscar por Nombre", "Buscar por Código" }));
+        combocomprobante.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        combocomprobante.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                combocomprobanteActionPerformed(evt);
+            }
+        });
+
+        jTBuscarComprobante.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jTBuscarComprobante.setText(org.openide.util.NbBundle.getMessage(venta_lotes.class, "ventas.jTBuscarClientes.text")); // NOI18N
+        jTBuscarComprobante.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTBuscarComprobanteActionPerformed(evt);
+            }
+        });
+        jTBuscarComprobante.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTBuscarComprobanteKeyPressed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
+        jPanel19.setLayout(jPanel19Layout);
+        jPanel19Layout.setHorizontalGroup(
+            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel19Layout.createSequentialGroup()
+                .addComponent(combocomprobante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jTBuscarComprobante, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel19Layout.setVerticalGroup(
+            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel19Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(combocomprobante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTBuscarComprobante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(19, Short.MAX_VALUE))
+        );
+
+        tablacomprobante.setModel(modelocomprobante);
+        tablacomprobante.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablacomprobanteMouseClicked(evt);
+            }
+        });
+        tablacomprobante.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tablacomprobanteKeyPressed(evt);
+            }
+        });
+        jScrollPane7.setViewportView(tablacomprobante);
+
+        jPanel20.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        AceptarComprobante.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        AceptarComprobante.setText(org.openide.util.NbBundle.getMessage(venta_lotes.class, "ventas.Aceptarcliente.text")); // NOI18N
+        AceptarComprobante.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        AceptarComprobante.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AceptarComprobanteActionPerformed(evt);
+            }
+        });
+
+        SalirComprobante.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        SalirComprobante.setText(org.openide.util.NbBundle.getMessage(venta_lotes.class, "ventas.SalirCliente.text")); // NOI18N
+        SalirComprobante.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        SalirComprobante.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SalirComprobanteActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel20Layout = new javax.swing.GroupLayout(jPanel20);
+        jPanel20.setLayout(jPanel20Layout);
+        jPanel20Layout.setHorizontalGroup(
+            jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel20Layout.createSequentialGroup()
+                .addGap(91, 91, 91)
+                .addComponent(AceptarComprobante, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(85, 85, 85)
+                .addComponent(SalirComprobante, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel20Layout.setVerticalGroup(
+            jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel20Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(AceptarComprobante)
+                    .addComponent(SalirComprobante))
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout BComprobanteLayout = new javax.swing.GroupLayout(BComprobante.getContentPane());
+        BComprobante.getContentPane().setLayout(BComprobanteLayout);
+        BComprobanteLayout.setHorizontalGroup(
+            BComprobanteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(BComprobanteLayout.createSequentialGroup()
+                .addComponent(jPanel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jScrollPane7, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jPanel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        BComprobanteLayout.setVerticalGroup(
+            BComprobanteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(BComprobanteLayout.createSequentialGroup()
+                .addComponent(jPanel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        BLote.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        BLote.setTitle("null");
+
+        jPanel13.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        combolote.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        combolote.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Buscar por Nombre", "Buscar por Código" }));
+        combolote.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        jTBuscarLote.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jTBuscarLote.setText(org.openide.util.NbBundle.getMessage(venta_lotes.class, "ventas.jTBuscarClientes.text")); // NOI18N
+        jTBuscarLote.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTBuscarLoteKeyPressed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
+        jPanel13.setLayout(jPanel13Layout);
+        jPanel13Layout.setHorizontalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addComponent(combolote, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jTBuscarLote, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel13Layout.setVerticalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(combolote, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTBuscarLote, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(19, Short.MAX_VALUE))
+        );
+
+        tablalote.setModel(modelolote);
+        tablalote.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaloteMouseClicked(evt);
+            }
+        });
+        tablalote.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tablaloteKeyPressed(evt);
+            }
+        });
+        jScrollPane4.setViewportView(tablalote);
+
+        jPanel15.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        AceptarLote.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        AceptarLote.setText(org.openide.util.NbBundle.getMessage(venta_lotes.class, "ventas.Aceptarcliente.text")); // NOI18N
+        AceptarLote.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        AceptarLote.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AceptarLoteActionPerformed(evt);
+            }
+        });
+
+        SalirLote.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        SalirLote.setText(org.openide.util.NbBundle.getMessage(venta_lotes.class, "ventas.SalirCliente.text")); // NOI18N
+        SalirLote.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        SalirLote.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SalirLoteActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
+        jPanel15.setLayout(jPanel15Layout);
+        jPanel15Layout.setHorizontalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel15Layout.createSequentialGroup()
+                .addGap(91, 91, 91)
+                .addComponent(AceptarLote, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(85, 85, 85)
+                .addComponent(SalirLote, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel15Layout.setVerticalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel15Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(AceptarLote)
+                    .addComponent(SalirLote))
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout BLoteLayout = new javax.swing.GroupLayout(BLote.getContentPane());
+        BLote.getContentPane().setLayout(BLoteLayout);
+        BLoteLayout.setHorizontalGroup(
+            BLoteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(BLoteLayout.createSequentialGroup()
+                .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        BLoteLayout.setVerticalGroup(
+            BLoteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(BLoteLayout.createSequentialGroup()
+                .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        BPrecios.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        BPrecios.setTitle("null");
+
+        jPanel17.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        comboprecios.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        comboprecios.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Buscar por Nombre", "Buscar por Código" }));
+        comboprecios.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        jTBuscarPrecios.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jTBuscarPrecios.setText(org.openide.util.NbBundle.getMessage(venta_lotes.class, "ventas.jTBuscarClientes.text")); // NOI18N
+        jTBuscarPrecios.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTBuscarPreciosKeyPressed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
+        jPanel17.setLayout(jPanel17Layout);
+        jPanel17Layout.setHorizontalGroup(
+            jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel17Layout.createSequentialGroup()
+                .addComponent(comboprecios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jTBuscarPrecios)
+                .addContainerGap())
+        );
+        jPanel17Layout.setVerticalGroup(
+            jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel17Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(comboprecios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTBuscarPrecios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(19, Short.MAX_VALUE))
+        );
+
+        tablaprecios.setModel(modeloprecios);
+        tablaprecios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablapreciosMouseClicked(evt);
+            }
+        });
+        tablaprecios.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tablapreciosKeyPressed(evt);
+            }
+        });
+        jScrollPane6.setViewportView(tablaprecios);
+
+        jPanel18.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        AceptarPrecio.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        AceptarPrecio.setText(org.openide.util.NbBundle.getMessage(venta_lotes.class, "ventas.Aceptarcliente.text")); // NOI18N
+        AceptarPrecio.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        AceptarPrecio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AceptarPrecioActionPerformed(evt);
+            }
+        });
+
+        SalirPrecio.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        SalirPrecio.setText(org.openide.util.NbBundle.getMessage(venta_lotes.class, "ventas.SalirCliente.text")); // NOI18N
+        SalirPrecio.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        SalirPrecio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SalirPrecioActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
+        jPanel18.setLayout(jPanel18Layout);
+        jPanel18Layout.setHorizontalGroup(
+            jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel18Layout.createSequentialGroup()
+                .addGap(91, 91, 91)
+                .addComponent(AceptarPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(85, 85, 85)
+                .addComponent(SalirPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(133, Short.MAX_VALUE))
+        );
+        jPanel18Layout.setVerticalGroup(
+            jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(AceptarPrecio)
+                    .addComponent(SalirPrecio))
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout BPreciosLayout = new javax.swing.GroupLayout(BPrecios.getContentPane());
+        BPrecios.getContentPane().setLayout(BPreciosLayout);
+        BPreciosLayout.setHorizontalGroup(
+            BPreciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jScrollPane6)
+        );
+        BPreciosLayout.setVerticalGroup(
+            BPreciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(BPreciosLayout.createSequentialGroup()
+                .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        BMoneda.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        BMoneda.setTitle("null");
+
+        jPanel21.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        combomoneda.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        combomoneda.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Buscar por Nombre", "Buscar por Código" }));
+        combomoneda.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        combomoneda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                combomonedaActionPerformed(evt);
+            }
+        });
+
+        jTBuscarMoneda.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jTBuscarMoneda.setText(org.openide.util.NbBundle.getMessage(venta_lotes.class, "ventas.jTBuscarClientes.text")); // NOI18N
+        jTBuscarMoneda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTBuscarMonedaActionPerformed(evt);
+            }
+        });
+        jTBuscarMoneda.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTBuscarMonedaKeyPressed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel21Layout = new javax.swing.GroupLayout(jPanel21);
+        jPanel21.setLayout(jPanel21Layout);
+        jPanel21Layout.setHorizontalGroup(
+            jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel21Layout.createSequentialGroup()
+                .addComponent(combomoneda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jTBuscarMoneda, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel21Layout.setVerticalGroup(
+            jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel21Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(combomoneda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTBuscarMoneda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(19, Short.MAX_VALUE))
+        );
+
+        tablamoneda.setModel(modelomoneda);
+        tablamoneda.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablamonedaMouseClicked(evt);
+            }
+        });
+        tablamoneda.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tablamonedaKeyPressed(evt);
+            }
+        });
+        jScrollPane8.setViewportView(tablamoneda);
+
+        jPanel22.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        AceptarMoneda.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        AceptarMoneda.setText(org.openide.util.NbBundle.getMessage(venta_lotes.class, "ventas.Aceptarcliente.text")); // NOI18N
+        AceptarMoneda.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        AceptarMoneda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AceptarMonedaActionPerformed(evt);
+            }
+        });
+
+        SalirMoneda.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        SalirMoneda.setText(org.openide.util.NbBundle.getMessage(venta_lotes.class, "ventas.SalirCliente.text")); // NOI18N
+        SalirMoneda.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        SalirMoneda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SalirMonedaActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel22Layout = new javax.swing.GroupLayout(jPanel22);
+        jPanel22.setLayout(jPanel22Layout);
+        jPanel22Layout.setHorizontalGroup(
+            jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel22Layout.createSequentialGroup()
+                .addGap(91, 91, 91)
+                .addComponent(AceptarMoneda, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(85, 85, 85)
+                .addComponent(SalirMoneda, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel22Layout.setVerticalGroup(
+            jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel22Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(AceptarMoneda)
+                    .addComponent(SalirMoneda))
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout BMonedaLayout = new javax.swing.GroupLayout(BMoneda.getContentPane());
+        BMoneda.getContentPane().setLayout(BMonedaLayout);
+        BMonedaLayout.setHorizontalGroup(
+            BMonedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(BMonedaLayout.createSequentialGroup()
+                .addComponent(jPanel21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jScrollPane8, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jPanel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        BMonedaLayout.setVerticalGroup(
+            BMonedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(BMonedaLayout.createSequentialGroup()
+                .addComponent(jPanel21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        BSucursal.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        BSucursal.setTitle("null");
+
+        jPanel23.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        combosucursal.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        combosucursal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Buscar por Nombre", "Buscar por Código" }));
+        combosucursal.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        combosucursal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                combosucursalActionPerformed(evt);
+            }
+        });
+
+        jTBuscarSucursal.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jTBuscarSucursal.setText(org.openide.util.NbBundle.getMessage(venta_lotes.class, "ventas.jTBuscarClientes.text")); // NOI18N
+        jTBuscarSucursal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTBuscarSucursalActionPerformed(evt);
+            }
+        });
+        jTBuscarSucursal.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTBuscarSucursalKeyPressed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel23Layout = new javax.swing.GroupLayout(jPanel23);
+        jPanel23.setLayout(jPanel23Layout);
+        jPanel23Layout.setHorizontalGroup(
+            jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel23Layout.createSequentialGroup()
+                .addComponent(combosucursal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jTBuscarSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel23Layout.setVerticalGroup(
+            jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel23Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(combosucursal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTBuscarSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(19, Short.MAX_VALUE))
+        );
+
+        tablasucursal.setModel(modelosucursal);
+        tablasucursal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablasucursalMouseClicked(evt);
+            }
+        });
+        tablasucursal.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tablasucursalKeyPressed(evt);
+            }
+        });
+        jScrollPane9.setViewportView(tablasucursal);
+
+        jPanel24.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        AceptarSuc.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        AceptarSuc.setText(org.openide.util.NbBundle.getMessage(venta_lotes.class, "ventas.Aceptarcliente.text")); // NOI18N
+        AceptarSuc.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        AceptarSuc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AceptarSucActionPerformed(evt);
+            }
+        });
+
+        SalirSuc.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        SalirSuc.setText(org.openide.util.NbBundle.getMessage(venta_lotes.class, "ventas.SalirCliente.text")); // NOI18N
+        SalirSuc.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        SalirSuc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SalirSucActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel24Layout = new javax.swing.GroupLayout(jPanel24);
+        jPanel24.setLayout(jPanel24Layout);
+        jPanel24Layout.setHorizontalGroup(
+            jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel24Layout.createSequentialGroup()
+                .addGap(91, 91, 91)
+                .addComponent(AceptarSuc, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(85, 85, 85)
+                .addComponent(SalirSuc, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel24Layout.setVerticalGroup(
+            jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel24Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(AceptarSuc)
+                    .addComponent(SalirSuc))
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout BSucursalLayout = new javax.swing.GroupLayout(BSucursal.getContentPane());
+        BSucursal.getContentPane().setLayout(BSucursalLayout);
+        BSucursalLayout.setHorizontalGroup(
+            BSucursalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(BSucursalLayout.createSequentialGroup()
+                .addComponent(jPanel23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jScrollPane9, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jPanel24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        BSucursalLayout.setVerticalGroup(
+            BSucursalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(BSucursalLayout.createSequentialGroup()
+                .addComponent(jPanel23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        BVendedor.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        BVendedor.setTitle("null");
+
+        jPanel25.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        combovendedor.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        combovendedor.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Buscar por Nombre", "Buscar por Código" }));
+        combovendedor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        combovendedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                combovendedorActionPerformed(evt);
+            }
+        });
+
+        jTBuscarVendedor.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jTBuscarVendedor.setText(org.openide.util.NbBundle.getMessage(venta_lotes.class, "ventas.jTBuscarClientes.text")); // NOI18N
+        jTBuscarVendedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTBuscarVendedorActionPerformed(evt);
+            }
+        });
+        jTBuscarVendedor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTBuscarVendedorKeyPressed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel25Layout = new javax.swing.GroupLayout(jPanel25);
+        jPanel25.setLayout(jPanel25Layout);
+        jPanel25Layout.setHorizontalGroup(
+            jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel25Layout.createSequentialGroup()
+                .addComponent(combovendedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jTBuscarVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel25Layout.setVerticalGroup(
+            jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel25Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(combovendedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTBuscarVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(19, Short.MAX_VALUE))
+        );
+
+        tablavendedor.setModel(modelovendedor);
+        tablavendedor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablavendedorMouseClicked(evt);
+            }
+        });
+        tablavendedor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tablavendedorKeyPressed(evt);
+            }
+        });
+        jScrollPane10.setViewportView(tablavendedor);
+
+        jPanel26.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        AceptarVendedor.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        AceptarVendedor.setText(org.openide.util.NbBundle.getMessage(venta_lotes.class, "ventas.Aceptarcliente.text")); // NOI18N
+        AceptarVendedor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        AceptarVendedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AceptarVendedorActionPerformed(evt);
+            }
+        });
+
+        SalirVendedor.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        SalirVendedor.setText(org.openide.util.NbBundle.getMessage(venta_lotes.class, "ventas.SalirCliente.text")); // NOI18N
+        SalirVendedor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        SalirVendedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SalirVendedorActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel26Layout = new javax.swing.GroupLayout(jPanel26);
+        jPanel26.setLayout(jPanel26Layout);
+        jPanel26Layout.setHorizontalGroup(
+            jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel26Layout.createSequentialGroup()
+                .addGap(91, 91, 91)
+                .addComponent(AceptarVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(85, 85, 85)
+                .addComponent(SalirVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel26Layout.setVerticalGroup(
+            jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel26Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(AceptarVendedor)
+                    .addComponent(SalirVendedor))
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout BVendedorLayout = new javax.swing.GroupLayout(BVendedor.getContentPane());
+        BVendedor.getContentPane().setLayout(BVendedorLayout);
+        BVendedorLayout.setHorizontalGroup(
+            BVendedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(BVendedorLayout.createSequentialGroup()
+                .addComponent(jPanel25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jScrollPane10, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jPanel26, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        BVendedorLayout.setVerticalGroup(
+            BVendedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(BVendedorLayout.createSequentialGroup()
+                .addComponent(jPanel25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel26, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setName("frame_clientes"); // NOI18N
+        addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                formFocusGained(evt);
+            }
+        });
+        addWindowFocusListener(new java.awt.event.WindowFocusListener() {
+            public void windowGainedFocus(java.awt.event.WindowEvent evt) {
+                formWindowGainedFocus(evt);
+            }
+            public void windowLostFocus(java.awt.event.WindowEvent evt) {
+            }
+        });
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
+
+        panel1.setColorPrimario(new java.awt.Color(102, 153, 255));
+        panel1.setColorSecundario(new java.awt.Color(0, 204, 255));
+
+        etiquetacredito.setBackground(new java.awt.Color(255, 255, 255));
+        etiquetacredito.setText("Venta de Lotes");
+
+        jComboBox1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nombre", "Nro de Orden" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+
+        buscarcadena.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        buscarcadena.setSelectionColor(new java.awt.Color(0, 63, 62));
+        buscarcadena.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                buscarcadenaKeyPressed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panel1Layout = new javax.swing.GroupLayout(panel1);
+        panel1.setLayout(panel1Layout);
+        panel1Layout.setHorizontalGroup(
+            panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel1Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(etiquetacredito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(buscarcadena, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(378, Short.MAX_VALUE))
+        );
+        panel1Layout.setVerticalGroup(
+            panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel1Layout.createSequentialGroup()
+                .addContainerGap(24, Short.MAX_VALUE)
+                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(buscarcadena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(etiquetacredito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(22, 22, 22))
+        );
+
+        Modificar.setBackground(new java.awt.Color(255, 255, 255));
+        Modificar.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        Modificar.setText("Editar Registro");
+        Modificar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Modificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ModificarActionPerformed(evt);
+            }
+        });
+
+        Agregar.setBackground(new java.awt.Color(255, 255, 255));
+        Agregar.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        Agregar.setText(" Agregar Registro");
+        Agregar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Agregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AgregarActionPerformed(evt);
+            }
+        });
+
+        Eliminar.setBackground(new java.awt.Color(255, 255, 255));
+        Eliminar.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        Eliminar.setText("Eliminar Registro");
+        Eliminar.setToolTipText("");
+        Eliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EliminarActionPerformed(evt);
+            }
+        });
+
+        Listar.setBackground(new java.awt.Color(255, 255, 255));
+        Listar.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        Listar.setText("Listar/Imprimir");
+        Listar.setToolTipText("");
+        Listar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Listar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ListarActionPerformed(evt);
+            }
+        });
+
+        SalirCompleto.setBackground(new java.awt.Color(255, 255, 255));
+        SalirCompleto.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        SalirCompleto.setText("     Salir");
+        SalirCompleto.setToolTipText("");
+        SalirCompleto.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        SalirCompleto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SalirCompletoActionPerformed(evt);
+            }
+        });
+
+        idControl.setEditable(false);
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(venta_lotes.class, "libroventaconsolidado.jPanel2.border.title"))); // NOI18N
+
+        jLabel3.setText(org.openide.util.NbBundle.getMessage(venta_lotes.class, "libroventaconsolidado.jLabel1.text")); // NOI18N
+
+        jLabel8.setText(org.openide.util.NbBundle.getMessage(venta_lotes.class, "libroventaconsolidado.jLabel2.text")); // NOI18N
+
+        refrescar.setText("Refrescar");
+        refrescar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refrescarActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel8))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(0, 20, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(dInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(dFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addComponent(refrescar, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(25, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(dInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(dFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addComponent(refrescar)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(SalirCompleto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(Listar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(Modificar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(Agregar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(Eliminar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(27, 27, 27))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(idControl, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(35, 35, 35))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(Agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(Modificar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(Eliminar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(Listar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(SalirCompleto)
+                .addGap(26, 26, 26)
+                .addComponent(idControl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(39, 39, 39)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(85, Short.MAX_VALUE))
+        );
+
+        jTable1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        jScrollPane1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jScrollPane1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jScrollPane1FocusGained(evt);
+            }
+        });
+
+        jTable1.setModel(modelo);
+        jTable1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jTable1.setSelectionBackground(new java.awt.Color(51, 204, 255));
+        jTable1.setSelectionForeground(new java.awt.Color(0, 0, 255));
+        jTable1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTable1FocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTable1FocusLost(evt);
+            }
+        });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
+        jTable1.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jTable1PropertyChange(evt);
+            }
+        });
+        jTable1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTable1KeyPressed(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 560, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(57, Short.MAX_VALUE))
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void fechasKeyListeners(){
+        fecha.getDateEditor().getUiComponent().addKeyListener( //fecha factura
+            new KeyListener() {
+                @Override
+                public void keyPressed(KeyEvent evt) {
+                    if (evt.getKeyCode() == 10 || evt.getKeyCode() == KeyEvent.VK_DOWN) {
+                        if (fecha.getDate()!=null) { //if es negacion si no esta vacio este cuadro de texto pasa al siguiente condicion mantches este es el cuadro de texto en la que estamos
+                            sucursal.requestFocus();
+                        } else {
+                            JOptionPane.showConfirmDialog(null, "Por Favor Ingrese la Fecha de Factura", "ATENCION", JOptionPane.CLOSED_OPTION);
+                        }
+                    }
+                    if (evt.getKeyCode() == KeyEvent.VK_UP) {
+                        sucursal.requestFocus();
+                    } 
+                }
+                @Override public void keyTyped(KeyEvent e) {}
+                @Override public void keyReleased(KeyEvent e) {}
+            }
+        );
+        
+        primervence.getDateEditor().getUiComponent().addKeyListener( //fecha factura
+            new KeyListener() {
+                @Override
+                public void keyPressed(KeyEvent evt) {
+                    if (evt.getKeyCode() == 10 || evt.getKeyCode() == KeyEvent.VK_DOWN) {
+                        if (primervence.getDate()!=null) { //if es negacion si no esta vacio este cuadro de texto pasa al siguiente condicion mantches este es el cuadro de texto en la que estamos
+                            plazo.requestFocus();
+                        } else {
+                            JOptionPane.showConfirmDialog(null, "Por Favor Ingrese la Fecha de Vencimiento", "ATENCION", JOptionPane.CLOSED_OPTION);
+                        }
+                    }
+                    if (evt.getKeyCode() == KeyEvent.VK_UP) {
+                        moneda.requestFocus();
+                    }
+                }
+                @Override public void keyTyped(KeyEvent e) {}
+                @Override public void keyReleased(KeyEvent e) {}
+            }
+        );
+    }
+    
+    
+    private void Inicializar() {
+        this.dInicial.setCalendar(c2);
+        this.dFinal.setCalendar(c2);
+    }
+
+    public void limpiarCombos() {
+
+    }
+
+    private void jComboBox1ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void buscarcadenaKeyPressed(KeyEvent evt) {//GEN-FIRST:event_buscarcadenaKeyPressed
+        this.buscarcadena.addKeyListener(new KeyAdapter() {
+            public void keyReleased(final KeyEvent e) {
+                String cadena = (buscarcadena.getText()).toUpperCase();
+                buscarcadena.setText(cadena);
+                int indiceColumnaTabla = 0;
+                switch (jComboBox1.getSelectedIndex()) {
+                    case 0:
+                        indiceColumnaTabla = 3;
+                        break;//por nombre
+                    case 1:
+                        indiceColumnaTabla = 0;
+                        break;//por codigo
+                }
+                repaint();
+                filtro(indiceColumnaTabla);
+            }
+        });
+        trsfiltro = new TableRowSorter(jTable1.getModel());
+        jTable1.setRowSorter(trsfiltro);
+        
+    }//GEN-LAST:event_buscarcadenaKeyPressed
+
+    private void SalirCompletoActionPerformed(ActionEvent evt) {//GEN-FIRST:event_SalirCompletoActionPerformed
+        this.dispose();
+        
+    }//GEN-LAST:event_SalirCompletoActionPerformed
+
+    private void AgregarActionPerformed(ActionEvent evt) {//GEN-FIRST:event_AgregarActionPerformed
+        idControl.setText("0");
+        this.limpiar();
+        detalle_venta_lote.setModal(true);
+        detalle_venta_lote.setSize(646, 540);
+        detalle_venta_lote.setTitle("Agregar Nueva Orden de Compra");
+        detalle_venta_lote.setLocationRelativeTo(null);
+        detalle_venta_lote.setVisible(true);
+        
+          }//GEN-LAST:event_AgregarActionPerformed
+
+    public void limpiar() {
+        configuracionDAO configDAO = new configuracionDAO();
+        configuracion config = null;
+        config = configDAO.consultar();
+        this.sucursal.setText(String.valueOf(config.getSucursaldefecto().getCodigo()));
+        buscarSucursal.doClick();
+        numero.setText("0");
+        fecha.setCalendar(c2);
+        creferencia.setText("");
+        cliente.setText("0");
+        nombrecliente.setText("");
+        direccioncliente.setText("");
+        comprobante.setText("0");
+        nombrecomprobante.setText("");
+        lote.setText("0");
+        nombrelote.setText("");
+        precio.setText("0");
+        nombrePrecio.setText("");
+        valorprecio.setText("");
+        cuotas.setText("");
+        moneda.setText("0");
+        cotizacion.setText("");
+        plazo.setText("");
+        vendedor.setText("0");
+        primervence.setCalendar(c2);
+    }
+    private void jTable1KeyPressed(KeyEvent evt) {//GEN-FIRST:event_jTable1KeyPressed
+
+        
+    }//GEN-LAST:event_jTable1KeyPressed
+
+    private void jTable1MouseClicked(MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        int nFila = this.jTable1.getSelectedRow();
+        this.idControl.setText(this.jTable1.getValueAt(nFila, 0).toString());
+        
+
+        
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void ModificarActionPerformed(ActionEvent evt) {//GEN-FIRST:event_ModificarActionPerformed
+        this.limpiar();
+        int nFila = this.jTable1.getSelectedRow();
+        this.idControl.setText(this.jTable1.getValueAt(nFila, 0).toString());
+        venta_lotesDAO ventaDAO = new venta_lotesDAO();
+        ventas_lotes venta = null;
+        try {
+            venta = ventaDAO.buscarId(this.idControl.getText());
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "ERROR:" + e.getMessage());
+        }
+        if (venta != null) {
+            numero.setText(venta.getIdventa()+"");
+            fecha.setDate(venta.getFecha());
+            creferencia.setText(venta.getCreferencia());
+            cliente.setText(venta.getCliente().getCodigo()+"");
+            nombrecliente.setText(venta.getCliente().getNombre());
+            direccioncliente.setText(venta.getCliente().getDireccion());
+            comprobante.setText(venta.getComprobante().getCodigo()+"");
+            nombrecomprobante.setText(venta.getComprobante().getNombre());
+            lote.setText(venta.getLote().getCodigo()+"");
+            nombrelote.setText(venta.getLote().getNombre());
+            precio.setText(venta.getListaprecio().getIdlista()+"");
+            nombrePrecio.setText(venta.getListaprecio().getDescripcion());
+            valorprecio.setText(formatea.format(venta.getListaprecio().getPrecio()));
+            cuotas.setText(formatea.format(venta.getCuotas()));
+            plazo.setText(venta.getPlazo()+"");
+            primervence.setDate(venta.getPrimeravence());
+            sucursal.setText(venta.getSucursal().getCodigo()+"");
+            nombresucursal.setText(venta.getSucursal().getNombre());
+            factura.setText(venta.getFactura());
+            moneda.setText(venta.getMoneda().getCodigo()+"");
+            buscarMoneda.doClick();
+            vendedor.setText(venta.getVendedor().getCodigo()+"");
+            BuscarVendedor.doClick();
+            factura.requestFocus();
+            
+            detalle_venta_lote.setModal(true);
+            detalle_venta_lote.setSize(646, 540);
+            //Establecemos un título para el jDialog
+            detalle_venta_lote.setTitle("Modificar Venta de Lote");
+            detalle_venta_lote.setLocationRelativeTo(null);
+            detalle_venta_lote.setVisible(true);
+        }
+    }//GEN-LAST:event_ModificarActionPerformed
+
+    private void jTable1FocusGained(FocusEvent evt) {//GEN-FIRST:event_jTable1FocusGained
+        
+    }//GEN-LAST:event_jTable1FocusGained
+
+    private void jScrollPane1FocusGained(FocusEvent evt) {//GEN-FIRST:event_jScrollPane1FocusGained
+        
+    }//GEN-LAST:event_jScrollPane1FocusGained
+
+    private void formWindowGainedFocus(WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
+        
+    }//GEN-LAST:event_formWindowGainedFocus
+
+    private void formWindowActivated(WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+
+        
+    }//GEN-LAST:event_formWindowActivated
+
+    private void formFocusGained(FocusEvent evt) {//GEN-FIRST:event_formFocusGained
+        
+    }//GEN-LAST:event_formFocusGained
+
+    private void EliminarActionPerformed(ActionEvent evt) {//GEN-FIRST:event_EliminarActionPerformed
+        int nFila = jTable1.getSelectedRow();
+        String num = jTable1.getValueAt(nFila, 0).toString();
+
+        if (Config.cNivelUsuario.equals("1")) {
+            Object[] opciones = {"   Si   ", "   No   "};
+            int ret = JOptionPane.showOptionDialog(null, "Desea Eliminar el Registro ? ", "Confirmación", 0, 3, null, opciones, opciones[0]);
+            if (ret == 0) {
+                venta_lotesDAO vl = new venta_lotesDAO();
+                cuenta_clienteDAO cl = new cuenta_clienteDAO();
+                try {
+                    ventas_lotes v = vl.buscarId(num);
+                    if (v == null) {
+                        JOptionPane.showMessageDialog(null, "Registro no Existe");
+                    } else {
+                        cl.borrarDetalleCuenta(v.getCreferencia());
+                        vl.borrarVenta(num);
+                        JOptionPane.showMessageDialog(null, "Registro Eliminado Exitosamente");
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "ERROR: " + e.getMessage());
+                }
+            }
+        }
+        refrescar.doClick();
+    }//GEN-LAST:event_EliminarActionPerformed
+
+    private void jTable1FocusLost(FocusEvent evt) {//GEN-FIRST:event_jTable1FocusLost
+        
+    }//GEN-LAST:event_jTable1FocusLost
+
+    private void ListarActionPerformed(ActionEvent evt) {//GEN-FIRST:event_ListarActionPerformed
+        GenerarReporte GenerarReporte = new GenerarReporte();
+        Thread HiloReporte = new Thread(GenerarReporte);
+        HiloReporte.start();
+    }//GEN-LAST:event_ListarActionPerformed
+
+    private void SalirActionPerformed(ActionEvent evt) {//GEN-FIRST:event_SalirActionPerformed
+        detalle_venta_lote.setVisible(false);
+        
+    }//GEN-LAST:event_SalirActionPerformed
+
+    private void GrabarActionPerformed(ActionEvent evt) {//GEN-FIRST:event_GrabarActionPerformed
+        //Se inicia Proceso de Grabado de Registro
+        //Se instancian las clases necesarias asociadas al modelado de Orden de Credito
+        Object[] opciones = {"   Si   ", "   No   "};
+        int ret = JOptionPane.showOptionDialog(null, "Desea Guardar esta Operación? ", "Confirmación", 0, 3, null, opciones, opciones[0]);
+        if (ret == 0) {
+            
+            ventas_lotes v = new ventas_lotes();
+            venta_lotesDAO grabarOCR = new venta_lotesDAO();
+            
+            cliente cli = new cliente();
+            clienteDAO cliDAO = new clienteDAO();
+            
+            sucursal suc = new sucursal();
+            sucursalDAO sucDAO = new sucursalDAO();
+            
+            comprobante comp = new comprobante();
+            comprobanteDAO compDAO = new comprobanteDAO();
+            
+            lote lot = new lote();
+            lotesDAO loteDAO = new lotesDAO();
+            
+            moneda mon = new moneda();
+            monedaDAO monDAO = new monedaDAO();
+            
+            vendedor ven = new vendedor();
+            vendedorDAO venDAO = new vendedorDAO();
+            
+            lista_precios_lotes lp = new lista_precios_lotes();
+            lista_precios_lotesDAO lpDAO = new lista_precios_lotesDAO();
+
+            try {
+                cli = cliDAO.buscarId(Integer.valueOf(this.cliente.getText()));
+                comp = compDAO.buscarId(Integer.valueOf(this.comprobante.getText()));
+                lot = loteDAO.buscarId(Integer.valueOf(this.lote.getText()));
+                lp = lpDAO.buscarId(Integer.valueOf(this.precio.getText()));
+                suc=sucDAO.buscarId(Integer.valueOf(this.sucursal.getText()));
+                mon=monDAO.buscarId(Integer.valueOf(this.moneda.getText()));
+                ven=venDAO.buscarId(Integer.valueOf(this.vendedor.getText()));
+            } catch (SQLException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+
+            if (this.creferencia.getText().isEmpty()) {
+                referencia = UUID.crearUUID();
+                referencia = referencia.substring(1, 25);
+            } else {
+                referencia = this.creferencia.getText();
+            }
+            
+            String cCotizacion = cotizacion.getText();
+            cCotizacion = cCotizacion.replace(".", "").replace(",", ".");
+            BigDecimal nCotizacion = new BigDecimal(cCotizacion);
+            
+            String cCuotas = cuotas.getText();
+            cCuotas = cCuotas.replace(".", "").replace(",", ".");
+            BigDecimal nCuotas = new BigDecimal(cCuotas);
+            //System.out.println("NCuotas "+nCuotas+"\n\n");
+            String cPlazo = plazo.getText();
+            cPlazo = cPlazo.replace(".", "").replace(" ", "");
+            
+            Date Fecha = ODate.de_java_a_sql(fecha.getDate());
+            Date FechaVence = ODate.de_java_a_sql(primervence.getDate());
+            
+            v.setCreferencia(referencia);
+            //idventa
+            v.setFecha(Fecha);
+            v.setCliente(cli);
+            v.setComprobante(comp);
+            v.setLote(lot);
+            v.setListaprecio(lp);
+            v.setCuotas(nCuotas);
+            v.setPrimeravence(FechaVence);
+            v.setSucursal(suc);
+            v.setMoneda(mon);
+            v.setCotizacion(nCotizacion);
+            v.setPlazo(Integer.valueOf(cPlazo));
+            v.setVendedor(ven);
+            v.setFactura(factura.getText());
+            
+            ///CUOTAS///
+            //String cFinanciado = this.valorprecio.getText();
+            String cFinanciado = "0";
+            cFinanciado = cFinanciado.replace(".", "").replace(",", ".");
+            BigDecimal nFinanciado = new BigDecimal(cFinanciado);
+            
+            JDateChooser vencimientos = new JDateChooser();
+            JDateChooser venceanterior = new JDateChooser();
+            
+            String cTotalNeto = valorprecio.getText();
+            cTotalNeto = cTotalNeto.replace(".", "").replace(",", ".");
+            BigDecimal nTotalNeto = new BigDecimal(cTotalNeto);
+            
+            String cTotalValores = valorprecio.getText();
+            cTotalValores = cTotalValores.replace(".", "").replace(",", ".");
+            BigDecimal nSupago = new BigDecimal(cTotalValores);
+            
+            String cNumeroFactura = factura.getText();
+            cNumeroFactura = cNumeroFactura.replace("-", "");
+            
+            String detacuota = "[";
+            if (Integer.valueOf(plazo.getText()) > 0 && Double.valueOf(cFinanciado) == 0) {
+                Calendar calendar = Calendar.getInstance(); //Instanciamos Calendar
+                calendar.setTime(primervence.getDate()); // Capturamos en el setTime el valor de la fecha ingresada
+
+                String iddoc = null;
+                //String cImporteCuota = null;
+                String cImporteCuota = nCuotas+"";
+                /*if (Integer.valueOf(moneda.getText()) == 1) {
+                    cImporteCuota = String.valueOf(Math.round((Double.valueOf(cTotalNeto) - Double.valueOf(cTotalValores)) / Double.valueOf(cuotas.getText())));
+                } else {
+                    cImporteCuota = String.valueOf((Double.valueOf(cTotalNeto) - Double.valueOf(cTotalValores)) / Double.valueOf(cuotas.getText()));
+                }*/
+                
+                detacuota = "[";
+                System.out.println("Plazo: "+cPlazo);
+                for (int i = 1; i <= Integer.valueOf(cPlazo); i++) {
+                    vencimientos.setDate(calendar.getTime()); //Y cargamos finalmente en el 
+                    Date VenceCuota = ODate.de_java_a_sql(vencimientos.getDate());
+                    iddoc = UUID.crearUUID();
+                    System.out.println("iddoc1 "+iddoc);
+                    iddoc = iddoc.substring(1, 25);
+                    String lineacuota = "{iddocumento : " + iddoc + ","
+                            + "creferencia : " + referencia + ","
+                            + "documento : " + cNumeroFactura + ","
+                            + "fecha : " + Fecha + ","
+                            + "vencimiento : " + VenceCuota + ","
+                            + "cliente : " + cliente.getText() + ","
+                            + "sucursal: " + sucursal.getText() + ","
+                            + "moneda : " + moneda.getText() + ","
+                            + "comprobante : " + comprobante.getText() + ","
+                            + "vendedor : " + vendedor.getText() + ","
+                            + "importe : " + cImporteCuota + ","
+                            + "numerocuota : " + cPlazo + ","
+                            + "cuota : " + i + ","
+                            + "saldo : " + cImporteCuota
+                            + "},";
+                    detacuota += lineacuota;
+                    calendar.setTime(vencimientos.getDate()); // Capturamos en el setTime el valor de la fecha ingresada
+                    venceanterior.setDate(calendar.getTime()); //Guardamos el vencimiento anterior
+                    int mes = venceanterior.getCalendar().get(Calendar.MONTH) + 1;
+                    int dia = venceanterior.getCalendar().get(Calendar.DAY_OF_MONTH);
+                    calendar.add(Calendar.MONTH, 1);  // numero de meses a añadir, o restar en caso de días<0
+                    if (mes == 2 && dia == 28) {
+                        calendar.add(Calendar.DATE, 2);  // en caso que sea Febrero 28 se aumentan a dos días                            //el vencimiento
+                    }
+                    vencimientos.setDate(calendar.getTime()); //Y cargamos finalmente en el 
+                    //System.out.println("entro "+detacuota);
+                }
+                if (!detacuota.equals("[")) {
+                    detacuota = detacuota.substring(0, detacuota.length() - 1);
+                }
+                detacuota += "]";
+            }
+            ///FIN CUOTAS///
+            cuenta_clienteDAO ctaDAO = new cuenta_clienteDAO();
+            if(idControl.getText().equals("0")){ //agregar
+                try {
+                    grabarOCR.AgregarVenta(v);
+                    ctaDAO.guardarCuenta(detacuota);
+                } catch (SQLException ex) {
+                    Exceptions.printStackTrace(ex);
+                }
+            }else{//actualizar
+                try{
+                    ctaDAO.borrarDetalleCuenta(referencia);
+                    grabarOCR.ActualizarVenta(v);
+                    ctaDAO.guardarCuenta(detacuota);
+                }catch(SQLException ex){
+                }
+            }
+            
+            detalle_venta_lote.setModal(false);
+            detalle_venta_lote.setVisible(false);
+            this.refrescar.doClick();
+        }
+    }//GEN-LAST:event_GrabarActionPerformed
+
+    private void detalle_venta_loteFocusGained(FocusEvent evt) {//GEN-FIRST:event_detalle_venta_loteFocusGained
+        
+    }//GEN-LAST:event_detalle_venta_loteFocusGained
+
+    private void detalle_venta_loteWindowGainedFocus(WindowEvent evt) {//GEN-FIRST:event_detalle_venta_loteWindowGainedFocus
+        
+    }//GEN-LAST:event_detalle_venta_loteWindowGainedFocus
+
+    private void detalle_venta_loteWindowActivated(WindowEvent evt) {//GEN-FIRST:event_detalle_venta_loteWindowActivated
+
+        
+    }//GEN-LAST:event_detalle_venta_loteWindowActivated
+
+    private void jTable1PropertyChange(PropertyChangeEvent evt) {//GEN-FIRST:event_jTable1PropertyChange
+        
+    }//GEN-LAST:event_jTable1PropertyChange
+
+    private void refrescarActionPerformed(ActionEvent evt) {//GEN-FIRST:event_refrescarActionPerformed
+        GrillaVentaLote GrillaOC = new GrillaVentaLote();
+        Thread HiloGrilla = new Thread(GrillaOC);
+        HiloGrilla.start();        
+    }//GEN-LAST:event_refrescarActionPerformed
+
+    private void fechaFocusGained(FocusEvent evt) {//GEN-FIRST:event_fechaFocusGained
+        
+    }//GEN-LAST:event_fechaFocusGained
+
+    private void fechaKeyPressed(KeyEvent evt) {//GEN-FIRST:event_fechaKeyPressed
+        if (evt.getKeyCode() == 10 || evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            this.cliente.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+//            this.sucursal.requestFocus();
+        }   // TODO add your handling code 
+        
+    }//GEN-LAST:event_fechaKeyPressed
+
+    private void clienteKeyPressed(KeyEvent evt) {//GEN-FIRST:event_clienteKeyPressed
+        if (evt.getKeyCode() == 10 || evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            this.vendedor.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            this.fecha.requestFocus();
+        }   // TODO add your handling code 
+    }//GEN-LAST:event_clienteKeyPressed
+
+    private void primervenceKeyPressed(KeyEvent evt) {//GEN-FIRST:event_primervenceKeyPressed
+        if (evt.getKeyCode() == 10 || evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            this.Grabar.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            this.cuotas.requestFocus();
+        }   // TO        
+    }//GEN-LAST:event_primervenceKeyPressed
+
+    private void comboclienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboclienteActionPerformed
+        
+    }//GEN-LAST:event_comboclienteActionPerformed
+
+    private void jTBuscarClienteKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTBuscarClienteKeyPressed
+        this.jTBuscarCliente.addKeyListener(new KeyAdapter() {
+            public void keyReleased(final KeyEvent e) {
+                String cadena = (jTBuscarCliente.getText()).toUpperCase();
+                jTBuscarCliente.setText(cadena);
+                int indiceColumnaTabla = 0;
+                switch (combocliente.getSelectedIndex()) {
+                    case 0:
+                        indiceColumnaTabla = 1;
+                        break;//por nombre
+                    case 1:
+                        indiceColumnaTabla = 0;
+                        break;//por codigo
+                    case 2:
+                        indiceColumnaTabla = 3;
+                        break;//por RUC
+                }
+                repaint();
+                filtrocli(indiceColumnaTabla);
+            }
+        });
+        trsfiltrocli = new TableRowSorter(tablacliente.getModel());
+        tablacliente.setRowSorter(trsfiltrocli);
+        
+    }//GEN-LAST:event_jTBuscarClienteKeyPressed
+
+    private void tablaclienteKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tablaclienteKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            this.AceptarCli.doClick();
+        }
+        
+    }//GEN-LAST:event_tablaclienteKeyPressed
+
+    private void AceptarCliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AceptarCliActionPerformed
+        int nFila = this.tablacliente.getSelectedRow();
+        this.cliente.setText(this.tablacliente.getValueAt(nFila, 0).toString());
+        this.nombrecliente.setText(this.tablacliente.getValueAt(nFila, 1).toString());
+        this.direccioncliente.setText(this.tablacliente.getValueAt(nFila, 2).toString());
+        this.BCliente.setVisible(false);
+        this.jTBuscarCliente.setText("");
+        this.vendedor.requestFocus();
+    }//GEN-LAST:event_AceptarCliActionPerformed
+
+    private void SalirCliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalirCliActionPerformed
+        this.BCliente.setVisible(false);
+        
+    }//GEN-LAST:event_SalirCliActionPerformed
+
+    private void buscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarClienteActionPerformed
+        clienteDAO clDAO = new clienteDAO();
+        cliente cl = null;
+        try {
+            cl = clDAO.buscarId(Integer.valueOf(this.cliente.getText()));
+            if (cl.getCodigo() == 0) {
+                GrillaCliente grillacl = new GrillaCliente();
+                Thread hilocl = new Thread(grillacl);
+                hilocl.start();
+                BCliente.setModal(true);
+                BCliente.setSize(482, 575);
+                BCliente.setLocationRelativeTo(null);
+                BCliente.setTitle("Buscar Cliente");
+                BCliente.setVisible(true);
+                vendedor.requestFocus();
+                BCliente.setModal(false);
+            } else {
+                nombrecliente.setText(cl.getNombre());
+                direccioncliente.setText(cl.getDireccion());
+                //Establecemos un título para el jDialog
+                comprobante.requestFocus();
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "ERROR:" + e.getMessage());
+        }
+        
+    }//GEN-LAST:event_buscarClienteActionPerformed
+
+    private void clienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clienteActionPerformed
+        this.buscarCliente.doClick();
+        
+    }//GEN-LAST:event_clienteActionPerformed
+
+    private void jTBuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTBuscarClienteActionPerformed
+        
+    }//GEN-LAST:event_jTBuscarClienteActionPerformed
+
+    private void tablaclienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaclienteMouseClicked
+        this.AceptarCli.doClick();
+        
+    }//GEN-LAST:event_tablaclienteMouseClicked
+
+    private void clienteFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_clienteFocusGained
+        cliente.selectAll();
+
+        
+    }//GEN-LAST:event_clienteFocusGained
+
+    private void direccionclienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_direccionclienteActionPerformed
+        
+    }//GEN-LAST:event_direccionclienteActionPerformed
+
+    private void comprobanteFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_comprobanteFocusGained
+        comprobante.selectAll();
+        
+    }//GEN-LAST:event_comprobanteFocusGained
+
+    private void comprobanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comprobanteActionPerformed
+        this.buscarcomprobante.doClick();
+        
+    }//GEN-LAST:event_comprobanteActionPerformed
+
+    private void comprobanteKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_comprobanteKeyPressed
+        if (evt.getKeyCode() == 10 || evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            this.lote.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            this.vendedor.requestFocus();
+        }
+    }//GEN-LAST:event_comprobanteKeyPressed
+
+    private void buscarcomprobanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarcomprobanteActionPerformed
+        comprobanteDAO cmDAO = new comprobanteDAO();
+        comprobante cm = null;
+        try {
+            cm = cmDAO.buscarIdxtipo(Integer.valueOf(this.comprobante.getText()), 2);
+            if (cm.getCodigo() == 0) {
+                GrillaComprobante grillacm = new GrillaComprobante();
+                Thread hiloca = new Thread(grillacm);
+                hiloca.start();
+                BComprobante.setModal(true);
+                BComprobante.setSize(500, 575);
+                BComprobante.setLocationRelativeTo(null);
+                BComprobante.setVisible(true);
+                BComprobante.setTitle("Buscar Comprobante");
+                BComprobante.setModal(false);
+            } else {
+                nombrecomprobante.setText(cm.getNombre());
+                //Establecemos un título para el jDialog
+            }
+            lote.requestFocus();
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "ERROR:" + e.getMessage());
+        }
+    }//GEN-LAST:event_buscarcomprobanteActionPerformed
+
+    private void combocomprobanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combocomprobanteActionPerformed
+        
+    }//GEN-LAST:event_combocomprobanteActionPerformed
+
+    private void jTBuscarComprobanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTBuscarComprobanteActionPerformed
+        
+    }//GEN-LAST:event_jTBuscarComprobanteActionPerformed
+
+    private void jTBuscarComprobanteKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTBuscarComprobanteKeyPressed
+        this.jTBuscarComprobante.addKeyListener(new KeyAdapter() {
+            public void keyReleased(final KeyEvent e) {
+                String cadena = (jTBuscarComprobante.getText()).toUpperCase();
+                jTBuscarComprobante.setText(cadena);
+                int indiceColumnaTabla = 0;
+                switch (combocomprobante.getSelectedIndex()) {
+                    case 0:
+                    indiceColumnaTabla = 1;
+                    break;//por nombre
+                    case 1:
+                    indiceColumnaTabla = 0;
+                    break;//por codigo
+                }
+                repaint();
+                filtrocomprobante(indiceColumnaTabla);
+            }
+        });
+        trsfiltrocomp = new TableRowSorter(tablacomprobante.getModel());
+        tablacomprobante.setRowSorter(trsfiltrocomp);
+        
+    }//GEN-LAST:event_jTBuscarComprobanteKeyPressed
+
+    private void tablacomprobanteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablacomprobanteMouseClicked
+        this.AceptarComprobante.doClick();
+        
+    }//GEN-LAST:event_tablacomprobanteMouseClicked
+
+    private void tablacomprobanteKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tablacomprobanteKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            this.AceptarComprobante.doClick();
+        }
+
+        
+    }//GEN-LAST:event_tablacomprobanteKeyPressed
+
+    private void AceptarComprobanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AceptarComprobanteActionPerformed
+        int nFila = this.tablacomprobante.getSelectedRow();
+        this.comprobante.setText(this.tablacomprobante.getValueAt(nFila, 0).toString());
+        this.nombrecomprobante.setText(this.tablacomprobante.getValueAt(nFila, 1).toString());
+        this.BComprobante.setVisible(false);
+        this.jTBuscarComprobante.setText("");
+        this.lote.requestFocus();
+    }//GEN-LAST:event_AceptarComprobanteActionPerformed
+
+    private void SalirComprobanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalirComprobanteActionPerformed
+        this.BComprobante.setVisible(false);
+        
+    }//GEN-LAST:event_SalirComprobanteActionPerformed
+
+    private void jTBuscarLoteKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTBuscarLoteKeyPressed
+        this.jTBuscarLote.addKeyListener(new KeyAdapter() {
+            public void keyReleased(final KeyEvent e) {
+                String cadena = (jTBuscarLote.getText()).toUpperCase();
+                jTBuscarLote.setText(cadena);
+                int indiceColumnaTabla = 0;
+                switch (combolote.getSelectedIndex()) {
+                    case 0:
+                    indiceColumnaTabla = 1;
+                    break;//por nombre
+                    case 1:
+                    indiceColumnaTabla = 0;
+                }
+                repaint();
+                filtrolote(indiceColumnaTabla);
+            }
+        });
+        trsfiltrolote = new TableRowSorter(tablalote.getModel());
+        tablalote.setRowSorter(trsfiltrolote);
+        
+    }//GEN-LAST:event_jTBuscarLoteKeyPressed
+
+    private void tablaloteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaloteMouseClicked
+        this.AceptarLote.doClick();
+        
+    }//GEN-LAST:event_tablaloteMouseClicked
+
+    private void tablaloteKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tablaloteKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            this.AceptarLote.doClick();
+        }
+        
+    }//GEN-LAST:event_tablaloteKeyPressed
+
+    private void AceptarLoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AceptarLoteActionPerformed
+        int nFila = this.tablalote.getSelectedRow();
+        this.lote.setText(this.tablalote.getValueAt(nFila, 0).toString());
+        this.nombrelote.setText(this.tablalote.getValueAt(nFila, 1).toString());
+        this.BLote.setVisible(false);
+        this.jTBuscarLote.setText("");
+        precio.requestFocus();
+    }//GEN-LAST:event_AceptarLoteActionPerformed
+
+    private void SalirLoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalirLoteActionPerformed
+        this.BLote.setModal(true);
+        this.BLote.setVisible(false);
+        
+    }//GEN-LAST:event_SalirLoteActionPerformed
+
+    private void loteFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_loteFocusGained
+        lote.selectAll();
+    }//GEN-LAST:event_loteFocusGained
+
+    private void loteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loteActionPerformed
+        this.buscarLote.doClick();
+    }//GEN-LAST:event_loteActionPerformed
+
+    private void loteKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_loteKeyPressed
+        if (evt.getKeyCode() == 10 || evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            buscarLote.doClick();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            this.comprobante.requestFocus();
+        }
+    }//GEN-LAST:event_loteKeyPressed
+
+    private void buscarLoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarLoteActionPerformed
+        lotesDAO listap = new lotesDAO();
+        lote lotes = null;
+        try {
+            lotes = listap.buscarId(Integer.valueOf(this.lote.getText()));
+            if (lotes.getCodigo() == 0) {
+                /**/
+                GrillaLote grilla = new GrillaLote();
+                Thread hilo = new Thread(grilla);
+                hilo.start();
+                /**/
+                BLote.setModal(true);
+                BLote.setSize(500, 600);
+                BLote.setLocationRelativeTo(null);
+                BLote.setTitle("Buscar Lote");
+                BLote.setVisible(true);
+                resetPrecio();
+            } else {
+                nombrelote.setText(lotes.getNombre());
+                resetPrecio();
+                precio.requestFocus();
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "ERROR:" + e.getMessage());
+        }
+    }//GEN-LAST:event_buscarLoteActionPerformed
+    private void resetPrecio(){
+        precio.setText("0");
+        nombrePrecio.setText("");
+        valorprecio.setText("");
+    }
+    private void precioFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_precioFocusGained
+        precio.selectAll();
+    }//GEN-LAST:event_precioFocusGained
+
+    private void precioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_precioActionPerformed
+        String aux= lote.getText().replace(" ", "");
+        if(aux.equals("") ||aux.equals("0")){
+            JOptionPane.showMessageDialog(null, "Debe Seleccionar un lote primero");
+        }else{
+            this.buscarPrecio.doClick();
+        }
+    }//GEN-LAST:event_precioActionPerformed
+
+    private void precioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_precioKeyPressed
+        if (evt.getKeyCode() == 10 || evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            buscarPrecio.doClick();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            this.lote.requestFocus();
+        }
+    }//GEN-LAST:event_precioKeyPressed
+
+    private void buscarPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarPrecioActionPerformed
+        lista_precios_lotesDAO listap = new lista_precios_lotesDAO();
+        lista_precios_lotes listaprecios = null;
+        try {
+            listaprecios = listap.buscarIdLotes(Integer.valueOf(this.precio.getText()),Integer.valueOf(this.lote.getText()));
+            if (listaprecios.getIdlista() == 0) {
+                /**/
+                GrillaListaPreciosLotes grilla = new GrillaListaPreciosLotes(); 
+                Thread hilo = new Thread(grilla);
+                hilo.start();
+                /**/
+                BPrecios.setModal(true);
+                BPrecios.setSize(540, 610);
+                BPrecios.setLocationRelativeTo(null);
+                BPrecios.setTitle("Buscar Precio");
+                BPrecios.setVisible(true);
+                //BLote.setModal(false);
+            } else {
+                nombrePrecio.setText(listaprecios.getDescripcion());
+                valorprecio.setText(formatea.format(listaprecios.getPrecio()));
+                cuotas.requestFocus();
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "ERROR:" + e.getMessage());
+        }
+    }//GEN-LAST:event_buscarPrecioActionPerformed
+
+    private void jTBuscarPreciosKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTBuscarPreciosKeyPressed
+        this.jTBuscarPrecios.addKeyListener(new KeyAdapter() {
+            public void keyReleased(final KeyEvent e) {
+                String cadena = (jTBuscarPrecios.getText()).toUpperCase();
+                jTBuscarPrecios.setText(cadena);
+                int indiceColumnaTabla = 0;
+                switch (comboprecios.getSelectedIndex()) {
+                    case 0:
+                    indiceColumnaTabla = 1;
+                    break;//por nombre
+                    case 1:
+                    indiceColumnaTabla = 0;
+                }
+                repaint();
+                filtroprecios(indiceColumnaTabla);
+            }
+        });
+        trsfiltroprecios = new TableRowSorter(tablaprecios.getModel());
+        tablaprecios.setRowSorter(trsfiltroprecios);
+        
+    }//GEN-LAST:event_jTBuscarPreciosKeyPressed
+
+    private void tablapreciosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablapreciosMouseClicked
+        this.AceptarPrecio.doClick();
+    }//GEN-LAST:event_tablapreciosMouseClicked
+
+    private void tablapreciosKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tablapreciosKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            this.AceptarPrecio.doClick();
+        }
+    }//GEN-LAST:event_tablapreciosKeyPressed
+
+    private void AceptarPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AceptarPrecioActionPerformed
+        int nFila = this.tablaprecios.getSelectedRow();
+        this.precio.setText(this.tablaprecios.getValueAt(nFila, 0).toString());
+        this.nombrePrecio.setText(this.tablaprecios.getValueAt(nFila, 1).toString());
+        this.valorprecio.setText(this.tablaprecios.getValueAt(nFila, 2).toString());
+        this.plazo.setText(this.tablaprecios.getValueAt(nFila, 3).toString());
+        this.cuotas.setText(this.tablaprecios.getValueAt(nFila, 4).toString());
+        this.BPrecios.setVisible(false);
+        this.jTBuscarPrecios.setText("");
+        cuotas.requestFocus();
+    }//GEN-LAST:event_AceptarPrecioActionPerformed
+
+    private void SalirPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalirPrecioActionPerformed
+        this.BLote.setModal(true);
+        this.BLote.setVisible(false);
+        
+    }//GEN-LAST:event_SalirPrecioActionPerformed
+
+    private void cuotasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cuotasKeyPressed
+        if (evt.getKeyCode() == 10 || evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            this.plazo.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            this.precio.requestFocus();
+        } 
+    }//GEN-LAST:event_cuotasKeyPressed
+
+    private void cuotasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cuotasActionPerformed
+        Calendar calendar = Calendar.getInstance(); //Instanciamos Calendar
+        calendar.setTime(this.fecha.getDate()); // Capturamos en el setTime el valor de la fecha ingresada
+        calendar.add(Calendar.DAY_OF_YEAR, 30);  // numero de días a añadir, o restar en caso de días<0
+        this.primervence.setDate(calendar.getTime()); //Y cargamos finalmente en el 
+    }//GEN-LAST:event_cuotasActionPerformed
+
+    private void cuotasFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cuotasFocusGained
+        cuotas.selectAll();
+    }//GEN-LAST:event_cuotasFocusGained
+
+    private void cotizacionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cotizacionKeyPressed
+        if (evt.getKeyCode() == 10 || evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            this.Grabar.doClick();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            this.moneda.requestFocus();
+        }
+    }//GEN-LAST:event_cotizacionKeyPressed
+
+    private void buscarMonedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarMonedaActionPerformed
+        monedaDAO casDAO = new monedaDAO();
+        moneda mn = null;
+        try {
+            mn = casDAO.buscarId(Integer.valueOf(this.moneda.getText()));
+            if (mn.getCodigo() == 0) {
+                GrillaMoneda grillaca = new GrillaMoneda();
+                Thread hiloca = new Thread(grillaca);
+                hiloca.start();
+                BMoneda.setModal(true);
+                BMoneda.setSize(500, 575);
+                BMoneda.setLocationRelativeTo(null);
+                BMoneda.setVisible(true);
+                BMoneda.setTitle("Buscar Comercio");
+                BMoneda.setModal(false);
+            } else {
+                nombremoneda.setText(mn.getNombre());
+                cotizacion.setText(formatea.format(mn.getVenta()));
+            }
+            cotizacion.requestFocus();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "ERROR:" + e.getMessage());
+        }
+        
+    }//GEN-LAST:event_buscarMonedaActionPerformed
+
+    private void monedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_monedaActionPerformed
+        this.buscarMoneda.doClick();
+        
+    }//GEN-LAST:event_monedaActionPerformed
+
+    private void monedaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_monedaKeyPressed
+        if (evt.getKeyCode() == 10 || evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            this.cotizacion.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            this.primervence.requestFocus();
+        }
+    }//GEN-LAST:event_monedaKeyPressed
+
+    private void combomonedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combomonedaActionPerformed
+        
+    }//GEN-LAST:event_combomonedaActionPerformed
+
+    private void jTBuscarMonedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTBuscarMonedaActionPerformed
+        
+    }//GEN-LAST:event_jTBuscarMonedaActionPerformed
+
+    private void jTBuscarMonedaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTBuscarMonedaKeyPressed
+        this.jTBuscarMoneda.addKeyListener(new KeyAdapter() {
+            public void keyReleased(final KeyEvent e) {
+                String cadena = (jTBuscarMoneda.getText()).toUpperCase();
+                jTBuscarMoneda.setText(cadena);
+                int indiceColumnaTabla = 0;
+                switch (combomoneda.getSelectedIndex()) {
+                    case 0:
+                    indiceColumnaTabla = 1;
+                    break;//por nombre
+                    case 1:
+                    indiceColumnaTabla = 0;
+                }
+                repaint();
+                filtromoneda(indiceColumnaTabla);
+            }
+        });
+        trsfiltromoneda = new TableRowSorter(tablamoneda.getModel());
+        tablamoneda.setRowSorter(trsfiltromoneda);
+        
+    }//GEN-LAST:event_jTBuscarMonedaKeyPressed
+
+    public void filtromoneda(int nNumeroColumna) {
+        trsfiltromoneda.setRowFilter(RowFilter.regexFilter(this.jTBuscarMoneda.getText(), nNumeroColumna));
+    }
+    
+    private void tablamonedaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablamonedaMouseClicked
+        this.AceptarMoneda.doClick();
+        
+    }//GEN-LAST:event_tablamonedaMouseClicked
+
+    private void tablamonedaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tablamonedaKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            this.AceptarMoneda.doClick();
+        }
+        
+    }//GEN-LAST:event_tablamonedaKeyPressed
+
+    private void AceptarMonedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AceptarMonedaActionPerformed
+        int nFila = this.tablamoneda.getSelectedRow();
+        this.moneda.setText(this.tablamoneda.getValueAt(nFila, 0).toString());
+        this.nombremoneda.setText(this.tablamoneda.getValueAt(nFila, 1).toString());
+        this.cotizacion.setText(this.tablamoneda.getValueAt(nFila, 2).toString());
+        this.BMoneda.setVisible(false);
+        this.jTBuscarMoneda.setText("");
+        this.cotizacion.requestFocus();
+    }//GEN-LAST:event_AceptarMonedaActionPerformed
+
+    private void SalirMonedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalirMonedaActionPerformed
+        this.BMoneda.setVisible(false);
+        
+    }//GEN-LAST:event_SalirMonedaActionPerformed
+
+    private void plazoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_plazoFocusGained
+        
+    }//GEN-LAST:event_plazoFocusGained
+
+    private void plazoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plazoActionPerformed
+        
+    }//GEN-LAST:event_plazoActionPerformed
+
+    private void plazoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_plazoKeyPressed
+        
+    }//GEN-LAST:event_plazoKeyPressed
+
+    private void facturaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_facturaKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) { //valida que el usuario enter le da enter se quede en un lugar
+            if (!factura.getText().matches("")) { 
+                sucursal.requestFocus();
+            } else {
+                JOptionPane.showConfirmDialog(null, "Ingrese Numero de Factura", "ATENCION", JOptionPane.CLOSED_OPTION);}
+        }
+    }//GEN-LAST:event_facturaKeyPressed
+
+    private void sucursalFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_sucursalFocusGained
+        sucursal.selectAll();
+
+        
+    }//GEN-LAST:event_sucursalFocusGained
+
+    private void sucursalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sucursalActionPerformed
+        this.buscarSucursal.doClick();
+        
+    }//GEN-LAST:event_sucursalActionPerformed
+
+    private void sucursalKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_sucursalKeyPressed
+        if (evt.getKeyCode() == 10 || evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            this.fecha.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            this.factura.requestFocus();
+        }
+    }//GEN-LAST:event_sucursalKeyPressed
+
+    private void buscarSucursalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarSucursalActionPerformed
+        sucursalDAO sucDAO = new sucursalDAO();
+        sucursal sucu = null;
+        try {
+            sucu = sucDAO.buscarId(Integer.valueOf(this.sucursal.getText()));
+            if (sucu.getCodigo() == 0) {
+                GrillaSucursal grillasu = new GrillaSucursal();
+                Thread hilosuc = new Thread(grillasu);
+                hilosuc.start();
+                BSucursal.setModal(true);
+                BSucursal.setSize(500, 575);
+                BSucursal.setLocationRelativeTo(null);
+                BSucursal.setTitle("Buscar Sucursal");
+                BSucursal.setVisible(true);
+                BSucursal.setModal(false);
+            } else {
+                if (Integer.valueOf(idControl.getText()) == 0) {
+                    String cBoca = sucu.getExpedicion().trim();
+                    Double nFactura = sucu.getFactura();
+                    int n = (int) nFactura.doubleValue();
+                    String formatString = String.format("%%0%dd", 7);
+                    String formattedString = String.format(formatString, n);
+                    this.factura.setText(cBoca + "-" + formattedString);
+                }
+                fecha.requestFocus();
+            }
+            nombresucursal.setText(sucu.getNombre());
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "ERROR:" + e.getMessage());
+        }
+        
+    }//GEN-LAST:event_buscarSucursalActionPerformed
+
+    private void combosucursalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combosucursalActionPerformed
+        
+    }//GEN-LAST:event_combosucursalActionPerformed
+
+    private void jTBuscarSucursalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTBuscarSucursalActionPerformed
+        
+    }//GEN-LAST:event_jTBuscarSucursalActionPerformed
+
+    private void jTBuscarSucursalKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTBuscarSucursalKeyPressed
+        this.jTBuscarSucursal.addKeyListener(new KeyAdapter() {
+            public void keyReleased(final KeyEvent e) {
+                String cadena = (jTBuscarSucursal.getText()).toUpperCase();
+                jTBuscarSucursal.setText(cadena);
+                int indiceColumnaTabla = 0;
+                switch (combosucursal.getSelectedIndex()) {
+                    case 0:
+                    indiceColumnaTabla = 1;
+                    break;//por nombre
+                    case 1:
+                    indiceColumnaTabla = 0;
+                    break;//por codigo
+                    case 2:
+                    indiceColumnaTabla = 2;
+                    break;//por RUC
+                }
+                repaint();
+                filtrosuc(indiceColumnaTabla);
+            }
+        });
+        trsfiltrosuc = new TableRowSorter(tablasucursal.getModel());
+        tablasucursal.setRowSorter(trsfiltrosuc);
+        
+    }//GEN-LAST:event_jTBuscarSucursalKeyPressed
+    public void filtrosuc(int nNumeroColumna) {
+        trsfiltrosuc.setRowFilter(RowFilter.regexFilter(this.jTBuscarSucursal.getText(), nNumeroColumna));
+    }
+    private void tablasucursalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablasucursalMouseClicked
+        this.AceptarSuc.doClick();
+        
+    }//GEN-LAST:event_tablasucursalMouseClicked
+
+    private void tablasucursalKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tablasucursalKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            this.AceptarSuc.doClick();
+        }
+        
+    }//GEN-LAST:event_tablasucursalKeyPressed
+
+    private void AceptarSucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AceptarSucActionPerformed
+        int nFila = this.tablasucursal.getSelectedRow();
+        this.sucursal.setText(this.tablasucursal.getValueAt(nFila, 0).toString());
+        this.nombresucursal.setText(this.tablasucursal.getValueAt(nFila, 1).toString());
+
+        String cBoca = tablasucursal.getValueAt(nFila, 3).toString();
+        Double nFactura = Double.valueOf(tablasucursal.getValueAt(nFila, 2).toString());
+        int n = (int) nFactura.doubleValue();
+        String formatString = String.format("%%0%dd", 7);
+        String formattedString = String.format(formatString, n);
+        this.factura.setText(cBoca + "-" + formattedString);
+
+        this.BSucursal.setVisible(false);
+        this.jTBuscarSucursal.setText("");
+        this.fecha.requestFocus();
+        
+    }//GEN-LAST:event_AceptarSucActionPerformed
+
+    private void SalirSucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalirSucActionPerformed
+        this.BSucursal.setVisible(false);
+        
+    }//GEN-LAST:event_SalirSucActionPerformed
+
+    private void vendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vendedorActionPerformed
+        this.BuscarVendedor.doClick();
+        
+    }//GEN-LAST:event_vendedorActionPerformed
+
+    private void vendedorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_vendedorKeyPressed
+        if (evt.getKeyCode() == 10 || evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            this.comprobante.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            this.cliente.requestFocus();
+        }
+    }//GEN-LAST:event_vendedorKeyPressed
+
+    private void BuscarVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarVendedorActionPerformed
+        vendedorDAO veDAO = new vendedorDAO();
+        vendedor vn = null;
+        try {
+            vn = veDAO.buscarId(Integer.valueOf(this.vendedor.getText()));
+            if (vn.getCodigo() == 0) {
+                GrillaVendedor grillavn = new GrillaVendedor();
+                Thread hilove = new Thread(grillavn);
+                hilove.start();
+                BVendedor.setModal(true);
+                BVendedor.setSize(500, 575);
+                BVendedor.setLocationRelativeTo(null);
+                BVendedor.setVisible(true);
+                BVendedor.setTitle("Buscar Vendedor");
+                BVendedor.setModal(false);
+            } else {
+                nombrevendedor.setText(vn.getNombre());
+                //Establecemos un título para el jDialog
+            }
+            comprobante.requestFocus();
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "ERROR:" + e.getMessage());
+        }
+
+        
+    }//GEN-LAST:event_BuscarVendedorActionPerformed
+
+    private void combovendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combovendedorActionPerformed
+        
+    }//GEN-LAST:event_combovendedorActionPerformed
+
+    private void jTBuscarVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTBuscarVendedorActionPerformed
+        
+    }//GEN-LAST:event_jTBuscarVendedorActionPerformed
+
+    private void jTBuscarVendedorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTBuscarVendedorKeyPressed
+        this.jTBuscarVendedor.addKeyListener(new KeyAdapter() {
+            public void keyReleased(final KeyEvent e) {
+                String cadena = (jTBuscarVendedor.getText()).toUpperCase();
+                jTBuscarVendedor.setText(cadena);
+                int indiceColumnaTabla = 0;
+                switch (combovendedor.getSelectedIndex()) {
+                    case 0:
+                    indiceColumnaTabla = 1;
+                    break;//por nombre
+                    case 1:
+                    indiceColumnaTabla = 0;
+                    break;//por codigo
+                    case 2:
+                    indiceColumnaTabla = 2;
+                    break;//por RUC
+                }
+                repaint();
+                filtrovendedor(indiceColumnaTabla);
+            }
+        });
+        trsfiltrovendedor = new TableRowSorter(tablavendedor.getModel());
+        tablavendedor.setRowSorter(trsfiltrovendedor);
+        
+    }//GEN-LAST:event_jTBuscarVendedorKeyPressed
+
+    private void tablavendedorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablavendedorMouseClicked
+        this.AceptarVendedor.doClick();
+        
+    }//GEN-LAST:event_tablavendedorMouseClicked
+
+    private void tablavendedorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tablavendedorKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            this.AceptarVendedor.doClick();
+        }
+        
+    }//GEN-LAST:event_tablavendedorKeyPressed
+
+    public void filtrovendedor(int nNumeroColumna) {
+        trsfiltrovendedor.setRowFilter(RowFilter.regexFilter(this.jTBuscarVendedor.getText(), nNumeroColumna));
+    }
+    
+    private void AceptarVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AceptarVendedorActionPerformed
+        int nFila = this.tablavendedor.getSelectedRow();
+        this.vendedor.setText(this.tablavendedor.getValueAt(nFila, 0).toString());
+        this.nombrevendedor.setText(this.tablavendedor.getValueAt(nFila, 1).toString());
+
+        this.BVendedor.setVisible(false);
+        this.jTBuscarVendedor.setText("");
+        this.cuotas.requestFocus();
+        
+    }//GEN-LAST:event_AceptarVendedorActionPerformed
+
+    private void SalirVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalirVendedorActionPerformed
+        this.BVendedor.setVisible(false);
+        
+    }//GEN-LAST:event_SalirVendedorActionPerformed
+
+    public void filtro(int nNumeroColumna) {
+        trsfiltro.setRowFilter(RowFilter.regexFilter(buscarcadena.getText(), nNumeroColumna));
+    }
+    
+    public void filtroprecios(int nNumeroColumna) {
+        trsfiltroprecios.setRowFilter(RowFilter.regexFilter(jTBuscarPrecios.getText(), nNumeroColumna));
+    }
+    
+    public void filtrolote(int nNumeroColumna) {
+        trsfiltrolote.setRowFilter(RowFilter.regexFilter(this.jTBuscarLote.getText(), nNumeroColumna));
+    }
+
+    public void filtrocli(int nNumeroColumna) {
+        trsfiltrocli.setRowFilter(RowFilter.regexFilter(this.jTBuscarCliente.getText(), nNumeroColumna));
+    }
+
+    public void filtrocomprobante(int nNumeroColumna) {
+        trsfiltrocomp.setRowFilter(RowFilter.regexFilter(this.jTBuscarComprobante.getText(), nNumeroColumna));
+    }
+    
+    private void cargarTitulo() {
+        modelo.addColumn("N° Venta");
+        modelo.addColumn("Fecha");
+        modelo.addColumn("Cliente");
+        modelo.addColumn("Nombre del Cliente");
+        modelo.addColumn("Importe");
+        modelo.addColumn("Cuotas");
+        modelo.addColumn("Lote");
+        modelo.addColumn("Manzana");
+
+        int[] anchos = {120, 90, 90, 250, 100, 100, 100, 100};
+        for (int i = 0; i < modelo.getColumnCount(); i++) {
+            jTable1.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
+        }
+        ((DefaultTableCellRenderer) jTable1.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);// Este código es para centrar las cabeceras de la tabla.
+        jTable1.getTableHeader().setFont(new Font("Arial Black", 1, 11));
+
+        Font font = new Font("Arial", Font.BOLD, 10);
+        this.jTable1.setFont(font);
+
+        DefaultTableCellRenderer TablaRenderer = new DefaultTableCellRenderer();
+        DefaultTableCellRenderer AlinearCentro = new DefaultTableCellRenderer();
+        TablaRenderer.setHorizontalAlignment(SwingConstants.RIGHT); // aqui defines donde alinear 
+        AlinearCentro.setHorizontalAlignment(SwingConstants.CENTER);
+        this.jTable1.getColumnModel().getColumn(0).setCellRenderer(TablaRenderer);
+        this.jTable1.getColumnModel().getColumn(1).setCellRenderer(AlinearCentro);
+        this.jTable1.getColumnModel().getColumn(2).setCellRenderer(TablaRenderer);
+        this.jTable1.getColumnModel().getColumn(4).setCellRenderer(TablaRenderer);
+        this.jTable1.getColumnModel().getColumn(5).setCellRenderer(AlinearCentro);
+        this.jTable1.getColumnModel().getColumn(6).setCellRenderer(AlinearCentro);
+        this.jTable1.getColumnModel().getColumn(7).setCellRenderer(AlinearCentro);
+    }
+
+    private void TituloComprobante() {
+        modelocomprobante.addColumn("Código");
+        modelocomprobante.addColumn("Nombre");
+
+        int[] anchos = {90, 200};
+        for (int i = 0; i < modelocomprobante.getColumnCount(); i++) {
+            tablacomprobante.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
+        }
+        ((DefaultTableCellRenderer) tablacomprobante.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);// Este código es para centrar las cabeceras de la tabla.
+        tablacomprobante.getTableHeader().setFont(new Font("Arial Black", 1, 10));
+
+        // Hacemos Invisible la Celda de Costos de los Productos
+        Font font = new Font("Arial", Font.BOLD, 9);
+        this.tablacomprobante.setFont(font);
+
+        DefaultTableCellRenderer TablaRenderer = new DefaultTableCellRenderer();
+        TablaRenderer.setHorizontalAlignment(SwingConstants.RIGHT); // aqui defines donde alinear 
+        this.tablacomprobante.getColumnModel().getColumn(0).setCellRenderer(TablaRenderer);
+    }
+
+    private void TitLote() {
+        modelolote.addColumn("Código");
+        modelolote.addColumn("Nombre");
+        modelolote.addColumn("N°");
+        modelolote.addColumn("Loteamiento");
+
+        int[] anchos = {50, 100, 10, 100};
+        for (int i = 0; i < modelolote.getColumnCount(); i++) {
+            tablalote.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
+        }
+        ((DefaultTableCellRenderer) tablalote.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);// Este código es para centrar las cabeceras de la tabla.
+        tablalote.getTableHeader().setFont(new Font("Arial Black", 1, 10));
+
+        // Hacemos Invisible la Celda de Costos de los Productos
+        Font font = new Font("Arial", Font.BOLD, 9);
+        this.tablalote.setFont(font);
+
+        DefaultTableCellRenderer TablaRenderer = new DefaultTableCellRenderer();
+        TablaRenderer.setHorizontalAlignment(SwingConstants.RIGHT); // aqui defines donde alinear 
+        this.tablalote.getColumnModel().getColumn(0).setCellRenderer(TablaRenderer);
+    }
+
+    private void TitPrecios() {
+        modeloprecios.addColumn("Código");
+        modeloprecios.addColumn("Nombre");
+        modeloprecios.addColumn("Precio");
+        modeloprecios.addColumn("Plazo");
+        modeloprecios.addColumn("Cuotas");
+
+        int[] anchos = {50,100, 80, 80, 80};
+        for (int i = 0; i < modelolote.getColumnCount(); i++) {
+            tablaprecios.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
+        }
+        ((DefaultTableCellRenderer) tablaprecios.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);// Este código es para centrar las cabeceras de la tabla.
+        tablaprecios.getTableHeader().setFont(new Font("Arial Black", 1, 10));
+
+        // Hacemos Invisible la Celda de Costos de los Productos
+        Font font = new Font("Arial", Font.BOLD, 9);
+        this.tablaprecios.setFont(font);
+
+        DefaultTableCellRenderer TablaRenderer = new DefaultTableCellRenderer();
+        TablaRenderer.setHorizontalAlignment(SwingConstants.RIGHT); // aqui defines donde alinear 
+        this.tablaprecios.getColumnModel().getColumn(0).setCellRenderer(TablaRenderer);
+        this.tablaprecios.getColumnModel().getColumn(2).setCellRenderer(TablaRenderer);
+        this.tablaprecios.getColumnModel().getColumn(3).setCellRenderer(TablaRenderer);
+        this.tablaprecios.getColumnModel().getColumn(4).setCellRenderer(TablaRenderer);
+    }
+
+    private void TitClie() {
+        modelocliente.addColumn("Código");
+        modelocliente.addColumn("Nombre");
+        modelocliente.addColumn("Dirección");
+        modelocliente.addColumn("RUC");
+
+        int[] anchos = {90, 150, 100, 100};
+        for (int i = 0; i < modelocliente.getColumnCount(); i++) {
+            tablacliente.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
+        }
+        ((DefaultTableCellRenderer) tablacliente.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);// Este código es para centrar las cabeceras de la tabla.
+        tablacliente.getTableHeader().setFont(new Font("Arial Black", 1, 10));
+
+        // Hacemos Invisible la Celda de Costos de los Productos
+        Font font = new Font("Arial", Font.BOLD, 9);
+        this.tablacliente.setFont(font);
+
+        DefaultTableCellRenderer TablaRenderer = new DefaultTableCellRenderer();
+        TablaRenderer.setHorizontalAlignment(SwingConstants.RIGHT); // aqui defines donde alinear 
+        this.tablacliente.getColumnModel().getColumn(0).setCellRenderer(TablaRenderer);
+    }
+
+    private void TitSuc() {
+        modelosucursal.addColumn("Código");
+        modelosucursal.addColumn("Nombre");
+        modelosucursal.addColumn("Factura");
+        modelosucursal.addColumn("Expedicion");
+
+        int[] anchos = {90, 200, 90, 90};
+        for (int i = 0; i < modelosucursal.getColumnCount(); i++) {
+            tablasucursal.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
+        }
+        ((DefaultTableCellRenderer) tablasucursal.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);// Este código es para centrar las cabeceras de la tabla.
+        tablasucursal.getTableHeader().setFont(new Font("Arial Black", 1, 10));
+
+        // Hacemos Invisible la Celda de Costos de los Productos
+        Font font = new Font("Arial", Font.BOLD, 9);
+        this.tablasucursal.setFont(font);
+
+        DefaultTableCellRenderer TablaRenderer = new DefaultTableCellRenderer();
+        TablaRenderer.setHorizontalAlignment(SwingConstants.RIGHT); // aqui defines donde alinear 
+        this.tablasucursal.getColumnModel().getColumn(0).setCellRenderer(TablaRenderer);
+
+        this.tablasucursal.getColumnModel().getColumn(2).setMaxWidth(0);
+        this.tablasucursal.getColumnModel().getColumn(2).setMinWidth(0);
+        this.tablasucursal.getTableHeader().getColumnModel().getColumn(2).setMaxWidth(0);
+        this.tablasucursal.getTableHeader().getColumnModel().getColumn(2).setMinWidth(0);
+        this.tablasucursal.getColumnModel().getColumn(3).setMaxWidth(0);
+        this.tablasucursal.getColumnModel().getColumn(3).setMinWidth(0);
+        this.tablasucursal.getTableHeader().getColumnModel().getColumn(3).setMaxWidth(0);
+        this.tablasucursal.getTableHeader().getColumnModel().getColumn(3).setMinWidth(0);
+    }
+
+    private void TitVendedor() {
+        modelovendedor.addColumn("Código");
+        modelovendedor.addColumn("Nombre");
+
+        int[] anchos = {90, 200};
+        for (int i = 0; i < modelovendedor.getColumnCount(); i++) {
+            tablavendedor.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
+        }
+        ((DefaultTableCellRenderer) tablavendedor.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);// Este código es para centrar las cabeceras de la tabla.
+        tablavendedor.getTableHeader().setFont(new Font("Arial Black", 1, 10));
+
+        // Hacemos Invisible la Celda de Costos de los Productos
+        Font font = new Font("Arial", Font.BOLD, 9);
+        this.tablavendedor.setFont(font);
+
+        DefaultTableCellRenderer TablaRenderer = new DefaultTableCellRenderer();
+        TablaRenderer.setHorizontalAlignment(SwingConstants.RIGHT); // aqui defines donde alinear 
+        this.tablavendedor.getColumnModel().getColumn(0).setCellRenderer(TablaRenderer);
+    }
+
+    private void TitMoneda() {
+        modelomoneda.addColumn("Código");
+        modelomoneda.addColumn("Nombre");
+        modelomoneda.addColumn("Cotización");
+
+        int[] anchos = {90, 100, 90};
+        for (int i = 0; i < modelomoneda.getColumnCount(); i++) {
+            tablamoneda.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
+        }
+        ((DefaultTableCellRenderer) tablamoneda.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);// Este código es para centrar las cabeceras de la tabla.
+        tablamoneda.getTableHeader().setFont(new Font("Arial Black", 1, 10));
+
+        // Hacemos Invisible la Celda de Costos de los Productos
+        Font font = new Font("Arial", Font.BOLD, 9);
+        this.tablamoneda.setFont(font);
+
+        DefaultTableCellRenderer TablaRenderer = new DefaultTableCellRenderer();
+        TablaRenderer.setHorizontalAlignment(SwingConstants.RIGHT); // aqui defines donde alinear 
+        this.tablamoneda.getColumnModel().getColumn(0).setCellRenderer(TablaRenderer);
+        this.tablamoneda.getColumnModel().getColumn(2).setCellRenderer(TablaRenderer);
+    }
+
+   
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            javax.swing.UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {    //</editor-fold>
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new venta_lotes().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AceptarCli;
+    private javax.swing.JButton AceptarComprobante;
+    private javax.swing.JButton AceptarLote;
+    private javax.swing.JButton AceptarMoneda;
+    private javax.swing.JButton AceptarPrecio;
+    private javax.swing.JButton AceptarSuc;
+    private javax.swing.JButton AceptarVendedor;
+    private javax.swing.JButton Agregar;
+    private javax.swing.JDialog BCliente;
+    private javax.swing.JDialog BComprobante;
+    private javax.swing.JDialog BLote;
+    private javax.swing.JDialog BMoneda;
+    private javax.swing.JDialog BPrecios;
+    private javax.swing.JDialog BSucursal;
+    private javax.swing.JDialog BVendedor;
+    private javax.swing.JButton BuscarVendedor;
+    private javax.swing.JButton Eliminar;
+    private javax.swing.JButton Grabar;
+    private javax.swing.JButton Listar;
+    private javax.swing.JButton Modificar;
+    private javax.swing.JButton Salir;
+    private javax.swing.JButton SalirCli;
+    private javax.swing.JButton SalirCompleto;
+    private javax.swing.JButton SalirComprobante;
+    private javax.swing.JButton SalirLote;
+    private javax.swing.JButton SalirMoneda;
+    private javax.swing.JButton SalirPrecio;
+    private javax.swing.JButton SalirSuc;
+    private javax.swing.JButton SalirVendedor;
+    private javax.swing.JLabel Socio;
+    private javax.swing.JLabel Socio1;
+    private javax.swing.JButton buscarCliente;
+    private javax.swing.JButton buscarLote;
+    private javax.swing.JButton buscarMoneda;
+    private javax.swing.JButton buscarPrecio;
+    private javax.swing.JButton buscarSucursal;
+    private javax.swing.JTextField buscarcadena;
+    private javax.swing.JButton buscarcomprobante;
+    private javax.swing.JTextField cliente;
+    private javax.swing.JComboBox combocliente;
+    private javax.swing.JComboBox combocomprobante;
+    private javax.swing.JComboBox combolote;
+    private javax.swing.JComboBox combomoneda;
+    private javax.swing.JComboBox comboprecios;
+    private javax.swing.JComboBox combosucursal;
+    private javax.swing.JComboBox combovendedor;
+    private javax.swing.JTextField comprobante;
+    private javax.swing.JFormattedTextField cotizacion;
+    private javax.swing.JTextField creferencia;
+    private javax.swing.JFormattedTextField cuotas;
+    private com.toedter.calendar.JDateChooser dFinal;
+    private com.toedter.calendar.JDateChooser dInicial;
+    private javax.swing.JDialog detalle_venta_lote;
+    private javax.swing.JTextField direccioncliente;
+    private org.edisoncor.gui.label.LabelMetric etiquetacredito;
+    private javax.swing.JLabel etiquetavendedor;
+    private javax.swing.JTextField factura;
+    private com.toedter.calendar.JDateChooser fecha;
+    private javax.swing.JTextField idControl;
+    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
+    private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel16;
+    private javax.swing.JPanel jPanel17;
+    private javax.swing.JPanel jPanel18;
+    private javax.swing.JPanel jPanel19;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel20;
+    private javax.swing.JPanel jPanel21;
+    private javax.swing.JPanel jPanel22;
+    private javax.swing.JPanel jPanel23;
+    private javax.swing.JPanel jPanel24;
+    private javax.swing.JPanel jPanel25;
+    private javax.swing.JPanel jPanel26;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane10;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JScrollPane jScrollPane9;
+    private javax.swing.JTextField jTBuscarCliente;
+    private javax.swing.JTextField jTBuscarComprobante;
+    private javax.swing.JTextField jTBuscarLote;
+    private javax.swing.JTextField jTBuscarMoneda;
+    private javax.swing.JTextField jTBuscarPrecios;
+    private javax.swing.JTextField jTBuscarSucursal;
+    private javax.swing.JTextField jTBuscarVendedor;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTextField lote;
+    private javax.swing.JTextField moneda;
+    private javax.swing.JTextField nombrePrecio;
+    private javax.swing.JTextField nombrecliente;
+    private javax.swing.JTextField nombrecomprobante;
+    private javax.swing.JTextField nombrelote;
+    private javax.swing.JTextField nombremoneda;
+    private javax.swing.JTextField nombresucursal;
+    private javax.swing.JTextField nombrevendedor;
+    private javax.swing.JFormattedTextField numero;
+    private org.edisoncor.gui.panel.Panel panel1;
+    private javax.swing.JFormattedTextField plazo;
+    private javax.swing.JTextField precio;
+    private com.toedter.calendar.JDateChooser primervence;
+    private javax.swing.JButton refrescar;
+    private javax.swing.JTextField sucursal;
+    private javax.swing.JTable tablacliente;
+    private javax.swing.JTable tablacomprobante;
+    private javax.swing.JTable tablalote;
+    private javax.swing.JTable tablamoneda;
+    private javax.swing.JTable tablaprecios;
+    private javax.swing.JTable tablasucursal;
+    private javax.swing.JTable tablavendedor;
+    private javax.swing.JTextField valorprecio;
+    private javax.swing.JTextField vendedor;
+    // End of variables declaration//GEN-END:variables
+
+    private class GenerarReporte extends Thread {
+
+        public void run() {
+            con = new Conexion();
+            stm = con.conectar();
+            try {
+                Map parameters = new HashMap();
+                //Ahora que hay parametros le enviamos uno con el mismo nombre del que creamos
+                //en el reporte
+                parameters.put("cNombreEmpresa", Config.cNombreEmpresa);
+                parameters.put("nCliente", idControl.getText().trim());
+                JasperReport jr = null;
+                URL url = getClass().getClassLoader().getResource("Reports/extracto_cuenta_clientes.jasper");
+                jr = (JasperReport) JRLoader.loadObject(url);
+                JasperPrint masterPrint = null;
+                //Se le incluye el parametro con el nombre parameters porque asi lo definimos
+                masterPrint = JasperFillManager.fillReport(jr, parameters, stm.getConnection());
+                JasperViewer ventana = new JasperViewer(masterPrint, false);
+                ventana.setTitle("Vista Previa");
+                ventana.setVisible(true);
+            } catch (Exception e) {
+                JDialog.setDefaultLookAndFeelDecorated(true);
+                JOptionPane.showMessageDialog(null, e.getMessage(), "Error", 1);
+            }
+        }
+    }
+
+    private class GrillaVentaLote extends Thread {
+
+        public void run() {
+
+            Date dFechaInicio = ODate.de_java_a_sql(dInicial.getDate());
+            Date dFechaFinal = ODate.de_java_a_sql(dFinal.getDate());
+
+            //Antes de Cargar el Jtable Ajustamos el ancho de las columnas con el Ancho que se nos antoje
+            int cantidadRegistro = modelo.getRowCount();
+            for (int i = 1; i <= cantidadRegistro; i++) {
+                modelo.removeRow(0);
+            }
+            
+            venta_lotesDAO DAO = new venta_lotesDAO();
+            try {
+                for (ventas_lotes orden : DAO.MostrarxFecha(dFechaInicio, dFechaFinal)) {
+                    String Datos[] = {
+                        formatea.format(orden.getIdventa()), 
+                        formatoFecha.format(orden.getFecha()), 
+                        String.valueOf(orden.getCliente().getCodigo()), 
+                        orden.getCliente().getNombre(), 
+                        formatea.format(orden.getListaprecio().getPrecio()), 
+                        formatea.format(orden.getCuotas()), 
+                        orden.getLote().getNombre(), 
+                        orden.getLote().getManzanas()+""
+                    };
+                    modelo.addRow(Datos);
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "ERROR: " + e.getMessage());
+            }
+
+            jTable1.setRowSorter(new TableRowSorter(modelo));
+            int cantFilas = jTable1.getRowCount();
+            if (cantFilas > 0) {
+                Modificar.setEnabled(true);
+                Eliminar.setEnabled(true);
+                Listar.setEnabled(true);
+            } else {
+                Modificar.setEnabled(false);
+                Eliminar.setEnabled(false);
+                Listar.setEnabled(false);
+            }
+        }
+    }
+
+    private class GrillaCliente extends Thread {
+
+        public void run() {
+
+            //Antes de Cargar el Jtable Ajustamos el ancho de las columnas con el Ancho que se nos antoje
+            int cantidadRegistro = modelocliente.getRowCount();
+            for (int i = 1; i <= cantidadRegistro; i++) {
+                modelocliente.removeRow(0);
+            }
+
+            clienteDAO DAOCLIE = new clienteDAO();
+            try {
+                for (cliente cli : DAOCLIE.todos()) {
+                    String Datos[] = {String.valueOf(cli.getCodigo()), cli.getNombre(), cli.getDireccion(), cli.getRuc()};
+                    modelocliente.addRow(Datos);
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "ERROR: " + e.getMessage());
+            }
+
+            tablacliente.setRowSorter(new TableRowSorter(modelocliente));
+            int cantFilas = tablacliente.getRowCount();
+        }
+    }
+    
+    private class GrillaComprobante extends Thread {
+
+        public void run() {
+
+            //Antes de Cargar el Jtable Ajustamos el ancho de las columnas con el Ancho que se nos antoje
+            int cantidadRegistro = modelocomprobante.getRowCount();
+            for (int i = 1; i <= cantidadRegistro; i++) {
+                modelocomprobante.removeRow(0);
+            }
+            comprobanteDAO DAOcm = new comprobanteDAO();
+            try {
+                for (comprobante com : DAOcm.todosxtipo(2)) {
+                    String Datos[] = {String.valueOf(com.getCodigo()), com.getNombre()};
+                    modelocomprobante.addRow(Datos);
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "ERROR: " + e.getMessage());
+            }
+
+            tablacomprobante.setRowSorter(new TableRowSorter(modelocomprobante));
+            int cantFilas = tablacomprobante.getRowCount();
+        }
+    }
+    
+    private class GrillaLote extends Thread {
+
+        public void run() {
+
+            //Antes de Cargar el Jtable Ajustamos el ancho de las columnas con el Ancho que se nos antoje
+            int cantidadRegistro = modelolote.getRowCount();
+            for (int i = 1; i <= cantidadRegistro; i++) {
+                modelolote.removeRow(0);
+            }
+
+            lotesDAO loteDAO = new lotesDAO();
+            try{
+                for (lote lote : loteDAO.Todos()) {
+                    String Datos[] = {
+                        String.valueOf(lote.getCodigo()), 
+                        lote.getNombre(),
+                        String.valueOf(lote.getNrolote()),
+                        lote.getLoteamiento().getNombre()
+                    };
+                    modelolote.addRow(Datos);
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "ERROR: " + e.getMessage());
+            }
+
+            tablalote.setRowSorter(new TableRowSorter(modelolote));
+            int cantFilas = tablalote.getRowCount();
+        }
+    }
+
+     private class GrillaListaPreciosLotes extends Thread {
+
+        public void run() {
+            //Antes de Cargar el Jtable Ajustamos el ancho de las columnas con el Ancho que se nos antoje
+            int cantidadRegistro = modeloprecios.getRowCount();
+            for (int i = 1; i <= cantidadRegistro; i++) {
+                modeloprecios.removeRow(0);
+            }
+
+            lista_precios_lotesDAO DAO = new lista_precios_lotesDAO();
+            try {
+                for (lista_precios_lotes lista : DAO.porLote(Integer.valueOf(lote.getText()))) {
+                    String Datos[] = {
+                        String.valueOf(lista.getIdlista()), //NUMERO
+                        lista.getDescripcion(), //NOMBRE
+                        formatea.format(lista.getPrecio()), //PRECIO
+                        String.valueOf(lista.getPlazo()), //PLAZO
+                        formatea.format(lista.getCuotas())}; //cuotas
+                    modeloprecios.addRow(Datos);
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "ERROR: " + e.getMessage());
+            }
+            tablaprecios.setRowSorter(new TableRowSorter(modeloprecios));
+            int cantFilas = tablaprecios.getRowCount();
+        }
+    }
+       
+    private class GrillaMoneda extends Thread {
+
+        public void run() {
+
+            //Antes de Cargar el Jtable Ajustamos el ancho de las columnas con el Ancho que se nos antoje
+            int cantidadRegistro = modelomoneda.getRowCount();
+            for (int i = 1; i <= cantidadRegistro; i++) {
+                modelomoneda.removeRow(0);
+            }
+            monedaDAO DAOmoneda = new monedaDAO();
+            try {
+                for (moneda ca : DAOmoneda.todos()) {
+                    String Datos[] = {
+                        String.valueOf(ca.getCodigo()), 
+                        ca.getNombre(), formatea.format(ca.getVenta())
+                    };
+                    modelomoneda.addRow(Datos);
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "ERROR: " + e.getMessage());
+            }
+
+            tablamoneda.setRowSorter(new TableRowSorter(modelomoneda));
+            int cantFilas = tablamoneda.getRowCount();
+        }
+    }
+
+    private class GrillaSucursal extends Thread {
+
+        public void run() {
+
+            //Antes de Cargar el Jtable Ajustamos el ancho de las columnas con el Ancho que se nos antoje
+            int cantidadRegistro = modelosucursal.getRowCount();
+            for (int i = 1; i <= cantidadRegistro; i++) {
+                modelosucursal.removeRow(0);
+            }
+
+            sucursalDAO DAOSUC = new sucursalDAO();
+            try {
+                for (sucursal suc : DAOSUC.todos()) {
+                    String Datos[] = {String.valueOf(suc.getCodigo()), suc.getNombre(), formatosinpunto.format(suc.getFactura()), suc.getExpedicion()};
+                    modelosucursal.addRow(Datos);
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "ERROR: " + e.getMessage());
+            }
+
+            tablasucursal.setRowSorter(new TableRowSorter(modelosucursal));
+            int cantFilas = tablasucursal.getRowCount();
+        }
+    }
+
+    private class GrillaVendedor extends Thread {
+
+        public void run() {
+
+            //Antes de Cargar el Jtable Ajustamos el ancho de las columnas con el Ancho que se nos antoje
+            int cantidadRegistro = modelovendedor.getRowCount();
+            for (int i = 1; i <= cantidadRegistro; i++) {
+                modelovendedor.removeRow(0);
+            }
+            vendedorDAO DAOve = new vendedorDAO();
+            try {
+                for (vendedor ve : DAOve.todosActivos()) {
+                    String Datos[] = {String.valueOf(ve.getCodigo()), ve.getNombre()};
+                    modelovendedor.addRow(Datos);
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "ERROR: " + e.getMessage());
+            }
+
+            tablavendedor.setRowSorter(new TableRowSorter(modelovendedor));
+            int cantFilas = tablavendedor.getRowCount();
+        }
+    }
+
+}

@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="recibodinerocarway" pageWidth="612" pageHeight="1008" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="10" bottomMargin="20" uuid="6ec5c768-9526-4b07-8c8c-ddcad75da45d">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="cReferencia" class="java.lang.String"/>
+	<parameter name="Letra" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Sistemas\\EvolutionII\\EvolutionII\\src\\Reports\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT cobranzas.fecha,cobranzas.numero,cobranzas.cliente,cobranzas.totalpago,
+clientes.nombre,clientes.ruc,year(cobranzas.fecha) as anual,month(cobranzas.fecha) as mes,
+day(cobranzas.fecha) as dia
+FROM cobranzas
+INNER JOIN clientes
+ON clientes.codigo=cobranzas.cliente
+WHERE cobranzas.idpagos=$P{cReferencia}]]>
+	</queryString>
+	<field name="fecha" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="numero" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cliente" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="totalpago" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ruc" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="anual" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="mes" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="dia" class="java.lang.Long"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="940" splitType="Stretch">
+			<textField>
+				<reportElement x="251" y="159" width="100" height="10" uuid="e80aa6f4-0141-4f6c-9683-edcb0b17b85a"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ruc}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="269" y="136" width="133" height="12" uuid="43fbf8db-847e-40e9-8733-5af432763372"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="206" y="108" width="160" height="13" uuid="a6cba04b-2faf-4240-92c4-e0d32e967b62"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dia}+"          "+$F{mes}+"       "+$F{anual}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="217" y="212" width="309" height="18" uuid="00fefe5b-7586-48e1-bdde-08a4e75a8b81"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Letra}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="333" y="189" width="182" height="1" uuid="11695917-c4f6-4732-b290-4288eeda9185"/>
+			</line>
+			<textField pattern="#,##0">
+				<reportElement x="143" y="224" width="84" height="20" uuid="7fdd9325-961a-4ba5-91c3-67c82978609d"/>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalpago}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="322" y="517" width="182" height="1" uuid="f37d4b1e-a2d5-4ccb-adaf-e54ce84830db"/>
+			</line>
+			<textField pattern="#,##0">
+				<reportElement x="132" y="552" width="84" height="20" uuid="8e24cb4a-4762-4a05-8570-6f74f1630f56"/>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalpago}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="254" y="486" width="100" height="10" uuid="18d10914-d7d7-47e7-85d8-0a69b37635e5"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ruc}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="208" y="436" width="160" height="13" uuid="cb1bda05-b9a5-400c-bee8-f9380ec20434"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dia}+"          "+$F{mes}+"       "+$F{anual}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="272" y="463" width="133" height="12" uuid="5b93108d-ecb5-4ca8-9ee4-b896cfb20c4f"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="211" y="540" width="309" height="18" uuid="92b93aa0-f462-4c05-8fd8-47fbb354a4b4"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Letra}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="322" y="845" width="182" height="1" uuid="e3b6a3bc-e39e-4cd1-bc81-e9dd6e00d502"/>
+			</line>
+			<textField pattern="#,##0">
+				<reportElement x="132" y="884" width="84" height="20" uuid="37b90ad2-6491-4974-8724-0144a3a0807d"/>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalpago}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="263" y="815" width="100" height="10" uuid="080dd7db-963e-4e88-8174-b093d95426e1"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ruc}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="211" y="764" width="160" height="13" uuid="95b81877-7482-493f-9334-431d7f0a3cde"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dia}+"          "+$F{mes}+"       "+$F{anual}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="279" y="792" width="133" height="12" uuid="1dc90e9a-f201-48d7-9009-0ea91aa653ee"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="211" y="869" width="309" height="18" uuid="c8ef4b2c-1088-41cc-8e39-6296d21c8ef7"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Letra}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="2" y="144" width="158" height="45" uuid="b608a391-5984-4029-9e12-31918f283e17"/>
+				<subreportParameter name="cReferencia">
+					<subreportParameterExpression><![CDATA[$P{cReferencia}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "detalle_recibo_carway.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="10" y="473" width="158" height="45" uuid="30979cf9-e623-4296-afd3-2ee791eb3e7e"/>
+				<subreportParameter name="cReferencia">
+					<subreportParameterExpression><![CDATA[$P{cReferencia}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "detalle_recibo_carway.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="11" y="800" width="158" height="45" uuid="ad953320-1596-457e-846a-c1871066754f"/>
+				<subreportParameter name="cReferencia">
+					<subreportParameterExpression><![CDATA[$P{cReferencia}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "detalle_recibo_carway.jasper"]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement x="272" y="269" width="144" height="12" uuid="0d773705-4118-42d5-950d-6e4e787f77fe"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Cobro de Cuotas de Facturas s/detalle.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="277" y="596" width="144" height="12" uuid="f4e6579a-b19e-46d3-8387-0d31294f2955"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Cobro de Cuotas de Facturas s/detalle.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="277" y="925" width="144" height="12" uuid="57f540f2-e5f8-421b-9175-ddf2fa08df8f"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Cobro de Cuotas de Facturas s/detalle.]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+</jasperReport>

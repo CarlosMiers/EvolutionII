@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="preventa_vemay" printOrder="Horizontal" pageWidth="651" pageHeight="572" columnWidth="651" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="15724193-b574-49f8-865b-f4df501516b8">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="303"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Sistemas\\EvolutionII\\EvolutionII\\src\\Reports\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="cReferencia" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT preventa.numero,preventa.fecha,
+preventa.vencimiento,preventa.cliente,clientes.nombre,clientes.ruc,
+clientes.direccion AS direccion,
+preventa.comprobante,preventa.moneda,
+preventa.totalneto,
+preventa.observacion,
+preventa.destinatario,
+preventa.direccion_entrega,
+preventa.telefono,
+preventa.vencimiento,
+preventa.referencia_lugar,
+preventa.mensaje,
+preventa.tipo,
+sucursales.direccion as direccionsucursal,
+CASE MONTH(vencimiento)
+  WHEN 1 THEN 'ENERO'
+  WHEN 2 THEN 'FEBRERO'
+  WHEN 3 THEN 'MARZO'
+  WHEN 4 THEN 'ABRIL'
+  WHEN 5 THEN 'MAYO'
+  WHEN 6 THEN 'JUNIO'
+  WHEN 7 THEN 'JULIO'
+  WHEN 8 THEN 'AGOSTO'
+  WHEN 9 THEN 'SETIEMBRE'
+  WHEN 10 THEN 'OCTUBRE'
+  WHEN 11 THEN 'NOVIEMBRE'
+  WHEN 12 THEN 'DICIEMBRE'
+END AS nombremes,
+YEAR(preventa.vencimiento) AS anualvence,
+CASE DAYOFWEEK(preventa.vencimiento)
+  WHEN 1 THEN 'DOMINGO'
+  WHEN 2 THEN 'LUNES'
+  WHEN 3 THEN 'MARTES'
+  WHEN 4 THEN 'MIERCOLES'
+  WHEN 5 THEN 'JUEVES'
+  WHEN 6 THEN 'VIERNES'
+  WHEN 7 THEN 'SABADO'
+END AS nombredia,
+preventa.firma,preventa.horaentrega,
+detalle_preventas.codprod,detalle_preventas.cantidad,detalle_preventas.precio,
+detalle_preventas.monto,detalle_preventas.impiva,
+CAST(detalle_preventas.porcentaje AS CHAR) iva,detalle_preventas.porcentaje,
+productos.nombre AS nombreproducto
+FROM preventa
+LEFT JOIN clientes
+ON clientes.codigo=preventa.cliente
+LEFT JOIN sucursales
+ON preventa.sucursal=sucursales.codigo
+LEFT JOIN detalle_preventas
+ON detalle_preventas.iddetalle=preventa.numero
+LEFT JOIN productos
+ON productos.codigo=detalle_preventas.codprod
+WHERE preventa.numero=$P{cReferencia}]]>
+	</queryString>
+	<field name="numero" class="java.lang.Float">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="vencimiento" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cliente" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ruc" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="direccion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="comprobante" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="moneda" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="totalneto" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="observacion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="destinatario" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="direccion_entrega" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="telefono" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="referencia_lugar" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="mensaje" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tipo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="direccionsucursal" class="java.lang.String"/>
+	<field name="nombremes" class="java.lang.String"/>
+	<field name="anualvence" class="java.lang.Long"/>
+	<field name="nombredia" class="java.lang.String"/>
+	<field name="firma" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="horaentrega" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="codprod" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cantidad" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="precio" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="monto" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="impiva" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="iva" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="porcentaje" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombreproducto" class="java.lang.String"/>
+	<pageHeader>
+		<band height="355" splitType="Stretch">
+			<textField>
+				<reportElement x="483" y="136" width="60" height="13" uuid="f06fa5c0-e7ab-4261-b10a-d1fb11ab5986"/>
+				<textElement>
+					<font fontName="Lucida Sans" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{telefono}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="134" y="137" width="346" height="13" uuid="b8946176-5ab3-4c7a-8266-f2e4a2204dcb"/>
+				<textElement>
+					<font fontName="Lucida Sans" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{destinatario}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="145" y="190" width="61" height="13" uuid="0dbbd44f-20db-4dd2-b54e-bef14548a86f"/>
+				<textElement>
+					<font fontName="Lucida Sans" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="208" y="168" width="339" height="13" uuid="64fdde81-416d-43ec-808d-ee8f632a58ac"/>
+				<textElement>
+					<font fontName="Lucida Sans" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{direccion_entrega}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="208" y="153" width="339" height="13" uuid="6d0d4def-d26e-4fff-97d4-874bec49b9bd"/>
+				<textElement>
+					<font fontName="Lucida Sans" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{direccionsucursal}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="502" y="191" width="80" height="13" uuid="b4604e73-8ae9-4d10-990d-8a13837bfc93"/>
+				<textElement>
+					<font fontName="Lucida Sans" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{vencimiento}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="86" y="279" width="9" height="11" uuid="6a839e85-7217-4b21-b99e-4f5844f2b16b"/>
+				<textElement textAlignment="Center">
+					<font fontName="Lucida Sans" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[X]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="438" y="191" width="56" height="13" uuid="72471b80-4d95-46af-add0-2fad635911b2"/>
+				<textElement textAlignment="Right">
+					<font fontName="Lucida Sans" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombredia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="261" y="190" width="67" height="13" uuid="1a6446f4-e5df-42d0-96ed-91aa56a64a40"/>
+				<textElement>
+					<font fontName="Lucida Sans" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{horaentrega}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="141" y="233" width="371" height="13" uuid="5fb7538b-982e-4f28-9b7c-e95e8145bcc1"/>
+				<textElement>
+					<font fontName="Lucida Sans" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{referencia_lugar}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="19">
+			<textField pattern="###0">
+				<reportElement x="20" y="5" width="47" height="12" uuid="63b0a4b0-7ebc-4425-9d9d-3a3d904513be"/>
+				<textElement textAlignment="Right">
+					<font fontName="Lucida Sans" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="131" y="5" width="371" height="12" uuid="c6b1b1aa-1df4-41a9-ac5a-3c1f292a7cc0"/>
+				<textElement>
+					<font fontName="Lucida Sans" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codprod}+" / "+$F{nombreproducto}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="140">
+			<textField>
+				<reportElement x="131" y="10" width="72" height="12" uuid="78b74775-1da1-4eab-8d9f-b7df7051fbb0"/>
+				<textElement textAlignment="Center">
+					<font fontName="Lucida Sans" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{firma}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ean12" pageWidth="198" pageHeight="70" columnWidth="170" leftMargin="14" rightMargin="14" topMargin="14" bottomMargin="14" uuid="d942ebcb-5249-4950-9391-4bfc8160d7d3">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[select codigobarra,nombre
+from productos
+WHERE codigobarra='4971850968764']]>
+	</queryString>
+	<field name="codigobarra" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<detail>
+		<band height="42" splitType="Stretch">
+			<componentElement>
+				<reportElement x="19" y="0" width="131" height="42" uuid="96a29498-1786-4981-bed7-afe79db7f0e3"/>
+				<jr:Code39 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" textPosition="bottom">
+					<jr:codeExpression><![CDATA[$F{codigobarra}]]></jr:codeExpression>
+				</jr:Code39>
+			</componentElement>
+		</band>
+	</detail>
+</jasperReport>

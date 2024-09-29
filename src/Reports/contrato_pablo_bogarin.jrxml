@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="contrato_pablo_bogarin" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c3ad0422-6852-49df-b1da-173322e3e884">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="799"/>
+	<import value="Sistemas.EvolutionII.EvolutionII.src.Reports.jasper.*"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="Letra" class="java.lang.String"/>
+	<parameter name="cNumero" class="java.lang.String"/>
+	<parameter name="cDireccion" class="java.lang.String"/>
+	<parameter name="cEmpresa" class="java.lang.String"/>
+	<parameter name="cImportePrestamo" class="java.lang.String"/>
+	<parameter name="LetraCuota" class="java.lang.String"/>
+	<parameter name="LetraImporteCuota" class="java.lang.String"/>
+	<parameter name="cImporteCuota" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT numero,socio,clientes.nombre,totalprestamo,monedas.etiqueta,monedas.nombre AS nombremoneda,SUM(totalprestamo+interes) AS montopagare,
+clientes.nombre,clientes.direccion,
+clientes.telefono,clientes.ruc, prestamos.plazo, prestamos.monto_cuota,
+FORMAT(prestamos.tasa,2) AS tasa,
+DAY(prestamos.fecha) AS dia,
+CASE MONTH(prestamos.fecha)
+  WHEN 1 THEN 'enero'
+  WHEN 2 THEN 'febrero'
+  WHEN 3 THEN 'marzo'
+  WHEN 4 THEN 'abril'
+  WHEN 5 THEN 'mayo'
+  WHEN 6 THEN 'junio'
+  WHEN 7 THEN 'julio'
+  WHEN 8 THEN 'agosto'
+  WHEN 9 THEN 'setiembre'
+  WHEN 10 THEN 'octubre'
+  WHEN 11 THEN 'noviembre'
+  WHEN 12 THEN 'diciembre'
+END AS nombremes,
+YEAR(prestamos.fecha) AS periodo,
+(SELECT MAX(DAY(vence))
+FROM detalle_prestamo
+WHERE nprestamo=numero AND prestamos.plazo=nrocuota) diavence,
+(SELECT MAX(MONTH(vence))
+FROM detalle_prestamo
+WHERE nprestamo=numero AND prestamos.plazo=nrocuota) mesvence,
+(SELECT MAX(YEAR(vence))
+FROM detalle_prestamo
+WHERE nprestamo=numero AND prestamos.plazo=nrocuota) anualvence
+FROM prestamos
+INNER JOIN clientes
+ON clientes.codigo=prestamos.socio
+INNER JOIN monedas
+ON monedas.codigo=prestamos.moneda
+WHERE prestamos.numero=$P{cNumero}
+GROUP BY prestamos.numero]]>
+	</queryString>
+	<field name="numero" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="socio" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="totalprestamo" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="etiqueta" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombremoneda" class="java.lang.String"/>
+	<field name="montopagare" class="java.math.BigDecimal"/>
+	<field name="direccion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="telefono" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ruc" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="plazo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="monto_cuota" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tasa" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="dia" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombremes" class="java.lang.String"/>
+	<field name="periodo" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="diavence" class="java.lang.Long"/>
+	<field name="mesvence" class="java.lang.Long"/>
+	<field name="anualvence" class="java.lang.Long"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="138" splitType="Stretch">
+			<staticText>
+				<reportElement x="135" y="10" width="304" height="71" uuid="a6e84b54-41ad-47c5-9ed2-f64724124091"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COOPERATIVA MULTIACTIVA DE AHORRO Y CREDITO,
+CONSUMO Y SERVICIOS
+“PABLO PATRICIO BOGARIN LTDA."
+RUC: 80123679-7
+Personería Jurídica No. 23.882/21 del 25/05/2021 - Registro INCOOP No. 1.794
+10 de Agosto c/ Juan Pio Troche - Barrio Centro -Ñemby
+Correo: cooppablopatriciobogarin21@gmail.com - Teléfono: (0982) 544-471
+]]></text>
+			</staticText>
+			<image>
+				<reportElement x="14" y="5" width="106" height="104" uuid="5f1e77b4-957d-4b92-99db-95e751a9016e"/>
+				<imageExpression><![CDATA["C:\\Sistemas\\EvolutionII\\EvolutionII\\src\\Images\\logo_pablo_patricio.jpg"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="342" y="109" width="175" height="18" uuid="c57d709e-92fe-427c-a300-6bb87ad4f738"/>
+				<textElement>
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["CRÉDITO N° : "+$F{numero}+"/"+$F{periodo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="41" y="109" width="173" height="18" uuid="15ee5844-4ad8-439d-864f-f50f5f4d9e08"/>
+				<textElement>
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["SOCIO N° "+$F{socio}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="572" splitType="Stretch">
+			<line>
+				<reportElement x="36" y="532" width="200" height="1" uuid="917aa9fa-0170-486a-9fbf-55290bc90ffc"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="85" y="541" width="77" height="10" uuid="9f748e2f-5122-43cc-9237-2e5cb08b38dd"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Por Cooperativa]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="35" y="0" width="482" height="73" forecolor="#000000" backcolor="#FFFFFF" uuid="1a6f98f1-ad56-482a-b926-84da8c4095f4"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["En la ciudad de Ñemby, República del Paraguay, a los "+$F{dia}+" días del mes de"+$F{nombremes}+" del año "+$F{periodo}+", entre la COPERATIVA MULTIACTIVA DE AHORRO Y CREDITO PABLO PATRICIO BOGARIN LTDA, en adelante LA COOPERATIVA, con domicilio legal en 10 de Agosto c/ Juan Pio Troche del Barrio Centro, de esta ciudad, por una parte y por la otra el/la socio/a "+$F{nombre}+" C.I. "+$F{ruc}+" con domicilio "+$F{direccion}+" en adelante EL/LOS SOCIOS(S), se convienen en celebrar el presente CONTRATO DE PRESTAMO,  que se regirá por las siguientes cláusulas y condiciones:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="35" y="83" width="482" height="38" forecolor="#000000" backcolor="#FFFFFF" uuid="72e41729-9f0d-4293-acf4-4d0beb25a63e"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["LA COOPERATIVA otorga al (los) SOCIOS(S) un préstamo de dinero por la suma de Gs. "+$P{cImportePrestamo}+", el que será desembolsado con la suscripción del presente contrato y el (los) respectivo(s) pagare(s). El interés compensatorio pactado es del "+$F{tasa}+" % (por ciento)."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="35" y="128" width="482" height="41" forecolor="#000000" backcolor="#FFFFFF" uuid="6395af7a-bf78-4757-8311-38ee31833b7d"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Art. 1º: EL/LOS PRESTATARIO(S), se obligan a reembolsar a la COOPERATIVA, el préstamo en ("+$F{plazo}+") cuotas de forma semanal, consecutivas cuyo importe y vencimiento quedan insertados en los documentos suscriptos, el(los) prestatario(s) asume(n) solidariamente la obligación, y suscribe(n) a la orden de la Cooperativa. El pago de la(s) cuota(s), deberá/n ser coordinado con los realizado/s en el domicilio de la COOPERATIVA Y/O Cobrador designado por esta, o en los lugares que la Institución indique."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="35" y="175" width="482" height="41" forecolor="#000000" backcolor="#FFFFFF" uuid="21c59c89-f4bb-4306-aaca-bdf6aff34e0a"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Art. 2º EL/LOS PRESTATARIO(S), declaran conocer y se comprometen a respetar las Resoluciones y Reglamentaciones internas que rigen en materia crediticia en la institución y asume(n) el compromiso de abonar los pagos de las cuotas pactadas; autorizando a la COOPERATIVA a cobrar los intereses punitorios y las demás penalidades previstas en caso de incumplimiento."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="35" y="219" width="482" height="41" forecolor="#000000" backcolor="#FFFFFF" uuid="3a087214-2879-4da8-9ad7-b66a9b35b5ae"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Art. 3º La falta de pago de las obligaciones pactadas por EL/LOS PRESTATARIO(S) de conformidad a la cláusula 2º a su vencimiento producirá la mora sin necesidad de protesto, interpelación o intimación de ninguna clase, generando un interés moratorio en un porcentaje igual al establecido como interés compensatorio, y un interés punitorio equivalente al 5% del interés moratorio, hasta el día de su efectivo pago, sin que ello signifique novación, prórroga o espera. Los pagos parciales se imputarán en el orden establecido en el Art. 592 del Código Civil."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="35" y="262" width="482" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="3e3e063f-82f1-44bf-914c-1b3ff3fed09a"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Art 4º LA COOPERATIVA podrá aceptar pagos de cuotas anticipadas."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="35" y="282" width="482" height="141" forecolor="#000000" backcolor="#FFFFFF" uuid="afc8f27d-abd6-4c35-b987-be23e6f681b1"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Art. 5º EL/LOS PRESTATARIO(S) por el presente instrumento autoriza(n) a la Cooperativa, en forma irrevocable, otorgando suficiente mandato en todos los términos del Art. 917, inc. a) del Código Civil, para que por propia cuenta o a través de empresas especializadas, recabe en plaza datos sobre su situación patrimonial, solvencia económica, cumplimiento de obligaciones comerciales, como así también la confirmación y/o certificación de los datos por él proveídos; de igual manera y en los mismos términos, autorizan a proporcionar en forma responsable datos a terceros para referencias comerciales, situación patrimonial declarada en la institución, a recibir informaciones relacionadas a la organización. De igual manera, en los mismos términos EL/LOS PRESTATARIO(S) autoriza(n) a la institución para que, en caso de un atraso superior a 90 días en el pago de las obligaciones pactadas, incluyan su nombre personal o razón social presentada en el Registro de Morosos Informconf.  La eliminación de dicho registro se realizará de acuerdo a los términos establecidos en la Ley Nro. 1682/01 y su modificatoria Ley 1969 y su modificatoria Ley 5543/2015, que reglamenta la información de carácter privado."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="35" y="480" width="482" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="b5c4ce6d-dc74-41b9-a0e3-4d30653810b6"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Art. 7º En fe de conformidad firman las partes en 2(DOS) ejemplares de un mismo tenor y al mismo efecto."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="35" y="432" width="482" height="41" forecolor="#000000" backcolor="#FFFFFF" uuid="c9387c65-24dd-47f2-836d-94563def41eb"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Art. 6º A todos los efectos legales y procesales las partes se someten a la jurisdicción y competencia de los Tribunales y constituyen domicilio en la dirección arriba mencionada quedando entendido que cualquier notificación judicial o extrajudicial que en ellas se practique será válida y se tendrá como efectuada personalmente, salvo comunicación por escrita a la Cooperativa del cambio de domicilio.-"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="380" y="541" width="77" height="10" uuid="2a2959da-009e-429e-8743-816315e36a9e"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Socio]]></text>
+			</staticText>
+			<line>
+				<reportElement x="310" y="532" width="207" height="1" uuid="d7745c86-cbb7-44aa-92f7-6b3d4e2408ed"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

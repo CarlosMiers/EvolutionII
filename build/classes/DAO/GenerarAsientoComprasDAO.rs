@@ -1,0 +1,2 @@
+DAO.GenerarAsientoComprasDAO
+DAO.TableAsientosCompras

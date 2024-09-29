@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="resumen_gastos" pageWidth="370" pageHeight="555" orientation="Landscape" columnWidth="370" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="bbbb92bd-902b-4c6e-9b99-70fd8d6740d3">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="FechaInicio" class="java.util.Date"/>
+	<parameter name="FechaFinal" class="java.util.Date"/>
+	<parameter name="cNombreEmpresa" class="java.lang.String"/>
+	<parameter name="nSucursal" class="java.lang.String"/>
+	<parameter name="nMoneda" class="java.lang.String"/>
+	<parameter name="cNombreMoneda" class="java.lang.String"/>
+	<parameter name="cNombreSucursal" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT  gastos_compras.nrofactura,gastos_compras.fecha,gastos_compras.sucursal,
+gastos_compras.proveedor as cuenta,proveedores.nombre AS nombreproveedor,
+gastos_compras.totalneto
+FROM gastos_compras
+INNER JOIN sucursales
+ON sucursales.codigo=gastos_compras.sucursal
+INNER JOIN proveedores
+ON proveedores.codigo=gastos_compras.proveedor
+INNER JOIN monedas
+ON monedas.codigo=gastos_compras.moneda
+WHERE gastos_compras.fecha BETWEEN $P{FechaInicio}
+AND $P{FechaFinal}
+AND IF($P{nSucursal}<>0,
+gastos_compras.sucursal=$P{nSucursal},TRUE)
+AND gastos_compras.moneda=$P{nMoneda}]]>
+	</queryString>
+	<field name="nrofactura" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="sucursal" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cuenta" class="java.lang.Integer"/>
+	<field name="nombreproveedor" class="java.lang.String"/>
+	<field name="totalneto" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="totalneto_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{totalneto}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="60" splitType="Stretch">
+			<staticText>
+				<reportElement x="5" y="15" width="152" height="16" uuid="af49efc8-e8fe-45ef-83ad-effd0e128080"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Resumen de Gastos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="119" y="45" width="27" height="10" uuid="6fe7bd7a-9a47-4c53-aca4-81d22b3ebb5e"/>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cuenta]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="321" y="45" width="30" height="13" uuid="e43ef84b-ec42-4c6b-af2c-2fc5344502c5"/>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="169" y="45" width="108" height="10" uuid="c43981f0-842d-420b-b229-b7f9f9bad718"/>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Denominación del Proveedor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="17" y="40" width="45" height="19" uuid="8754c578-969a-483c-994b-bf32b8cba6f7"/>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[N° Documento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="76" y="45" width="24" height="10" uuid="16c27e4d-d005-4d5d-a0f5-11521c30693e"/>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha]]></text>
+			</staticText>
+			<line>
+				<reportElement x="3" y="58" width="357" height="1" uuid="c4417fea-5fb0-41d3-9786-859608a6ed53"/>
+			</line>
+			<line>
+				<reportElement x="4" y="39" width="356" height="1" uuid="46bff230-12e1-4cb6-ba23-a655f526f786"/>
+			</line>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="13" splitType="Stretch">
+			<textField>
+				<reportElement x="2" y="1" width="58" height="8" uuid="8f19d8a3-3ffb-4166-9bc2-cc1c9f0a8d51"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nrofactura}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="60" y="1" width="36" height="8" uuid="d15cbd44-e622-4314-900d-f3b230dd7460"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="103" y="1" width="45" height="8" uuid="a6ab464b-c340-49f8-b1ca-14a732a02691"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cuenta}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="157" y="1" width="134" height="8" uuid="a8900b57-1f80-47d4-9ba1-38f1ad6215f9"/>
+				<textElement>
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombreproveedor}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="299" y="1" width="58" height="8" uuid="32b5b6cc-1b67-42d1-b61f-fd76a250e53a"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalneto}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="33" splitType="Stretch">
+			<line>
+				<reportElement x="4" y="-2" width="353" height="1" uuid="b8ab1d10-ac89-41df-acb9-273fbc7c8d5a"/>
+			</line>
+			<staticText>
+				<reportElement x="100" y="6" width="103" height="12" uuid="c5a4ccc2-00cd-430d-ae6c-d5a137e05637"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total de Gastos]]></text>
+			</staticText>
+			<textField pattern="#,##0">
+				<reportElement x="291" y="4" width="66" height="10" uuid="d1b07d76-677d-4299-9df4-449304458ec6"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{totalneto_1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

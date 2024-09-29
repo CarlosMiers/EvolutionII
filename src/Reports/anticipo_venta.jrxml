@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="anticipo_venta" pageWidth="198" pageHeight="900" columnWidth="158" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" isIgnorePagination="true" uuid="99b9f568-4677-4402-99b4-2ac6bf35b917">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="247"/>
+	<parameter name="cNombreEmpresa" class="java.lang.String"/>
+	<parameter name="nNumero" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="cRuc" class="java.lang.String"/>
+	<parameter name="cDireccion" class="java.lang.String"/>
+	<parameter name="cTelefono" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select idcontrol,fecha,funcionario,importe,
+clientes.nombre as nombrecliente
+from anticipo_alumnos
+LEFT JOIN clientes
+on clientes.codigo=anticipo_alumnos.funcionario
+where idcontrol=$P{nNumero}
+order by idcontrol]]>
+	</queryString>
+	<field name="idcontrol" class="java.lang.Float">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="funcionario" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="importe" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombrecliente" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="127" splitType="Stretch">
+			<staticText>
+				<reportElement key="staticText" x="1" y="57" width="157" height="10" isRemoveLineWhenBlank="true" uuid="68b322bc-1ac0-467c-a57a-7109293f0b68"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="Calibri Light" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ANTICIPO DE DINERO]]></text>
+			</staticText>
+			<textField pattern="###0">
+				<reportElement x="52" y="68" width="53" height="10" uuid="9bc8ca26-0c8c-4e6e-bfa1-9474a2b953b2"/>
+				<textElement>
+					<font fontName="Calibri Light" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{idcontrol}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="53" y="81" width="52" height="10" uuid="b8757397-7f78-4657-8059-7b1dd2026060"/>
+				<textElement>
+					<font fontName="Calibri Light" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement key="staticText" x="0" y="68" width="37" height="10" isRemoveLineWhenBlank="true" uuid="2c2c90e4-0e18-4b52-9d61-5021f2569629"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="Calibri Light" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Operación:]]></text>
+			</staticText>
+			<textField pattern="h.mm a">
+				<reportElement x="53" y="94" width="39" height="10" uuid="7a528184-5c1c-41de-844e-c9c21a0940cf"/>
+				<textElement>
+					<font fontName="Calibri Light" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement key="staticText" x="13" y="81" width="24" height="10" isRemoveLineWhenBlank="true" uuid="275e61d5-41b0-4f02-9a33-c266ba30b1b1"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="Calibri Light" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="16" y="93" width="21" height="10" isRemoveLineWhenBlank="true" uuid="42b59aa9-952a-456e-9333-b51e4b961bbb"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="Calibri Light" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Hora:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="9" y="104" width="28" height="10" isRemoveLineWhenBlank="true" uuid="b8b85bcc-808c-4200-a581-0fe33a52d784"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="Calibri Light" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Cliente:]]></text>
+			</staticText>
+			<textField>
+				<reportElement key="staticText" x="37" y="104" width="121" height="10" isRemoveLineWhenBlank="true" uuid="46b5cf1b-2356-4cac-a304-5a31f0190ac8"/>
+				<textElement verticalAlignment="Bottom" markup="none">
+					<font fontName="Calibri Light" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombrecliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="staticText" x="1" y="0" width="157" height="10" isRemoveLineWhenBlank="true" uuid="04779637-35da-4a27-958d-082e7e35a51c"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom" markup="none">
+					<font fontName="Calibri Light" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cNombreEmpresa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="staticText" x="1" y="13" width="157" height="10" isRemoveLineWhenBlank="true" uuid="a3a981c2-ed9b-4bcb-861b-57dbafadeb70"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom" markup="none">
+					<font fontName="Calibri Light" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cRuc}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="staticText" x="0" y="25" width="157" height="10" isRemoveLineWhenBlank="true" uuid="bd3ecd5a-5547-4014-af71-2ab674237930"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom" markup="none">
+					<font fontName="Calibri Light" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cDireccion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="staticText" x="1" y="38" width="157" height="10" isRemoveLineWhenBlank="true" uuid="cf2639f8-8600-4e1a-a2bb-17e606a7049a"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom" markup="none">
+					<font fontName="Calibri Light" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cTelefono}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="5"/>
+	</pageHeader>
+	<detail>
+		<band height="82">
+			<textField pattern="#,##0.00">
+				<reportElement x="75" y="10" width="52" height="10" uuid="2d9786ca-d0be-4d34-9069-e6a07e477516"/>
+				<textElement>
+					<font fontName="Calibri Light" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{importe}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement key="staticText" x="1" y="66" width="156" height="10" isRemoveLineWhenBlank="true" uuid="3bdaa08e-21d7-4a7d-b2fe-fc5a4b092975"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="Calibri Light" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Firma Responsable]]></text>
+			</staticText>
+			<line>
+				<reportElement x="5" y="65" width="152" height="1" uuid="c8658f4b-0e70-4c33-bda2-bf0724abec2c"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+		</band>
+	</detail>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="16" splitType="Stretch">
+			<staticText>
+				<reportElement key="staticText" x="4" y="-73" width="65" height="10" isRemoveLineWhenBlank="true" uuid="b251041f-e741-4401-9781-9fb4d03086d8"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Calibri Light" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Importe Entrega]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

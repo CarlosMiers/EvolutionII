@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="contrato_msa" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="295f2377-3d4e-4405-a535-0e542533d440">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="384"/>
+	<parameter name="cNumero" class="java.lang.String"/>
+	<parameter name="Letra" class="java.lang.String"/>
+	<parameter name="cNombreEmpresa" class="java.lang.String"/>
+	<parameter name="cRucEmpresa" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\Usuario\\Pictures\\Pagares MSA\\Con logo\\Contrato\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="cMonto_Entregar" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT cabecera_descuento_documentos.idprestamos,cabecera_descuento_documentos.numero,cabecera_descuento_documentos.socio,clientes.ruc,clientes.nombre,clientes.direccion,clientes.localidad,
+localidades.nombre AS nombrelocalidad,
+(SELECT clientes.nombre FROM clientes WHERE clientes.codigo=cabecera_descuento_documentos.codcodeudor) codenombre,
+(SELECT clientes.ruc FROM clientes WHERE clientes.codigo=cabecera_descuento_documentos.codcodeudor) coderuc,
+(SELECT clientes.direccion FROM clientes WHERE clientes.codigo=cabecera_descuento_documentos.codcodeudor) codedireccion
+FROM cabecera_descuento_documentos
+INNER JOIN clientes
+ON clientes.codigo=cabecera_descuento_documentos.socio
+INNER JOIN localidades
+ON localidades.codigo=clientes.localidad
+WHERE cabecera_descuento_documentos.numero=$P{cNumero}]]>
+	</queryString>
+	<field name="idprestamos" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="numero" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="socio" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ruc" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="direccion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="localidad" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombrelocalidad" class="java.lang.String"/>
+	<field name="codenombre" class="java.lang.String"/>
+	<field name="coderuc" class="java.lang.String"/>
+	<field name="codedireccion" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="82" splitType="Stretch">
+			<image>
+				<reportElement x="5" y="3" width="139" height="79" uuid="e99b521c-4894-4134-90aa-4877d71a94e8"/>
+				<imageExpression><![CDATA["C:\\Sistemas\\EvolutionII\\EvolutionII\\src\\Images\\MSALOGO.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="707" splitType="Stretch">
+			<image>
+				<reportElement x="5" y="53" width="540" height="628" uuid="39b2c880-514f-4465-b29a-f1ca9cc6a4e3"/>
+				<imageExpression><![CDATA["C:\\Sistemas\\EvolutionII\\EvolutionII\\src\\Images\\MSA.jpg"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement mode="Transparent" x="10" y="329" width="535" height="0" forecolor="#000000" backcolor="#FFFFFF" uuid="d3cbd547-08e8-4157-a1c8-c0e79edcc7f9"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["TERCERA. Forma de Pago: LA DEUDORA se obliga al pago del préstamo otorgado, de conformidad con los siguientes vencimientos: "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="10" y="212" width="535" height="70" forecolor="#000000" backcolor="#FFFFFF" uuid="053de276-5248-4123-8d2d-c9ba936823d2"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["SEGUNDA. Intereses: El capital prestado por LA ACREEDORA y mencionado en la cláusula PRIMERA, devengará intereses compensatorios a una tasa nominal mensual de 4% (cuatro por ciento). Para el caso de mora, se estipula un interés moratorio mensual de 3% (tres porciento), el cual será aplicado sobre el saldo de la cuota vencida. Adicionalmente, se fija un interés punitorio cuya tasa será del treinta por ciento (30%) de la tasa a percibir en concepto de interés moratorio.--------------------------------------------- "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="10" y="69" width="535" height="39" forecolor="#000000" backcolor="#FFFFFF" uuid="7891fb8f-57cc-4070-8697-ed1eaa5490ef"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["a) "+$P{cNombreEmpresa}+", con RUC "+$P{cRucEmpresa} +", representada en este acto por el/la Señor/a  "+ $F{nombre} +",con CI Nº "+$F{coderuc}+" en su carácter de Directora Titular, con domicilio en la calle "+$F{direccion}+" de la ciudad de "+$F{nombrelocalidad}+", en adelante “LA ACREEDORA”, y por la otra,"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="362" y="10" width="54" height="14" uuid="13fc83c9-45b0-4925-ae33-165824118e11"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numero}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="173" y="32" width="155" height="20" uuid="d281a68c-9999-41b9-9e21-802259b5a301"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Entre:]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="10" y="113" width="535" height="46" forecolor="#000000" backcolor="#FFFFFF" uuid="2dede2b1-4eba-4f22-b39a-9195dd4348a2"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["b) "+$P{cNombreEmpresa}+", con "+$P{cRucEmpresa} +", representada en este acto por el/la Señor/a "+$F{codenombre}+"con CI Nº "+$F{coderuc}+" en su carácter de Representante Legal, en adelante “LA DEUDOR/A”, con domicilio en la calle "+$F{codedireccion}+", de la ciudad de "+$F{nombrelocalidad}+"; y el/la Señor/a "+$F{codenombre}+" con CI Nº "+$F{coderuc}+" en adelante “EL CODEUDOR”.------------------"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="168" y="12" width="176" height="20" uuid="4e34ad1a-9f14-42fc-8ffe-123ac7c8090e"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CONTRATO DE PRESTAMO Nº]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="10" y="170" width="535" height="0" forecolor="#000000" backcolor="#FFFFFF" uuid="7ab58f6b-6f54-49fe-b1cc-bc4a2c75090f"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["En adelante denominados en su conjunto “LAS PARTES” y separadamente “PARTE”, acuerdan celebrar el presente CONTRATO DE PRESTAMO, que se regirá bajo las Clausulas y Condiciones siguientes:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="10" y="163" width="535" height="47" forecolor="#000000" backcolor="#FFFFFF" uuid="47bdac51-914a-4ae6-b036-53f947d3c8dc"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["PRIMERA. Objeto: Por el presente contrato, LA ACREEDOREA otorga un préstamo de dinero a LA DEUDORA, y éste lo acepta, por una suma de GUARANIES "+$P{Letra}+"  (Gs."+$P{cMonto_Entregar}+"), en concepto de CAPITAL, el cual es entregado en este mismo acto a LA DEUDORA, previo descuento de los Gastos Administrativos; quien lo recibe, sirviendo el presente contrato de suficiente recibo de la suma mencionada.----------------------------------------"]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="350" y="26" width="75" height="1" uuid="60caee7f-ecf4-4810-a99d-5d5fb2d31652"/>
+			</line>
+			<textField>
+				<reportElement mode="Transparent" x="11" y="275" width="535" height="25" forecolor="#000000" backcolor="#FFFFFF" uuid="1766f4eb-68c5-453c-ba16-7bf37e9595bf"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["TERCERA. Forma de Pago: LA DEUDORA se obliga al pago del préstamo otorgado, de conformidad con los siguientes vencimientos: "]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="165" y="318" width="202" height="1" uuid="263ad06b-d6f8-469f-b720-7b82621284d2"/>
+			</line>
+			<staticText>
+				<reportElement x="162" y="303" width="45" height="15" uuid="d10cf877-347a-4eca-bb79-41ec483f1a8f"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial Black" size="10"/>
+				</textElement>
+				<text><![CDATA[Cuota]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="323" y="303" width="44" height="15" uuid="3ea9a333-4f67-4b94-ba4c-633a41265226"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial Black" size="10"/>
+				</textElement>
+				<text><![CDATA[Importe]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="225" y="303" width="76" height="15" uuid="d1ed5878-6b8c-433c-8dff-537eca403445"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial Black" size="10"/>
+				</textElement>
+				<text><![CDATA[Vencimiento]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement mode="Transparent" x="163" y="301" width="209" height="140" uuid="18b9898b-6817-4121-b17a-8bab274f7b80"/>
+			</rectangle>
+			<textField>
+				<reportElement mode="Transparent" x="9" y="443" width="535" height="48" forecolor="#000000" backcolor="#FFFFFF" uuid="b628f0c1-167e-45b0-9c4f-c55429c21717"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["CUARTA. Lugar de Pago: Los pagos de las obligaciones de LA DEUDORA, a favor de LA ACREEDORA serán efectuadas en el domicilio de la misma o en el lugar que esta lo indique pudiendo ser en su domicilio sito en "+$F{direccion}+" o en la Avda. Aviadores del Chaco Nº 3100 c/ Chacore, Edificio Torre Aviadores, Piso 6--------------------------------------"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="8" y="492" width="536" height="39" forecolor="#000000" backcolor="#FFFFFF" uuid="45ed5189-35a1-4697-81f0-15dc73ff73de"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["QUINTA. Forma de la documentación: Este préstamo será documentado a través de la firma de (dos pagarés a la orden de "+$P{cNombreEmpresa}+". suscritos por LA DEUDORA y (dos cheques bancarios librados por la DEUDORA y endosados por el CODEUDOR) a la orden de LA ACREEDORA, que se detalla a continuación:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="8" y="643" width="536" height="60" forecolor="#000000" backcolor="#FFFFFF" uuid="c42f6f2c-198f-43c1-a30e-aec472ce8490"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Asimismo, se acuerda que el préstamo pueda ser documentado mediante acuerdos o convenios de crédito modificatorio y/o renovación y/o reestructuración de la deuda, y/o liquidaciones de los desembolsos respectivos. El presente contrato, así como los documentos de crédito que la acompañan, constituyen suficiente título ejecutivo, que servirán de base eventualmente, para promover la preparación de acción ejecutiva correspondiente, según sea el caso, acorde a lo preceptuado en el Código Procesal Civil---------------------------------"]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="164" y="321" width="192" height="120" uuid="4e1edc95-6eb0-485b-9e07-a96c76a59f9f"/>
+				<subreportParameter name="cNumero">
+					<subreportParameterExpression><![CDATA[$P{cNumero}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["C:\\Sistemas\\EvolutionII\\EvolutionII\\src\\Reports\\detalle_contrato_chequemsa.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="9" y="533" width="212" height="109" uuid="5164351a-ee9e-4cda-999e-955f115fc637"/>
+				<subreportParameter name="cNumero">
+					<subreportParameterExpression><![CDATA[$P{cNumero}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["C:\\Sistemas\\EvolutionII\\EvolutionII\\src\\Reports\\datos_cheque_msa.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</columnHeader>
+</jasperReport>

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rescobroxasesor" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c021f9cf-7933-441c-900f-51b2e5b4f198">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="New Dataset 1" uuid="7c1959f9-e0b0-4f6b-b173-84880d2ad295">
+		<queryString>
+			<![CDATA[SELECT codigo,nombre,
+(SELECT SUM(monto)
+FROM pagoexpress,clientes,cuenta_clientes
+WHERE  pagoexpress.cliente=clientes.codigo
+AND vendedores.codigo=clientes.asesor
+AND pagoexpress.iddocumento = cuenta_clientes.iddocumento
+AND pagoexpress.fechapago BETWEEN '2016-08-01' AND '2016-08-17'
+AND moneda=1
+AND comprobante=8
+GROUP BY vendedores.codigo
+) boca,
+(SELECT SUM(pago)
+FROM cobranzas,clientes,detalle_cobranzas
+WHERE  cobranzas.cliente=clientes.codigo
+AND vendedores.codigo=clientes.asesor
+AND cobranzas.idpagos=detalle_cobranzas.iddetalle
+AND cobranzas.fecha BETWEEN '2016-08-01' AND '2016-08-17'
+AND cobranzas.moneda=1
+AND detalle_cobranzas.comprobante=8
+GROUP BY vendedores.codigo
+) caja
+FROM vendedores
+WHERE vendedores.estado=1
+GROUP BY vendedores.codigo]]>
+		</queryString>
+		<field name="codigo" class="java.lang.Integer">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="nombre" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="boca" class="java.math.BigDecimal"/>
+		<field name="caja" class="java.math.BigDecimal">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+	</subDataset>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="codigo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="boca" class="java.math.BigDecimal"/>
+	<field name="caja" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="10" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="24" splitType="Stretch">
+			<staticText>
+				<reportElement x="60" y="2" width="100" height="20" uuid="98b8ec10-7604-424e-9267-8984bbca1b64"/>
+				<text><![CDATA[codigo]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table" style="table" x="31" y="29" width="428" height="62" uuid="516684e3-5b1a-4680-b429-5fc5f9bee14b"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="New Dataset 1" uuid="dead245c-3cf5-4231-8557-cf2ae390c56f">
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource(1)]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="90" uuid="b7855217-76ba-4070-b1df-e2ccd580e438">
+						<jr:tableHeader style="table_TH" height="30"/>
+						<jr:tableFooter style="table_TH" height="30"/>
+						<jr:columnHeader style="table_CH" height="30"/>
+						<jr:columnFooter style="table_CH" height="30"/>
+						<jr:detailCell style="table_TD" height="20"/>
+					</jr:column>
+					<jr:column width="90" uuid="87393d85-c1fd-4e23-a48c-a90d098b0811">
+						<jr:tableHeader style="table_TH" height="30"/>
+						<jr:tableFooter style="table_TH" height="30"/>
+						<jr:columnHeader style="table_CH" height="30"/>
+						<jr:columnFooter style="table_CH" height="30"/>
+						<jr:detailCell style="table_TD" height="20"/>
+					</jr:column>
+					<jr:column width="90" uuid="8ed8d130-a8fc-4a2d-9e0f-46cda1c18b83">
+						<jr:tableHeader style="table_TH" height="30"/>
+						<jr:tableFooter style="table_TH" height="30"/>
+						<jr:columnHeader style="table_CH" height="30"/>
+						<jr:columnFooter style="table_CH" height="30"/>
+						<jr:detailCell style="table_TD" height="20"/>
+					</jr:column>
+					<jr:column width="90" uuid="6c8be7f9-ba40-4ce6-a1ae-cb1446883d01">
+						<jr:tableHeader style="table_TH" height="30"/>
+						<jr:tableFooter style="table_TH" height="30"/>
+						<jr:columnHeader style="table_CH" height="30"/>
+						<jr:columnFooter style="table_CH" height="30"/>
+						<jr:detailCell style="table_TD" height="20"/>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

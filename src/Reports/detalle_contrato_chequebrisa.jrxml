@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="detalle_contrato_chequebrisa" pageWidth="250" pageHeight="230" orientation="Landscape" columnWidth="250" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="0f94f723-7961-40b6-9bfb-d9fc8f92950c">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="cNumero" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT detalle_descuento_documentos.plazo,detalle_descuento_documentos.emision,detalle_descuento_documentos.monto_documento
+FROM detalle_descuento_documentos
+WHERE detalle_descuento_documentos.ndescuento=$P{cNumero}]]>
+	</queryString>
+	<field name="plazo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="emision" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="monto_documento" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="12" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="6" y="1" width="36" height="10" uuid="c4f13c6a-7dd3-4165-b3e1-f0f56471c0eb"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{plazo}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="81" y="1" width="67" height="10" uuid="0a96cec7-dfc9-4ccb-bce9-cb80424d1aa0"/>
+				<textElement>
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{emision}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="159" y="1" width="68" height="10" uuid="3250e2a4-5ceb-4ff7-aa9b-10469513f3f4"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{monto_documento}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

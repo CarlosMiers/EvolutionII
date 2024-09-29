@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="proximos_descuentos" printOrder="Horizontal" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="15626d40-29b7-4762-96d3-f22a87d7f738">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.callouts" value="##Thu Nov 17 10:45:59 PYST 2016"/>
+	<parameter name="cCliente" class="java.lang.String"/>
+	<parameter name="FechaI" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[SELECT YEAR(vencimiento)AS anio,MONTH(vencimiento) AS mes,SUM(saldo) AS acobrar,
+CASE MONTH(vencimiento)
+WHEN 1 THEN 'ENE'
+WHEN 2 THEN 'FEB'
+WHEN 3 THEN 'MAR'
+WHEN 4 THEN 'ABR'
+WHEN 5 THEN 'MAY'
+WHEN 6 THEN 'JUN'
+WHEN 7 THEN 'JUL'
+WHEN 8 THEN 'AGO'
+WHEN 9 THEN 'SET'
+WHEN 10 THEN 'OCT'
+WHEN 11 THEN 'NOV'
+WHEN 12 THEN 'DIC'
+END AS nombremes
+FROM cuenta_clientes
+WHERE vencimiento>DATE_SUB($P{FechaI}, INTERVAL day($P{FechaI}) DAY)
+AND cliente=$P{cCliente}
+AND cuenta_clientes.saldo>0
+GROUP BY anio,mes
+LIMIT 6]]>
+	</queryString>
+	<field name="anio" class="java.lang.Long"/>
+	<field name="mes" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="acobrar" class="java.math.BigDecimal"/>
+	<field name="nombremes" class="java.lang.String"/>
+	<variable name="acobrar_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{acobrar}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="19" splitType="Stretch">
+			<staticText>
+				<reportElement x="4" y="5" width="118" height="12" uuid="05ba3b5a-5f37-4857-b9e5-7ec7dab560e0"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Próximos Descuentos]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement x="4" y="2" width="118" height="16" uuid="f1e34168-15bc-4305-87f2-4733c4f35253"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="4" y="6" width="28" height="12" uuid="7906dc50-838f-4b8a-b46b-80b8d2b61b1e"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Año]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="47" y="6" width="21" height="12" uuid="a2faf2ab-3e56-4913-a6d8-6772cae14734"/>
+				<textElement>
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Mes]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="81" y="6" width="41" height="12" uuid="0c315d29-e2f4-4e16-a650-3d9953b4287b"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Saldo]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="13" splitType="Stretch">
+			<textField>
+				<reportElement x="4" y="0" width="28" height="11" uuid="d4c057e5-fc4c-4a1b-83ca-2d7772a15948"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{anio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="79" y="0" width="43" height="11" uuid="dd5994b8-80db-4261-8b46-196aacafae45"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{acobrar}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="45" y="0" width="23" height="11" uuid="8fdcf141-3235-4646-b939-e3deccfcd760"/>
+				<textElement>
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombremes}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="3" splitType="Stretch"/>
+	</columnFooter>
+	<summary>
+		<band height="10">
+			<line>
+				<reportElement x="4" y="1" width="118" height="1" uuid="f393f800-e4a6-442f-a36d-a1e67e81bb20"/>
+			</line>
+		</band>
+	</summary>
+</jasperReport>

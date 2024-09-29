@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="detalleventasxclienteruc" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="6034848f-e095-4fb9-a25c-057dfebd9eaf">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="cNombreEmpresa" class="java.lang.String"/>
+	<parameter name="FechaInicio" class="java.util.Date"/>
+	<parameter name="FechaFinal" class="java.util.Date"/>
+	<parameter name="cCliente" class="java.lang.String"/>
+	<parameter name="cMoneda" class="java.lang.String"/>
+	<parameter name="cSucursal" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select cliente,nombrecliente,
+sum(monto) as total
+from vista_detalle_ventas
+ WHERE vista_detalle_ventas.fecha
+ BETWEEN $P{FechaInicio} AND $P{FechaFinal}
+ AND vista_detalle_ventas.ruc=$P{cCliente}
+AND vista_detalle_ventas.moneda=$P{cMoneda}
+AND vista_detalle_ventas.sucursal=$P{cSucursal}
+ GROUP BY cliente
+ ORDER BY codigo]]>
+	</queryString>
+	<field name="cliente" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombrecliente" class="java.lang.String"/>
+	<field name="total" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="total_6" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{total}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="47" splitType="Stretch">
+			<staticText>
+				<reportElement x="1" y="3" width="274" height="16" uuid="1c2fec0f-e19d-4a5b-8afd-44fa5760de93"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Resumen por Cliente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="81" y="30" width="100" height="10" uuid="d2a8ae9f-fa0f-4e8c-9aa1-23fa11179fbf"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Descripción]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="30" width="49" height="10" uuid="5a3cf90d-7517-4aae-84c8-c79245e227da"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Código]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="26" width="275" height="1" uuid="e179cc01-6842-4fa2-85f5-467219e09ee7"/>
+			</line>
+			<line>
+				<reportElement x="0" y="45" width="275" height="1" uuid="5fc73ab2-51b6-4e9d-bd20-826521e9de37"/>
+			</line>
+			<staticText>
+				<reportElement x="231" y="27" width="44" height="10" uuid="c1a2bcbd-e3b8-4a53-a272-0a80f1300a29"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Total Venta]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<textField pattern="#,##0.00">
+				<reportElement x="212" y="2" width="57" height="12" uuid="ef7e11dd-9842-4b60-90f8-9124ea09b26b"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="63" y="3" width="143" height="11" uuid="5b22fe09-fc99-4e7b-bf8f-192c7959d017"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombrecliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="3" y="2" width="47" height="11" uuid="f132d4b5-cdf2-47f4-9bad-4b741b1b32da"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cliente}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="146" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="1" width="275" height="1" uuid="360c4566-cad3-4f3e-a09a-46ede823e454"/>
+			</line>
+			<staticText>
+				<reportElement x="63" y="5" width="77" height="14" uuid="c76b9e1f-5d33-43e7-a2e1-03c4db5c0bea"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total General]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="21" width="275" height="1" uuid="75418185-b6d8-4582-a0cf-04d0b1eb8e89"/>
+			</line>
+			<textField pattern="#,##0.00">
+				<reportElement x="186" y="5" width="82" height="12" uuid="41273154-6f43-489d-8626-820162ad0b71"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{total_6}]]></textFieldExpression>
+			</textField>
+			<bar3DChart>
+				<chart>
+					<reportElement x="286" y="-60" width="257" height="206" uuid="ed7ba568-f674-4900-aacd-5c7ed144b83a"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{nombrecliente}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{nombrecliente}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{total}]]></valueExpression>
+						<labelExpression><![CDATA[$F{nombrecliente}]]></labelExpression>
+					</categorySeries>
+				</categoryDataset>
+				<bar3DPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</bar3DPlot>
+			</bar3DChart>
+		</band>
+	</summary>
+</jasperReport>

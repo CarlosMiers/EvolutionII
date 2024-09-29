@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="pagareventas_garantes_carway" pageWidth="572" pageHeight="150" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="8857865a-2293-4d84-bc24-d2ab0893e2e5">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="cReferencia" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT cabecera_ventas.nombregarante,cabecera_ventas.cedulagarante,cabecera_ventas.direcciongarante
+FROM cabecera_ventas
+WHERE cabecera_ventas.creferencia=$P{cReferencia}]]>
+	</queryString>
+	<field name="nombregarante" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cedulagarante" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="direcciongarante" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<detail>
+		<band height="136" splitType="Stretch">
+			<textField>
+				<reportElement x="97" y="52" width="306" height="10" uuid="2fba5206-dd72-4686-bf83-e5711d7b0ef8"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombregarante}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="6" y="52" width="87" height="10" uuid="97905f38-fa28-4d12-ab99-b868c3172768"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Nombre del Co-Deudor:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="97" y="81" width="306" height="10" uuid="aa84a138-e587-471f-81dd-52bef4316eea"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{direcciongarante}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="6" y="81" width="53" height="10" uuid="931cb753-2e59-4758-9022-24d877486ef3"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Dirección:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="95" width="53" height="10" uuid="22479c16-a56b-464f-ba6c-29ba54231a8c"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Teléfono:]]></text>
+			</staticText>
+			<textField pattern="#,##0">
+				<reportElement x="97" y="66" width="69" height="10" uuid="4647cc77-fde7-4d6a-8122-37d6cd39b4f7"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cedulagarante}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="6" y="66" width="53" height="10" uuid="5ecea397-329f-4938-92a3-2ebd81b5a150"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[C.I.P./RUC:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="99" y="37" width="224" height="1" uuid="c5aca7b6-f927-48f3-9f14-042ee3a218f0"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="8" y="7" width="77" height="10" uuid="00094d00-4bcc-43a7-aa0f-71b4652135c5"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Firma]]></text>
+			</staticText>
+			<line>
+				<reportElement x="100" y="16" width="224" height="1" uuid="df874454-746a-466b-9ebc-d24e2a663463"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="8" y="28" width="77" height="10" uuid="74510567-bc41-42a8-8878-a99051653072"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Aclaración de Firma]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

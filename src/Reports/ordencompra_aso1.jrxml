@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ordencompra_aso1" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c3ad0422-6852-49df-b1da-173322e3e884">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="45"/>
+	<import value="Sistemas.EvolutionII.EvolutionII.src.Reports.jasper.*"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="Letra" class="java.lang.String"/>
+	<parameter name="nNumero" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Sistemas\\EvolutionII\\EvolutionII\\src\\Reports\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ImporteTotal" class="java.lang.String"/>
+	<parameter name="cNombreEmpresa" class="java.lang.String"/>
+	<parameter name="cRuc" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT numero,fecha,comercio,socio,plazo,usuarioalta,clientes.nombre AS nombresocio,
+clientes.direccion,clientes.ruc,
+importe,monto_cuota,usuarios.last_name AS nombreusuario,casas.nombre AS nombrecomercio
+FROM ordenes_de_compras
+INNER JOIN clientes
+ON clientes.codigo=ordenes_de_compras.socio
+LEFT JOIN usuarios
+ON usuarios.employee_id=ordenes_de_compras.usuarioalta
+LEFT JOIN casas
+ON casas.codigo=ordenes_de_compras.comercio
+WHERE numero=$P{nNumero}]]>
+	</queryString>
+	<field name="numero" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="comercio" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="socio" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="plazo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="usuarioalta" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombresocio" class="java.lang.String"/>
+	<field name="direccion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ruc" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="importe" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="monto_cuota" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombreusuario" class="java.lang.String"/>
+	<field name="nombrecomercio" class="java.lang.String"/>
+	<background>
+		<band height="802" splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="791" splitType="Stretch">
+			<rectangle>
+				<reportElement x="21" y="473" width="506" height="295" uuid="af9a0ac1-ba57-45bb-a637-88beff276d10"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="24" y="86" width="506" height="265" uuid="90b38b2b-3d2c-479b-8128-372f3b395c69"/>
+			</rectangle>
+			<textField>
+				<reportElement x="45" y="139" width="457" height="84" uuid="85dd5d6f-ac1c-4519-a1e6-4ee773cab56a"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Bookman Old Style" size="12" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["De conformidad con los Términos del Contrato Suscripto entre Uds. y este Sindicato, "+
+"sirvanse  conceder  un  crédito  por    la   suma   de  Gs. ("+ $P{ImporteTotal}.trim()+"), guaraníes "+
+$P{Letra}.trim()+"."+" A descontar en ("+$F{plazo}.toString()+") cuotas."]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="24" y="128" width="506" height="1" uuid="28d2ed4c-b91b-4d2b-a344-d25e8fe6b3e0"/>
+			</line>
+			<staticText>
+				<reportElement x="39" y="86" width="233" height="16" uuid="a82f67b2-220d-4a65-a716-2a71012e765d"/>
+				<textElement textAlignment="Center">
+					<font fontName="Bookman Old Style" size="11" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Entidad Comercial]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="273" y="86" width="125" height="16" uuid="5ffc64c7-19a7-471a-aecb-4f9b07114cd6"/>
+				<textElement textAlignment="Center">
+					<font fontName="Bookman Old Style" size="11" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[N° de Orden]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="410" y="86" width="97" height="16" uuid="0fc50ce6-a85d-4572-bb1c-82717eb278dc"/>
+				<textElement textAlignment="Center">
+					<font fontName="Bookman Old Style" size="11" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Fecha Emisión]]></text>
+			</staticText>
+			<line>
+				<reportElement x="272" y="86" width="1" height="42" uuid="34abcf16-90a3-4750-ad1a-1feeb5a8b66d"/>
+			</line>
+			<line>
+				<reportElement x="398" y="86" width="1" height="42" uuid="eea6d529-23c6-4cff-9521-d8fd3cf42ab6"/>
+			</line>
+			<textField>
+				<reportElement x="45" y="108" width="216" height="15" uuid="565271fe-7f25-4dd7-a22f-74728442df53"/>
+				<textElement>
+					<font fontName="Bookman Old Style" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombrecomercio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement x="292" y="108" width="83" height="15" uuid="a025e0a5-5eeb-4866-ab14-6c413587761a"/>
+				<textElement textAlignment="Center">
+					<font fontName="Bookman Old Style" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numero}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="422" y="108" width="76" height="15" uuid="1d7feec6-ec54-45f1-93fd-f0bd967e1409"/>
+				<textElement>
+					<font fontName="Bookman Old Style" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="225" y="66" width="125" height="16" uuid="24e8a363-0b5d-4717-b288-1728a0b50eb7"/>
+				<textElement textAlignment="Center">
+					<font fontName="Bookman Old Style" size="11" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[ORDEN DE COMPRA]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="271" y="233" width="231" height="15" uuid="f0924877-4e70-4641-b81e-3d961968ea84"/>
+				<textElement textAlignment="Right">
+					<font fontName="Bookman Old Style"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombresocio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="271" y="251" width="232" height="15" uuid="296f2423-dbbe-4a1b-9046-9509d207ca6a"/>
+				<textElement textAlignment="Right">
+					<font fontName="Bookman Old Style"/>
+				</textElement>
+				<textFieldExpression><![CDATA["N° de Socio "+$F{socio}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="24" y="304" width="162" height="1" uuid="d04feb84-8d33-489e-9560-d289d52bfa02"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="24" y="309" width="162" height="15" uuid="d65296f6-bb9c-4f8f-b44e-8e5b7ba5333b"/>
+				<textElement textAlignment="Center">
+					<font fontName="Bookman Old Style"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Por "+$P{cNombreEmpresa}.trim()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="200" y="304" width="159" height="1" uuid="24f70880-5b05-486d-b221-9df711e9fc06"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="197" y="309" width="162" height="15" uuid="69c12b9f-49d3-4706-9ab8-89a0dd527f43"/>
+				<textElement textAlignment="Center">
+					<font fontName="Bookman Old Style"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Por "+$P{cNombreEmpresa}.trim()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="368" y="304" width="162" height="1" uuid="3d30a070-fe88-49af-bf41-94901746847f"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="368" y="309" width="162" height="15" uuid="3d2d4ebb-21e7-4674-8fed-ecbc631e8c8d"/>
+				<textElement textAlignment="Center">
+					<font fontName="Bookman Old Style"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Firma del Beneficiario"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="368" y="326" width="162" height="15" uuid="2fbe1fb5-a491-4b10-94df-50af150b3df2"/>
+				<textElement textAlignment="Center">
+					<font fontName="Bookman Old Style"/>
+				</textElement>
+				<textFieldExpression><![CDATA["C.I.P."+$F{ruc}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="39" y="351" width="147" height="11" uuid="21472467-9585-4d72-8fdb-6f9ca27ae373"/>
+				<textElement>
+					<font fontName="Bookman Old Style" size="8" isBold="false" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombreusuario}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="208" y="351" width="322" height="11" uuid="e6081985-e464-4fa6-9054-178b1d00752a"/>
+				<textElement>
+					<font fontName="Bookman Old Style" size="8"/>
+				</textElement>
+				<text><![CDATA[OBS.: Esta Orden se puede Anular solo hasta 5 días después de su emisión:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="24" y="107" width="506" height="1" uuid="d535e0ed-a456-4182-9045-2f98ca434435"/>
+			</line>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="404" y="67" width="126" height="15" uuid="fa2462ef-714f-4423-850f-69a890fecb3f"/>
+				<textElement>
+					<font fontName="Bookman Old Style" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["RUC "+$P{cRuc}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="48" y="505" width="216" height="15" uuid="edcfa63e-86e1-4386-bbf0-b18dec858eea"/>
+				<textElement>
+					<font fontName="Bookman Old Style" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombrecomercio}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="205" y="768" width="322" height="11" uuid="03f87444-fafb-4be7-ae7e-571a26fc8461"/>
+				<textElement>
+					<font fontName="Bookman Old Style" size="8"/>
+				</textElement>
+				<text><![CDATA[OBS.: Esta Orden se puede Anular solo hasta 5 días después de su emisión:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="21" y="500" width="506" height="1" uuid="9e3254f1-ea20-45d7-ad56-7efe573f4276"/>
+			</line>
+			<textField>
+				<reportElement x="268" y="653" width="232" height="15" uuid="78deaa88-236a-42c8-bbfa-73c4d261c584"/>
+				<textElement textAlignment="Right">
+					<font fontName="Bookman Old Style"/>
+				</textElement>
+				<textFieldExpression><![CDATA["N° de Socio "+$F{socio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="268" y="635" width="231" height="15" uuid="e2e777d7-a56b-4e8d-94a5-8d737e0803a4"/>
+				<textElement textAlignment="Right">
+					<font fontName="Bookman Old Style"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombresocio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="42" y="531" width="457" height="84" uuid="02c6fa27-ec5f-4e84-810c-69c162d5ffd8"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Bookman Old Style" size="12" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["De conformidad con los Términos del Contrato Suscripto entre Uds. y este Sindicato, "+
+"sirvanse  conceder  un  crédito  por    la   suma   de  Gs. ("+ $P{ImporteTotal}.trim()+"), guaraníes "+
+$P{Letra}.trim()+"."+" A descontar en ("+$F{plazo}.toString()+") cuotas."]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="365" y="721" width="162" height="1" uuid="3be9ff42-23ff-46f4-9af5-f89c58806a47"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="222" y="452" width="125" height="16" uuid="51fa97ce-4a66-4595-99b1-8fa4c295adbf"/>
+				<textElement textAlignment="Center">
+					<font fontName="Bookman Old Style" size="11" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[ORDEN DE COMPRA]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="36" y="768" width="147" height="11" uuid="11b19292-7dfe-4873-a224-a1ab9bd939e9"/>
+				<textElement>
+					<font fontName="Bookman Old Style" size="8" isBold="false" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombreusuario}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="21" y="721" width="162" height="1" uuid="15209780-fcf4-4cc5-a138-6ed53afcbe80"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="21" y="726" width="162" height="15" uuid="7892ec49-8156-49d2-9231-51805f9e9365"/>
+				<textElement textAlignment="Center">
+					<font fontName="Bookman Old Style"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Por "+$P{cNombreEmpresa}.trim()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="194" y="726" width="162" height="15" uuid="44207358-33ca-4e59-933b-f3f45f808aea"/>
+				<textElement textAlignment="Center">
+					<font fontName="Bookman Old Style"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Por "+$P{cNombreEmpresa}.trim()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="401" y="473" width="1" height="52" uuid="a51fd9d4-2096-4c4c-baaa-865c409b33c8"/>
+			</line>
+			<line>
+				<reportElement x="275" y="473" width="1" height="52" uuid="643c276f-2a83-4a4e-a69a-8445411f4881"/>
+			</line>
+			<line>
+				<reportElement x="21" y="524" width="506" height="1" uuid="fc4b24fe-edd3-4ed2-aac6-4a7965004482"/>
+			</line>
+			<line>
+				<reportElement x="197" y="721" width="159" height="1" uuid="9b583462-38c6-4ca4-b8e8-5212ab817dd9"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="42" y="478" width="233" height="16" uuid="865369f9-4b05-47a9-883a-bfd50e28ed54"/>
+				<textElement textAlignment="Center">
+					<font fontName="Bookman Old Style" size="11" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Entidad Comercial]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="365" y="743" width="162" height="15" uuid="ff87091a-f82f-4be8-b32a-b375fabae80b"/>
+				<textElement textAlignment="Center">
+					<font fontName="Bookman Old Style"/>
+				</textElement>
+				<textFieldExpression><![CDATA["C.I.P."+$F{ruc}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="276" y="478" width="125" height="16" uuid="b700be31-e75d-40cf-9319-d3cb3eee43f8"/>
+				<textElement textAlignment="Center">
+					<font fontName="Bookman Old Style" size="11" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[N° de Orden]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="413" y="478" width="97" height="16" uuid="dc2fc3ef-6fb5-4e67-9166-a660f3dac97b"/>
+				<textElement textAlignment="Center">
+					<font fontName="Bookman Old Style" size="11" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Fecha Emisión]]></text>
+			</staticText>
+			<textField pattern="###0">
+				<reportElement x="295" y="505" width="83" height="15" uuid="d3e89b1d-d36d-401e-ae8e-939d184fbc55"/>
+				<textElement textAlignment="Center">
+					<font fontName="Bookman Old Style" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numero}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="365" y="726" width="162" height="15" uuid="6c3321a0-12c9-43ab-a742-d36ce456e443"/>
+				<textElement textAlignment="Center">
+					<font fontName="Bookman Old Style"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Firma del Beneficiario"]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="425" y="505" width="76" height="15" uuid="6bf71a6f-2529-4d96-8c8f-12e92e57ede3"/>
+				<textElement>
+					<font fontName="Bookman Old Style" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="401" y="453" width="126" height="15" uuid="68b00601-b258-4729-bd57-01ccd314b2b4"/>
+				<textElement>
+					<font fontName="Bookman Old Style" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["RUC "+$P{cRuc}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="21" y="0" width="187" height="82" uuid="6dfdedf4-1160-4a4d-ac22-111f40e2015a"/>
+				<imageExpression><![CDATA["C:\\Sistemas\\EvolutionII\\EvolutionII\\src\\Iconos\\logosinatram.jpg"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="17" y="379" width="278" height="89" uuid="05a54753-3a22-476c-b682-3fad09c42111"/>
+				<imageExpression><![CDATA["C:\\Sistemas\\EvolutionII\\EvolutionII\\src\\Iconos\\logosinatram.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="6" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="3" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

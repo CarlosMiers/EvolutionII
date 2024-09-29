@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="comision_a_pagar" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e1bdabd2-5273-46d4-a286-66089e9dfde1">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="cNombreEmpresa" class="java.lang.String"/>
+	<parameter name="FechaInicio" class="java.util.Date"/>
+	<parameter name="FechaFinal" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[SELECT comprobantes.nomalias,comprobantes.porcientomora,comprobantes.porcientoperiodo,
+vendedor,vendedores.nombre,producto,mes,anual,saldomora,saldoperiodo,ROUND(saldomora*comprobantes.porcientomora/100,0) AS moraxcobrar,
+ROUND(saldoperiodo*comprobantes.porcientoperiodo/100,0) AS periodoxcobrar,
+moracobrada,periodocobrado,totalcobrado
+FROM config_comision
+INNER JOIN comprobantes
+ON comprobantes.codigo=config_comision.producto
+INNER JOIN vendedores
+ON vendedores.codigo=config_comision.vendedor
+WHERE mes=11
+ORDER BY vendedores.codigo,comprobantes.codigo]]>
+	</queryString>
+	<field name="nomalias" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="porcientomora" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="porcientoperiodo" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="vendedor" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="producto" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="mes" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="anual" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="saldomora" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="saldoperiodo" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="moraxcobrar" class="java.math.BigDecimal"/>
+	<field name="periodocobrado" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="periodoxcobrar" class="java.math.BigDecimal"/>
+	<field name="moracobrada" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="totalcobrado" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="nombre_1" class="java.lang.Integer" resetType="Group" resetGroup="vendedor" calculation="Count">
+		<variableExpression><![CDATA[$F{nombre}]]></variableExpression>
+	</variable>
+	<variable name="saldomora_1" class="java.math.BigDecimal" resetType="Group" resetGroup="vendedor" calculation="Sum">
+		<variableExpression><![CDATA[$F{saldomora}]]></variableExpression>
+	</variable>
+	<variable name="saldoperiodo_1" class="java.math.BigDecimal" resetType="Group" resetGroup="vendedor" calculation="Sum">
+		<variableExpression><![CDATA[$F{saldoperiodo}]]></variableExpression>
+	</variable>
+	<variable name="moracobrada_1" class="java.math.BigDecimal" resetType="Group" resetGroup="vendedor" calculation="Sum">
+		<variableExpression><![CDATA[$F{moracobrada}]]></variableExpression>
+	</variable>
+	<variable name="periodocobrado_1" class="java.math.BigDecimal" resetType="Group" resetGroup="vendedor" calculation="Sum">
+		<variableExpression><![CDATA[$F{periodocobrado}]]></variableExpression>
+	</variable>
+	<variable name="totalcobrado_1" class="java.math.BigDecimal" resetType="Group" resetGroup="vendedor" calculation="Sum">
+		<variableExpression><![CDATA[$F{totalcobrado}]]></variableExpression>
+	</variable>
+	<group name="vendedor" isReprintHeaderOnEachPage="true">
+		<groupExpression><![CDATA[$F{vendedor}]]></groupExpression>
+		<groupHeader>
+			<band height="64">
+				<staticText>
+					<reportElement x="8" y="47" width="50" height="12" uuid="e39ee4cc-4351-41e8-a141-d148714005df"/>
+					<textElement>
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<text><![CDATA[Servicio]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="66" y="47" width="55" height="12" uuid="2e70e0c9-3a3c-4f11-a068-987d3ac35a27"/>
+					<textElement>
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<text><![CDATA[En Mora 180 D]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="141" y="47" width="50" height="12" uuid="3b9d9e3f-53e5-4f56-997d-724ab09994ce"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<text><![CDATA[Del Período]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="215" y="47" width="50" height="12" uuid="12fe2f84-8e84-4447-99c7-24a2a08b449c"/>
+					<textElement>
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<text><![CDATA[Por 180 D]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="288" y="47" width="50" height="12" uuid="ac359066-4183-4918-848a-899d369bff13"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<text><![CDATA[Del Período]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="361" y="47" width="64" height="12" uuid="6280806d-d7aa-4292-94b9-a6f607c5508e"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<text><![CDATA[Cobros 180 D]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="433" y="48" width="64" height="11" uuid="1c1044a4-2e0f-474c-bf1e-776302a8bc9e"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<text><![CDATA[Del Período]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="518" y="48" width="52" height="11" uuid="0348d7d1-4553-41bc-b352-99edfe7b2243"/>
+					<textElement>
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<text><![CDATA[Neto Cobrado]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="90" y="31" width="77" height="13" uuid="bc8f37bd-8740-44d0-adc3-c725c06eb227"/>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Saldos en Cartera]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="237" y="31" width="77" height="13" uuid="3b0d1b11-d9f2-4f16-9586-1e188de0a7f5"/>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Meta de Cobranza]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="396" y="31" width="107" height="13" uuid="2287d884-5170-43f4-984e-62158031d09f"/>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Cobranzas Realizadas]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="32" y="5" width="204" height="20" uuid="8637846e-0062-4d00-82f9-39152b5fdd48"/>
+					<textElement>
+						<font fontName="Arial" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="4" y="62" width="566" height="1" uuid="879052bf-929a-48a0-9678-47e2f261da92"/>
+				</line>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="23">
+				<textField pattern="#,##0.00">
+					<reportElement x="64" y="9" width="59" height="11" uuid="c76a7788-16e1-424d-b18a-4da10cbde801"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{saldomora_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="134" y="9" width="62" height="11" uuid="e3148bad-5c54-493c-bdcf-a822921c4442"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{saldoperiodo_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="361" y="9" width="64" height="11" uuid="1a32ecf5-c02e-4c24-ac62-2ed6ff5ddcf9"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{moracobrada_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="433" y="9" width="61" height="11" uuid="25f92c96-523b-4c19-a417-6614f40b148e"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{periodocobrado_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="504" y="9" width="66" height="11" uuid="1b8c0065-f0c3-48af-99bc-79b8688444e3"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{totalcobrado_1}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="23" y="8" width="37" height="12" uuid="51ad3dc3-df57-4272-9ad0-eab9d678d946"/>
+					<textElement>
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Total]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="1" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="64" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="65" y="48" width="50" height="13" uuid="df61a476-2d85-4af1-940b-38d3e078e81d"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{FechaInicio}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="11" y="48" width="50" height="12" uuid="29dacbbc-37a4-42fd-b607-0d8e1f11da16"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DESDE EL:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="28" width="199" height="16" uuid="4e9212bd-0c0d-4cee-a00b-205ce24a472d"/>
+				<textElement textAlignment="Justified">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Informe de Cobranzas por Asesor]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="11" y="10" width="221" height="15" uuid="c1727c79-ec47-422f-ab4f-9d3c253b3016"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cNombreEmpresa}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="123" y="48" width="50" height="12" uuid="b3dc5158-a481-4e5d-8b5c-ee2124e4df34"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[HASTA  EL:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="179" y="48" width="41" height="12" uuid="e182e029-7fa7-4742-b67c-7f8193dfa731"/>
+				<textElement textAlignment="Left">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{FechaFinal}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="14" splitType="Stretch">
+			<textField>
+				<reportElement x="12" y="2" width="40" height="12" uuid="12d4b533-5878-4869-a013-077dfa193641"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nomalias}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="60" y="2" width="61" height="12" uuid="5545ad75-d146-4878-8bdd-dc30000a0490"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{saldomora}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="135" y="2" width="61" height="12" uuid="50f3def2-509b-41d1-a759-9bda0d2c7dc3"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{saldoperiodo}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="209" y="2" width="61" height="12" uuid="b9fd411d-7433-4ef5-ad82-ef76330e4c81"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{moraxcobrar}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="282" y="2" width="61" height="12" uuid="b62cf4df-40a0-402d-beaf-3b127bfaceb5"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{periodoxcobrar}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="430" y="2" width="64" height="12" uuid="1c9cbc2f-04b9-4811-9335-4e6c479a658f"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{periodocobrado}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="503" y="2" width="66" height="12" uuid="e73fd5b8-427e-483d-a879-cd062de0c3d3"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalcobrado}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="361" y="2" width="64" height="10" uuid="c329eca5-732d-4841-a677-fa8e1fcbf8ca"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{moracobrada}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="7" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="2" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="17" splitType="Stretch"/>
+	</summary>
+</jasperReport>

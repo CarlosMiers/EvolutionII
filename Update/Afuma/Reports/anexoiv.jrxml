@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="anexoiv" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c3ad0422-6852-49df-b1da-173322e3e884">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="103"/>
+	<property name="ireport.y" value="391"/>
+	<import value="Sistemas.EvolutionII.EvolutionII.src.Reports.jasper.*"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="cNombreEmpresa" class="java.lang.String"/>
+	<parameter name="nNumero" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT precierre_operacion.fechacierre,comprador,clientes.nombre as nombrecliente, precierre_operacion.fechacierre,
+DAY(precierre_operacion.fecha) AS dia,
+YEAR(precierre_operacion.fecha) AS periodo,
+CASE MONTH(precierre_operacion.fechacierre)
+  WHEN 1 THEN 'Enero'
+  WHEN 2 THEN 'Febrero'
+  WHEN 3 THEN 'Marzo'
+  WHEN 4 THEN 'Abril'
+  WHEN 5 THEN 'Mayo'
+  WHEN 6 THEN 'Junio'
+  WHEN 7 THEN 'Julio'
+  WHEN 8 THEN 'Agosto'
+  WHEN 9 THEN 'Setiembre'
+  WHEN 10 THEN 'Octubre'
+  WHEN 11 THEN 'Noviembre'
+  WHEN 12 THEN 'Diciembre'
+END AS nombremes
+FROM precierre_operacion
+LEFT JOIN clientes
+ON clientes.codigo=precierre_operacion.comprador
+WHERE precierre_operacion.numero=$P{nNumero}]]>
+	</queryString>
+	<field name="fechacierre" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="comprador" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombrecliente" class="java.lang.String"/>
+	<field name="dia" class="java.lang.Long"/>
+	<field name="periodo" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombremes" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="130" splitType="Stretch">
+			<staticText>
+				<reportElement x="202" y="28" width="174" height="18" uuid="bd717295-3961-4f89-b961-a8d8a2bec908"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ANEXO IV]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="234" y="107" width="271" height="13" uuid="4082d428-c1ef-4b6b-9b62-5edb1b629e0c"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Asunción, "+$F{dia}+" de "+$F{nombremes}+" de "+$F{periodo}+".-"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="9" y="63" width="535" height="14" forecolor="#000000" backcolor="#FFFFFF" uuid="1a6f98f1-ad56-482a-b926-84da8c4095f4"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["DECLARACIÓN JURADA SOBRE LICITUD Y ORIGEN DE LOS FONDOS"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="11" y="82" width="535" height="14" forecolor="#000000" backcolor="#FFFFFF" uuid="06d2954c-1eff-4b24-8dd5-a0ab5ef7b2ea"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["(Ley 1015/97, RESOLUCIÓN 059/08)"]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="572" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="39" y="277" width="466" height="17" uuid="356ff44e-4c57-44e9-821c-95af0032669e"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombrecliente}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="146" y="238" width="254" height="1" uuid="917aa9fa-0170-486a-9fbf-55290bc90ffc"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="39" y="252" width="466" height="20" uuid="60f11986-80a7-4ff1-8089-c8a299edcc9f"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[Firma y Aclaración]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="39" y="18" width="472" height="72" forecolor="#000000" backcolor="#FFFFFF" uuid="72e41729-9f0d-4293-acf4-4d0beb25a63e"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["En  el  cumplimiento  de  lo  dispuesto por la  secretaría de Prevención de Lavado de Dinero o Bienes (SEPRELAD), por la presente DECLARO BAJO FE DE JURAMENTO, que los fondos y valores corresponden a mis operaciones a través de la Bolsa de Valores y Productos de Asunción S.A. (BVPASA) y/o a través del mercado financiero son provenientes de ACTIVIDADES LICITAS."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="39" y="101" width="472" height="100" forecolor="#000000" backcolor="#FFFFFF" uuid="a5cc8314-1d89-4b0b-b845-27c6574511d9"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["También en carácter de DECLARACIÓN JURADA, manifiesto que las informaciones dichas en la presente, son exactas y verdaderas y que tengo conocimiento de la Ley 1.015/97 y el Código Penal vigente, comprometiéndome a ratificarme  de la  presente declaración   ante  cualquier  autoridad  administrativa,  fiscal  o judicial, eximiendo de ésta  forma  a "+$P{cNombreEmpresa}+", de cualquier inconveniente que la misma pudiera generarle en el futuro."]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

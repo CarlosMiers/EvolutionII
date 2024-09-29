@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="pensum" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c3ad0422-6852-49df-b1da-173322e3e884">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<import value="Sistemas.EvolutionII.EvolutionII.src.Reports.jasper.*"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="cNombreEmpresa" class="java.lang.String"/>
+	<parameter name="cCarrera" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT facultad.nombre AS nombrefacultad,
+carreras.nombre AS nombrecarrera,
+semestres.nombre AS nombresemestre,
+materias.semestre,materias.cargahoraria,
+materias.nombre AS nombremateria,
+materias.idmateria,
+carreras.titulo
+FROM facultad
+LEFT JOIN carreras
+ON carreras.facultad=facultad.codigo
+LEFT JOIN materias
+ON materias.idcarrera=carreras.codigo
+LEFT JOIN semestres
+ON semestres.semestre=materias.semestre
+WHERE carreras.codigo=$P{cCarrera}
+AND semestres.idcarrera=$P{cCarrera}
+ORDER BY materias.semestre,materias.idmateria
+]]>
+	</queryString>
+	<field name="nombrefacultad" class="java.lang.String"/>
+	<field name="nombrecarrera" class="java.lang.String"/>
+	<field name="nombresemestre" class="java.lang.String"/>
+	<field name="semestre" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cargahoraria" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombremateria" class="java.lang.String"/>
+	<field name="idmateria" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="titulo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="cargahoraria_1" class="java.math.BigDecimal" resetType="Group" resetGroup="semestre" calculation="Sum">
+		<variableExpression><![CDATA[$F{cargahoraria}]]></variableExpression>
+	</variable>
+	<variable name="cargahoraria_2" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{cargahoraria}]]></variableExpression>
+	</variable>
+	<group name="semestre" isReprintHeaderOnEachPage="true">
+		<groupExpression><![CDATA[$F{semestre}]]></groupExpression>
+		<groupHeader>
+			<band height="49">
+				<textField>
+					<reportElement x="0" y="6" width="555" height="20" uuid="d6c04242-978d-4607-b7f4-d0508be25c07"/>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nombresemestre}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="43" y="30" width="104" height="15" uuid="8ad329fa-3f88-4342-9d44-8b08a5b41ab2"/>
+					<textElement>
+						<font fontName="Arial" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Código Asignatura]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="170" y="30" width="267" height="15" uuid="725de596-7262-4f3c-be25-9be0106e1ea0"/>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Asignatura]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="462" y="32" width="76" height="15" uuid="b3f97fc1-e7bb-4fe0-83b8-b874f663b972"/>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Carga Horaria]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="21">
+				<textField pattern="###0">
+					<reportElement x="462" y="1" width="62" height="12" printWhenGroupChanges="semestre" uuid="ee6ae2a3-649c-4014-a5f1-588a3f79ba35"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="9" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{cargahoraria_1}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="0" y="2" width="451" height="12" uuid="700933e6-b7a9-4505-bac4-eacaaeda8238"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Total Carga Horaria "+$F{nombresemestre}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<title>
+		<band height="10" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="113" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="310" height="111" uuid="6eca4cbe-24e1-4285-9cf2-e5d0ce279b06"/>
+				<imageExpression><![CDATA["C:\\Sistemas\\EvolutionII\\EvolutionII\\src\\Iconos\\logoual.jpg"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="136" y="1" width="384" height="18" uuid="cd90d6b2-18f0-46b0-a54f-6caf5f0c1ce9"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cNombreEmpresa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="136" y="22" width="384" height="15" uuid="52f4ecef-d84c-4f1d-a213-7dca5296b84e"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombrefacultad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="136" y="40" width="384" height="15" uuid="bffc0d2f-0ac9-4e87-addf-347b129199fe"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["PENSUM DE ESTUDIOS "+$F{nombrecarrera}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="135" y="58" width="384" height="15" uuid="e73c14de-d783-4965-ba45-c70ab46cf33e"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Título Obtenido "+$F{titulo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField>
+				<reportElement x="68" y="5" width="48" height="12" uuid="90d636bc-d80f-4a87-9117-03359f8e05fb"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{idmateria}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="170" y="5" width="267" height="12" uuid="5f19725b-d530-47e8-b89d-4b8d8152c890"/>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombremateria}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement x="483" y="5" width="41" height="12" uuid="883b8a49-04b2-4e3f-beac-214a4f4a4718"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cargahoraria}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<summary>
+		<band height="26" splitType="Stretch">
+			<textField pattern="###0">
+				<reportElement x="450" y="6" width="74" height="12" uuid="9d893b0d-4c00-4764-96ad-3c51e8151c2a"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{cargahoraria_2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="10" y="6" width="427" height="12" uuid="eef90f72-8bce-4f85-879a-091f5f6da756"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Total Carga Horaria de la Carrera de "+$F{nombrecarrera}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

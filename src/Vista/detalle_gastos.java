@@ -1,0 +1,1494 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Vista;
+
+import Clases.ControlGrabado;
+import Clases.Parametros;
+import Clases.UUID;
+import Conexion.BDConexion;
+import Conexion.Conexion;
+import Conexion.ObtenerFecha;
+import Conexion.ObtenerNumero;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.ParseException;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import javax.swing.ComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
+import javax.swing.JTextField;
+import javax.swing.text.MaskFormatter;
+import org.openide.util.Exceptions;
+import Conexion.BDConexion;
+import Conexion.ObtenerNumero;
+import DAO.GenerarAsientoComprasDAO;
+import DAO.config_contableDAO;
+import DAO.rubro_compraDAO;
+import Modelo.Tablas;
+import Modelo.config_contable;
+import Modelo.rubro_compra;
+import java.awt.Font;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.math.BigDecimal;
+import java.sql.Date;
+import org.*;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.SimpleDateFormat;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
+import javax.swing.SwingConstants;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableRowSorter;
+
+/**
+ *
+ * @author hp
+ */
+public class detalle_gastos extends javax.swing.JFrame {
+
+    SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+    DecimalFormat formato = new DecimalFormat("#,###.##");
+    Conexion con = null;
+    Statement stm = null;
+    BDConexion BD = new BDConexion();
+    String Operacion = null;
+    double nExentas = 0.0D;
+    double nGravadas10 = 0.0D;
+    double nGravadas5 = 0.0D;
+    double nTotal = 0.0D;
+    double nIva10 = 0.0D;
+    double nIva5 = 0.0D;
+    double nCotizacion = 0.0D;
+    String cCotizacion = null;
+    Tablas modelorubro = new Tablas();
+    private TableRowSorter trsfiltrorubro;
+    ImageIcon iconobuscar = new ImageIcon("src/Iconos/buscar.png");
+    
+
+    /**
+     * Creates new form detalle_gastos
+     */
+    public detalle_gastos(String Opcion) throws ParseException {
+        initComponents();
+        this.setLocationRelativeTo(null); //Centramos el formulario
+        //   this.jTextControl.setVisible(false);
+       
+        this.BuscarRubro.setIcon(iconobuscar);
+        this.BuscarProveedor.setIcon(iconobuscar);
+        this.Sumatoria.setVisible(false);
+        this.idControl.setVisible(false);
+        this.limpiarCombos(); //Se limpian e inicializan los combos asociados a otra tabla
+        this.idControl.setText(Opcion);
+        this.factura.setHorizontalAlignment(JTextField.RIGHT);
+        this.cotizacion.setHorizontalAlignment(JFormattedTextField.RIGHT);
+        this.proveedor.setHorizontalAlignment(JTextField.RIGHT);
+        this.exentas.setHorizontalAlignment(JFormattedTextField.RIGHT);
+        this.gravadas10.setHorizontalAlignment(JFormattedTextField.RIGHT);
+        this.iva10.setHorizontalAlignment(JFormattedTextField.RIGHT);
+        this.gravadas5.setHorizontalAlignment(JFormattedTextField.RIGHT);
+        this.iva5.setHorizontalAlignment(JFormattedTextField.RIGHT);
+        this.Totalneto.setHorizontalAlignment(JFormattedTextField.RIGHT);
+        GrillaRubroCompra grillaru = new GrillaRubroCompra();
+        Thread hiloru = new Thread(grillaru);
+        hiloru.start();
+        this.TitRubro();
+
+        if (Opcion == "new") {
+            this.idControl.setText("");
+            this.cotizacion.setText("1");
+            this.factura.requestFocus();
+            this.rubro.setText("0");
+            this.nombrerubro.setText("nombrerubro");
+            // Si es nuevo el registro asignamos la fecha de hoy al jDataChosser
+            Calendar c2 = new GregorianCalendar();
+            this.fechaemision.setCalendar(c2);
+            this.vencimiento.setCalendar(c2);
+            this.vencimientotimbrado.setCalendar(c2);
+        } else {
+            this.idControl.setText(Opcion);
+            this.consultarTabla();
+            this.factura.requestFocus();
+        }
+        //Asignamos el formato a los campos tipo date
+        this.fechaemision.setDateFormatString("dd/MM/yyyy");
+        this.vencimiento.setDateFormatString("dd/MM/yyyy");
+        this.vencimientotimbrado.setDateFormatString("dd/MM/yyyy");
+        // damos formato de seleccion completo a estos objetos
+    }
+    ObtenerFecha ODate = new ObtenerFecha();
+    ObtenerNumero on = new ObtenerNumero();
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        BRubro = new javax.swing.JDialog();
+        jPanel19 = new javax.swing.JPanel();
+        comborubro = new javax.swing.JComboBox();
+        jTBuscarRubro = new javax.swing.JTextField();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        tablarubro = new javax.swing.JTable();
+        jPanel20 = new javax.swing.JPanel();
+        AceptarRubro = new javax.swing.JButton();
+        SalirRubro = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        fechaemision = new com.toedter.calendar.JDateChooser();
+        jLabel2 = new javax.swing.JLabel();
+        vencimiento = new com.toedter.calendar.JDateChooser();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        sucursal = new javax.swing.JComboBox();
+        comprobante = new javax.swing.JComboBox();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        moneda = new javax.swing.JComboBox();
+        jLabel8 = new javax.swing.JLabel();
+        cotizacion = new javax.swing.JFormattedTextField();
+        jLabel9 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        exentas = new javax.swing.JFormattedTextField();
+        gravadas10 = new javax.swing.JFormattedTextField();
+        iva10 = new javax.swing.JFormattedTextField();
+        gravadas5 = new javax.swing.JFormattedTextField();
+        iva5 = new javax.swing.JFormattedTextField();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        Totalneto = new javax.swing.JFormattedTextField();
+        jLabel18 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        observacion = new javax.swing.JTextArea();
+        proveedor = new javax.swing.JTextField();
+        nombreproveedor = new javax.swing.JTextField();
+        timbrado = new javax.swing.JTextField();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        vencimientotimbrado = new com.toedter.calendar.JDateChooser();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        idControl = new javax.swing.JTextField();
+        BuscarProveedor = new javax.swing.JButton();
+        Sumatoria = new javax.swing.JTextField();
+        factura = new javax.swing.JTextField();
+        rubro = new javax.swing.JTextField();
+        BuscarRubro = new javax.swing.JButton();
+        nombrerubro = new javax.swing.JTextField();
+        panel1 = new org.edisoncor.gui.panel.Panel();
+        jLabel6 = new javax.swing.JLabel();
+
+        BRubro.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        BRubro.setTitle(org.openide.util.NbBundle.getMessage(detalle_gastos.class, "detalle_gastos.BRubro.title")); // NOI18N
+
+        jPanel19.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        comborubro.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        comborubro.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Buscar por Nombre", "Buscar por Código" }));
+        comborubro.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        comborubro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comborubroActionPerformed(evt);
+            }
+        });
+
+        jTBuscarRubro.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jTBuscarRubro.setText(org.openide.util.NbBundle.getMessage(detalle_gastos.class, "detalle_gastos.jTBuscarRubro.text")); // NOI18N
+        jTBuscarRubro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTBuscarRubroActionPerformed(evt);
+            }
+        });
+        jTBuscarRubro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTBuscarRubroKeyPressed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
+        jPanel19.setLayout(jPanel19Layout);
+        jPanel19Layout.setHorizontalGroup(
+            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel19Layout.createSequentialGroup()
+                .addComponent(comborubro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jTBuscarRubro, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel19Layout.setVerticalGroup(
+            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel19Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(comborubro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTBuscarRubro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(19, Short.MAX_VALUE))
+        );
+
+        tablarubro.setModel(modelorubro       );
+        tablarubro.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablarubroMouseClicked(evt);
+            }
+        });
+        tablarubro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tablarubroKeyPressed(evt);
+            }
+        });
+        jScrollPane7.setViewportView(tablarubro);
+
+        jPanel20.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        AceptarRubro.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        AceptarRubro.setText(org.openide.util.NbBundle.getMessage(detalle_gastos.class, "detalle_gastos.AceptarRubro.text")); // NOI18N
+        AceptarRubro.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        AceptarRubro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AceptarRubroActionPerformed(evt);
+            }
+        });
+
+        SalirRubro.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        SalirRubro.setText(org.openide.util.NbBundle.getMessage(detalle_gastos.class, "detalle_gastos.SalirRubro.text")); // NOI18N
+        SalirRubro.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        SalirRubro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SalirRubroActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel20Layout = new javax.swing.GroupLayout(jPanel20);
+        jPanel20.setLayout(jPanel20Layout);
+        jPanel20Layout.setHorizontalGroup(
+            jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel20Layout.createSequentialGroup()
+                .addGap(91, 91, 91)
+                .addComponent(AceptarRubro, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(85, 85, 85)
+                .addComponent(SalirRubro, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel20Layout.setVerticalGroup(
+            jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel20Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(AceptarRubro)
+                    .addComponent(SalirRubro))
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout BRubroLayout = new javax.swing.GroupLayout(BRubro.getContentPane());
+        BRubro.getContentPane().setLayout(BRubroLayout);
+        BRubroLayout.setHorizontalGroup(
+            BRubroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(BRubroLayout.createSequentialGroup()
+                .addComponent(jPanel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jScrollPane7, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jPanel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        BRubroLayout.setVerticalGroup(
+            BRubroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(BRubroLayout.createSequentialGroup()
+                .addComponent(jPanel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
+
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel1.setText(org.openide.util.NbBundle.getMessage(detalle_gastos.class, "detalle_gastos.jLabel1.text")); // NOI18N
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(188, 16, -1, -1));
+
+        fechaemision.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                fechaemisionKeyPressed(evt);
+            }
+        });
+        jPanel2.add(fechaemision, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 40, -1, -1));
+
+        jLabel2.setText(org.openide.util.NbBundle.getMessage(detalle_gastos.class, "detalle_gastos.jLabel2.text")); // NOI18N
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 20, -1, -1));
+
+        vencimiento.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                vencimientoKeyPressed(evt);
+            }
+        });
+        jPanel2.add(vencimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 40, 100, -1));
+
+        jLabel3.setText(org.openide.util.NbBundle.getMessage(detalle_gastos.class, "detalle_gastos.jLabel3.text")); // NOI18N
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 20, -1, -1));
+
+        jLabel4.setText(org.openide.util.NbBundle.getMessage(detalle_gastos.class, "detalle_gastos.jLabel4.text")); // NOI18N
+        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 16, 52, -1));
+
+        sucursal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        sucursal.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                sucursalKeyPressed(evt);
+            }
+        });
+        jPanel2.add(sucursal, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 138, -1));
+
+        comprobante.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel2.add(comprobante, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 138, -1));
+
+        jLabel5.setText(org.openide.util.NbBundle.getMessage(detalle_gastos.class, "detalle_gastos.jLabel5.text")); // NOI18N
+        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, -1, -1));
+
+        jLabel7.setText(org.openide.util.NbBundle.getMessage(detalle_gastos.class, "detalle_gastos.jLabel7.text")); // NOI18N
+        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 70, -1, -1));
+
+        moneda.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel2.add(moneda, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 90, 113, -1));
+
+        jLabel8.setText(org.openide.util.NbBundle.getMessage(detalle_gastos.class, "detalle_gastos.jLabel8.text")); // NOI18N
+        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 70, -1, -1));
+
+        cotizacion.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
+        cotizacion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                cotizacionKeyPressed(evt);
+            }
+        });
+        jPanel2.add(cotizacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 90, 104, -1));
+
+        jLabel9.setText(org.openide.util.NbBundle.getMessage(detalle_gastos.class, "detalle_gastos.jLabel9.text")); // NOI18N
+        jPanel2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 70, -1, -1));
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED), org.openide.util.NbBundle.getMessage(detalle_gastos.class, "detalle_gastos.jPanel1.border.title"))); // NOI18N
+
+        exentas.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
+        exentas.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        exentas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exentasActionPerformed(evt);
+            }
+        });
+        exentas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                exentasKeyPressed(evt);
+            }
+        });
+
+        gravadas10.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
+        gravadas10.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        gravadas10.setText(org.openide.util.NbBundle.getMessage(detalle_gastos.class, "detalle_gastos.gravadas10.text")); // NOI18N
+        gravadas10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gravadas10ActionPerformed(evt);
+            }
+        });
+        gravadas10.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                gravadas10KeyPressed(evt);
+            }
+        });
+
+        iva10.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
+        iva10.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        iva10.setText(org.openide.util.NbBundle.getMessage(detalle_gastos.class, "detalle_gastos.iva10.text")); // NOI18N
+        iva10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                iva10ActionPerformed(evt);
+            }
+        });
+        iva10.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                iva10KeyPressed(evt);
+            }
+        });
+
+        gravadas5.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
+        gravadas5.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        gravadas5.setText(org.openide.util.NbBundle.getMessage(detalle_gastos.class, "detalle_gastos.gravadas5.text")); // NOI18N
+        gravadas5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gravadas5ActionPerformed(evt);
+            }
+        });
+        gravadas5.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                gravadas5KeyPressed(evt);
+            }
+        });
+
+        iva5.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
+        iva5.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        iva5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                iva5ActionPerformed(evt);
+            }
+        });
+        iva5.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                iva5KeyPressed(evt);
+            }
+        });
+
+        jLabel10.setText(org.openide.util.NbBundle.getMessage(detalle_gastos.class, "detalle_gastos.jLabel10.text")); // NOI18N
+
+        jLabel11.setText(org.openide.util.NbBundle.getMessage(detalle_gastos.class, "detalle_gastos.jLabel11.text")); // NOI18N
+
+        jLabel12.setText(org.openide.util.NbBundle.getMessage(detalle_gastos.class, "detalle_gastos.jLabel12.text")); // NOI18N
+
+        jLabel13.setText(org.openide.util.NbBundle.getMessage(detalle_gastos.class, "detalle_gastos.jLabel13.text")); // NOI18N
+
+        jLabel14.setText(org.openide.util.NbBundle.getMessage(detalle_gastos.class, "detalle_gastos.jLabel14.text")); // NOI18N
+
+        Totalneto.setEditable(false);
+        Totalneto.setBackground(new java.awt.Color(255, 51, 51));
+        Totalneto.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
+        Totalneto.setText(org.openide.util.NbBundle.getMessage(detalle_gastos.class, "detalle_gastos.Totalneto.text")); // NOI18N
+        Totalneto.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        Totalneto.setEnabled(false);
+        Totalneto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TotalnetoActionPerformed(evt);
+            }
+        });
+
+        jLabel18.setText(org.openide.util.NbBundle.getMessage(detalle_gastos.class, "detalle_gastos.jLabel18.text")); // NOI18N
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel10)
+                    .addComponent(jLabel11)
+                    .addComponent(jLabel12)
+                    .addComponent(jLabel13)
+                    .addComponent(jLabel14)
+                    .addComponent(jLabel18))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(Totalneto)
+                    .addComponent(exentas, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(gravadas10, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(iva10, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(gravadas5, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(iva5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE))
+                .addGap(27, 27, 27))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(exentas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(gravadas10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(iva10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel12))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(gravadas5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(iva5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel14))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Totalneto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel18))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 214, 212, -1));
+
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED), org.openide.util.NbBundle.getMessage(detalle_gastos.class, "detalle_gastos.jPanel4.border.title"))); // NOI18N
+
+        observacion.setColumns(20);
+        observacion.setRows(5);
+        jScrollPane1.setViewportView(observacion);
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jPanel2.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 190, -1, 210));
+
+        proveedor.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        proveedor.setText(org.openide.util.NbBundle.getMessage(detalle_gastos.class, "detalle_gastos.proveedor.text")); // NOI18N
+        proveedor.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                proveedorFocusGained(evt);
+            }
+        });
+        proveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                proveedorActionPerformed(evt);
+            }
+        });
+        proveedor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                proveedorKeyPressed(evt);
+            }
+        });
+        jPanel2.add(proveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 150, 69, -1));
+
+        nombreproveedor.setEditable(false);
+        nombreproveedor.setText(org.openide.util.NbBundle.getMessage(detalle_gastos.class, "detalle_gastos.nombreproveedor.text")); // NOI18N
+        nombreproveedor.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        nombreproveedor.setEnabled(false);
+        jPanel2.add(nombreproveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 176, 250, -1));
+
+        timbrado.setText(org.openide.util.NbBundle.getMessage(detalle_gastos.class, "detalle_gastos.timbrado.text")); // NOI18N
+        timbrado.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                timbradoFocusGained(evt);
+            }
+        });
+        timbrado.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                timbradoKeyPressed(evt);
+            }
+        });
+        jPanel2.add(timbrado, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 150, 113, -1));
+
+        jLabel15.setText(org.openide.util.NbBundle.getMessage(detalle_gastos.class, "detalle_gastos.jLabel15.text")); // NOI18N
+        jPanel2.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 130, -1, -1));
+
+        jLabel16.setText(org.openide.util.NbBundle.getMessage(detalle_gastos.class, "detalle_gastos.jLabel16.text")); // NOI18N
+        jPanel2.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, -1, -1));
+
+        jLabel17.setText(org.openide.util.NbBundle.getMessage(detalle_gastos.class, "detalle_gastos.jLabel17.text")); // NOI18N
+        jPanel2.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 130, -1, -1));
+
+        vencimientotimbrado.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                vencimientotimbradoKeyPressed(evt);
+            }
+        });
+        jPanel2.add(vencimientotimbrado, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 150, 130, -1));
+
+        jButton1.setText(org.openide.util.NbBundle.getMessage(detalle_gastos.class, "detalle_gastos.jButton1.text")); // NOI18N
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 410, 117, -1));
+
+        jButton2.setText(org.openide.util.NbBundle.getMessage(detalle_gastos.class, "detalle_gastos.jButton2.text")); // NOI18N
+        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 410, 107, -1));
+
+        idControl.setEditable(false);
+        idControl.setText(org.openide.util.NbBundle.getMessage(detalle_gastos.class, "detalle_gastos.idControl.text")); // NOI18N
+        idControl.setEnabled(false);
+        jPanel2.add(idControl, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 80, 40, -1));
+
+        BuscarProveedor.setText(org.openide.util.NbBundle.getMessage(detalle_gastos.class, "detalle_gastos.BuscarProveedor.text")); // NOI18N
+        BuscarProveedor.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        BuscarProveedor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        BuscarProveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BuscarProveedorActionPerformed(evt);
+            }
+        });
+        jPanel2.add(BuscarProveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 150, 20, 20));
+
+        Sumatoria.setEditable(false);
+        Sumatoria.setText(org.openide.util.NbBundle.getMessage(detalle_gastos.class, "detalle_gastos.Sumatoria.text")); // NOI18N
+        Sumatoria.setEnabled(false);
+        jPanel2.add(Sumatoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 150, 130, -1));
+
+        factura.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        factura.setText(org.openide.util.NbBundle.getMessage(detalle_gastos.class, "detalle_gastos.factura.text")); // NOI18N
+        factura.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                facturaKeyPressed(evt);
+            }
+        });
+        jPanel2.add(factura, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 40, 120, -1));
+
+        rubro.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        rubro.setText(org.openide.util.NbBundle.getMessage(detalle_gastos.class, "detalle_gastos.rubro.text")); // NOI18N
+        rubro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rubroActionPerformed(evt);
+            }
+        });
+        jPanel2.add(rubro, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 90, 50, -1));
+
+        BuscarRubro.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        BuscarRubro.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BuscarRubroMouseClicked(evt);
+            }
+        });
+        BuscarRubro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BuscarRubroActionPerformed(evt);
+            }
+        });
+        BuscarRubro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                BuscarRubroKeyPressed(evt);
+            }
+        });
+        jPanel2.add(BuscarRubro, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 90, 22, 22));
+
+        nombrerubro.setText(org.openide.util.NbBundle.getMessage(detalle_gastos.class, "detalle_gastos.nombrerubro.text")); // NOI18N
+        nombrerubro.setEnabled(false);
+        jPanel2.add(nombrerubro, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 120, 140, -1));
+
+        panel1.setColorPrimario(new java.awt.Color(102, 153, 255));
+        panel1.setColorSecundario(new java.awt.Color(0, 204, 255));
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText(org.openide.util.NbBundle.getMessage(detalle_gastos.class, "detalle_gastos.jLabel6.text")); // NOI18N
+
+        javax.swing.GroupLayout panel1Layout = new javax.swing.GroupLayout(panel1);
+        panel1.setLayout(panel1Layout);
+        panel1Layout.setHorizontalGroup(
+            panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel1Layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        panel1Layout.setVerticalGroup(
+            panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 734, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 443, Short.MAX_VALUE))
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    public void filtrorubro(int nNumeroColumna) {
+        trsfiltrorubro.setRowFilter(RowFilter.regexFilter(this.jTBuscarRubro.getText(), nNumeroColumna));
+    }
+
+    private void TitRubro() {
+        modelorubro.addColumn("Código");
+        modelorubro.addColumn("Nombre");
+
+        int[] anchos = {60, 120};
+        for (int i = 0; i < modelorubro.getColumnCount(); i++) {
+            tablarubro.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
+        }
+        ((DefaultTableCellRenderer) tablarubro.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);// Este código es para centrar las cabeceras de la tabla.
+        tablarubro.getTableHeader().setFont(new Font("Arial Black", 1, 10));
+
+        // Hacemos Invisible la Celda de Costos de los Productos
+        Font font = new Font("Arial", Font.BOLD, 9);
+        this.tablarubro.setFont(font);
+
+        DefaultTableCellRenderer TablaRenderer = new DefaultTableCellRenderer();
+        TablaRenderer.setHorizontalAlignment(SwingConstants.RIGHT); // aqui defines donde alinear 
+        this.tablarubro.getColumnModel().getColumn(0).setCellRenderer(TablaRenderer);
+    }
+
+    public void consultarTabla() throws ParseException {
+
+        con = new Conexion();
+        stm = con.conectar();
+
+        // Se construye el JFormattedTextField pasándole la máscara
+        // Se da un valor inicial válido para evitar problemas
+        //Inicializo Variables
+        int nSucursal = 0;
+        int nComprobante = 0;
+        int nMoneda = 0;
+        int nRubro = 0;
+        String numero;
+        int num;
+        String cSucursal;
+        String cComprobante;
+        String cMoneda;
+        String cRubro;
+
+        ResultSet results = null;
+        try {
+            String query = null;
+            query = "SELECT formatofactura,proveedor,comprobante,primer_vence,moneda,concepto,creferencia,sucursal,nrofactura,gastos_compras.observacion,gastos_compras.fecha,\n"
+                    + "comprobantes.nombre AS nombrecomprobante,proveedores.nombre AS nombreproveedor,\n"
+                    + "exentas,rubro_compras.nombre as nombrerubro,"
+                    + " gravadas10,gravadas5,iva10,iva5,totalneto,monedas.nombre AS nombremoneda,cotizacion,gastos_compras.timbrado,vencetimbrado "
+                    + " FROM gastos_compras "
+                    + " INNER JOIN rubro_compras "
+                    + " ON rubro_compras.codigo=gastos_compras.concepto "
+                    + " INNER JOIN comprobantes  "
+                    + " ON comprobantes.codigo=gastos_compras.comprobante  "
+                    + " INNER JOIN monedas  "
+                    + " ON monedas.codigo=gastos_compras.moneda  "
+                    + " INNER JOIN proveedores  "
+                    + " ON proveedores.codigo=gastos_compras.proveedor  "
+                    + " WHERE gastos_compras.creferencia ='" + this.idControl.getText() + "'";
+
+            results = stm.executeQuery(query);
+            if (results.next()) {
+
+                nSucursal = results.getInt("sucursal");
+                nComprobante = results.getInt("comprobante");
+                nMoneda = results.getInt("moneda");
+                nRubro = results.getInt("concepto");
+
+                this.factura.setText(results.getString("formatofactura"));
+                this.fechaemision.setDate(results.getDate("fecha"));
+                this.vencimiento.setDate(results.getDate("primer_vence"));
+                this.vencimientotimbrado.setDate(results.getDate("vencetimbrado"));
+                this.proveedor.setText(results.getString("proveedor"));
+                this.nombreproveedor.setText(results.getString("nombreproveedor"));
+                this.rubro.setText(String.valueOf(results.getInt("concepto")));
+                this.nombrerubro.setText(results.getString("nombrerubro"));
+                this.timbrado.setText(results.getString("timbrado"));
+                this.cotizacion.setText(formato.format(results.getDouble("cotizacion")));
+                this.observacion.setText(results.getString("observacion"));
+                this.exentas.setText(formato.format(results.getDouble("exentas")));
+                this.gravadas10.setText(formato.format(results.getDouble("gravadas10")));
+                this.gravadas5.setText(formato.format(results.getDouble("gravadas5")));
+                this.iva10.setText(formato.format(results.getDouble("iva10")));
+                this.iva5.setText(formato.format(results.getDouble("iva5")));
+                this.Totalneto.setText(formato.format(results.getDouble("totalneto")));
+                //Con esta función mostramos los valores numericos con los puntos correspondientes
+                stm.close();
+
+                cSucursal = selectCombo(sucursal, "select codigo,nombre from sucursales where codigo='" + nSucursal + "'");
+                cComprobante = selectCombo(comprobante, "select codigo,nombre from comprobantes where tipo=1 and codigo='" + nComprobante + "'");
+                cMoneda = selectCombo(moneda, "select * from monedas where codigo='" + nMoneda + "'");
+            }
+            //
+        } catch (SQLException ex2) {
+            JOptionPane.showMessageDialog(new JFrame(),
+                    "El Sistema No Puede Ingresar a los Datos",
+                    "Mensaje del Sistema", JOptionPane.ERROR_MESSAGE);
+            System.out.println(ex2);
+        }
+    }
+
+    public void limpiarCombos() {
+        this.sucursal.removeAllItems();
+        BD.cargarCombo("select codigo,nombre from sucursales", this.sucursal);
+        this.sucursal.setSelectedIndex(0);
+
+        this.comprobante.removeAllItems();;
+        BD.cargarCombo("select codigo,nombre from comprobantes where tipo=1 order by codigo", this.comprobante);
+        this.comprobante.setSelectedIndex(0);
+
+        this.moneda.removeAllItems();
+        BD.cargarCombo("select codigo,nombre from monedas order by codigo", this.moneda);
+        this.moneda.setSelectedIndex(0);
+    }
+
+    public String selectCombo(JComboBox combo, String sql) {
+        ResultSet codi = null;
+        ComboBoxModel modelo = combo.getModel();
+        int longitud = combo.getItemCount();
+        int cod = 0;
+        int c = 0;
+        String codigo = "";
+        Object ob = null;
+        codi = BD.Select(sql);
+        try {
+            codi.first();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        while (c < longitud) {
+            combo.setSelectedIndex(c);
+            ob = combo.getSelectedItem();
+            cod = Integer.valueOf(((String[]) ob)[0]).intValue();
+            try {
+                if (cod == codi.getInt(1)) {
+                    codigo = Integer.valueOf(cod).toString();
+                    c = longitud;
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex);
+            }
+            c++;
+        }
+        return codigo;
+    }
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        int nCaracter = factura.getText().indexOf("-");
+        String cNumeroFactura = factura.getText();
+        if (nCaracter >= 0) {
+            cNumeroFactura = cNumeroFactura.replace("-", "");
+            boolean isNumeric = cNumeroFactura.matches("[+-]?\\d*(\\.\\d+)?");
+            if (isNumeric == false) {
+                JOptionPane.showMessageDialog(null, "Formato de Número de Factura no Corresponde");
+                this.factura.getText();
+                return;
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Formato de Número de Factura no Corresponde");
+            this.factura.getText();
+            return;
+        }
+
+        ControlGrabado.REGISTRO_GRABADO = "SI";
+        BDConexion BD = new BDConexion();
+        String Operacion = this.idControl.getText();
+        //Dando formato a los datos tipo Fecha
+        Date dEmision = ODate.de_java_a_sql(this.fechaemision.getDate());
+        Date dVence = ODate.de_java_a_sql(this.vencimiento.getDate());
+        Date dVenceTimbrado = ODate.de_java_a_sql(this.vencimientotimbrado.getDate());
+        //Obteniendo Datos de los Combodatos
+        Object objSucursal = this.sucursal.getSelectedItem();
+        Object objComprobante = this.comprobante.getSelectedItem();
+        Object objMoneda = this.moneda.getSelectedItem();
+
+        String Sucursal = ((String[]) objSucursal)[0];
+        String Comprobante = ((String[]) objComprobante)[0];
+        String Moneda = ((String[]) objMoneda)[0];
+
+        String cExentas = this.exentas.getText();
+        if (cExentas.trim().length() > 0) {
+            cExentas = cExentas.replace(".", "");
+            cExentas = cExentas.replace(",", ".");
+        } else {
+            cExentas = "0";
+        }
+
+        String cGravadas10 = this.gravadas10.getText();
+        if (cGravadas10.trim().length() > 0) {
+            cGravadas10 = cGravadas10.replace(".", "");
+            cGravadas10 = cGravadas10.replace(",", ".");
+        } else {
+            cGravadas10 = "0";
+        }
+
+        String cIva10 = this.iva10.getText();
+        if (cIva10.trim().length() > 0) {
+            cIva10 = cIva10.replace(".", "");
+            cIva10 = cIva10.replace(",", ".");
+        } else {
+            cIva10 = "0";
+        }
+
+        String cGravadas5 = this.gravadas5.getText();
+        if (cGravadas5.trim().length() > 0) {
+            cGravadas5 = cGravadas5.replace(".", "");
+            cGravadas5 = cGravadas5.replace(",", ".");
+        } else {
+            cGravadas5 = "0";
+        }
+
+        String cIva5 = this.iva5.getText();
+        if (cIva5.trim().length() > 0) {
+            cIva5 = cIva5.replace(".", "");
+            cIva5 = cIva5.replace(",", ".");
+        } else {
+            cIva5 = "0";
+        }
+
+        String cTotal = this.Totalneto.getText();
+        cTotal = cTotal.replace(".", "");
+        cTotal = cTotal.replace(",", ".");
+
+        String cCotizacion = this.cotizacion.getText();
+        cCotizacion = cCotizacion.replace(".", "");
+        cCotizacion = cCotizacion.replace(",", ".");
+
+        String cFactura = this.factura.getText();
+        cFactura = cFactura.replace("-", "");
+
+        if (Operacion.isEmpty()) {
+            UUID id = new UUID();
+            String idunico = UUID.crearUUID();
+            idunico = idunico.substring(1, 25);
+            idControl.setText(idunico);
+            BD.insertarRegistro("gastos_compras", "creferencia,nrofactura,formatofactura,sucursal,fecha,proveedor,exentas,gravadas10,gravadas5,iva10,iva5,totalneto,timbrado,vencetimbrado,moneda,cotizacion,primer_vence,comprobante,concepto,observacion", "'" + idunico + "','" + cFactura + "','" + factura.getText() + "','" + Sucursal + "','" + dEmision + "','" + proveedor.getText() + "','" + cExentas + "','" + cGravadas10 + "','" + cGravadas5 + "','" + cIva10 + "','" + cIva5 + "','" + cTotal + "','" + timbrado.getText() + "','" + dVenceTimbrado + "','" + Moneda + "','" + cCotizacion + "','" + dVence + "','" + Comprobante + "','" + rubro.getText() + "','" + observacion.getText() + "'");
+            BD.InsertarRegistroDetalle("cuenta_proveedores", "idreferencia,nrofactura,fecha,vencimiento,comprobante,proveedor,moneda,sucursal,importe,idmovimiento", "'" + idunico + "','" + cFactura + "','" + dEmision + "','" + dVence + "','" + Comprobante + "','" + proveedor.getText() + "','" + Moneda + "','" + Sucursal + "','" + cTotal + "','" + idunico + "'");
+        } else {
+            BD.actualizarRegistro("gastos_compras", " nrofactura='" + cFactura + "',formatofactura='" + factura.getText() + "',sucursal='" + Sucursal + "',fecha='" + dEmision + "',proveedor='" + proveedor.getText() + "',exentas='" + cExentas + "',gravadas10='" + cGravadas10 + "',gravadas5='" + cGravadas5 + "',iva10='" + cIva10 + "',iva5 ='" + cIva5 + "',totalneto ='" + cTotal + "',timbrado ='" + timbrado.getText() + "',vencetimbrado='" + dVenceTimbrado + "',moneda='" + Moneda + "',cotizacion='" + cCotizacion + "',primer_vence='" + dVence + "',comprobante='" + Comprobante + "',concepto='" + rubro.getText() + "',observacion='" + observacion.getText() + "'", "creferencia= '" + this.idControl.getText() + "'");
+            BD.actualizarRegistro2("cuenta_proveedores", " nrofactura='" + cFactura + "',sucursal='" + Sucursal + "',fecha='" + dEmision + "',proveedor='" + proveedor.getText() + "',importe ='" + cTotal + "',moneda='" + Moneda + "',vencimiento='" + dVence + "',comprobante='" + Comprobante + "'", "idreferencia= '" + this.idControl.getText() + "'");
+        }
+
+        config_contableDAO contableDAO = new config_contableDAO();
+        config_contable contable = null;
+        contable = contableDAO.consultar();
+        GenerarAsientoComprasDAO genDAO = new GenerarAsientoComprasDAO();
+        if (contable.getCompras() == 1) {
+            try {
+                genDAO.generarGastosCreditoItem(idControl.getText());
+            } catch (SQLException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+        }
+        this.dispose();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+//        ControlGrabado.REGISTRO_GRABADO = "";
+        this.dispose();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void iva5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iva5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_iva5ActionPerformed
+
+    private void gravadas10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gravadas10ActionPerformed
+        if (this.gravadas10.getText().trim().length() > 0) {
+            this.iva10.setText("");
+            this.Calcular();
+            String cGravadas10 = this.gravadas10.getText();
+
+            cGravadas10 = cGravadas10.replace(".", "");
+            cGravadas10 = cGravadas10.replace(",", ".");
+
+            double nGravadas10 = Double.parseDouble(cGravadas10);
+
+            cCotizacion = this.cotizacion.getText();
+            cCotizacion = cCotizacion.replace(".", "");
+            cCotizacion = cCotizacion.replace(",", ".");
+            nCotizacion = Double.parseDouble(cCotizacion);
+
+            if (nCotizacion == 1) {
+                nIva10 = Math.round(nGravadas10 / 11);
+            } else {
+                nIva10 = nGravadas10 / 11;
+            }
+            this.iva10.setText(formato.format(nIva10));
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_gravadas10ActionPerformed
+
+    private void BuscarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarProveedorActionPerformed
+        Parametros.CODIGO_ELEGIDO = 0;
+        Parametros.NOMBRE_ELEGIDO = "";
+        Parametros.NUMERO_TIMBRADO = "";
+        Parametros.VENCIMIENTO_TIMBRADO = null;
+        Vista.ConsultaProveedores cu = new Vista.ConsultaProveedores();
+        cu.setVisible(true);
+        this.timbrado.requestFocus();        // TODO add your handling code here:
+    }//GEN-LAST:event_BuscarProveedorActionPerformed
+
+    private void proveedorFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_proveedorFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_proveedorFocusGained
+
+    private void proveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_proveedorActionPerformed
+        con = new Conexion();
+        stm = con.conectar();
+        ResultSet results = null;
+        try {
+            results = stm.executeQuery("select codigo,nombre,vencimiento,timbrado  from proveedores where codigo=" + this.proveedor.getText());
+            if (results.next()) {
+                this.nombreproveedor.setText(results.getString("nombre"));
+                this.vencimientotimbrado.setDate(results.getDate("vencimiento"));
+                this.timbrado.setText(results.getString("timbrado"));
+            } else {
+                this.BuscarProveedor.doClick();
+            }
+            stm.close();
+        } catch (SQLException ex) {
+            Exceptions.printStackTrace(ex);
+            System.out.println(ex);
+        }
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_proveedorActionPerformed
+
+    private void timbradoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_timbradoFocusGained
+        if (Parametros.CODIGO_ELEGIDO != 0) {
+            //Date dato = formatoFecha.parse(textoFecha);
+            this.proveedor.setText(Integer.toString(Parametros.CODIGO_ELEGIDO));
+            this.nombreproveedor.setText(Parametros.NOMBRE_ELEGIDO);
+            this.timbrado.setText(Parametros.NUMERO_TIMBRADO);
+            try {
+                this.vencimientotimbrado.setDate(formatoFecha.parse(Parametros.VENCIMIENTO_TIMBRADO));
+            } catch (ParseException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+            Parametros.CODIGO_ELEGIDO = 0;
+            Parametros.NOMBRE_ELEGIDO = "";
+            Parametros.NUMERO_TIMBRADO = "";
+            Parametros.VENCIMIENTO_TIMBRADO = "";
+        }
+    }//GEN-LAST:event_timbradoFocusGained
+
+    private void Calcular() {
+        //Hacemos el Formateo de Numeros para los Valores Exentos
+        if (this.exentas.getText().trim().length() > 0) {
+            String cExentas = this.exentas.getText();
+            cExentas = cExentas.replace(".", "");
+            cExentas = cExentas.replace(",", ".");
+            nExentas = Double.parseDouble(cExentas);
+        }
+
+        if (this.gravadas10.getText().trim().length() > 0) {
+            String cGravadas10 = this.gravadas10.getText();
+            cGravadas10 = cGravadas10.replace(".", "");
+            cGravadas10 = cGravadas10.replace(",", ".");
+            nGravadas10 = Double.parseDouble(cGravadas10);
+        }
+
+        if (this.gravadas5.getText().trim().length() > 0) {
+            String cGravadas5 = this.gravadas5.getText();
+            cGravadas5 = cGravadas5.replace(".", "");
+            cGravadas5 = cGravadas5.replace(",", ".");
+            nGravadas5 = Double.parseDouble(cGravadas5);
+        }
+
+        nTotal = nExentas + nGravadas10 + nGravadas5;
+        String Numero = String.valueOf(nTotal);
+        Numero = Numero.replace(",", ".");
+        // BigDecimal bd1 = new BigDecimal(Numero);
+
+        double Total = Double.parseDouble(Numero);
+        this.Totalneto.setText(formato.format(Total));
+    }
+
+    private void exentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exentasActionPerformed
+        if (this.exentas.getText().trim().length() > 0) {
+            this.Calcular();
+            String cExentas = this.exentas.getText();
+            cExentas = cExentas.replace(",", ".");
+            double nExentas = Double.parseDouble(cExentas);
+        }
+    }//GEN-LAST:event_exentasActionPerformed
+
+    private void TotalnetoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TotalnetoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TotalnetoActionPerformed
+
+    private void gravadas5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gravadas5ActionPerformed
+        if (this.gravadas5.getText().trim().length() > 0) {
+            this.iva5.setText("");
+            this.Calcular();
+            String cGravadas5 = this.gravadas5.getText();
+
+            cGravadas5 = cGravadas5.replace(".", "");
+            cGravadas5 = cGravadas5.replace(",", ".");
+
+            double nGravadas5 = Double.parseDouble(cGravadas5);
+
+            cCotizacion = this.cotizacion.getText();
+            cCotizacion = cCotizacion.replace(".", "");
+            cCotizacion = cCotizacion.replace(",", ".");
+
+            nCotizacion = Double.parseDouble(cCotizacion);
+
+            if (nCotizacion == 1) {
+                nIva5 = Math.round(nGravadas5 / 21.D);
+            } else {
+                nIva5 = nGravadas5 / 21.D;
+            }
+            this.iva5.setText(formato.format(nIva5));
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_gravadas5ActionPerformed
+
+    private void sucursalKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_sucursalKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            this.factura.requestFocus();
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_sucursalKeyPressed
+
+    private void fechaemisionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fechaemisionKeyPressed
+        if (evt.getKeyCode() == 10 || evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            this.vencimiento.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            this.factura.requestFocus();
+        }        // TODO add your handling code here:        // TODO add your handling code here:
+    }//GEN-LAST:event_fechaemisionKeyPressed
+
+    private void vencimientoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_vencimientoKeyPressed
+        if (evt.getKeyCode() == 10 || evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            this.comprobante.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            this.fechaemision.requestFocus();
+        }        // TODO add your handling code here:        // TODO add your handling code here:
+    }//GEN-LAST:event_vencimientoKeyPressed
+
+    private void cotizacionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cotizacionKeyPressed
+        if (evt.getKeyCode() == 10 || evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            this.proveedor.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            this.moneda.requestFocus();
+        }        // TODO add your handling code here:        // TODO add your handling code here:
+    }//GEN-LAST:event_cotizacionKeyPressed
+
+    private void proveedorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_proveedorKeyPressed
+        if (evt.getKeyCode() == 10 || evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            this.timbrado.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            this.cotizacion.requestFocus();
+        }        // TODO add your handling code here:        // TODO add your handling code here:
+    }//GEN-LAST:event_proveedorKeyPressed
+
+    private void timbradoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_timbradoKeyPressed
+        if (evt.getKeyCode() == 10 || evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            this.vencimientotimbrado.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            this.proveedor.requestFocus();
+        }        // TODO add your handling code here:        // TODO add your handling code here:
+    }//GEN-LAST:event_timbradoKeyPressed
+
+    private void vencimientotimbradoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_vencimientotimbradoKeyPressed
+        if (evt.getKeyCode() == 10 || evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            this.exentas.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            this.timbrado.requestFocus();
+        }        // TODO add your handling code here:        // TODO add your handling code here:
+    }//GEN-LAST:event_vencimientotimbradoKeyPressed
+
+    private void exentasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_exentasKeyPressed
+        if (evt.getKeyCode() == 10 || evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            this.gravadas10.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            this.vencimientotimbrado.requestFocus();
+        }        // TODO add your handling code here:        // TODO add your handling code here:
+    }//GEN-LAST:event_exentasKeyPressed
+
+    private void gravadas10KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_gravadas10KeyPressed
+        if (evt.getKeyCode() == 10 || evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            this.iva10.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            this.exentas.requestFocus();
+        }        // TODO add your handling code here:        // TODO add your handling code here:
+    }//GEN-LAST:event_gravadas10KeyPressed
+
+    private void iva10KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_iva10KeyPressed
+        if (evt.getKeyCode() == 10 || evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            this.gravadas5.requestFocus(); //Avanza
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            this.gravadas10.requestFocus(); //Retrocede
+        }        // TODO add your handling code here:        // TODO add your handling code here:
+    }//GEN-LAST:event_iva10KeyPressed
+
+    private void gravadas5KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_gravadas5KeyPressed
+        if (evt.getKeyCode() == 10 || evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            this.iva5.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            this.iva10.requestFocus();
+        }        // TODO add your handling code here:        // TODO add your handling code here:
+    }//GEN-LAST:event_gravadas5KeyPressed
+
+    private void iva5KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_iva5KeyPressed
+        if (evt.getKeyCode() == 10 || evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            this.observacion.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            this.gravadas5.requestFocus();
+        }        // TODO add your handling code here:        // TODO add your handling code here:
+    }//GEN-LAST:event_iva5KeyPressed
+
+    private void iva10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iva10ActionPerformed
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_iva10ActionPerformed
+
+    private void facturaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_facturaKeyPressed
+        if (evt.getKeyCode() == 10 || evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            this.fechaemision.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            this.sucursal.requestFocus();
+        }        // TODO add your handling code here:        // TODO add your handling code here:
+        // TODO add your handling code here:
+    }//GEN-LAST:event_facturaKeyPressed
+
+    private void comborubroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comborubroActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comborubroActionPerformed
+
+    private void jTBuscarRubroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTBuscarRubroActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTBuscarRubroActionPerformed
+
+    private void jTBuscarRubroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTBuscarRubroKeyPressed
+        this.jTBuscarRubro.addKeyListener(new KeyAdapter() {
+            public void keyReleased(final KeyEvent e) {
+                String cadena = (jTBuscarRubro.getText()).toUpperCase();
+                jTBuscarRubro.setText(cadena);
+                int indiceColumnaTabla = 0;
+                switch (comborubro.getSelectedIndex()) {
+                    case 0:
+                        indiceColumnaTabla = 1;
+                        break;//por nombre
+                    case 1:
+                        indiceColumnaTabla = 0;
+                        break;//por codigo
+                }
+                repaint();
+                filtrorubro(indiceColumnaTabla);
+            }
+        });
+        trsfiltrorubro = new TableRowSorter(tablarubro.getModel());
+        tablarubro.setRowSorter(trsfiltrorubro);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTBuscarRubroKeyPressed
+
+    private void tablarubroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablarubroMouseClicked
+        this.AceptarRubro.doClick();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tablarubroMouseClicked
+
+    private void tablarubroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tablarubroKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            this.AceptarRubro.doClick();
+        }
+
+    }//GEN-LAST:event_tablarubroKeyPressed
+
+    private void AceptarRubroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AceptarRubroActionPerformed
+        int nFila = this.tablarubro.getSelectedRow();
+        this.rubro.setText(this.tablarubro.getValueAt(nFila, 0).toString());
+        this.nombrerubro.setText(this.tablarubro.getValueAt(nFila, 1).toString());
+
+        this.BRubro.setVisible(false);
+        this.jTBuscarRubro.setText("");
+        moneda.requestFocus();
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_AceptarRubroActionPerformed
+
+    private void SalirRubroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalirRubroActionPerformed
+        this.BRubro.setVisible(false);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SalirRubroActionPerformed
+
+    private void BuscarRubroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BuscarRubroMouseClicked
+        jTBuscarRubro.requestFocus();
+    }//GEN-LAST:event_BuscarRubroMouseClicked
+
+    private void BuscarRubroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarRubroActionPerformed
+        rubro_compraDAO ruDAO = new rubro_compraDAO();
+        rubro_compra ru = null;
+        try {
+            ru = ruDAO.buscarRubroBanco(Integer.valueOf(this.rubro.getText()));
+            if (ru.getCodigo() == 0) {
+                BRubro.setModal(true);
+                BRubro.setSize(482, 575);
+                BRubro.setLocationRelativeTo(null);
+                BRubro.setVisible(true);
+                BRubro.setTitle("Buscar Rubro");
+                BRubro.setModal(false);
+            } else {
+                nombrerubro.setText(ru.getNombre());
+                //Establecemos un título para el jDialog
+            }
+            moneda.requestFocus();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "ERROR:" + e.getMessage());
+        }
+    }//GEN-LAST:event_BuscarRubroActionPerformed
+
+    private void BuscarRubroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BuscarRubroKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BuscarRubroKeyPressed
+
+    private void rubroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rubroActionPerformed
+        BuscarRubro.doClick();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rubroActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(detalle_gastos.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(detalle_gastos.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(detalle_gastos.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(detalle_gastos.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                //       new detalle_gastos().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AceptarRubro;
+    private javax.swing.JDialog BRubro;
+    private javax.swing.JButton BuscarProveedor;
+    private javax.swing.JButton BuscarRubro;
+    private javax.swing.JButton SalirRubro;
+    private javax.swing.JTextField Sumatoria;
+    private javax.swing.JFormattedTextField Totalneto;
+    private javax.swing.JComboBox comborubro;
+    private javax.swing.JComboBox comprobante;
+    private javax.swing.JFormattedTextField cotizacion;
+    private javax.swing.JFormattedTextField exentas;
+    private javax.swing.JTextField factura;
+    private com.toedter.calendar.JDateChooser fechaemision;
+    private javax.swing.JFormattedTextField gravadas10;
+    private javax.swing.JFormattedTextField gravadas5;
+    private javax.swing.JTextField idControl;
+    private javax.swing.JFormattedTextField iva10;
+    private javax.swing.JFormattedTextField iva5;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel19;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel20;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JTextField jTBuscarRubro;
+    private javax.swing.JComboBox moneda;
+    private javax.swing.JTextField nombreproveedor;
+    private javax.swing.JTextField nombrerubro;
+    private javax.swing.JTextArea observacion;
+    private org.edisoncor.gui.panel.Panel panel1;
+    private javax.swing.JTextField proveedor;
+    private javax.swing.JTextField rubro;
+    private javax.swing.JComboBox sucursal;
+    private javax.swing.JTable tablarubro;
+    private javax.swing.JTextField timbrado;
+    private com.toedter.calendar.JDateChooser vencimiento;
+    private com.toedter.calendar.JDateChooser vencimientotimbrado;
+    // End of variables declaration//GEN-END:variables
+
+    private class GrillaRubroCompra extends Thread {
+
+        public void run() {
+
+            //Antes de Cargar el Jtable Ajustamos el ancho de las columnas con el Ancho que se nos antoje
+            int cantidadRegistro = modelorubro.getRowCount();
+            for (int i = 1; i <= cantidadRegistro; i++) {
+                modelorubro.removeRow(0);
+            }
+            rubro_compraDAO ruDAO = new rubro_compraDAO();
+            try {
+                for (Modelo.rubro_compra ru : ruDAO.todos()) {
+                    String Datos[] = {String.valueOf(ru.getCodigo()), ru.getNombre()};
+                    modelorubro.addRow(Datos);
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "ERROR: " + e.getMessage());
+            }
+
+            tablarubro.setRowSorter(new TableRowSorter(modelorubro));
+            int cantFilas = tablarubro.getRowCount();
+        }
+    }
+
+}

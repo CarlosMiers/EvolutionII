@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="prestamos_informe_intereses" printOrder="Horizontal" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="15626d40-29b7-4762-96d3-f22a87d7f738">
+	<property name="ireport.zoom" value="1.3310000000000006"/>
+	<property name="ireport.x" value="73"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.callouts" value="##Thu Nov 17 10:45:59 PYST 2016"/>
+	<parameter name="cNombreEmpresa" class="java.lang.String"/>
+	<parameter name="FechaInicio" class="java.util.Date"/>
+	<parameter name="FechaFinal" class="java.util.Date"/>
+	<parameter name="nMoneda" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT cta.idprestamos,cta.numero,
+cta.fecha,cta.socio,cta.fecha,cta.tipo,clientes.nombre,
+monedas.nombre AS nombremoneda,cta.moneda,
+clientes.cedula,comprobantes.nombre AS nombrecomprobante,
+comprobantes.nomalias,
+cta.totalprestamo AS totalcredito,
+cta.importe AS capital,
+COALESCE(p.interesdevengado,0) AS interesdevengado,
+COALESCE(pre.interesadevengar,0) AS interesadevengar
+FROM prestamos cta
+INNER JOIN clientes
+ON clientes.codigo=cta.socio
+ INNER JOIN comprobantes
+ON comprobantes.codigo=cta.tipo
+INNER JOIN monedas
+ON monedas.codigo=cta.moneda
+LEFT JOIN
+(SELECT detalle_prestamo.nprestamo,COALESCE(SUM(detalle_prestamo.minteres),0)
+ AS interesdevengado
+FROM detalle_prestamo
+ LEFT JOIN prestamos
+ON prestamos.numero=detalle_prestamo.nprestamo
+ WHERE detalle_prestamo.vence<=$P{FechaFinal}
+ GROUP BY detalle_prestamo.nprestamo)
+ p ON p.nprestamo=cta.numero
+ LEFT JOIN
+(SELECT detalle_prestamo.nprestamo,COALESCE(SUM(detalle_prestamo.minteres),0)
+ AS interesadevengar
+FROM detalle_prestamo
+ LEFT JOIN prestamos
+ON prestamos.numero=detalle_prestamo.nprestamo
+ WHERE detalle_prestamo.vence>$P{FechaFinal}
+ GROUP BY detalle_prestamo.nprestamo)
+ pre ON pre.nprestamo=cta.numero
+ WHERE cta.fecha BETWEEN $P{FechaInicio}
+ AND $P{FechaFinal}
+ AND cta.moneda= $P{nMoneda}
+AND cta.estado="DESEMBOLSADO"
+ GROUP BY cta.numero
+ ORDER BY cta.moneda,cta.tipo,cta.fecha]]>
+	</queryString>
+	<field name="idprestamos" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="numero" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="socio" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tipo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombremoneda" class="java.lang.String"/>
+	<field name="moneda" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cedula" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombrecomprobante" class="java.lang.String"/>
+	<field name="nomalias" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="totalcredito" class="java.math.BigDecimal"/>
+	<field name="capital" class="java.math.BigDecimal"/>
+	<field name="interesdevengado" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="interesadevengar" class="java.math.BigDecimal"/>
+	<variable name="importe_1" class="java.math.BigDecimal" resetType="Group" resetGroup="moneda" calculation="Sum">
+		<variableExpression><![CDATA[$F{capital}]]></variableExpression>
+	</variable>
+	<variable name="interes_1" class="java.math.BigDecimal" resetType="Group" resetGroup="moneda" calculation="Sum">
+		<variableExpression><![CDATA[$F{interesdevengado}]]></variableExpression>
+	</variable>
+	<variable name="totalprestamo_1" class="java.math.BigDecimal" resetType="Group" resetGroup="moneda" calculation="Sum">
+		<variableExpression><![CDATA[$F{totalcredito}]]></variableExpression>
+	</variable>
+	<variable name="interesadevengar_1" class="java.math.BigDecimal" resetType="Group" resetGroup="moneda" calculation="Sum">
+		<variableExpression><![CDATA[$F{interesadevengar}]]></variableExpression>
+	</variable>
+	<group name="tipo" isReprintHeaderOnEachPage="true">
+		<groupExpression><![CDATA[$F{tipo}]]></groupExpression>
+		<groupHeader>
+			<band height="19">
+				<textField>
+					<reportElement x="15" y="2" width="273" height="15" uuid="094bd5c1-6bf9-450b-bb1a-d41d8f170141"/>
+					<textFieldExpression><![CDATA["Tipo Operación :  "+$F{nombrecomprobante}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="18"/>
+		</groupFooter>
+	</group>
+	<group name="moneda" isReprintHeaderOnEachPage="true">
+		<groupExpression><![CDATA[$F{moneda}]]></groupExpression>
+		<groupHeader>
+			<band height="56">
+				<staticText>
+					<reportElement x="10" y="38" width="27" height="13" uuid="7b45fa63-cbc1-4256-991c-5d519f4c07e0"/>
+					<textElement>
+						<font fontName="Arial" size="7"/>
+					</textElement>
+					<text><![CDATA[N° Op.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="41" y="38" width="37" height="13" uuid="74e344ce-f690-404d-b44c-b041f3918ba9"/>
+					<textElement>
+						<font fontName="Arial" size="7"/>
+					</textElement>
+					<text><![CDATA[Fecha]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="81" y="38" width="40" height="13" uuid="6a6182de-9931-4d20-b047-4914237c4e1f"/>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" size="7"/>
+					</textElement>
+					<text><![CDATA[Cuenta]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="144" y="38" width="100" height="13" uuid="b0689447-c738-4902-b53a-d2dc643249be"/>
+					<textElement>
+						<font fontName="Arial" size="7"/>
+					</textElement>
+					<text><![CDATA[Denominación Cliente]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="340" y="38" width="50" height="11" uuid="43848e11-89af-4333-ae43-83251793a293"/>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" size="7" isUnderline="false" isStrikeThrough="false"/>
+					</textElement>
+					<text><![CDATA[Capital]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="412" y="32" width="51" height="19" uuid="864f42bf-2563-4cc8-9dda-6508389d49c7"/>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" size="7"/>
+					</textElement>
+					<text><![CDATA[Interés Devengado]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="15" y="5" width="155" height="15" uuid="a546df27-298d-4b54-abd3-ccc2891c7ede"/>
+					<textFieldExpression><![CDATA["Moneda : "+$F{nombremoneda}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="493" y="33" width="54" height="19" uuid="5ff26907-0ffe-4e4a-a99e-3e1d6486774b"/>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" size="7"/>
+					</textElement>
+					<text><![CDATA[Interés a Devengar]]></text>
+				</staticText>
+				<line>
+					<reportElement x="1" y="28" width="553" height="1" uuid="bd4fced6-c41c-435c-8477-e733acb1bded"/>
+				</line>
+				<line>
+					<reportElement x="2" y="54" width="553" height="1" uuid="63ef4716-9b5f-4b37-949a-ef46fb211f2d"/>
+				</line>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="26">
+				<textField pattern="#,##0.00">
+					<reportElement x="321" y="6" width="68" height="10" uuid="631d7e5f-62cb-46b6-9cf2-2c6153402deb"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{importe_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="407" y="6" width="61" height="10" uuid="3e177629-0d5c-4fd5-b1b0-a0b4bb516a2d"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{interes_1}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="56" y="4" width="155" height="15" uuid="ac4ee0e3-d451-41bf-b529-e0b26f046a6f"/>
+					<textFieldExpression><![CDATA["Sub Total Moneda : "+$F{nombremoneda}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="2" y="0" width="553" height="1" uuid="94d5da51-4190-43a6-b197-cb117c25c66a"/>
+				</line>
+				<line>
+					<reportElement x="2" y="20" width="553" height="1" uuid="f9327ef0-b49c-475d-9ae3-5341a585ae21"/>
+				</line>
+				<textField pattern="#,##0.00">
+					<reportElement x="480" y="6" width="67" height="10" uuid="aaaef624-4453-472d-9bec-23b8635fadcd"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{interesadevengar_1}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="1" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="58" splitType="Stretch">
+			<staticText>
+				<reportElement x="22" y="22" width="279" height="16" uuid="6424ab76-6b26-4d79-be16-90e35d6e32fd"/>
+				<textElement textAlignment="Justified">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Informe de Intereses Devengados y A Devengar]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="191" y="42" width="41" height="12" uuid="34781d31-b552-4f24-98ae-6a3e10d8e718"/>
+				<textElement textAlignment="Left">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{FechaFinal}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="23" y="42" width="50" height="12" uuid="65abc5c2-8d96-4a6d-89a8-4955c0b5e7db"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DESDE EL:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="77" y="42" width="50" height="13" uuid="3c437ac8-29d4-4e5a-bdb3-600024f4fcfd"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{FechaInicio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="23" y="4" width="221" height="15" uuid="a45fd605-ed4e-4de4-979b-62657eab210f"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cNombreEmpresa}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="135" y="42" width="50" height="12" uuid="355f927a-1e45-4e37-b779-eda89a743643"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[HASTA  EL:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="332" y="2" width="174" height="20" uuid="c2e40999-203c-4757-a790-8c09fc18a984"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de "]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="507" y="2" width="40" height="20" uuid="b86a8325-228c-4937-bf18-d543b25a630f"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="d/M/yyyy">
+				<reportElement x="498" y="25" width="45" height="12" uuid="cb54d0a4-8574-4115-a254-dffeadeeb5d0"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="462" y="25" width="31" height="11" uuid="b3b43964-0394-474d-bd51-f0b343f70447"/>
+				<textElement>
+					<font fontName="Arial" size="8" isUnderline="false" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[Fecha :]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="13" splitType="Stretch">
+			<textField>
+				<reportElement x="4" y="2" width="32" height="10" uuid="ba985eba-b1c8-417c-bf81-a5776010ffa7"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numero}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="42" y="2" width="38" height="10" uuid="c4f616c4-5b5d-4936-b45c-3415123044cc"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="83" y="2" width="40" height="10" uuid="14daa29d-f985-459c-874b-24fee4a5ea4e"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{socio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="146" y="2" width="142" height="10" uuid="f1b50fbc-a93c-4128-8fc1-d021d98a5205"/>
+				<textElement>
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="482" y="2" width="67" height="10" uuid="44a3f76b-085e-458f-a869-ba1ddbbd5801"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{interesadevengar}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="392" y="2" width="78" height="10" uuid="7347af76-3a41-4b9c-97cc-70bbb6c59f93"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{interesdevengado}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="321" y="0" width="69" height="10" uuid="3a33195b-c1c8-4948-b813-47eba9a76332"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{capital}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="3" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="2" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

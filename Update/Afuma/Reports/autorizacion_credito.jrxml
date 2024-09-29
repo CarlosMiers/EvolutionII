@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="autorizacion_credito" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c3ad0422-6852-49df-b1da-173322e3e884">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="194"/>
+	<property name="ireport.y" value="551"/>
+	<import value="Sistemas.EvolutionII.EvolutionII.src.Reports.jasper.*"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="cNombreEmpresa" class="java.lang.String"/>
+	<parameter name="nNumero" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT precierre_operacion.fechacierre,comprador,clientes.nombre as nombrecliente, precierre_operacion.fechacierre,
+DAY(precierre_operacion.fecha) AS dia,
+YEAR(precierre_operacion.fecha) AS periodo,
+emisores.nombre as nombreemisor,titulos.nombre as nombretitulo,
+titulos.nomalias,
+titulos.rescnv,precierre_operacion.cuentapago,precierre_operacion.bancopago,
+date_format(titulos.fechacnv, "%d/%m/%Y") as fecha_formateada,
+bancos_plaza.nombre as nombrebanco,
+CASE MONTH(precierre_operacion.fechacierre)
+  WHEN 1 THEN 'Enero'
+  WHEN 2 THEN 'Febrero'
+  WHEN 3 THEN 'Marzo'
+  WHEN 4 THEN 'Abril'
+  WHEN 5 THEN 'Mayo'
+  WHEN 6 THEN 'Junio'
+  WHEN 7 THEN 'Julio'
+  WHEN 8 THEN 'Agosto'
+  WHEN 9 THEN 'Setiembre'
+  WHEN 10 THEN 'Octubre'
+  WHEN 11 THEN 'Noviembre'
+  WHEN 12 THEN 'Diciembre'
+END AS nombremes
+FROM precierre_operacion
+LEFT JOIN clientes
+ON clientes.codigo=precierre_operacion.comprador
+LEFT JOIN emisores
+ON emisores.codigo=precierre_operacion.emisor
+LEFT JOIN titulos
+ON titulos.codigo=precierre_operacion.titulo
+LEFT JOIN bancos_plaza
+ON bancos_plaza.codigo=precierre_operacion.bancopago
+WHERE precierre_operacion.numero=$P{nNumero}]]>
+	</queryString>
+	<field name="fechacierre" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="comprador" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombrecliente" class="java.lang.String"/>
+	<field name="dia" class="java.lang.Long"/>
+	<field name="periodo" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombreemisor" class="java.lang.String"/>
+	<field name="nombretitulo" class="java.lang.String"/>
+	<field name="nomalias" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="rescnv" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cuentapago" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="bancopago" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha_formateada" class="java.lang.String"/>
+	<field name="nombrebanco" class="java.lang.String"/>
+	<field name="nombremes" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="102" splitType="Stretch">
+			<staticText>
+				<reportElement x="69" y="53" width="412" height="18" uuid="bd717295-3961-4f89-b961-a8d8a2bec908"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[AUTORIZACIÓN PARA CREDITOS DE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="69" y="71" width="412" height="18" uuid="730440b4-ad2a-4a21-997a-49b72ba31bfa"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VENCIMIENTOS DE CUPONES Y PRINCIPALES]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="578" splitType="Stretch">
+			<line>
+				<reportElement x="33" y="517" width="133" height="1" uuid="917aa9fa-0170-486a-9fbf-55290bc90ffc"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="33" y="531" width="136" height="18" uuid="60f11986-80a7-4ff1-8089-c8a299edcc9f"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[Firma del Cliente]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="39" y="18" width="472" height="78" forecolor="#000000" backcolor="#FFFFFF" uuid="72e41729-9f0d-4293-acf4-4d0beb25a63e"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Por la presente autorizo/mos suficientemente a "+$P{cNombreEmpresa} +", a depositar o transferir  los  fondos  correspondientes a los vencimientos de intereses y capital generados a partir de la compra de instrumentos financieros, conforme mi/nuestra instrucción y registradas en  la  Bolsa  de  Valores  y  Productos  de  Asunción S.A. a través del Sistema Electrónico de Negociación (SEN)."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="39" y="108" width="472" height="17" forecolor="#000000" backcolor="#FFFFFF" uuid="a5cc8314-1d89-4b0b-b845-27c6574511d9"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Depositar o transferir a la siguiente :"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="200" y="530" width="302" height="18" uuid="0dc80637-21cb-457f-8189-fd19d442c60f"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cNombreEmpresa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="39" y="148" width="122" height="17" forecolor="#000000" backcolor="#FFFFFF" uuid="9b2a4371-a656-4b23-96a9-f7340405d64d"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Entidad Financiera:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="39" y="179" width="122" height="17" forecolor="#000000" backcolor="#FFFFFF" uuid="104c90d1-6ea2-4598-ae22-740ad0fb1c4e"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Cuenta N°"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="39" y="215" width="122" height="17" forecolor="#000000" backcolor="#FFFFFF" uuid="2f86e87a-55ec-484c-be44-c1a9b3ccd956"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Títular de la Cuenta "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="172" y="215" width="333" height="15" uuid="5583c523-065c-4bf1-bbbb-74e78c79b98c"/>
+				<textElement>
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombrecliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="172" y="181" width="95" height="15" uuid="28bcf297-eded-4eaa-9c54-a77a2991e37e"/>
+				<textElement>
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cuentapago}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="172" y="148" width="330" height="15" uuid="a9ac7238-6a93-44ce-b003-d282ced82aea"/>
+				<textElement>
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombrebanco}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="172" y="253" width="333" height="15" uuid="48c6e18f-8e01-42d2-a104-ed54b1717f0f"/>
+				<textElement>
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombreemisor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="39" y="253" width="122" height="17" forecolor="#000000" backcolor="#FFFFFF" uuid="0358340c-45cd-4faa-a43c-cdec40b21b65"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Emisor"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="172" y="291" width="333" height="15" uuid="5dbcac89-8feb-4b2f-8531-8ff67a4b4031"/>
+				<textElement>
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombretitulo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="39" y="291" width="122" height="17" forecolor="#000000" backcolor="#FFFFFF" uuid="24688f66-a570-41f1-82c3-dce055927356"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Título Valor"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="172" y="325" width="333" height="15" uuid="5f7b2cdd-61d9-42f3-9ffc-9ff518257bd0"/>
+				<textElement>
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nomalias}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="39" y="325" width="122" height="17" forecolor="#000000" backcolor="#FFFFFF" uuid="0d7e387e-6620-492f-9855-f3faa4819d5f"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["N° de Serie"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="33" y="360" width="472" height="34" forecolor="#000000" backcolor="#FFFFFF" uuid="1469c5c6-57e4-4cd4-bda2-3e5da0960c7f"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Además reconozco/mos como medio de cobro suficiente, la boleta de depósito o comprobante de transferencia a la cuenta mencionada más arriba."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="35" y="398" width="472" height="34" forecolor="#000000" backcolor="#FFFFFF" uuid="ba544313-8f46-4894-abee-be0c27100e0f"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Esta autorización tendrá validez a partir de la fecha indicada al pie de la nota, hasta nueva instrucción para el cambio de cuenta o venta del presente instrumento financiero."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="39" y="456" width="302" height="13" uuid="b49491db-70a1-4639-bb0d-767daa7783a7"/>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Asunción, "+$F{dia}+" de "+$F{nombremes}+" de "+$F{periodo}+".-"]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

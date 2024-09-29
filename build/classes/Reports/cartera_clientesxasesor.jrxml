@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="cartera_clientes" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0b655fb0-a935-4e06-9f61-e7774b2d5e2a">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT clientes.asesor,vendedores.nombre AS nombreasesor,
+clientes.nombre AS nombrecliente,
+SUM(cuenta_clientes.saldo) AS totaldeuda,
+SUM(  IF( DATEDIFF(CURDATE(),vencimiento) >1 ,  cuenta_clientes.saldo, 0 ) ) AS mora,
+SUM(  IF( DATEDIFF(CURDATE(),vencimiento) <=0 ,  cuenta_clientes.saldo, 0 ) ) AS aldia,
+SUM(  IF( DATEDIFF(CURDATE(),vencimiento) BETWEEN 1 AND 30 ,  cuenta_clientes.saldo, 0 ) ) AS 30dias,
+SUM(  IF( DATEDIFF(CURDATE(),vencimiento) BETWEEN 31 AND 60 ,  cuenta_clientes.saldo, 0 ) ) AS 60dias,
+SUM(  IF( DATEDIFF(CURDATE(),vencimiento) BETWEEN 61 AND 90 ,  cuenta_clientes.saldo, 0 ) ) AS 90dias,
+SUM(  IF( DATEDIFF(CURDATE(),vencimiento) BETWEEN 91 AND 180 ,  cuenta_clientes.saldo, 0 ) ) AS Masde90,
+SUM(  IF( DATEDIFF(CURDATE(),vencimiento)>180 ,  cuenta_clientes.saldo, 0 ) ) AS Masde180,
+comprobantes.nombre AS tipo_operacion,monedas.nombre AS nombremoneda
+FROM clientes
+INNER JOIN cuenta_clientes
+ON clientes.codigo=cuenta_clientes.cliente
+INNER JOIN vendedores
+ON clientes.`asesor`=vendedores.`codigo`
+INNER JOIN comprobantes
+ON comprobantes.codigo=cuenta_clientes.comprobante
+INNER JOIN monedas
+ON monedas.codigo= cuenta_clientes.`moneda`
+WHERE cuenta_clientes.saldo>0
+GROUP BY clientes.codigo
+having mora>0
+ORDER BY vendedores.codigo,clientes.nombre]]>
+	</queryString>
+	<field name="asesor" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombreasesor" class="java.lang.String"/>
+	<field name="nombrecliente" class="java.lang.String"/>
+	<field name="totaldeuda" class="java.math.BigDecimal"/>
+	<field name="mora" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="aldia" class="java.math.BigDecimal"/>
+	<field name="30dias" class="java.math.BigDecimal"/>
+	<field name="60dias" class="java.math.BigDecimal"/>
+	<field name="90dias" class="java.math.BigDecimal"/>
+	<field name="Masde90" class="java.math.BigDecimal"/>
+	<field name="Masde180" class="java.math.BigDecimal"/>
+	<field name="tipo_operacion" class="java.lang.String"/>
+	<field name="nombremoneda" class="java.lang.String"/>
+	<variable name="30dias_1" class="java.math.BigDecimal" resetType="Group" resetGroup="asesor" calculation="Sum">
+		<variableExpression><![CDATA[$F{30dias}]]></variableExpression>
+	</variable>
+	<variable name="60dias_1" class="java.math.BigDecimal" resetType="Group" resetGroup="asesor" calculation="Sum">
+		<variableExpression><![CDATA[$F{60dias}]]></variableExpression>
+	</variable>
+	<variable name="90dias_1" class="java.math.BigDecimal" resetType="Group" resetGroup="asesor" calculation="Sum">
+		<variableExpression><![CDATA[$F{90dias}]]></variableExpression>
+	</variable>
+	<variable name="aldia_1" class="java.math.BigDecimal" resetType="Group" resetGroup="asesor" calculation="Sum">
+		<variableExpression><![CDATA[$F{aldia}]]></variableExpression>
+	</variable>
+	<variable name="totaldeuda_1" class="java.math.BigDecimal" resetType="Group" resetGroup="asesor" calculation="Sum">
+		<variableExpression><![CDATA[$F{totaldeuda}]]></variableExpression>
+	</variable>
+	<variable name="Masde90_1" class="java.math.BigDecimal" resetType="Group" resetGroup="asesor" calculation="Sum">
+		<variableExpression><![CDATA[$F{Masde90}]]></variableExpression>
+	</variable>
+	<group name="asesor" isReprintHeaderOnEachPage="true">
+		<groupExpression><![CDATA[$F{asesor}]]></groupExpression>
+		<groupHeader>
+			<band height="42">
+				<rectangle>
+					<reportElement x="9" y="18" width="538" height="23" uuid="18d82d66-8a2f-4921-bef3-98058016dfaa"/>
+				</rectangle>
+				<textField>
+					<reportElement x="13" y="4" width="160" height="12" uuid="14b0ee9c-b081-45ae-83a8-f15f7576a96d"/>
+					<textElement>
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nombreasesor}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="13" y="26" width="102" height="12" uuid="c75dc879-bdd1-407b-8add-8caebab40eea"/>
+					<textElement>
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<text><![CDATA[Denominación del Cliente]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="414" y="18" width="54" height="18" uuid="424ad3b0-940e-4ade-b8fb-d293006975bb"/>
+					<textElement>
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<text><![CDATA[Más de 180 Días]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="162" y="26" width="44" height="12" uuid="25857320-9315-43d2-be66-34313216c02e"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<text><![CDATA[30 Días]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="232" y="24" width="36" height="12" uuid="b1a08cd8-84cb-4596-905c-57c724223e47"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<text><![CDATA[60 Días]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="282" y="26" width="44" height="12" uuid="e247bbba-fbfc-41dc-a0eb-f4410c136ed3"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<text><![CDATA[90 Días]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="339" y="18" width="58" height="20" uuid="229b2fa3-bfb8-4800-a2e7-3853d40bceb2"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<text><![CDATA[Desde 91 hasta 180 Días]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="495" y="26" width="44" height="10" uuid="aa106c08-e6db-4b4a-aa9b-fb19ac954ff0"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<text><![CDATA[Total Deuda]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="238" y="4" width="102" height="12" uuid="eb57b2d4-7842-4fdf-bd1b-4abc8ba28fef"/>
+					<textElement>
+						<font fontName="Arial" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Clientes en Mora]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="32">
+				<rectangle>
+					<reportElement x="9" y="6" width="538" height="20" uuid="a745d92d-7388-400e-ba26-3997b1fc3041"/>
+				</rectangle>
+				<textField evaluationTime="Group" evaluationGroup="asesor" pattern="#,##0.00">
+					<reportElement x="155" y="11" width="52" height="14" uuid="0156fe39-5ce2-460f-90c5-905a42f7802f"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{30dias_1}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="asesor" pattern="#,##0.00">
+					<reportElement x="218" y="9" width="50" height="14" uuid="06fc5f1b-a870-4896-be64-a2388859a616"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{60dias_1}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="asesor" pattern="#,##0.00">
+					<reportElement x="278" y="11" width="50" height="14" uuid="720b0f11-e0ea-4b6a-bbf2-4affecbb70ed"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{90dias_1}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="asesor" pattern="#,##0.00">
+					<reportElement x="416" y="11" width="52" height="14" uuid="1e734ce9-2766-4259-b857-01d4ee7bd8e5"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{aldia_1}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="asesor" pattern="#,##0.00">
+					<reportElement x="495" y="11" width="52" height="14" uuid="ee108e74-ed11-43ea-b951-9034a33c0926"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{totaldeuda_1}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="asesor" pattern="#,##0.00">
+					<reportElement x="346" y="10" width="48" height="15" uuid="f2cbb68d-4057-47a1-9ef9-66061de9cbae"/>
+					<textElement>
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Masde90_1}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="13" y="11" width="102" height="12" uuid="50828243-7810-443a-861a-2cbdab035ebe"/>
+					<textElement markup="none">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<text><![CDATA[Total]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="2" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<textField pattern="#,##0.00">
+				<reportElement x="155" y="2" width="52" height="12" uuid="8a7e7e06-ac43-4d4f-83a9-84022e05b3c6"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{30dias}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="13" y="2" width="128" height="12" uuid="b2b3d66c-3014-4954-a686-3874fd579268"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombrecliente}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="218" y="0" width="52" height="12" uuid="acce5a64-a83f-44e5-bdf4-75b1329f2011"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{60dias}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="278" y="2" width="52" height="12" uuid="06479c92-3341-42e9-9297-db7feea80380"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{90dias}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="345" y="2" width="52" height="12" uuid="faaeb144-fbe6-4284-8777-76dbe6ec74d1"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Masde90}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="416" y="2" width="52" height="12" uuid="3d8ed950-f7a1-42bd-886b-c9d37553b561"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{aldia}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="495" y="2" width="52" height="11" uuid="631cc1c8-8980-4588-97d4-0e92670e7f9a"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totaldeuda}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="6" splitType="Stretch"/>
+	</summary>
+</jasperReport>

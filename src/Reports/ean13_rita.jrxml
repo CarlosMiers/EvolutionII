@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ean13_rita" pageWidth="311" pageHeight="113" columnWidth="307" leftMargin="2" rightMargin="2" topMargin="2" bottomMargin="2" uuid="d942ebcb-5249-4950-9391-4bfc8160d7d3">
+	<property name="ireport.zoom" value="6.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="40"/>
+	<parameter name="cCodigo" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select codigobarra,nombre,precio_maximo
+from productos
+WHERE codigo=$P{cCodigo}]]>
+	</queryString>
+	<field name="codigobarra" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="precio_maximo" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<detail>
+		<band height="76" splitType="Stretch">
+			<componentElement>
+				<reportElement mode="Opaque" x="14" y="7" width="80" height="26" uuid="0a0db2ba-b452-458d-9824-aa92ca53ba36"/>
+				<jr:EAN13 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" textPosition="bottom">
+					<jr:codeExpression><![CDATA[$F{codigobarra}]]></jr:codeExpression>
+				</jr:EAN13>
+			</componentElement>
+			<staticText>
+				<reportElement x="22" y="0" width="72" height="6" uuid="63c7bc38-ad5c-4879-bc72-9c45643bf99d"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RS COMERCIO]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="15" y="34" width="79" height="5" uuid="14a9316f-60b6-47dc-b1b1-7585a98e4cd9"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="4"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="15" y="40" width="79" height="5" uuid="1bbcfc80-ebb0-45d7-9b5e-aad72ee0eb9e"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="4" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{precio_maximo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="121" y="34" width="75" height="5" uuid="7b5e0bea-f3be-42b1-bb3d-441dd98ee879"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="4"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement mode="Opaque" x="208" y="6" width="80" height="26" uuid="7697e9c6-8747-4a6d-b9cb-af2a6b33d5ee"/>
+				<jr:EAN13 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" textPosition="bottom">
+					<jr:codeExpression><![CDATA[$F{codigobarra}]]></jr:codeExpression>
+				</jr:EAN13>
+			</componentElement>
+			<textField pattern="#,##0">
+				<reportElement x="209" y="39" width="78" height="5" uuid="9a352560-43d1-4bfd-980c-962451200c7f"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="4" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{precio_maximo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="209" y="33" width="78" height="5" uuid="c9f3464a-69aa-4132-aeb6-9ad80152c573"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="4"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="209" y="-1" width="71" height="6" uuid="ba42e393-4ba1-437f-80cb-e9259b30eb15"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RS COMERCIO]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement mode="Opaque" x="113" y="7" width="80" height="26" uuid="50804c9b-53c9-4d4f-aaa8-df5a54c57e4d"/>
+				<jr:EAN13 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" textPosition="bottom">
+					<jr:codeExpression><![CDATA[$F{codigobarra}]]></jr:codeExpression>
+				</jr:EAN13>
+			</componentElement>
+			<textField pattern="#,##0">
+				<reportElement x="115" y="40" width="78" height="5" uuid="361c7349-1cf6-4332-9952-d4961656c04f"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="4" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{precio_maximo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="114" y="0" width="71" height="6" uuid="efb7b18d-048b-4595-9588-834ef8bac979"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RS COMERCIO]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

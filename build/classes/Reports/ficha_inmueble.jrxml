@@ -1,0 +1,471 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="fichainmueble" printOrder="Horizontal" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="15626d40-29b7-4762-96d3-f22a87d7f738">
+	<property name="ireport.zoom" value="0.8264462809917354"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="83"/>
+	<property name="ireport.callouts" value="##Thu Nov 17 10:45:59 PYST 2016"/>
+	<parameter name="codinmueble" class="java.lang.Integer"/>
+	<parameter name="cNombreEmpresa" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Sistemas\\Reportes\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+	/*DATOS GENERALES*/
+    inmuebles.idinmueble as nro,
+    inmuebles.nomedif as nombre,
+    inmuebles.diredif as direccion,
+    inmuebles.finca as finca,
+    inmuebles.ctactral as catastral,
+    inmuebles.ivaexpensa as ivaexpensa,
+    inmuebles.codpro as codpropietario,
+    concat(propietarios.apellido,' ',propietarios.nombre) as propietario,
+    tipo_inmueble.codigo as codtipo,
+    tipo_inmueble.nombre as tipo,
+    barrios.codigo as codbarrio,
+    barrios.nombre as barrio,
+    localidades.codigo as codlocalidad,
+    localidades.nombre as localidad,
+    /*OBSERVACIONES*/
+    inmuebles.observacion,
+    /*REGLAMENTO*/
+    inmuebles.reglainter,
+    /*PROPIETARIOS*/
+    in_propietarios.propietarios as propietarios,
+    albumfoto_inmuebles.foto as foto,
+    /*EDIFICIOS*/
+    edificios.edificios
+FROM inmuebles
+INNER JOIN propietarios ON propietarios.codpro=inmuebles.codpro
+INNER JOIN tipo_inmueble ON tipo_inmueble.codigo=inmuebles.tipinmueble
+INNER JOIN barrios ON barrios.codigo=inmuebles.coddis
+INNER JOIN localidades ON localidades.codigo=inmuebles.codloca
+LEFT JOIN (
+	SELECT
+		inmueble_propietarios.codinmueble as codinmueble,
+		GROUP_CONCAT(propietarios.apellido,' ',propietarios.nombre SEPARATOR '\n' ) as propietarios
+	FROM propietarios
+    INNER JOIN inmueble_propietarios ON inmueble_propietarios.idpropietario=propietarios.codpro
+    GROUP BY inmueble_propietarios.codinmueble
+) as in_propietarios ON in_propietarios.codinmueble=inmuebles.idinmueble
+LEFT JOIN(
+	SELECT
+        edificios.inmueble,
+		GROUP_CONCAT(
+			SPACE(7-LENGTH(edificios.idunidad)), edificios.idunidad, '\t',
+            edificios.nombrepropie,'\t',
+            CAST(FORMAT(edificios.ctactral,0,'de_DE') AS CHAR CHARACTER SET utf8),'\t',
+            edificios.ubicacion,'\t',
+            CAST(FORMAT(edificios.medande,0,'de_DE') AS CHAR CHARACTER SET utf8),'\t',
+            CAST(FORMAT(edificios.nir,0,'de_DE' )AS CHAR CHARACTER SET utf8),'\t',
+            CAST(FORMAT(edificios.alquiler,0,'de_DE' )AS CHAR CHARACTER SET utf8)
+            SEPARATOR '\n'
+		) as edificios
+    FROM edificios
+    GROUP BY edificios.inmueble
+) as edificios ON edificios.inmueble=inmuebles.idinmueble
+LEFT JOIN albumfoto_inmuebles ON albumfoto_inmuebles.codigo=inmuebles.idinmueble
+WHERE inmuebles.idinmueble=$P{codinmueble}
+LIMIT 1]]>
+	</queryString>
+	<field name="nro" class="java.lang.Integer"/>
+	<field name="nombre" class="java.lang.String"/>
+	<field name="direccion" class="java.lang.String"/>
+	<field name="finca" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="catastral" class="java.lang.String"/>
+	<field name="ivaexpensa" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="codpropietario" class="java.lang.Integer"/>
+	<field name="propietario" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="codtipo" class="java.lang.Integer"/>
+	<field name="tipo" class="java.lang.String"/>
+	<field name="codbarrio" class="java.lang.Integer"/>
+	<field name="barrio" class="java.lang.String"/>
+	<field name="codlocalidad" class="java.lang.Integer"/>
+	<field name="localidad" class="java.lang.String"/>
+	<field name="observacion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="reglainter" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="propietarios" class="java.lang.String"/>
+	<field name="foto" class="java.awt.Image">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="edificios" class="java.lang.String"/>
+	<variable name="lenguas" class="java.lang.String"/>
+	<group name="datos">
+		<groupHeader>
+			<band height="659">
+				<rectangle>
+					<reportElement x="4" y="229" width="549" height="25" uuid="c5acd543-f150-44e5-92c8-683852129cc7"/>
+				</rectangle>
+				<rectangle>
+					<reportElement x="4" y="9" width="549" height="25" uuid="f49892f9-0cfc-4080-aab3-93cd3004d53f"/>
+				</rectangle>
+				<rectangle>
+					<reportElement x="396" y="45" width="156" height="156" uuid="f431eec6-b4b4-4b74-a675-8e5734704dc5"/>
+				</rectangle>
+				<staticText>
+					<reportElement x="4" y="12" width="549" height="20" uuid="f7aef003-a517-4cc5-b438-6e8274da3b2c"/>
+					<textElement verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[ Datos Generales]]></text>
+				</staticText>
+				<image scaleImage="FillFrame" hAlign="Center">
+					<reportElement x="396" y="45" width="156" height="156" isRemoveLineWhenBlank="true" uuid="65fced85-7c81-42b1-bc27-f55362198e47"/>
+					<imageExpression><![CDATA[$F{foto}]]></imageExpression>
+				</image>
+				<staticText>
+					<reportElement x="32" y="45" width="89" height="15" uuid="e9fa16c0-45e1-447b-a3d6-3f0baf749f2d"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Nombre:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="127" y="45" width="236" height="15" uuid="1f37f02b-883f-48a7-a40c-0fedb40e34d3"/>
+					<textElement>
+						<font isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="31" y="63" width="89" height="15" uuid="f4e50685-5598-4e6c-9fcd-789699a6f05e"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Dirección]]></text>
+				</staticText>
+				<textField pattern="#,##0">
+					<reportElement x="127" y="63" width="236" height="15" uuid="12828f29-6511-434a-b025-3ce4c4d08c08"/>
+					<textElement>
+						<font isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="31" y="98" width="89" height="15" uuid="025cce8e-eb06-4e81-9c2f-a098b3275457"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Cuenta Catastral:]]></text>
+				</staticText>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement x="127" y="98" width="236" height="15" uuid="1a3c7925-8216-4f6a-ba04-2513fce74e21"/>
+					<textElement>
+						<font isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{catastral}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="31" y="115" width="89" height="15" uuid="d7290d9c-877d-4320-b9bf-403e37521d7b"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Iva sobre Expensas:]]></text>
+				</staticText>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement x="127" y="115" width="236" height="15" uuid="17c966b5-7b86-4dde-8bdf-bbad52d46659"/>
+					<textElement>
+						<font isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{ivaexpensa}]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement x="127" y="132" width="236" height="15" uuid="f4899231-5350-4854-b745-d93e330f2080"/>
+					<textElement>
+						<font isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{propietario}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="31" y="132" width="89" height="15" uuid="ca72a0a4-0a01-4825-800b-3c2d2722a4aa"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Propietario:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="31" y="186" width="89" height="15" uuid="75681b84-b7a2-48ed-9b08-2dc0e54b856e"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Localidad:]]></text>
+				</staticText>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement x="127" y="186" width="236" height="15" uuid="15365690-671d-4a20-b92f-1fc5722a820b"/>
+					<textElement>
+						<font isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{localidad}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="31" y="150" width="89" height="15" uuid="e139e194-8dc8-47c7-9e72-6be56fda1d94"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Tipo de Inmueble:]]></text>
+				</staticText>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement x="127" y="150" width="236" height="15" uuid="38767616-5d64-4216-9c5c-a878a564fb37"/>
+					<textElement>
+						<font isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tipo}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="7" y="232" width="547" height="17" uuid="38345b77-2b2d-4324-a1ca-a9620e7f203a"/>
+					<textElement verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Propietarios]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="31" y="265" width="176" height="15" uuid="177ef54a-d271-4e55-b4a2-2399604dab70"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Apellidos y Nombres:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="32" y="284" width="520" height="67" uuid="59973dfb-4307-4f83-8309-09bff0566233"/>
+					<textElement>
+						<font isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{propietarios}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0">
+					<reportElement x="127" y="80" width="236" height="15" uuid="890d798f-3c41-4563-82d3-e6694383d0ca"/>
+					<textElement>
+						<font isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{finca}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="31" y="80" width="89" height="15" uuid="eda6788b-0bdc-48af-b61b-055e6e447d44"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Nro. de Finca:]]></text>
+				</staticText>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement x="127" y="168" width="236" height="15" uuid="37ac0519-c7d6-40db-a7c7-b5cfed78b7de"/>
+					<textElement>
+						<font isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{barrio}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="31" y="168" width="89" height="15" uuid="f42bc7e7-76d6-4c5c-835c-8448d2f88d2d"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Barrio:]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement x="3" y="359" width="549" height="25" uuid="237c0d1f-f729-43d5-a5d2-1572a1f82868"/>
+				</rectangle>
+				<staticText>
+					<reportElement x="6" y="362" width="547" height="17" uuid="e616ae1f-28b6-425f-8a6d-936de5747741"/>
+					<textElement verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Unidades del Inmueble]]></text>
+				</staticText>
+				<textField pattern="">
+					<reportElement x="31" y="410" width="521" height="96" isPrintWhenDetailOverflows="true" uuid="51a74746-f6c9-45bc-aa98-4949b4887544"/>
+					<textElement>
+						<font fontName="SansSerif" size="10" isBold="false"/>
+						<paragraph>
+							<tabStop position="43" alignment="Left"/>
+							<tabStop position="203" alignment="Right"/>
+							<tabStop position="223" alignment="Left"/>
+							<tabStop position="353" alignment="Right"/>
+							<tabStop position="423" alignment="Right"/>
+							<tabStop position="515" alignment="Right"/>
+						</paragraph>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{edificios}]]></textFieldExpression>
+				</textField>
+				<textField pattern="">
+					<reportElement x="31" y="389" width="521" height="19" isPrintWhenDetailOverflows="true" uuid="a68ca40b-0fc5-45e5-9101-21227696bb29"/>
+					<textElement>
+						<font fontName="SansSerif" size="10" isBold="true"/>
+						<paragraph>
+							<tabStop position="43" alignment="Left"/>
+							<tabStop position="203" alignment="Right"/>
+							<tabStop position="223" alignment="Left"/>
+							<tabStop position="353" alignment="Right"/>
+							<tabStop position="423" alignment="Right"/>
+							<tabStop position="515" alignment="Right"/>
+						</paragraph>
+					</textElement>
+					<textFieldExpression><![CDATA["Cód	Propietario	Cta. Ctral.	Ubicación	ANDE	NIR	Alquiler"]]></textFieldExpression>
+				</textField>
+				<textField pattern="">
+					<reportElement x="31" y="555" width="521" height="96" isPrintWhenDetailOverflows="true" uuid="5d572f44-1a41-4aae-9ab6-52209e98cf0c"/>
+					<textElement>
+						<font fontName="SansSerif" size="10" isBold="false"/>
+						<paragraph>
+							<tabStop position="43" alignment="Left"/>
+							<tabStop position="203" alignment="Right"/>
+							<tabStop position="223" alignment="Left"/>
+							<tabStop position="353" alignment="Right"/>
+							<tabStop position="423" alignment="Right"/>
+							<tabStop position="515" alignment="Right"/>
+						</paragraph>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{observacion}]]></textFieldExpression>
+				</textField>
+				<rectangle>
+					<reportElement x="3" y="519" width="549" height="25" uuid="380a3e31-c78c-4ee9-9c6e-a24cbcb4a79b"/>
+				</rectangle>
+				<staticText>
+					<reportElement x="6" y="522" width="547" height="17" uuid="4cf6daf9-bccf-44b2-8b65-acaad7cce75c"/>
+					<textElement verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Observaciones]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="reglamento" isStartNewPage="true">
+		<groupHeader>
+			<band height="155">
+				<rectangle>
+					<reportElement x="3" y="10" width="549" height="25" uuid="3fffec6a-1ffa-411b-8e4f-8f2dbd50c788"/>
+				</rectangle>
+				<textField isStretchWithOverflow="true" pattern="">
+					<reportElement stretchType="RelativeToBandHeight" x="31" y="46" width="521" height="96" isPrintWhenDetailOverflows="true" uuid="37f8185c-997b-491f-a386-2665a1870300"/>
+					<textElement textAlignment="Justified">
+						<font fontName="SansSerif" size="10" isBold="false"/>
+						<paragraph>
+							<tabStop position="43" alignment="Left"/>
+							<tabStop position="203" alignment="Right"/>
+							<tabStop position="223" alignment="Left"/>
+							<tabStop position="353" alignment="Right"/>
+							<tabStop position="423" alignment="Right"/>
+							<tabStop position="515" alignment="Right"/>
+						</paragraph>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{reglainter}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="7" y="13" width="545" height="17" uuid="9a640e54-95af-4d6c-9a21-430702337c3d"/>
+					<textElement verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Reglamento]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="1" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="67" splitType="Stretch">
+			<rectangle>
+				<reportElement mode="Transparent" x="420" y="2" width="68" height="63" uuid="d3442f95-f1b5-4094-916c-5c1504835b96"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Transparent" x="420" y="23" width="132" height="21" uuid="f807b784-76fd-4058-955f-4ce8d126ff70"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Transparent" x="488" y="2" width="64" height="63" uuid="8dcd2fbb-c8f0-4133-93f4-fe43441ddba4"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="132" y="2" width="288" height="63" uuid="cd8dfbc1-d11b-46e1-bb44-9aac04ddf6a6"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="3" y="2" width="129" height="63" uuid="78a2fa3c-9c42-4374-a52d-6512b3e5878f"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="132" y="13" width="288" height="39" uuid="6424ab76-6b26-4d79-be16-90e35d6e32fd"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ficha de Registro de Inmueble]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="6" y="9" width="121" height="49" uuid="da1c1c40-7e27-4edf-96fb-906fc6cdbb9b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cNombreEmpresa}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="420" y="2" width="68" height="21" uuid="b3b43964-0394-474d-bd51-f0b343f70447"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Código:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="420" y="23" width="68" height="21" uuid="3bd8ef48-9480-47cf-a469-33eda1873245"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="420" y="44" width="68" height="21" uuid="9ee5ad57-0591-410b-8972-0cbdd100f176"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true" isUnderline="false" isStrikeThrough="false"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Página]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="488" y="44" width="64" height="21" uuid="c2e40999-203c-4757-a790-8c09fc18a984"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}+" de "+$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="d/M/yyyy">
+				<reportElement x="488" y="23" width="64" height="21" uuid="cb54d0a4-8574-4115-a254-dffeadeeb5d0"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="488" y="2" width="64" height="21" uuid="f059849b-b4df-4318-be42-8be2bceac0de"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="false"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nro}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="10" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="9" splitType="Stretch"/>
+	</pageFooter>
+</jasperReport>

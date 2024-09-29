@@ -1,0 +1,530 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="alquilerxlocatario" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="fe44d186-cce1-48b0-b10a-09e81bf95601">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="516"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="cNombreEmpresa" class="java.lang.String"/>
+	<parameter name="nLocatario" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="codigo" class="java.lang.Integer"/>
+	<field name="nombrelocatario" class="java.lang.String"/>
+	<field name="ruclocatario" class="java.lang.String"/>
+	<field name="locatarioDirec" class="java.lang.String"/>
+	<field name="locatarioTelef" class="java.lang.String"/>
+	<field name="codpro" class="java.lang.Integer"/>
+	<field name="cedulaprop" class="java.lang.String"/>
+	<field name="nombreprop" class="java.lang.String"/>
+	<field name="direprop" class="java.lang.String"/>
+	<field name="telefprop" class="java.lang.String"/>
+	<field name="documento" class="java.lang.String"/>
+	<field name="vencimiento" class="java.lang.String"/>
+	<field name="idinmueble" class="java.lang.Integer"/>
+	<field name="nomedif" class="java.lang.String"/>
+	<field name="inmctactral" class="java.lang.String"/>
+	<field name="numerocuota" class="java.lang.Integer"/>
+	<field name="cuota" class="java.lang.Integer"/>
+	<field name="alquiler" class="java.lang.Double"/>
+	<field name="garage" class="java.lang.Double"/>
+	<field name="expensa" class="java.lang.Double"/>
+	<field name="comision" class="java.lang.Double"/>
+	<field name="multa" class="java.lang.Double"/>
+	<variable name="alquiler_1" class="java.lang.Double" resetType="Group" resetGroup="locatario" calculation="Sum">
+		<variableExpression><![CDATA[$F{alquiler}]]></variableExpression>
+	</variable>
+	<variable name="garage_1" class="java.lang.Double" resetType="Group" resetGroup="locatario" calculation="Sum">
+		<variableExpression><![CDATA[$F{garage}]]></variableExpression>
+	</variable>
+	<variable name="expensa_1" class="java.lang.Double" resetType="Group" resetGroup="locatario" calculation="Sum">
+		<variableExpression><![CDATA[$F{expensa}]]></variableExpression>
+	</variable>
+	<variable name="comision_1" class="java.lang.Double" resetType="Group" resetGroup="locatario" calculation="Sum">
+		<variableExpression><![CDATA[$F{comision}]]></variableExpression>
+	</variable>
+	<variable name="multa_1" class="java.lang.Double" resetType="Group" resetGroup="locatario" calculation="Sum">
+		<variableExpression><![CDATA[$F{multa}]]></variableExpression>
+	</variable>
+	<variable name="alquiler_2" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{alquiler}]]></variableExpression>
+	</variable>
+	<variable name="garage_2" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{garage}]]></variableExpression>
+	</variable>
+	<variable name="expensa_2" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{expensa}]]></variableExpression>
+	</variable>
+	<variable name="comision_2" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{comision}]]></variableExpression>
+	</variable>
+	<variable name="multa_2" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{multa}]]></variableExpression>
+	</variable>
+	<group name="locatario" isReprintHeaderOnEachPage="true">
+		<groupExpression><![CDATA[$F{codigo}]]></groupExpression>
+		<groupHeader>
+			<band height="62">
+				<staticText>
+					<reportElement x="10" y="48" width="86" height="12" uuid="8fbb01d4-3d51-46bb-9227-b3e211faabc1"/>
+					<textElement>
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Teléfono de Locatario:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="105" y="33" width="208" height="10" uuid="56333447-6594-4455-873b-7f18d6cd8646"/>
+					<textElement>
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{locatarioDirec}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="11" y="4" width="41" height="12" uuid="d580b30c-f6e2-4abe-ace1-6c73f349812f"/>
+					<textElement>
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Locatario:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="10" y="33" width="90" height="12" uuid="bf03a6f5-4045-4823-aaf9-44c16bb22768"/>
+					<textElement>
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Dirección de Locatario:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="105" y="49" width="100" height="10" uuid="e8e01a9c-91d0-49af-86ed-0148eb068077"/>
+					<textElement>
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{locatarioTelef}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="53" y="4" width="20" height="12" uuid="28de775a-9677-4c62-a53e-fefbfd5989d5"/>
+					<textElement>
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{codigo}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="111" y="18" width="63" height="10" uuid="ad9bf986-47bc-46ab-b27c-b963732bfe0c"/>
+					<textElement>
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{ruclocatario}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="77" y="4" width="192" height="10" uuid="36075ed6-5d7c-4dfd-a164-2491667da9ac"/>
+					<textElement>
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nombrelocatario}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="10" y="18" width="97" height="12" uuid="a13eb0bd-92c3-46cb-8ba1-827984cddcbb"/>
+					<textElement>
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Cedula/Ruc de Locatario:]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="22">
+				<rectangle>
+					<reportElement x="0" y="3" width="800" height="16" uuid="e9b9828f-cbe7-472f-8d92-66865db5ea64"/>
+				</rectangle>
+				<textField pattern="#,##0.00">
+					<reportElement x="506" y="6" width="53" height="10" uuid="d8c3de41-620f-47e4-863e-b9690148d7d0"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{alquiler_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="565" y="6" width="53" height="10" uuid="c71b0543-fdbf-47ad-9007-7d2a31a654a4"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{garage_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="625" y="6" width="50" height="10" uuid="ff2ee50c-8169-4cd3-ad9a-a6fe32782419"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{expensa_1}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="684" y="6" width="46" height="10" uuid="175c02d7-a723-43fa-93fa-29fc27ca5cb1"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{comision_1}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="737" y="6" width="55" height="10" uuid="a5624882-197c-4bc5-84aa-bdaa093a89b0"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{multa_1}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="propietario" isReprintHeaderOnEachPage="true">
+		<groupExpression><![CDATA[$F{codpro}]]></groupExpression>
+		<groupHeader>
+			<band height="55">
+				<line>
+					<reportElement x="1" y="3" width="799" height="1" uuid="a120ada0-3eb2-4ad6-acdc-1349f8fdd8ce"/>
+				</line>
+				<textField>
+					<reportElement x="59" y="9" width="29" height="10" uuid="4ef51f40-396d-4b1b-9702-3004d032b7ff"/>
+					<textElement>
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{codpro}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="118" y="25" width="365" height="10" uuid="c8dfb092-a9fc-49b2-9e78-6883c1bd9b7c"/>
+					<textElement>
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{direprop}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="316" y="9" width="103" height="10" uuid="14b49e23-774a-4ccc-9b43-f1f1fd1580d0"/>
+					<textElement>
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Cedula/Ruc de Propietario:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="10" y="25" width="96" height="10" uuid="b86827d6-3953-449f-8871-1acace124416"/>
+					<textElement>
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Dirección de Propietario:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="91" y="9" width="217" height="10" uuid="44a588f3-3364-427f-87e4-e27bdabb0b38"/>
+					<textElement>
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nombreprop}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="11" y="9" width="45" height="10" uuid="113505c2-6485-4fea-abd7-1f01116ea858"/>
+					<textElement>
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Propietario:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="604" y="9" width="100" height="10" uuid="fc4cd621-b166-4701-8e02-8e4d679e1b9c"/>
+					<textElement>
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{telefprop}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="424" y="9" width="59" height="10" uuid="7e68cd2a-5308-4bbd-ad23-7343723ec35e"/>
+					<textElement>
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{cedulaprop}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="504" y="9" width="93" height="10" uuid="a2cf6f1d-41b3-4a06-8cae-35bc74912c05"/>
+					<textElement>
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Teléfono de Propietario:]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement x="2" y="37" width="797" height="15" uuid="3380506b-79f7-46e6-b64f-7d6a6ad02513"/>
+				</rectangle>
+				<staticText>
+					<reportElement x="29" y="40" width="52" height="10" uuid="889cec5b-11be-46a3-89cd-5eb72e498e0e"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[N° de Factura]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="98" y="40" width="25" height="10" uuid="75c53dad-71ec-40cd-9584-80f4cddd4630"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Fecha]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="137" y="40" width="52" height="10" uuid="55d03bda-9b13-4241-85f2-5deb505d8539"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Cod.  Edificio]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="236" y="40" width="87" height="10" uuid="a7644a8f-92da-4926-9b7c-955ec812285b"/>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[ Edificio]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="416" y="40" width="39" height="10" uuid="376ebc5a-6192-4db9-bade-f63629d08f6a"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Cta.Ctral]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="466" y="40" width="33" height="10" uuid="7ff26321-8767-4921-8e48-3c82e9ebeeac"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Cuota]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="524" y="40" width="33" height="10" uuid="3671d5df-fbb1-49fb-9819-2e7c37f621a0"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Alquiler]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="583" y="40" width="33" height="10" uuid="41a2762a-213f-4bf2-b402-0277d948f84c"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Garage]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="640" y="40" width="33" height="10" uuid="843d9d0f-c43f-4dac-ae10-9993d0005236"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Expensa]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="691" y="40" width="39" height="10" uuid="14f33577-ef40-4e79-b46c-d21a5261686c"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Comisión]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="759" y="40" width="32" height="10" uuid="2dda702b-92fd-4e23-b4d8-18125e22e0b0"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Multa]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="2"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="53" splitType="Stretch">
+			<textField>
+				<reportElement x="8" y="5" width="221" height="15" uuid="18768870-42c6-40bb-b077-08bc15fa1ed3"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cNombreEmpresa}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="749" y="15" width="40" height="20" uuid="bbedf6ee-4dd0-4c93-9afa-1b6484784606"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="574" y="15" width="174" height="20" uuid="95a01cc8-b8b5-4036-8418-944a04d111dd"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de "]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="7" y="31" width="171" height="15" uuid="12a9c930-b7d0-46d7-969b-980f03de94b9"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Alquileres Pendiente por Locatario]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="15" splitType="Stretch">
+			<textField pattern="d/M/yyyy">
+				<reportElement x="39" y="2" width="60" height="10" uuid="1724ec6c-4266-4a5d-af60-c31d04c89d62"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="8" y="2" width="31" height="10" uuid="f8daf1f3-0d94-4569-a368-3f7a873df46e"/>
+				<textElement>
+					<font fontName="Arial" size="8" isUnderline="false" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[Fecha :]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="14" splitType="Stretch">
+			<textField pattern="#,##0.00">
+				<reportElement x="505" y="2" width="53" height="10" uuid="3dc8f9be-b902-4679-b2ea-1fd56f305bf1"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{alquiler}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MM/dd/yyyy">
+				<reportElement x="91" y="2" width="45" height="10" uuid="0f04f9d6-8cb9-49a9-86b2-0c2968b20652"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{vencimiento}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="678" y="2" width="53" height="10" uuid="4dcdb4b9-2ef5-4a35-bd20-19ee0cc07ed8"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{comision}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="387" y="2" width="70" height="10" uuid="872050e3-a8b1-4344-9749-b6a216cc0519"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{inmctactral}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="564" y="2" width="53" height="10" uuid="e38981f9-e525-4097-80a8-10c6fa64f2c7"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{garage}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="621" y="2" width="53" height="10" uuid="37ed3405-6230-4164-943c-50bf21ce3ebd"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{expensa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="154" y="2" width="37" height="10" uuid="a6318f62-1ef7-4b89-bbe1-7dc8484f84ac"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{idinmueble}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="197" y="2" width="185" height="10" uuid="437e4622-2aad-49f7-9026-af0eea066afc"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nomedif}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="739" y="2" width="53" height="10" uuid="9800f54d-9432-4bf1-81f9-278bfa990c67"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{multa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="460" y="2" width="42" height="10" uuid="90e0ca22-6ee3-46db-837d-a9b0100dce66"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["( "+$F{cuota}+"/"+$F{numerocuota}+" )"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="10" y="2" width="74" height="10" uuid="7eebe425-767a-40f3-a3d4-52b4a7790b1e"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{documento}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<summary>
+		<band height="36" splitType="Stretch">
+			<staticText>
+				<reportElement x="41" y="25" width="100" height="11" uuid="38f6dda5-a138-4a14-b402-1b5ff659591b"/>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[*** Fin del Informe***]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="2" width="802" height="1" uuid="692e1568-df22-4427-9d26-e1068100bbb6"/>
+			</line>
+			<line>
+				<reportElement x="0" y="23" width="803" height="1" uuid="df1207a5-3d98-4870-a1c4-219f300977b1"/>
+			</line>
+			<staticText>
+				<reportElement x="312" y="8" width="64" height="11" uuid="e8cf6033-b299-4990-b8dc-e52af05dfa18"/>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total General]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement x="484" y="7" width="75" height="10" uuid="8c583e9a-8b83-4f35-985e-718f09fddd15"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{alquiler_2}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="564" y="7" width="54" height="10" uuid="5c321a5f-8faf-4c01-9612-9f41d220f461"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{garage_2}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="622" y="7" width="54" height="10" uuid="c1509ca4-7e17-494f-bc70-78c57fba5299"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{expensa_2}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="679" y="7" width="52" height="10" uuid="b22d866a-180a-4de5-88c5-26cc896c924e"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{comision_2}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="740" y="7" width="54" height="10" uuid="6a920d93-7195-44d6-88de-754c0b5c488d"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{multa_2}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="detalle_cobranzaxasesor" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="282f831b-ba04-44b7-8514-fcc8454f3390">
+	<property name="ireport.zoom" value="0.8264462809917354"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<parameter name="dFechaInicio" class="java.util.Date"/>
+	<parameter name="dFechaFinal" class="java.util.Date"/>
+	<parameter name="cNombreEmpresa" class="java.lang.String"/>
+	<parameter name="cMoneda" class="java.lang.String"/>
+	<parameter name="cComprobante" class="java.lang.String"/>
+	<parameter name="cAsesor" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT 'BOCAS' AS origen,cuenta_clientes.cliente,clientes.nombre,clientes.asesor,cuenta_clientes.comprobante,
+cuenta_clientes.cuota,cuenta_clientes.numerocuota,cuenta_clientes.moneda,vendedores.nombre as nombreasesor,
+cuenta_clientes.vencimiento,SUM(monto) as totalcobro
+FROM pagoexpress
+INNER JOIN clientes
+ON clientes.codigo=pagoexpress.cliente
+INNER JOIN vendedores
+ON vendedores.codigo=clientes.asesor
+INNER JOIN cuenta_clientes
+ON cuenta_clientes.iddocumento=pagoexpress.iddocumento
+WHERE pagoexpress.fechapago  BETWEEN $P{dFechaInicio} AND $P{dFechaFinal}
+and clientes.asesor=$P{cAsesor}
+and cuenta_clientes.comprobante=$P{cComprobante}
+AND cuenta_clientes.moneda=$P{cMoneda}
+GROUP BY pagoexpress.iddocumento
+union
+SELECT 'CAJA' AS origen,cuenta_clientes.cliente,clientes.nombre,clientes.asesor,cuenta_clientes.comprobante,
+cuenta_clientes.cuota,cuenta_clientes.numerocuota,cuenta_clientes.moneda,vendedores.nombre as nombreasesor,
+cuenta_clientes.vencimiento,SUM(detalle_cobranzas.pago) AS totalcobro
+FROM cobranzas
+INNER JOIN clientes
+ON clientes.codigo=cobranzas.cliente
+INNER JOIN vendedores
+ON vendedores.codigo=clientes.asesor
+INNER JOIN detalle_cobranzas
+ON detalle_cobranzas.iddetalle=cobranzas.idpagos
+INNER JOIN cuenta_clientes
+ON cuenta_clientes.iddocumento=detalle_cobranzas.idfactura
+WHERE cobranzas.fecha BETWEEN $P{dFechaInicio} AND $P{dFechaFinal}
+AND clientes.asesor=$P{cAsesor}
+AND cuenta_clientes.comprobante=$P{cComprobante}
+AND cuenta_clientes.moneda=$P{cMoneda}
+GROUP BY detalle_cobranzas.idfactura
+ORDER BY asesor,origen,vencimiento]]>
+	</queryString>
+	<field name="origen" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cliente" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="asesor" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="comprobante" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cuota" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="numerocuota" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="moneda" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombreasesor" class="java.lang.String"/>
+	<field name="vencimiento" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="totalcobro" class="java.math.BigDecimal"/>
+	<variable name="tamortiza_1" class="java.math.BigDecimal" resetType="Group" resetGroup="comprobante" calculation="Sum">
+		<variableExpression><![CDATA[$F{tamortiza}]]></variableExpression>
+	</variable>
+	<variable name="tinteres_1" class="java.math.BigDecimal" resetType="Group" resetGroup="comprobante" calculation="Sum">
+		<variableExpression><![CDATA[$F{tinteres}]]></variableExpression>
+	</variable>
+	<variable name="tgastos_1" class="java.math.BigDecimal" resetType="Group" resetGroup="comprobante" calculation="Sum">
+		<variableExpression><![CDATA[$F{tgastos}]]></variableExpression>
+	</variable>
+	<variable name="tmora_1" class="java.math.BigDecimal" resetType="Group" resetGroup="comprobante" calculation="Sum">
+		<variableExpression><![CDATA[$F{tmora}]]></variableExpression>
+	</variable>
+	<variable name="tmonto_1" class="java.math.BigDecimal" resetType="Group" resetGroup="comprobante" calculation="Sum">
+		<variableExpression><![CDATA[$F{tmonto}]]></variableExpression>
+	</variable>
+	<variable name="tamortiza_2" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{tamortiza}]]></variableExpression>
+	</variable>
+	<variable name="tinteres_2" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{tinteres}]]></variableExpression>
+	</variable>
+	<variable name="tgastos_2" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{tgastos}]]></variableExpression>
+	</variable>
+	<variable name="tmora_2" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{tmora}]]></variableExpression>
+	</variable>
+	<variable name="tmonto_2" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{tmonto}]]></variableExpression>
+	</variable>
+	<group name="asesor">
+		<groupExpression><![CDATA[$F{asesor}]]></groupExpression>
+		<groupHeader>
+			<band height="50">
+				<textField>
+					<reportElement x="45" y="24" width="100" height="20" uuid="30c4d7bd-f483-477c-a60a-81c227627014"/>
+					<textFieldExpression><![CDATA[$F{asesor}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="157" y="24" width="100" height="20" uuid="f0336314-db65-48f3-a8f9-a5a27c08e4ac"/>
+					<textFieldExpression><![CDATA[$F{nombreasesor}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="50"/>
+		</groupFooter>
+	</group>
+	<group name="origen">
+		<groupExpression><![CDATA[$F{origen}]]></groupExpression>
+		<groupHeader>
+			<band height="50">
+				<textField>
+					<reportElement x="73" y="3" width="100" height="20" uuid="b0331b3d-8a6d-490a-a6ed-523732aa3f4d"/>
+					<textFieldExpression><![CDATA[$F{origen}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="17" y="30" width="100" height="20" uuid="8c225a04-0679-404f-b32e-9d5ce9dae221"/>
+					<text><![CDATA[cliente]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="126" y="29" width="100" height="20" uuid="fc677710-ad2b-489b-be2b-60551fcf3158"/>
+					<text><![CDATA[nombre]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="636" y="23" width="100" height="20" uuid="b50ca16c-bfbb-48db-a3af-e3ad0bd88953"/>
+					<text><![CDATA[totalcobro]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="473" y="23" width="100" height="20" uuid="f956a93f-49c2-40aa-a888-22df6f7b6e59"/>
+					<text><![CDATA[numerocuota]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="50"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="1" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="72" splitType="Stretch">
+			<textField>
+				<reportElement x="5" y="22" width="221" height="15" uuid="a06ed062-04ef-486c-a724-fc978f2b5f45"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cNombreEmpresa}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="59" y="53" width="50" height="13" uuid="667b7316-d96c-4397-9564-0b6b96539014"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dFechaInicio}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="4" y="37" width="222" height="16" uuid="37e54da5-e513-4e52-bf14-75da25442cfc"/>
+				<textElement textAlignment="Justified">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RESUMEN GENERAL DE COBRANZA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="53" width="50" height="12" uuid="a7a9f99c-f620-45fd-8295-e714043516e8"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DESDE EL:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="117" y="53" width="50" height="12" uuid="ef7451e4-78b6-4b72-b244-bd86c1112744"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[HASTA  EL:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="173" y="53" width="41" height="12" uuid="665759c5-f612-43d8-933d-e2213606a619"/>
+				<textElement textAlignment="Left">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dFechaFinal}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="2" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="24" splitType="Stretch">
+			<textField>
+				<reportElement x="17" y="0" width="100" height="20" uuid="de874254-1847-4881-a4fb-946ed4f1b8c4"/>
+				<textFieldExpression><![CDATA[$F{cliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="126" y="4" width="100" height="20" uuid="4e4d92ed-5179-49b1-b392-61087840fd3a"/>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="636" y="4" width="100" height="20" uuid="2202a6fd-351d-42ff-9916-89a0756aa506"/>
+				<textFieldExpression><![CDATA[$F{totalcobro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="473" y="4" width="100" height="20" uuid="2db96467-723e-422d-9bb0-fde97e2930d4"/>
+				<textFieldExpression><![CDATA[$F{cuota}+"/"+$F{numerocuota}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="60" splitType="Stretch"/>
+	</summary>
+</jasperReport>

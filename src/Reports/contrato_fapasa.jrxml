@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="contrato_fapasa" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="15724193-b574-49f8-865b-f4df501516b8">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="839"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Sistemas\\EvolutionII\\EvolutionII\\src\\Reports\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="nNumeroPrestamo" class="java.lang.String"/>
+	<parameter name="Letra" class="java.lang.String"/>
+	<parameter name="cMonto_Entregar" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT numero,prestamos.fecha,prestamos.numero,prestamos.socio,clientes.nombre,clientes.direccion,clientes.telefono,clientes.ruc,prestamos.totalprestamo,prestamos.plazo,monedas.etiqueta,monedas.nombre AS nombremoneda,SUM(totalprestamo+interes) AS montopagare,
+clientes.nombre,clientes.direccion,clientes.telefono,clientes.ruc,detalle_prestamo.vence,
+DAY(prestamos.fecha) AS dia,
+YEAR(prestamos.fecha) AS periodo,
+CASE MONTH(prestamos.fecha)
+  WHEN 1 THEN 'Enero'
+  WHEN 2 THEN 'Febrero'
+  WHEN 3 THEN 'Marzo'
+  WHEN 4 THEN 'Abril'
+  WHEN 5 THEN 'Mayo'
+  WHEN 6 THEN 'Junio'
+  WHEN 7 THEN 'Julio'
+  WHEN 8 THEN 'Agosto'
+  WHEN 9 THEN 'Setiembre'
+  WHEN 10 THEN 'Octubre'
+  WHEN 11 THEN 'Noviembre'
+  WHEN 12 THEN 'Diciembre'
+END AS nombremes,
+DAY(detalle_prestamo.vence) AS vencedia,
+CASE MONTH(detalle_prestamo.vence)
+  WHEN 1 THEN 'Enero'
+  WHEN 2 THEN 'Febrero'
+  WHEN 3 THEN 'Marzo'
+  WHEN 4 THEN 'Abril'
+  WHEN 5 THEN 'Mayo'
+  WHEN 6 THEN 'Junio'
+  WHEN 7 THEN 'Julio'
+  WHEN 8 THEN 'Agosto'
+  WHEN 9 THEN 'Setiembre'
+  WHEN 10 THEN 'Octubre'
+  WHEN 11 THEN 'Noviembre'
+  WHEN 12 THEN 'Diciembre'
+END AS vencemes,
+YEAR(detalle_prestamo.vence) AS venceperiodo
+FROM prestamos
+LEFT JOIN clientes
+ON clientes.codigo=prestamos.socio
+LEFT JOIN monedas
+ON monedas.codigo=prestamos.moneda
+LEFT JOIN detalle_prestamo
+ON detalle_prestamo.nprestamo=prestamos.numero
+WHERE prestamos.numero=$P{nNumeroPrestamo}
+GROUP BY prestamos.numero]]>
+	</queryString>
+	<field name="numero" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="socio" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="direccion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="telefono" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ruc" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="totalprestamo" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="plazo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="etiqueta" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombremoneda" class="java.lang.String"/>
+	<field name="montopagare" class="java.math.BigDecimal"/>
+	<field name="vence" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="dia" class="java.lang.Long"/>
+	<field name="periodo" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombremes" class="java.lang.String"/>
+	<field name="vencedia" class="java.lang.Long"/>
+	<field name="vencemes" class="java.lang.String"/>
+	<field name="venceperiodo" class="java.lang.Long"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="107" splitType="Stretch">
+			<staticText>
+				<reportElement x="52" y="27" width="440" height="13" uuid="2d8cb64e-a9a8-44e0-a42f-7287efe46af5"/>
+				<textElement>
+					<font fontName="Copperplate Gothic Bold" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ASOCIACIÓN MUTUAL DE EMPLEADOS DE FARMACÉUTICA PARAGUAYA S.A.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="53" y="41" width="225" height="19" uuid="46eced9f-3a70-4f1e-aa94-069c4e105580"/>
+				<textElement>
+					<font fontName="Copperplate Gothic Bold" size="7"/>
+				</textElement>
+				<text><![CDATA[PERSONERÍA JURÍDICA Dcto. Nº 11 698/85 DIRECCIÓN: Del CARMEN 2400 Esq.LAPACHO ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="53" y="60" width="212" height="11" uuid="05f670f9-c3e6-4a49-8356-5ef3db479bfe"/>
+				<textElement>
+					<font fontName="Copperplate Gothic Bold" size="7"/>
+				</textElement>
+				<text><![CDATA[E-MAIL: ASOCIACION.FAPASA@FAPASA.COM.Py ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="53" y="71" width="102" height="10" uuid="80b80cc8-bdb3-4906-a19a-ccb4b93351b1"/>
+				<textElement>
+					<font fontName="Copperplate Gothic Bold" size="7"/>
+				</textElement>
+				<text><![CDATA[Teléfono: 0992 400 600]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="53" y="81" width="232" height="10" uuid="39b60143-455b-4da4-8e48-435fc4d4c0e1"/>
+				<textElement>
+					<font fontName="Copperplate Gothic Bold" size="7"/>
+				</textElement>
+				<text><![CDATA[FERNANDO DE LA MORA, ZONA NORTe - PARAGUAy ]]></text>
+			</staticText>
+			<line>
+				<reportElement x="52" y="22" width="522" height="1" uuid="5e2d93ff-94a2-466b-9695-18643bae61d8"/>
+			</line>
+			<line>
+				<reportElement x="51" y="103" width="523" height="1" uuid="2948fd8c-018d-43dc-901a-e30771247fab"/>
+			</line>
+			<rectangle>
+				<reportElement x="523" y="26" width="2" height="14" forecolor="#FFFFFF" uuid="d17708e9-fcb6-47b0-8ec6-f1d7ecac69a0"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="610" y="23" width="2" height="68" forecolor="#FFFFFF" uuid="368a146e-78b5-4ef9-9279-b7afe9e75c5c"/>
+			</rectangle>
+			<image>
+				<reportElement x="492" y="25" width="76" height="68" uuid="239189fb-88d0-4ab6-afca-69b6f762eb33"/>
+				<imageExpression><![CDATA["C:\\Sistemas\\EvolutionII\\EvolutionII\\src\\Images\\fapasa_logocolor.jpg"]]></imageExpression>
+			</image>
+			<rectangle>
+				<reportElement x="487" y="26" width="0" height="15" forecolor="#FFFFFF" uuid="41d3b4b3-6d04-4461-8925-9138c54520fb"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="54" y="92" width="82" height="10" uuid="25c6ff62-dc5d-4a2c-b019-ae936f005c21"/>
+				<textElement>
+					<font fontName="Copperplate Gothic Bold" size="7"/>
+				</textElement>
+				<text><![CDATA[RUC.:80033305 - 5]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="492" y="25" width="11" height="14" forecolor="#FFFFFF" uuid="70c7059b-6f5e-4a15-b33b-e8baaf059617"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="489" y="86" width="86" height="9" forecolor="#FFFFFF" uuid="35de3d2b-f73f-4e13-b6b2-f6fe035e244b"/>
+			</rectangle>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="732" splitType="Stretch">
+			<line>
+				<reportElement x="381" y="22" width="75" height="1" uuid="9561748d-4afa-4afd-ba99-27a380ea29c1"/>
+			</line>
+			<textField>
+				<reportElement x="393" y="6" width="54" height="14" uuid="0b54a45b-7a8e-42aa-ba69-11514863db79"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numero}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="198" y="8" width="177" height="15" uuid="6274e60b-07e0-4e1a-863c-6c9071d51d35"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CONTRATO DE PRESTAMO Nº]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="50" y="34" width="503" height="85" forecolor="#000000" backcolor="#FFFFFF" uuid="eb745dbb-3c17-4269-9e80-6438f9a7e478"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["En la ciudad de Fernando  de  la  Mora, a los "+$F{dia}+", días del mes "+$F{nombremes} +", entre la Asociación Mutual de Empleados de Farmacéutica Paraguaya, domiciliada  en Del Carmen Nº 2760 casi Pikysyry,en adelante “LA ACREEADORA”, representada en este acto por (el) los Señor(es) Victor Aquino en su carácter de PRESIDENTE DE LA ASOCIACIÓN MUTUAL DE EMPLEADOS DE FARMACÉUTICA PARAGUAYA por una parte, y por la otra el (la) Señor(a) "+$F{nombre}+" en adelante  “EL(LA) PRESTATARIO(A)”, con domicilio en la "+$F{direccion}+" formalizan  por  este instrumento el  siguiente  contrato, que se regirá por las Clausulas y Condiciones siguientes:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="50" y="117" width="503" height="60" forecolor="#000000" backcolor="#FFFFFF" uuid="7cf76e0f-a801-411a-baaf-5945b3478dd4"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["1 LA ACREEDORA otorga al Prestatario, un préstamo de dinero por la suma de "+$P{Letra}+" (Gs. "+$P{cMonto_Entregar}+"-),el cual es desembolsado con la suscripción del presente documento. El interés compensatorio estipulado es del ………..l. Para el caso de mora, se estipula un interés moratorio del…………. igualmente un interés punitorio del ………..  a aplicarse sobre la(s) cuota(s) vencida(s)  impaga(s)......................................................."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="50" y="178" width="503" height="49" forecolor="#000000" backcolor="#FFFFFF" uuid="523cd749-ab69-4448-a82d-f4df502f711a"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["2 El  Prestatario  se compromete  a reembolsar a LA ACREEDORA el préstamo otorgado, en ("+$F{plazo}+") cuotas-consecutivas, de periodicidad mensual,  cuyo importe y vencimiento se expresa en el correspondiente documento. Por la presente  autorizo a la Asociación Mutual de Empleados Farmacéutica Paraguaya . S.A. A descontar la suma pactada como  cuota, de mi salario en los términos que  se  acuerden  en  este contrato."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="50" y="229" width="503" height="24" forecolor="#000000" backcolor="#FFFFFF" uuid="52876ee1-b70d-4957-95a8-2fb0338bcfdf"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["3 Asimismo autorizo a esta Asociación cancelar mi saldo, orden(es) de Compra(s) o cualquier otra obligación que  existiere, de mis  aportes acumulados de mi liquidación salarial."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="50" y="254" width="503" height="36" forecolor="#000000" backcolor="#FFFFFF" uuid="5fda1ad6-51a8-4e25-a087-6c355f69a6d4"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["4 Constituye también cláusulas del presente contrato, todas las prescripciones contenidas en el reglamento de crédito vigente, establecidos por LA ACREEDORA, y que el  Prestatario declara  conocer  y se compromete a cumplir fielmente."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="50" y="290" width="503" height="138" forecolor="#000000" backcolor="#FFFFFF" uuid="162229af-bc3b-4f2b-85e9-1d0a79ec8443"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["5 La mora se producirá por el mero vencimiento de los plazos, sin necesidad de interpelación judicial ni  extrajudicial y libre  de protesto y  sin gastos. La falta de pago de …. (….) cuotas-consecutivas, así como Reglamento de  el incumplimiento por parte del Prestatario de cualquiera de las cláusulas  del presente contrato y de las prescripciones del crédito, hará decaer de pleno derecho el plazo de todas las cuotas, y facultara a LA ACREEDORA a exigir el pago de la totalidad  de la deuda, incluyendo los intereses compensatorios devengados, y los intereses moratorios y punitorios a devengarse hasta la cancelación definitiva del préstamo. Igualmente LA ACREEDORA podrá dar por vencidos los plazos de la obligación y exigir la cancelación de su saldo en caso de comprobarse que el Prestatario ha suministrado información falsa o incumplido cualquiera de las condiciones convenidas en la contratación del presente préstamo y además  a promover al prestatario juicio  ejecutivo  por  todo  el  saldo adeudado  pendiente  de pago, considerándose como de plazos vencidos todas  las  demás  cuotas, inclusive   las  no  vencidas, y  valiendo este  contrato  de  titulo  de  ejecución, también  libre  de  protesto…………………………………………………………………………………………"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="50" y="430" width="503" height="83" forecolor="#000000" backcolor="#FFFFFF" uuid="5268eb16-ef77-4671-8057-9a78c50e3e69"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["6  Por el presente instrumento le autorizo en forma irrevocable, otorgando suficiente mandatos en los términos  del Art.917 inc. a) del Código Civil para que por propia cuenta o a través de empresas especializadas de nuestro medio, puedan recabar información en plaza referente a mi situación patrimonial , solvencia económica, o el cumplimiento de nuestras obligaciones comerciales, como así también a  la  verificación  como  a  confirmación  y/o  certificación de  los  datos  por  mi  proveídos a   fin de  que puedan  contar  con  los  elementos  de  juicios y  análisis  necesarios  para  la  concesión  del  crédito que me encuentro gestionando ante  la firma………………………………………………………."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="50" y="515" width="503" height="74" forecolor="#000000" backcolor="#FFFFFF" uuid="271b46ef-1f20-4362-8c5f-ed9d8e20dc1a"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Las  partes  fijan  domicilio  especial  a  todos  los  efectos legales,  derivados  del  presente  contrato   en  los  lugares  consignados al  inicio  del  mismo,  donde  serán  tenidas por  validas todas  las  notificaciones  judiciales o  extrajudiciales  que  se  cursen hasta  tanto  sea fehacientemente comunicado el  cambio  de  domicilio. Así  mismo,  declaran  prorrogadas la  jurisdicción territorial, y  se  avienen  a  dirimir  cualquier  controversia emergente  del presente  contrato ante  los  jueces y  tribunales de  la  ciudad de Asunción para todos los  efectos pertinentes."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="50" y="588" width="503" height="35" forecolor="#000000" backcolor="#FFFFFF" uuid="c1be8303-54e0-4201-874b-9d05e037e7ba"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["En  prueba de conformidad, previa  lectura  y  ratificación  firman las  partes  el  presente  contrato,  en  dos  ejemplares  de  un  mismo  tenor y a  los  efectos  legales  pertinentes,  sirviendo cualquiera  de  ellos para  eventuales reclamaciones judiciales…………………………………………………………………………………………………………….."]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="62" y="649" width="223" height="10" uuid="bf79730c-da67-4365-8877-8d6b3a022f62"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[-------------------------------------------------------------------------------------]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="62" y="662" width="52" height="13" uuid="3408e01f-6f03-48c8-aebc-d8106ee0003d"/>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[Presidente.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="350" y="663" width="52" height="13" uuid="d95ad313-94f2-4900-8106-db09edcd7ec5"/>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[Asociado.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="350" y="650" width="223" height="10" uuid="bd77d8ad-e60b-4aa6-a3f4-abffeb9862e0"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[-------------------------------------------------------------------------------------]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="3" splitType="Stretch"/>
+	</columnFooter>
+</jasperReport>

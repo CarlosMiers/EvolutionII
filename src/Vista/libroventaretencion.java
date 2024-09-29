@@ -1,0 +1,477 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Vista;
+
+import Conexion.Conexion;
+import Conexion.ObtenerFecha;
+import Modelo.Tablas;
+import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableRowSorter;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
+import Clases.Config;
+import Clases.Parametros;
+import DAO.clienteDAO;
+import DAO.retenciones_ventasDAO;
+import Modelo.cliente;
+import Modelo.retenciones_ventas;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.print.PrinterException;
+import java.sql.Date;
+import java.text.MessageFormat;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JLabel;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.RowFilter;
+import javax.swing.UIManager;
+import org.openide.util.Exceptions;
+
+/**
+ *
+ * @author hp
+ */
+public class libroventaretencion extends javax.swing.JFrame {
+
+    Conexion con = null;
+    Statement stm = null;
+    Tablas modelo = new Tablas();
+    Tablas modelocasa = new Tablas();
+    JScrollPane scroll = new JScrollPane();
+    private TableRowSorter trsfiltro, trsfiltro2, trsfiltrocasa;
+    ObtenerFecha ODate = new ObtenerFecha();
+    String cSql, cCliente = null;
+
+    Config configuracion = new Config();
+    SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+    DecimalFormat formato = new DecimalFormat("#,###.##");
+    double nCapital = 0.00;
+    double nMora = 0.00;
+    double nInteres = 0.00;
+    int nDiaGraciaMora = 0;
+    double nImporteGastos, nDiasGracia, nDiasGraciaGastos = 0.00;
+    int natraso = 0;
+    String catraso = null;
+    String cAmortizacion;
+    double nAmortizacion;
+    double nPunitorio = 0.00;
+    double nTasaPunitoria = 0.00;
+
+    /**
+     * Creates new form libroventaconsolidado
+     */
+    public libroventaretencion() {
+        initComponents();
+        this.jTable1.setShowGrid(false);
+        this.jTable1.setOpaque(true);
+        this.jTable1.setBackground(new Color(102, 204, 255));
+        this.jTable1.setForeground(Color.BLACK);
+        this.listar.setEnabled(false);
+        this.setLocationRelativeTo(null);
+        this.cargarTitulo();
+        this.Inicializar();
+    }
+
+    private void cargarTitulo() {
+        modelo.addColumn("N° Retención");
+        modelo.addColumn("N° Factura");
+        modelo.addColumn("Fecha");
+        modelo.addColumn("Cliente");
+        modelo.addColumn("Nombre del Cliente");
+        modelo.addColumn("Importe");
+
+        int[] anchos = {90, 90, 90, 100, 250, 100};
+        for (int i = 0; i < modelo.getColumnCount(); i++) {
+            jTable1.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
+        }
+        ((DefaultTableCellRenderer) jTable1.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);// Este código es para centrar las cabeceras de la tabla.
+        jTable1.getTableHeader().setFont(new Font("Arial Black", 1, 11));
+
+        Font font = new Font("Arial", Font.BOLD, 10);
+        this.jTable1.setFont(font);
+
+        DefaultTableCellRenderer TablaRenderer = new DefaultTableCellRenderer();
+        DefaultTableCellRenderer AlinearCentro = new DefaultTableCellRenderer();
+        TablaRenderer.setHorizontalAlignment(SwingConstants.RIGHT); // aqui defines donde alinear 
+        AlinearCentro.setHorizontalAlignment(SwingConstants.CENTER);
+        this.jTable1.getColumnModel().getColumn(0).setCellRenderer(TablaRenderer);
+        this.jTable1.getColumnModel().getColumn(1).setCellRenderer(TablaRenderer);
+        this.jTable1.getColumnModel().getColumn(2).setCellRenderer(AlinearCentro);
+        this.jTable1.getColumnModel().getColumn(3).setCellRenderer(TablaRenderer);
+        this.jTable1.getColumnModel().getColumn(5).setCellRenderer(TablaRenderer);
+    }
+
+    private void Inicializar() {
+        Calendar c2 = new GregorianCalendar();
+        this.FechaInicial.setCalendar(c2);
+        this.FechaFinal.setCalendar(c2);
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        panelTranslucido1 = new org.edisoncor.gui.panel.PanelTranslucido();
+        etiquetasaldos = new org.edisoncor.gui.label.LabelMetric();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        panelTranslucido2 = new org.edisoncor.gui.panel.PanelTranslucido();
+        generar = new javax.swing.JButton();
+        salir = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        listar = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        FechaInicial = new com.toedter.calendar.JDateChooser();
+        FechaFinal = new com.toedter.calendar.JDateChooser();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Retenciones por Ventas");
+
+        panelTranslucido1.setColorPrimario(new java.awt.Color(102, 153, 255));
+        panelTranslucido1.setColorSecundario(new java.awt.Color(0, 204, 255));
+
+        etiquetasaldos.setBackground(new java.awt.Color(0, 0, 0));
+        etiquetasaldos.setForeground(new java.awt.Color(0, 0, 0));
+        etiquetasaldos.setText("Retenciones por Ventas");
+        etiquetasaldos.setColorDeSombra(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout panelTranslucido1Layout = new javax.swing.GroupLayout(panelTranslucido1);
+        panelTranslucido1.setLayout(panelTranslucido1Layout);
+        panelTranslucido1Layout.setHorizontalGroup(
+            panelTranslucido1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelTranslucido1Layout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addComponent(etiquetasaldos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        panelTranslucido1Layout.setVerticalGroup(
+            panelTranslucido1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelTranslucido1Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(etiquetasaldos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(20, Short.MAX_VALUE))
+        );
+
+        jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jTable1.setModel(modelo);
+        jScrollPane1.setViewportView(jTable1);
+
+        panelTranslucido2.setBackground(new java.awt.Color(204, 204, 204));
+        panelTranslucido2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        panelTranslucido2.setColorPrimario(new java.awt.Color(204, 204, 204));
+        panelTranslucido2.setColorSecundario(new java.awt.Color(153, 153, 153));
+
+        generar.setText("Generar");
+        generar.setToolTipText("Filtrar Datos");
+        generar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        generar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                generarActionPerformed(evt);
+            }
+        });
+
+        salir.setText("Salir");
+        salir.setToolTipText("Salir de esta Opción");
+        salir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        salir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                salirActionPerformed(evt);
+            }
+        });
+
+        jPanel2.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Opciones"));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 186, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 146, Short.MAX_VALUE)
+        );
+
+        listar.setText("Vista Previa");
+        listar.setToolTipText("Vista Previa");
+        listar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        listar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                listarActionPerformed(evt);
+            }
+        });
+
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), "Rango de Fechas"));
+
+        FechaInicial.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                FechaInicialFocusGained(evt);
+            }
+        });
+
+        jLabel2.setText("Desde el");
+
+        jLabel3.setText("Hasta el");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(39, 39, 39)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(FechaInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(FechaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(FechaInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel3)
+                .addGap(2, 2, 2)
+                .addComponent(FechaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(16, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout panelTranslucido2Layout = new javax.swing.GroupLayout(panelTranslucido2);
+        panelTranslucido2.setLayout(panelTranslucido2Layout);
+        panelTranslucido2Layout.setHorizontalGroup(
+            panelTranslucido2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelTranslucido2Layout.createSequentialGroup()
+                .addGap(48, 48, 48)
+                .addGroup(panelTranslucido2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(listar, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(generar, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(salir, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(14, 14, 14))
+            .addGroup(panelTranslucido2Layout.createSequentialGroup()
+                .addGroup(panelTranslucido2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panelTranslucido2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        panelTranslucido2Layout.setVerticalGroup(
+            panelTranslucido2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelTranslucido2Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(generar)
+                .addGap(3, 3, 3)
+                .addComponent(listar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(salir)
+                .addGap(73, 73, 73)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(129, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1088, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelTranslucido2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(panelTranslucido2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1))
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(panelTranslucido1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(panelTranslucido1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void generarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generarActionPerformed
+        GenerarConsultaRetencion consulta1 = new GenerarConsultaRetencion();
+        Thread HiloConsulta1 = new Thread(consulta1);
+        HiloConsulta1.start();        // TODO add your handling code here:
+    }//GEN-LAST:event_generarActionPerformed
+
+    private void salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirActionPerformed
+        this.dispose();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_salirActionPerformed
+
+    private void FechaInicialFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_FechaInicialFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_FechaInicialFocusGained
+
+    private void listarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listarActionPerformed
+        GenerarReporte GenerarReporte = new GenerarReporte();
+        Thread HiloReporte = new Thread(GenerarReporte);
+        HiloReporte.start();
+    }//GEN-LAST:event_listarActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            javax.swing.UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {    //</editor-fold>
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new libroventaretencion().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.toedter.calendar.JDateChooser FechaFinal;
+    private com.toedter.calendar.JDateChooser FechaInicial;
+    private org.edisoncor.gui.label.LabelMetric etiquetasaldos;
+    private javax.swing.JButton generar;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JButton listar;
+    private org.edisoncor.gui.panel.PanelTranslucido panelTranslucido1;
+    private org.edisoncor.gui.panel.PanelTranslucido panelTranslucido2;
+    private javax.swing.JButton salir;
+    // End of variables declaration//GEN-END:variables
+
+    private class GenerarConsultaRetencion extends Thread {
+
+        public void run() {
+            Date FechaI = ODate.de_java_a_sql(FechaInicial.getDate());
+            Date FechaF = ODate.de_java_a_sql(FechaFinal.getDate());
+            //Antes de Cargar el Jtable Ajustamos el ancho de las columnas con el Ancho que se nos antoje
+            int cantidadRegistro = modelo.getRowCount();
+            for (int i = 1; i <= cantidadRegistro; i++) {
+                modelo.removeRow(0);
+            }
+            retenciones_ventasDAO DAO = new retenciones_ventasDAO();
+            try {
+                for (retenciones_ventas orden : DAO.LibroRetencionVenta(FechaI, FechaF)) {
+                    String Datos[] = {orden.getNroretencion(), orden.getNrofactura(), formatoFecha.format(orden.getFecha()), String.valueOf(orden.getCliente().getCodigo()), orden.getCliente().getNombre(), formato.format(orden.getTotalneto())};
+                    modelo.addRow(Datos);
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "ERROR: " + e.getMessage());
+            }
+
+            jTable1.setRowSorter(new TableRowSorter(modelo));
+            int cantFilas = jTable1.getRowCount();
+            if (cantFilas > 0) {
+                listar.setEnabled(true);
+            } else {
+                listar.setEnabled(false);
+            }
+        }
+    }
+
+    private class GenerarReporte extends Thread {
+
+        public void run() {
+            Date dFechaInicio = ODate.de_java_a_sql(FechaInicial.getDate());
+            Date dFechaFinal = ODate.de_java_a_sql(FechaFinal.getDate());
+
+            con = new Conexion();
+            stm = con.conectar();
+            try {
+
+                Map parameters = new HashMap();
+                //Ahora que hay parametros le enviamos uno con el mismo nombre del que creamos
+                //en el reporte
+                parameters.put("cNombreEmpresa", Config.cNombreEmpresa.trim());
+                parameters.put("dFechaInicio", dFechaInicio);
+                parameters.put("dFechaFinal", dFechaFinal);
+                JasperReport jr = null;
+                URL url = getClass().getClassLoader().getResource("Reports/Libroivaretencion.jasper");
+                //+ Config.cNombreFactura);
+//              jr = (JasperReport) JRLoader.loadObject(url);
+                JasperReport masterReport = (JasperReport) JRLoader.loadObject(url);
+                JasperPrint masterPrint = null;
+                //Se le incluye el parametro con el nombre parameters porque asi lo definimos
+                masterPrint = JasperFillManager.fillReport(masterReport, parameters, stm.getConnection());
+                JasperViewer ventana = new JasperViewer(masterPrint, false);
+                ventana.setTitle("Vista Previa");
+                ventana.setVisible(true);
+            } catch (Exception e) {
+                System.out.println("ERROR " + e.getMessage());
+            }
+        }
+
+    }
+}

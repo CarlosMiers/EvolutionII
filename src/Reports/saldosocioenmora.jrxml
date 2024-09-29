@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="saldosocioenmora" pageWidth="100" pageHeight="100" columnWidth="100" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="6034848f-e095-4fb9-a25c-057dfebd9eaf">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="cNombreEmpresa" class="java.lang.String"/>
+	<parameter name="cCliente" class="java.lang.String"/>
+	<parameter name="FechaI" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[SELECT DATEDIFF($P{FechaI},cuenta_clientes.vencimiento) AS atraso,
+cuenta_clientes.saldo
+FROM cuenta_clientes
+INNER JOIN CLIENTES
+ON clientes.codigo=cuenta_clientes.cliente
+INNER JOIN comprobantes
+ON comprobantes.codigo=cuenta_clientes.comprobante
+LEFT JOIN giradurias
+ON giradurias.codigo=cuenta_clientes.giraduria
+LEFT JOIN casas
+ON casas.codigo=cuenta_clientes.comercial
+WHERE  cuenta_clientes.cliente=$P{cCliente}
+AND month(cuenta_clientes.vencimiento)<> month($P{FechaI})
+AND cuenta_clientes.saldo<>0
+having(atraso>0)
+ORDER BY cuenta_clientes.vencimiento]]>
+	</queryString>
+	<field name="atraso" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="saldo" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="saldo_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{saldo}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="31">
+			<textField pattern="#,##0">
+				<reportElement x="6" y="10" width="64" height="11" uuid="fab85788-9a43-4279-b8de-e91df7c0756d"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{saldo_1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

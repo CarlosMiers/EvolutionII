@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="solicitud_vacaciones" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c3ad0422-6852-49df-b1da-173322e3e884">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<import value="Sistemas.EvolutionII.EvolutionII.src.Reports.jasper.*"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="nNumero" class="java.lang.String"/>
+	<parameter name="inicio" class="java.lang.String"/>
+	<parameter name="final" class="java.lang.String"/>
+	<parameter name="cNombreEmpresa" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+     numero,
+     CONCAT(nombres,' ',apellidos) AS nombre,
+     cedula,
+     fecha,
+     unidmed,
+     horas,
+     inicio,
+     fin,
+     importe
+FROM
+     vacaciones
+     INNER JOIN empleados ON vacaciones.funcionario = empleados.codigo
+     INNER JOIN sucursales ON empleados.sucursal = sucursales.codigo
+WHERE numero=$P{nNumero}
+ORDER BY idsucursal, empleados.codigo
+
+]]>
+	</queryString>
+	<field name="numero" class="java.lang.Float">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cedula" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="unidmed" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="horas" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="inicio" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fin" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="importe" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="167" splitType="Stretch">
+			<staticText>
+				<reportElement x="36" y="50" width="441" height="17" uuid="bd717295-3961-4f89-b961-a8d8a2bec908"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="14" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Comunicación Individual de Vacaciones]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="324" y="83" width="49" height="14" uuid="6fbfdfef-b7df-49c9-9b1a-1306f5010c09"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="377" y="83" width="100" height="14" uuid="16e90b0c-558b-49c3-a888-10b763e5d059"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="53" y="115" width="324" height="17" uuid="5cecbe01-06d1-4b66-a2e5-d6e9152f7d3b"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="53" y="97" width="100" height="15" uuid="0542798c-37f2-40ce-a7ac-66f8731e038e"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[Señor/a]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="53" y="136" width="100" height="15" uuid="18528c6a-f0bd-4bf5-9229-2c02f5f2377c"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[Presente]]></text>
+			</staticText>
+			<line>
+				<reportElement x="50" y="156" width="100" height="1" uuid="19d9fb6b-5cfc-48c4-b0a8-08a74efadacf"/>
+			</line>
+			<textField>
+				<reportElement x="51" y="1" width="322" height="15" uuid="61bfa5bc-9f87-4f4a-bc84-cf06e5e948c0"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cNombreEmpresa}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="15" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="559" splitType="Stretch">
+			<textField>
+				<reportElement x="56" y="9" width="421" height="74" uuid="85dd5d6f-ac1c-4519-a1e6-4ee773cab56a"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["La Empresa, se dirige a Ud. a fin de comunicarle que puede usufructuar los ("+$F{horas}+ ") días de vacaciones que le corresponden conforme a su antigüedad, desde el día "+$P{inicio}+" hasta el día "+$P{final}+", debiendo reintegrarse a su puesto de trabajo, en su horario normal al finalizar dicho período."
+]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="157" y="229" width="278" height="11" uuid="356ff44e-4c57-44e9-821c-95af0032669e"/>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="157" y="247" width="63" height="13" uuid="ab851aba-d89b-4120-a386-f56add8fdde0"/>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cedula}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="51" y="247" width="53" height="10" uuid="c45e90a6-ff3c-488c-a3b1-29f0aa1cae41"/>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[C.I.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="50" y="230" width="94" height="10" uuid="db5dc244-3989-41d4-af19-4f559e7e3a36"/>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre(s) y Apellido(s)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="51" y="265" width="77" height="10" uuid="5144a3db-02c7-4afc-851c-5c851b9826ee"/>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Aclaración de Firma]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="50" y="214" width="93" height="10" uuid="1cf62fec-0734-4ff8-8b7c-33805fdcf41b"/>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Firma del Empleado]]></text>
+			</staticText>
+			<line>
+				<reportElement x="161" y="216" width="222" height="1" uuid="f54cdf39-42c7-4dc2-b9f4-478bb6e7baaf"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="161" y="274" width="222" height="1" uuid="732aa622-17c2-4ad6-ad7c-0e0aa552aef2"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="56" y="83" width="421" height="57" uuid="1a00a2dc-0222-4b3e-baf8-ee035cda4fb5"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["El  importe  del  salario  correspondiente  a  sus  días  de  vacaciones  estará  a disposición en la oficina de recursos humanos, pudiendo Ud. pasar a percibirlo el ultimo día laboral ante del inicio del goce de sus merecidas vacaciones."
+]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="19" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

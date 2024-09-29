@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="retiro_mercaderia_carway" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c3ad0422-6852-49df-b1da-173322e3e884">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<import value="Sistemas.EvolutionII.EvolutionII.src.Reports.jasper.*"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="cReferencia" class="java.lang.String"/>
+	<parameter name="cNombreEmpresa" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select creferencia,fecha,factura,vencimiento,cliente,clientes.nombre,clientes.ruc,clientes.direccion,clientes.telefono,totalneto,
+financiado,
+DAY(cabecera_ventas.fecha) AS dia,
+YEAR(cabecera_ventas.fecha) AS periodo,
+CASE MONTH(cabecera_ventas.fecha)
+  WHEN 1 THEN 'Enero'
+  WHEN 2 THEN 'Febrero'
+  WHEN 3 THEN 'Marzo'
+  WHEN 4 THEN 'Abril'
+  WHEN 5 THEN 'Mayo'
+  WHEN 6 THEN 'Junio'
+  WHEN 7 THEN 'Julio'
+  WHEN 8 THEN 'Agosto'
+  WHEN 9 THEN 'Setiembre'
+  WHEN 10 THEN 'Octubre'
+  WHEN 11 THEN 'Noviembre'
+  WHEN 12 THEN 'Diciembre'
+END AS nombremes
+FROM cabecera_ventas
+LEFT JOIN clientes
+ON clientes.codigo=cabecera_ventas.cliente
+WHERE creferencia=$P{cReferencia}]]>
+	</queryString>
+	<field name="creferencia" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="factura" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="vencimiento" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cliente" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ruc" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="direccion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="telefono" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="totalneto" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="financiado" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="dia" class="java.lang.Long"/>
+	<field name="periodo" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombremes" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="109" splitType="Stretch">
+			<staticText>
+				<reportElement x="160" y="28" width="264" height="18" uuid="bd717295-3961-4f89-b961-a8d8a2bec908"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Autorización de Retiro de Mercaderías]]></text>
+			</staticText>
+			<textField pattern="#,##0">
+				<reportElement x="397" y="62" width="85" height="14" uuid="1988fed8-b672-4354-806e-1663dc7549e6"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalneto}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="376" y="62" width="20" height="14" uuid="206aed3a-9a04-4dc6-b230-a1929d28aa8a"/>
+				<textElement>
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[GS:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="290" y="91" width="201" height="10" uuid="4082d428-c1ef-4b6b-9b62-5edb1b629e0c"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Asunción, "+$F{dia}+" de "+$F{nombremes}+" de "+$F{periodo}+".-"]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement x="135" y="63" width="74" height="14" uuid="5cdcea68-baf4-4450-b418-b5461f0fbdfb"/>
+				<textElement>
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{factura}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="33" y="63" width="103" height="14" uuid="34359cd1-22c6-4050-8579-10a9bbd6bc5b"/>
+				<textElement>
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NRO DE FACTURA.]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="522" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="103" y="212" width="226" height="10" uuid="356ff44e-4c57-44e9-821c-95af0032669e"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="103" y="226" width="63" height="10" uuid="ab851aba-d89b-4120-a386-f56add8fdde0"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ruc}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="103" y="240" width="302" height="10" uuid="0872719c-690f-43ca-8810-7da41d19755e"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="103" y="253" width="100" height="10" uuid="df486b63-379e-4055-bac5-d1a6cfe5c985"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{telefono}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="13" y="225" width="53" height="10" uuid="c45e90a6-ff3c-488c-a3b1-29f0aa1cae41"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[C.I.P./RUC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="211" width="77" height="10" uuid="db5dc244-3989-41d4-af19-4f559e7e3a36"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Nombre del Deudor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="254" width="53" height="10" uuid="5144a3db-02c7-4afc-851c-5c851b9826ee"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Teléfono]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="240" width="53" height="10" uuid="bdd57d43-01e4-495f-9fb5-290170ba133d"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Dirección]]></text>
+			</staticText>
+			<line>
+				<reportElement x="105" y="180" width="224" height="1" uuid="917aa9fa-0170-486a-9fbf-55290bc90ffc"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="13" y="171" width="77" height="10" uuid="9f748e2f-5122-43cc-9237-2e5cb08b38dd"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Firma]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="14" y="192" width="77" height="10" uuid="60f11986-80a7-4ff1-8089-c8a299edcc9f"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Aclaración de Firma]]></text>
+			</staticText>
+			<line>
+				<reportElement x="105" y="201" width="224" height="1" uuid="42826bd8-93fe-431d-a761-e7102d25af4b"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement mode="Transparent" x="13" y="7" width="535" height="60" forecolor="#000000" backcolor="#FFFFFF" uuid="72e41729-9f0d-4293-acf4-4d0beb25a63e"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Por el presente documento reconozco y autorizo a la Empresa "+$P{cNombreEmpresa}.trim()+"  Y/O a sus representantes que en caso de no cumplir en fecha con el pago estipulado mensualmente de acuerdo al vencimiento de cada cuota, a retirar de mí domicilio particular y/o depósito, cualquier electrodoméstico, mueble, y/o artefacto o mercaderías de cualquier tipo, que me fueran entregadas en guarda y depósito por la empresa "+$P{cNombreEmpresa}.trim()+" para lo cual me comprometo a entregar sin más trámite y al solo pedido de la misma."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="13" y="73" width="535" height="37" forecolor="#000000" backcolor="#FFFFFF" uuid="372be4fb-db4f-4ba1-a21a-b01b81e3c874"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["El retiro de los electrodomésticos, muebles y/o mercaderías no implican el desistimiento por parte de la Empresa "+$P{cNombreEmpresa}.trim()+" de proseguir con las acciones extra judiciales y judiciales para el recupero de cualquier monto en concepto de deudas impagas e intereses moratorios y punitorios correspondientes."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="13" y="117" width="535" height="12" forecolor="#000000" backcolor="#FFFFFF" uuid="243ce7b5-d105-4f5d-91fc-ee016f23efbf"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Se aplica el retiro de mercadería después de 30 días de atraso de la cuota, contando desde la fecha de vencimiento."]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

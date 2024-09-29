@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="cuenta_clientes" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a826ab72-9c13-467e-8b51-f07096af5861">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="114"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="nCliente" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT cuenta_clientes.`minteres`,cuenta_clientes.`comprobante`,cuenta_clientes.`documento`,cliente,clientes.`nombre` AS nombrecliente,cuenta_clientes.`totalconcedido`,
+cuenta_clientes.`fecha`,cuenta_clientes.`vencimiento`,cuenta_clientes.`saldo`,
+cuenta_clientes.`numerocuota`,cuenta_clientes.`cuota`,cuenta_clientes.`comprobante`,comprobantes.`nombre` AS nombrecomprobante,
+DATEDIFF(CURDATE(),vencimiento) AS diasmora,cuenta_clientes.`tasaoperativa`
+FROM cuenta_clientes
+INNER JOIN clientes
+ON clientes.codigo=cuenta_clientes.`cliente`
+INNER JOIN comprobantes
+ON comprobantes.`codigo`=cuenta_clientes.`comprobante`
+WHERE cuenta_clientes.`saldo`>0
+AND cliente= $P{nCliente}   AND cuenta_clientes.`comprobante`>7
+ORDER BY cuenta_clientes.`comprobante`,cuenta_clientes.`documento`,cuenta_clientes.`vencimiento`]]>
+	</queryString>
+	<field name="minteres" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="comprobante" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="documento" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cliente" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombrecliente" class="java.lang.String"/>
+	<field name="totalconcedido" class="java.math.BigDecimal"/>
+	<field name="fecha" class="java.sql.Date"/>
+	<field name="vencimiento" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="saldo" class="java.math.BigDecimal"/>
+	<field name="numerocuota" class="java.lang.Integer"/>
+	<field name="cuota" class="java.lang.Integer"/>
+	<field name="nombrecomprobante" class="java.lang.String"/>
+	<field name="diasmora" class="java.lang.Long"/>
+	<field name="tasaoperativa" class="java.math.BigDecimal"/>
+	<variable name="variable1" class="java.lang.String">
+		<variableExpression><![CDATA[$F{cuota}.toString()+$F{numerocuota}.toString()]]></variableExpression>
+	</variable>
+	<variable name="saldo_1" class="java.math.BigDecimal" resetType="Group" resetGroup="documento" calculation="Sum">
+		<variableExpression><![CDATA[$F{saldo}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="saldo_2" class="java.math.BigDecimal" resetType="Group" resetGroup="comprobante" calculation="Sum">
+		<variableExpression><![CDATA[$F{saldo}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="saldo_3" class="java.math.BigDecimal" resetType="Group" resetGroup="documento" calculation="Sum">
+		<variableExpression><![CDATA[$F{saldo}]]></variableExpression>
+	</variable>
+	<group name="comprobante">
+		<groupExpression><![CDATA[$F{comprobante}]]></groupExpression>
+		<groupHeader>
+			<band height="31">
+				<frame>
+					<reportElement mode="Opaque" x="-21" y="7" width="576" height="24" forecolor="#CCCCFF" backcolor="#F2EBDF" uuid="356d9478-32ac-45eb-972d-335cfe3d9a0a"/>
+					<rectangle>
+						<reportElement mode="Opaque" x="21" y="0" width="36" height="24" backcolor="#736343" uuid="72515c44-0e2f-4ae6-a2cc-1383d32816c3"/>
+						<graphicElement>
+							<pen lineWidth="0.0"/>
+						</graphicElement>
+					</rectangle>
+					<textField>
+						<reportElement style="SubTitle" x="68" y="5" width="172" height="12" forecolor="#736343" uuid="8800cbdf-94e0-4dc3-8212-9c0a25ea4418"/>
+						<textElement>
+							<font size="10" isBold="true"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{nombrecomprobante}]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="25">
+				<textField evaluationTime="Group" evaluationGroup="comprobante">
+					<reportElement x="85" y="0" width="100" height="20" uuid="76d46ee3-644c-4fcd-8170-52b136f3465c"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$V{saldo_2}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="documento">
+		<groupExpression><![CDATA[$F{documento}]]></groupExpression>
+		<groupHeader>
+			<band height="68">
+				<textField>
+					<reportElement style="SubTitle" x="0" y="4" width="107" height="20" uuid="d7edbcf0-b7e2-43b7-9d86-8ed11d808bc1"/>
+					<textElement textAlignment="Right">
+						<font size="16" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{documento}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00;(-#,##0.00)">
+					<reportElement x="147" y="4" width="100" height="20" uuid="05e6e14d-2bb5-4686-bd44-765a4dbd5aa6"/>
+					<textFieldExpression><![CDATA[$F{totalconcedido}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
+					<reportElement style="Detail" x="279" y="4" width="69" height="15" uuid="2da9ea76-38ce-4516-9058-3a1d4e1d5578"/>
+					<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="Column header" x="12" y="43" width="69" height="15" forecolor="#736343" uuid="a9167e63-04ac-43bb-9384-f2063e371639"/>
+					<text><![CDATA[Emisión]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="99" y="43" width="80" height="15" forecolor="#736343" uuid="ecc743be-6350-4328-95eb-742f38da0f17"/>
+					<text><![CDATA[Vencimiento]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="185" y="43" width="100" height="20" uuid="43d43d86-0766-48a9-ba87-7ca5b8320e87"/>
+					<text><![CDATA[diasmora]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="478" y="48" width="69" height="15" forecolor="#736343" uuid="dba0afa2-012e-4ec6-ac35-a31e5c8dccd2"/>
+					<text><![CDATA[Saldo]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="303" y="43" width="69" height="15" forecolor="#736343" uuid="4af0019c-cb88-4901-9fa5-3c0962169620"/>
+					<text><![CDATA[Cuota]]></text>
+				</staticText>
+				<textField pattern="#,##0.00">
+					<reportElement x="351" y="4" width="100" height="20" uuid="28851fe6-5cb1-4263-8d34-303b8c3c09de"/>
+					<textFieldExpression><![CDATA[$F{tasaoperativa}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="35">
+				<textField evaluationTime="Group" evaluationGroup="documento" pattern="#,##0.00;(#,##0.00)">
+					<reportElement x="451" y="7" width="100" height="20" uuid="79315f6f-532b-4749-8079-8df0496217ed"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$V{saldo_1}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="129" splitType="Stretch">
+			<staticText>
+				<reportElement style="SubTitle" x="2" y="20" width="196" height="22" uuid="e14e2b4a-f32e-43b1-9cc5-c30a492225f8"/>
+				<textElement>
+					<font fontName="Times New Roman" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Estado de Cuenta]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" x="107" y="68" width="241" height="15" uuid="679871bb-3df6-41b2-a9e8-85237763dca5"/>
+				<textFieldExpression><![CDATA[$F{nombrecliente}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" x="2" y="68" width="69" height="15" uuid="875d82f0-342c-47db-a8ab-39a10456c4ba"/>
+				<textFieldExpression><![CDATA[$F{cliente}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="52" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1" uuid="5e77fdb9-c053-4280-b7a4-6c43fc8e134f"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="-4" y="5" width="555" height="15" uuid="2fb95fba-ce44-41e0-8d1f-5fc5f56fb44c"/>
+				<textField>
+					<reportElement x="96" y="0" width="40" height="15" uuid="c0bcc6b8-145b-40fd-bb33-bf8836616940"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$F{cuota}.toString()+"/"+$F{numerocuota}.toString()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+					<reportElement style="Detail" x="16" y="0" width="69" height="15" uuid="0a9894cb-e5d1-4882-8f73-2e615281a562"/>
+					<textFieldExpression><![CDATA[$F{vencimiento}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0.00;(#,##0.00)">
+					<reportElement style="Detail" x="451" y="0" width="100" height="15" uuid="7cf49718-f7b5-4aeb-a932-3c82cb2bc454"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$F{saldo}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<textField>
+				<reportElement x="147" y="5" width="72" height="15" uuid="25879d94-4f61-4d68-ae79-9f57e2e21e59">
+					<printWhenExpression><![CDATA[new Boolean($F{diasmora}>0)]]></printWhenExpression>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{diasmora}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="28" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="576" height="24" forecolor="#D0B48E" backcolor="#F2EBDF" uuid="778eeb17-64cd-418b-9c7f-881cc166adf4"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="533" y="0" width="40" height="20" forecolor="#736343" uuid="ef4a285b-683b-494c-9d18-672bb885cb5f"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="453" y="0" width="80" height="20" forecolor="#736343" uuid="adaec1ad-8669-497f-afdb-d5c2a9154b53"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Column header" x="43" y="0" width="197" height="20" forecolor="#736343" uuid="ab5bc79b-5a73-4547-abd1-6168ad135e97"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="174" splitType="Stretch"/>
+	</summary>
+</jasperReport>

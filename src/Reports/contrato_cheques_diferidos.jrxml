@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="contrato_cheques_diferidos" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b1e79cf5-b939-4a6c-8e4f-a693cc8d09e9">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="cNumero" class="java.lang.String"/>
+	<parameter name="cNombreEmpresa" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT  cabecera_descuento_documentos.numero AS numero,
+     cabecera_descuento_documentos.fecha AS fecha,
+     cabecera_descuento_documentos.moneda AS moneda,
+     cabecera_descuento_documentos.`sucursal` AS sucursal,
+     cabecera_descuento_documentos.`socio` AS socio,
+     cabecera_descuento_documentos.`comision_deudor` AS comision_deudor,
+     cabecera_descuento_documentos.`deducciones` AS deducciones,
+     cabecera_descuento_documentos.`importe` AS importe,
+     cabecera_descuento_documentos.`montoiva` AS montoiva,
+     cabecera_descuento_documentos.`totaldescuento` AS totaldescuento,
+     cabecera_descuento_documentos.`oficialcta` AS oficialcta,
+     cabecera_descuento_documentos.`observacion` AS observacion,
+     detalle_descuento_documentos.`ndescuento` AS ndescuento,
+     detalle_descuento_documentos.`emision` AS emision,
+     detalle_descuento_documentos.`nrodocumento` AS nrodocumento,
+     detalle_descuento_documentos.`comprobante` AS comprobante,
+     detalle_descuento_documentos.`cargobanco` AS cargobanco,
+     detalle_descuento_documentos.`monto_documento` AS monto_documento,
+     detalle_descuento_documentos.`librador` AS librador,
+     detalle_descuento_documentos.`vencimiento` AS vencimiento,
+     detalle_descuento_documentos.`tasa` AS tasa,
+     detalle_descuento_documentos.`plazo` AS plazo,
+     detalle_descuento_documentos.`compra` AS compra,
+     detalle_descuento_documentos.`descuento` AS descuento,
+     detalle_descuento_documentos.`valor_actual` AS actual,
+     detalle_descuento_documentos.`acreedor` AS acreedor,
+     detalle_descuento_documentos.`nrocuentacte` AS nrocuentacte,
+     bancos_plaza.`nombre` AS nombrebanco,
+     vendedores.nombre as nombreoficial,
+     clientes.nombre as nombrecliente
+FROM
+     cabecera_descuento_documentos
+ INNER JOIN  detalle_descuento_documentos
+ ON cabecera_descuento_documentos.`numero` = detalle_descuento_documentos.`ndescuento`
+ INNER JOIN bancos_plaza
+ ON detalle_descuento_documentos.`cargobanco` = bancos_plaza.`codigo`
+INNER JOIN vendedores
+ON cabecera_descuento_documentos.asesor=vendedores.codigo
+INNER JOIN clientes
+ON cabecera_descuento_documentos.socio=clientes.codigo
+where cabecera_descuento_documentos.numero=$P{cNumero}]]>
+	</queryString>
+	<field name="numero" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="moneda" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="sucursal" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="socio" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="comision_deudor" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="deducciones" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="importe" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="montoiva" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="totaldescuento" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="oficialcta" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="observacion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ndescuento" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="emision" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nrodocumento" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="comprobante" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cargobanco" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="monto_documento" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="librador" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="vencimiento" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tasa" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="plazo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="compra" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="descuento" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="actual" class="java.math.BigDecimal"/>
+	<field name="acreedor" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nrocuentacte" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombrebanco" class="java.lang.String"/>
+	<field name="nombreoficial" class="java.lang.String"/>
+	<field name="nombrecliente" class="java.lang.String"/>
+	<variable name="TotalCheques" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{importe}]]></variableExpression>
+	</variable>
+	<variable name="importe_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{importe}]]></variableExpression>
+	</variable>
+	<variable name="monto_documento_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{monto_documento}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="204" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="72" y="14" width="59" height="15" uuid="724969f8-b85c-4f2c-b73b-48cd0b23a733"/>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="25" y="14" width="43" height="15" uuid="89f47c7c-36c3-4c8c-a2b8-5f6f9387d92e"/>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="192" y="9" width="193" height="20" uuid="0ff4c2aa-55f0-4e7e-8240-41ff86429bcb"/>
+				<textElement>
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DESCUENTO DE CHEQUES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="22" y="58" width="100" height="13" uuid="2e249731-bbc5-4f89-96f3-7ab09fd8072b"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Señores]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="22" y="92" width="100" height="20" uuid="6cc1c140-6a9a-4645-b884-5e2612c20d3e"/>
+				<textElement>
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Presente]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="23" y="74" width="211" height="15" uuid="a34d8745-3a66-4c70-9759-7f2233cdfc8a"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cNombreEmpresa}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="23" y="112" width="108" height="20" uuid="d53bf393-c577-432e-a83b-bd0e6d6b7fdc"/>
+				<text><![CDATA[De mi Consideración:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="25" y="142" width="348" height="20" uuid="4a9cc0e8-aa30-41f4-89b5-400364dbd107"/>
+				<text><![CDATA[Sirvanse realizar el descuento de los cheques más abajo detallados.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="26" y="162" width="348" height="20" uuid="a54ff9b1-af0a-4f22-a76c-c548bfb6f7ef"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Destino de la Operación: CAPITAL OPERATIVO]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="27" splitType="Stretch">
+			<staticText>
+				<reportElement x="192" y="7" width="130" height="20" uuid="03f15a23-b1c2-4eef-b70e-b70c297b2ea9"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DETALLE DE CHEQUES]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="33" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement x="-1" y="4" width="556" height="24" uuid="8062c439-aa81-46fb-9b61-7fc711a5d1dd"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="12" y="10" width="72" height="17" uuid="9faeddf0-b5f7-4b30-94f2-21ef14effb31"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Bco/Entidad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="99" y="10" width="57" height="17" uuid="193ee924-0fcd-448b-8a15-01703bbd5d82"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[N° de Cheque]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="168" y="11" width="52" height="16" uuid="d097eeb0-c497-4a58-bf36-e728c21fa584"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[N° Cta. Cte.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="238" y="11" width="49" height="16" uuid="6f1cfcb2-ca79-4028-a032-152dd9932cc8"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Vencimiento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="297" y="11" width="65" height="16" uuid="ebd4b255-9597-4cd4-86cf-1788ac93ea3a"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Importe Cheque]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="372" y="11" width="99" height="18" uuid="fe9314d7-8e18-42f8-979f-2ee6f3a54d05"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Nombre del Librador]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="14" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="-1" width="92" height="10" uuid="b5968af7-f1e3-4527-bebe-ca2fb33ff52d"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombrebanco}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="98" y="1" width="63" height="10" uuid="926fc861-a26e-44be-8eb7-d6b3763fee76"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nrodocumento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="168" y="1" width="64" height="10" uuid="4070ccc8-85c7-4cea-83e6-3c380bea7388"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nrocuentacte}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="238" y="1" width="49" height="10" uuid="147c65eb-f81c-4597-8c80-2e833eada312"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{vencimiento}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(-#,##0.00)">
+				<reportElement x="292" y="1" width="70" height="10" uuid="1dc1d75f-1889-49e3-bd07-e19fdc710eaa"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{monto_documento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="372" y="1" width="172" height="10" uuid="84088c25-968c-46bc-915b-ccc3d3d2a9b8"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{librador}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="3" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="3" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="391" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement x="1" y="3" width="554" height="20" uuid="1cb1fa8c-821c-4a52-bf98-9942e1447673"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="18" y="46" width="521" height="146" uuid="09b42e29-3c53-494a-80b3-cb99d7e83b22"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[1)    El (los) cheque(s) arriba mencionado(s) no es (son) robado(s),falsificado(s) ni extraviado. No existen Denuncias en tal sentido ante   el  Banco girado   ni  ante   instituciones   policiales, y me hago responsable de todas las  consecuencias  que  pudieran ocasionarles a Uds. con motivo de la tenencia de dicho(s) cheque(s).
+
+2)    El   (los)   cheque(s)   mencionado(s)    arriba,   librado(s) por terceros, los   he   recibido  en  carácter  de  tomador  legítimo  y debidamente  endosado(s). Por  lo  que  en este  acto me constituyo en Co-Deudor solidario del Librador y/o endosantes  por sus respectivos importes.
+
+3)    Me  hago  responsable  en forma irrevocable por la legitimidad  y buen  cobro de(los) cheque(s)  mencionado(s) y por lo tanto asumo  responsabilidad   de  pagarlo(s) en forma inmediata a su solo  requerimiento, sin  necesidad de interpelación judicial o extrajudicial alguna, en el supuesto de que el(los) cheque(s) descripto(s) más arriba no fuera(n) pagado(s) por el banco girado, por la causa que fuere.
+
+4)    El simple vencimiento establecerá la mora, autorizando la inclusión de mi nombre personal o razón social que represento a la base  de  datos  de  Informconf conforme  a  lo  establecido en la Ley 1682/01 como  también  para  que se  pueda proveer información a terceros interesados.
+
+5)    El (los)  solicitantes   autorizan  al   mismo  tiempo que, en caso de ser  aceptada  esta  solicitud, el  importe  del  crédito  sea entregado a:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="122" y="7" width="100" height="18" uuid="e9131be1-d0d7-4d61-9a44-255b5fae957e"/>
+				<text><![CDATA[Total General GS/USD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="18" y="195" width="521" height="21" uuid="b97b1db4-daa3-4530-a0aa-4b7011aab79c"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[................................................................................................................... con C.I.Nro....................................................................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="18" y="220" width="521" height="23" uuid="d7b60413-a142-4bbb-b0f9-9513aee07515"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Domiciliado en..................................................................................................................................................................................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="19" y="308" width="117" height="14" uuid="da40a9e1-2d31-4fcf-a993-d9a11b3d02d0"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Hecho por]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="281" width="116" height="13" uuid="899e4dc0-98d6-45fd-897f-b19bbffbd0e4"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[...........................................................]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="18" y="294" width="174" height="10" uuid="83849a4e-37d3-40c9-9fc8-bb90cc87f916"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombreoficial}.toString()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="363" y="310" width="173" height="14" uuid="ac034102-22ca-4085-aa3d-c4a09d63d986"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Cliente]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="362" y="296" width="174" height="10" uuid="1d62c3f7-3655-419f-b6c0-35f06a02304e"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombrecliente}.toString()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="364" y="283" width="172" height="13" uuid="24cf08fd-d4eb-4cb8-a0ac-2a4bfa025fc2"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[.....................................................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="177" y="374" width="173" height="14" uuid="7ac8454b-5725-4f49-a124-e9b444fd3ff9"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Retiró por Autorización]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="178" y="359" width="172" height="13" uuid="b720997d-27a3-4c74-a847-310c14e4ce6b"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[.....................................................................................]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement x="304" y="7" width="58" height="13" uuid="6faa1738-dc22-4457-b931-1867afceddf6"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{monto_documento_1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

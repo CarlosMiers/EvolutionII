@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="contrato_msa4_sinlogo" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b1e79cf5-b939-4a6c-8e4f-a693cc8d09e9">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="cNumero" class="java.lang.String"/>
+	<parameter name="Letra" class="java.lang.String"/>
+	<parameter name="cNombreEmpresa" class="java.lang.String"/>
+	<parameter name="cRucEmpresa" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Sistemas\\EvolutionII\\EvolutionII\\src\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="cLetraAnual" class="java.lang.String"/>
+	<parameter name="cDireccionEmpresa" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT cabecera_descuento_documentos.numero,clientes.codigo AS codcliente,clientes.ruc AS clienteruc,clientes.nombre AS clientenom,clientes.direccion AS clientedirec,
+YEAR(cabecera_descuento_documentos.fecha) AS periodo,
+CASE MONTH(cabecera_descuento_documentos.fecha)
+  WHEN 1 THEN 'Enero'
+  WHEN 2 THEN 'Febrero'
+  WHEN 3 THEN 'Marzo'
+  WHEN 4 THEN 'Abril'
+  WHEN 5 THEN 'Mayo'
+  WHEN 6 THEN 'Junio'
+  WHEN 7 THEN 'Julio'
+  WHEN 8 THEN 'Agosto'
+  WHEN 9 THEN 'Setiembre'
+  WHEN 10 THEN 'Octubre'
+  WHEN 11 THEN 'Noviembre'
+  WHEN 12 THEN 'Diciembre'
+END AS nombremes,
+(SELECT MAX(DAY(vencimiento))
+FROM detalle_descuento_documentos
+WHERE detalle_descuento_documentos.ndescuento=cabecera_descuento_documentos.numero AND detalle_descuento_documentos.plazo) diavence,
+(SELECT MAX(MONTH(vencimiento)) FROM detalle_descuento_documentos WHERE detalle_descuento_documentos.ndescuento=cabecera_descuento_documentos.numero AND detalle_descuento_documentos.plazo) mesvence,
+(SELECT MAX(YEAR(vencimiento)) FROM detalle_descuento_documentos WHERE detalle_descuento_documentos.ndescuento=cabecera_descuento_documentos.numero AND detalle_descuento_documentos.plazo) anualvence,
+(SELECT clientes.nombre FROM clientes WHERE clientes.codigo=cabecera_descuento_documentos.codcodeudor) codenombre,
+(SELECT clientes.ruc FROM clientes WHERE clientes.codigo=cabecera_descuento_documentos.codcodeudor) coderuc,
+(SELECT clientes.direccion FROM clientes WHERE clientes.codigo=cabecera_descuento_documentos.codcodeudor) codedireccion
+FROM cabecera_descuento_documentos
+LEFT JOIN detalle_descuento_documentos
+ON detalle_descuento_documentos.ndescuento=cabecera_descuento_documentos.idprestamos
+INNER JOIN clientes
+ON clientes.codigo=cabecera_descuento_documentos.socio
+WHERE cabecera_descuento_documentos.numero=$P{cNumero}]]>
+	</queryString>
+	<field name="numero" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="codcliente" class="java.lang.Integer"/>
+	<field name="clienteruc" class="java.lang.String"/>
+	<field name="clientenom" class="java.lang.String"/>
+	<field name="clientedirec" class="java.lang.String"/>
+	<field name="periodo" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombremes" class="java.lang.String"/>
+	<field name="diavence" class="java.lang.Long"/>
+	<field name="mesvence" class="java.lang.Long"/>
+	<field name="anualvence" class="java.lang.Long"/>
+	<field name="codenombre" class="java.lang.String"/>
+	<field name="coderuc" class="java.lang.String"/>
+	<field name="codedireccion" class="java.lang.String"/>
+	<title>
+		<band height="128" splitType="Stretch"/>
+	</title>
+	<columnHeader>
+		<band height="655" splitType="Stretch">
+			<textField>
+				<reportElement mode="Transparent" x="10" y="9" width="535" height="47" forecolor="#000000" backcolor="#FFFFFF" uuid="995a0b49-bbfc-4974-b554-18872bb88d34"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["En prueba de conformidad y aceptación, firman las partes en dos (02) ejemplares de un mismo tenor y a un solo efecto, en la ciudad de Asunción, República del Paraguay,"+
+"a los "+$F{diavence}+" dias del mes de "+
+($F{mesvence}.intValue()==1 ?"Enero":
+($F{mesvence}.intValue()==2 ?"Febrero":
+($F{mesvence}.intValue()==3 ?"Marzo":
+($F{mesvence}.intValue()==4 ?"Abril":
+($F{mesvence}.intValue()==5 ?"Mayo":
+($F{mesvence}.intValue()==6 ?"Junio":
+($F{mesvence}.intValue()==7 ?"Julio":
+($F{mesvence}.intValue()==8 ?"Agosto":
+($F{mesvence}.intValue()==9 ?"Setiembre":
+($F{mesvence}.intValue()==10 ?"Octubre":
+($F{mesvence}.intValue()==11 ?"Noviembre":
+($F{mesvence}.intValue()==12 ?"Diciembre":""))))))))))))
++" del año "+$P{cLetraAnual}+"."]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="13" y="60" width="55" height="20" uuid="2b75b763-5782-42ee-aaf6-e519f7384314"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DEUDOR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="14" y="86" width="42" height="16" uuid="bc05339a-9eae-4963-b742-27cc87734f5a"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Nombre:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-76" y="-112" width="42" height="20" uuid="ef95715c-c1df-41f2-86d3-17e69dbda43d"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Nombre:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="14" y="107" width="68" height="15" uuid="d334132f-fc04-447f-8cfc-d725a35cd4e6"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[C.I.O RUC N°: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="14" y="128" width="51" height="16" uuid="ac301b90-2591-4a9b-99b9-5ddaa67b09fd"/>
+				<text><![CDATA[Domicilio:	]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="15" y="162" width="40" height="16" uuid="4bc352a1-6e93-4002-8242-cd79e35ecfe3"/>
+				<text><![CDATA[Firma:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="65" y="85" width="268" height="17" uuid="4b894ca3-6162-416f-895a-e663ee1847a6"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{clientenom}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="90" y="107" width="96" height="15" uuid="efbb133a-a645-47d3-a558-02b841943977"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{clienteruc}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="69" y="128" width="398" height="17" uuid="918f3819-d5ee-47f0-a0a3-05ab7b200318"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{clientedirec}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="12" y="195" width="62" height="20" uuid="58f380cf-f3b8-4be2-879d-6996a9bda880"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true" isItalic="false" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Codeudor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="221" width="41" height="13" uuid="0014e6a7-0eb7-4815-a65f-05315eef1105"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Nombre:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="12" y="242" width="65" height="16" uuid="d5585596-7df2-4876-9c32-cf86a6c23344"/>
+				<text><![CDATA[C.I O RUC N°:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="265" width="50" height="14" uuid="d654343a-b0c0-4039-8118-3836fdc0ba92"/>
+				<text><![CDATA[Domicilio:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="67" y="220" width="262" height="16" uuid="73f03919-1a07-442e-978c-5ad4ad30ca8e"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codenombre}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="84" y="242" width="103" height="16" uuid="a712787e-7333-4321-beed-c461583d8368"/>
+				<textFieldExpression><![CDATA[$F{coderuc}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="70" y="265" width="394" height="14" uuid="81e141a0-98de-4c74-ab09-662351dca3ea"/>
+				<textFieldExpression><![CDATA[$F{codedireccion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="14" y="323" width="69" height="15" uuid="693e9663-8487-4d08-86d5-79c6051f43a8"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ACREEDOR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="15" y="292" width="40" height="14" uuid="7ea74326-415b-498d-8e10-5dd1101957f5"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Firma:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="15" y="347" width="45" height="16" uuid="5348002f-f61e-40d6-be0e-0bcafa758d1a"/>
+				<text><![CDATA[Nombre:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="16" y="371" width="66" height="13" uuid="6cb50ef6-a772-4d7a-b13e-e1a0609b5a56"/>
+				<text><![CDATA[C.I O RUC N°:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="17" y="394" width="52" height="14" uuid="44e0d2c1-0f66-41fd-88ef-8d9ad5b4c076"/>
+				<text><![CDATA[Domicilio:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="67" y="347" width="264" height="17" uuid="9daae65b-6ea4-46a7-b67a-134e47bc36be"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cNombreEmpresa}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="88" y="370" width="95" height="13" uuid="295357c5-47de-41e8-983b-38bcc6391fb0"/>
+				<textFieldExpression><![CDATA[$P{cRucEmpresa}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="74" y="394" width="387" height="14" uuid="7265afae-a29e-4bcc-9c83-828094b5df90"/>
+				<textFieldExpression><![CDATA[$P{cDireccionEmpresa}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="19" y="420" width="35" height="16" uuid="f200e70f-f463-4a70-a5dd-ab73e56b697d"/>
+				<text><![CDATA[Firma:]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+</jasperReport>

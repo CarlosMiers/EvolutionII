@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="estadoocreditosocio" printOrder="Horizontal" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="15626d40-29b7-4762-96d3-f22a87d7f738">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.callouts" value="##Thu Nov 17 10:45:59 PYST 2016"/>
+	<parameter name="cCliente" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT numero,fecha,importe,plazo,
+casas.nombre AS nombrecasa
+FROM ordenes_de_credito
+LEFT JOIN casas
+ON casas.codigo=ordenes_de_credito.comercio
+WHERE ordenes_de_credito.socio=$P{cCliente}
+AND ordenes_de_credito.estado<>'ANULADO'
+ORDER BY ordenes_de_credito.fecha DESC
+LIMIT 4]]>
+	</queryString>
+	<field name="numero" class="java.lang.Float">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="importe" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="plazo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombrecasa" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="1" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="46" splitType="Stretch">
+			<staticText>
+				<reportElement x="2" y="0" width="258" height="10" uuid="6424ab76-6b26-4d79-be16-90e35d6e32fd"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Histórico Ultimas 4 (Cuatro) Ordenes de Crédito Otorgadas]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="19" width="260" height="23" uuid="d97952b0-f8f4-4942-a55d-f2bb20f50478"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="10" y="22" width="27" height="20" uuid="7b45fa63-cbc1-4256-991c-5d519f4c07e0"/>
+				<textElement>
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<text><![CDATA[N° Orden]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="39" y="29" width="37" height="13" uuid="74e344ce-f690-404d-b44c-b041f3918ba9"/>
+				<textElement>
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<text><![CDATA[Fecha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="82" y="29" width="75" height="13" uuid="b0689447-c738-4902-b53a-d2dc643249be"/>
+				<textElement>
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<text><![CDATA[Comercio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="221" y="31" width="26" height="11" uuid="43848e11-89af-4333-ae43-83251793a293"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="7" isUnderline="false" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[Plazo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="162" y="22" width="52" height="20" uuid="11674e61-7d05-430d-be03-eceb93000e8f"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="7" isUnderline="false" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[Importe Solicitado]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="11" splitType="Stretch">
+			<textField pattern="###0">
+				<reportElement x="1" y="0" width="32" height="10" uuid="ba985eba-b1c8-417c-bf81-a5776010ffa7"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numero}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="37" y="0" width="38" height="10" uuid="c4f616c4-5b5d-4936-b45c-3415123044cc"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="82" y="0" width="75" height="10" uuid="f1b50fbc-a93c-4128-8fc1-d021d98a5205"/>
+				<textElement>
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombrecasa}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="162" y="0" width="52" height="10" uuid="28c9181e-2d38-4080-8551-d69db8464ef6"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{importe}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="221" y="1" width="22" height="9" uuid="3d5cacae-6e37-45a9-9a9a-0985165f588a"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{plazo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="1" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="1" splitType="Stretch"/>
+	</pageFooter>
+</jasperReport>

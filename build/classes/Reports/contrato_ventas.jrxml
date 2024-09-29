@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="contrato_ventas" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c3ad0422-6852-49df-b1da-173322e3e884">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="349"/>
+	<import value="Sistemas.EvolutionII.EvolutionII.src.Reports.jasper.*"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="cNombreEmpresa" class="java.lang.String"/>
+	<parameter name="cReferencia" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT creferencia,clientes.nombre,clientes.ruc,clientes.direccion,clientes.telefono
+FROM cabecera_ventas
+LEFT JOIN clientes
+ON clientes.codigo=cabecera_ventas.cliente
+WHERE creferencia=$P{cReferencia}]]>
+	</queryString>
+	<field name="creferencia" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ruc" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="direccion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="telefono" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="109" splitType="Stretch">
+			<staticText>
+				<reportElement x="4" y="43" width="103" height="14" uuid="34359cd1-22c6-4050-8579-10a9bbd6bc5b"/>
+				<textElement>
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Señores]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="75" width="103" height="14" uuid="512e29ba-8135-441a-81fc-40aac77d7f59"/>
+				<textElement>
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Presente]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="522" splitType="Stretch">
+			<textField>
+				<reportElement x="4" y="0" width="539" height="52" uuid="c498c864-6359-4e68-b1ad-7e29365dae51"/>
+				<textElement textAlignment="Justified" markup="none"/>
+				<textFieldExpression><![CDATA["Tengo el agrado de dirigirme a Ustedes a los efectos de AUTORIZAR SUFICIENTEMENTE a la Patronal, a descontar de mis haberes mensuales el importe de la cuota y/o que hubiere asumido ante la empresa " + $P{cNombreEmpresa}+", considerando que la misma me otorgo crédito suficiente para la adquisición de productos diversos, conforme Factura Crédito y Pagaré correspondiente."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="94" y="321" width="226" height="11" uuid="356ff44e-4c57-44e9-821c-95af0032669e"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="94" y="333" width="63" height="13" uuid="ab851aba-d89b-4120-a386-f56add8fdde0"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ruc}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="94" y="347" width="302" height="13" uuid="0872719c-690f-43ca-8810-7da41d19755e"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="94" y="362" width="100" height="14" uuid="df486b63-379e-4055-bac5-d1a6cfe5c985"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{telefono}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="4" y="334" width="53" height="10" uuid="c45e90a6-ff3c-488c-a3b1-29f0aa1cae41"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[C.I.P./RUC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="320" width="77" height="10" uuid="db5dc244-3989-41d4-af19-4f559e7e3a36"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Nombre del Deudor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="363" width="53" height="10" uuid="5144a3db-02c7-4afc-851c-5c851b9826ee"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Teléfono]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="349" width="53" height="10" uuid="bdd57d43-01e4-495f-9fb5-290170ba133d"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Dirección]]></text>
+			</staticText>
+			<line>
+				<reportElement x="96" y="284" width="224" height="1" uuid="917aa9fa-0170-486a-9fbf-55290bc90ffc"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="4" y="276" width="77" height="10" uuid="9f748e2f-5122-43cc-9237-2e5cb08b38dd"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Firma]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="301" width="77" height="10" uuid="60f11986-80a7-4ff1-8089-c8a299edcc9f"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Aclaración de Firma]]></text>
+			</staticText>
+			<line>
+				<reportElement x="96" y="310" width="224" height="1" uuid="42826bd8-93fe-431d-a761-e7102d25af4b"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="4" y="64" width="539" height="52" uuid="f0e8783e-7d8c-4b6d-b39e-aef0b7239478"/>
+				<textElement textAlignment="Justified" markup="none"/>
+				<textFieldExpression><![CDATA["Así mismo manifiesto mi total conformidad y aceptación de que en caso de retirarme y/o dejar de pertenecer al plantel de funcionarios y/o empleados de la empresa con o sin causa justificada, AUTORIZO SUFICIENTEMENTE sea descontado el importe TOTAL DE LAS CUOTAS VENCIDAS Y A VENCER y/o CREDITO PENDIENTE DE PAGO con la empresa "+ $P{cNombreEmpresa}+", de mi liquidación definitiva, conforme a derecho."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="5" y="133" width="539" height="28" uuid="bb1df367-b035-4195-8814-e84aca00dece"/>
+				<textElement textAlignment="Justified" markup="none"/>
+				<textFieldExpression><![CDATA["La empresa "+$P{cNombreEmpresa} +", emitirá un Recibo de Dinero por el valor correspondiente en cada caso y la devolución del Pagaré por la Cancelación total de la misma."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="4" y="180" width="121" height="15" uuid="ed1b68d8-f039-4405-859d-e6dd08f9a812"/>
+				<textElement textAlignment="Justified" markup="none"/>
+				<textFieldExpression><![CDATA["Respetuosos saludos."]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="80" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

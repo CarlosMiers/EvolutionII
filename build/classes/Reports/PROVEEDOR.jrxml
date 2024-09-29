@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PROVEEDOR" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="41dc4311-3619-46b6-adb0-0c007ef4ada4">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT vendedores.nombre,vendedores.nacimiento,vendedores.nacimiento,vendedores.estadocivil,vendedores.direccion,
+vendedores.celular,
+configuracion.empresa,
+configuracion.ruc
+FROM vendedores,configuracion
+vendedores,
+configuracion;]]>
+	</queryString>
+	<field name="pro_nombres" class="java.lang.String"/>
+	<field name="pro_direccion" class="java.lang.String"/>
+	<field name="pro_telefono" class="java.lang.Integer"/>
+	<field name="pro_email" class="java.lang.String"/>
+	<field name="pro_ruc" class="java.lang.String"/>
+	<field name="emp_nombre" class="java.lang.String"/>
+	<field name="emp_direccion" class="java.lang.String"/>
+	<field name="emp_telefono" class="java.lang.Integer"/>
+	<field name="emp_ruc" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="72" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="802" height="28" uuid="3c3d28ae-f059-447c-bc2c-127d7194203d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="18" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{emp_nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="28" width="802" height="20" uuid="00699327-a97b-4c5c-bd60-79f085a5c4d0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{emp_direccion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="436" y="48" width="100" height="20" uuid="2f6bd671-691e-48ff-830a-07c8c38cbb43"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{emp_ruc}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="305" y="49" width="88" height="20" uuid="4df305c8-da7e-4d89-8bcb-88e201e15f77"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{emp_telefono}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="403" y="49" width="33" height="20" uuid="e1ad0f9e-2713-44d5-b78f-447c808451ec"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ruc.:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="270" y="48" width="35" height="20" uuid="448d8419-ee75-4235-ab80-3ef080ea7fcb"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Telef.:]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="802" height="35" uuid="69c2d060-cfe6-45be-a573-b47e6ea3037f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="24" isBold="false"/>
+				</textElement>
+				<text><![CDATA[LISTA DE PROVEEDORES]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="205" height="22" uuid="4822b007-b5cd-44f4-ba18-c7324423413b"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Proveedor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="205" y="0" width="231" height="22" uuid="71788083-80db-4fcb-b4d5-c6d7299bf459"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Direccion]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="436" y="0" width="141" height="22" uuid="decfd0da-7fa7-4937-8f2f-d0d0c2268661"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Telefono]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="577" y="0" width="140" height="22" uuid="cf12695d-c2ba-43d8-abae-1fe831f906b0"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[E-mail]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="717" y="0" width="85" height="22" uuid="cf12695d-c2ba-43d8-abae-1fe831f906b0"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RUC]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="205" height="20" uuid="99db35a5-009e-4fab-95af-022e01701afb"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pro_nombres}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="205" y="0" width="231" height="20" uuid="50914ee6-2df2-479c-a947-8ad328ae1e31"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pro_direccion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="577" y="0" width="140" height="20" uuid="ca344402-21d2-4713-8e03-5825e38ae25b"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pro_email}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="436" y="0" width="141" height="20" uuid="056cc8ad-25e9-46f2-b9f2-f441686fd97a"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pro_telefono}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="717" y="0" width="85" height="20" uuid="ca344402-21d2-4713-8e03-5825e38ae25b"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pro_ruc}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

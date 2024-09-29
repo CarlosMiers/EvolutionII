@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="solicitud_prestamo_codeudor_migraciones" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="03efb176-b388-4295-9aa3-7cfa739365b7">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="nNumeroPrestamo" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT garantia_aval.idprestamo, garantia_aval.codcliente, clientes.nombre, clientes.direccion, clientes.celular
+FROM garantia_aval
+LEFT JOIN clientes
+ON clientes.codigo=garantia_aval.codcliente
+WHERE idprestamo=$P{nNumeroPrestamo}
+ORDER BY idprestamo]]>
+	</queryString>
+	<field name="idprestamo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="codcliente" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="direccion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="celular" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="74" splitType="Stretch">
+			<textField>
+				<reportElement x="64" y="4" width="70" height="14" uuid="42268f51-6304-4e39-a95f-9620b54cc0d4"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codcliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="52" y="20" width="236" height="14" uuid="da4aaaa9-fb9c-47e6-a5b4-18164bd81b0a"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="52" y="37" width="235" height="14" uuid="32bdb47e-5b02-428a-99ff-540cedd69adb"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="53" y="54" width="115" height="14" uuid="ae1c5464-ffd0-4362-8b00-409d37294b87"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{celular}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="356" y="56" width="100" height="14" uuid="e8b0cf84-5f7b-47b0-87ad-7daa26eb48d2"/>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[FIRMA CO-DEUDOR]]></text>
+			</staticText>
+			<line>
+				<reportElement x="288" y="56" width="215" height="1" uuid="ab74eb74-d3ce-4f4e-8ba9-d9c54e335a2a"/>
+			</line>
+			<staticText>
+				<reportElement x="1" y="4" width="62" height="12" uuid="42295415-5c0b-4cf1-821e-46673edf8a79"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Cedula/ Ruc:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="20" width="37" height="12" uuid="d5b49b13-89ad-41ba-997f-b10461bb4dbd"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="37" width="48" height="12" uuid="8f95f639-9e78-403c-b6ca-18424c129e2b"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Direccion:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="54" width="37" height="12" uuid="4d227525-65f9-4fcb-a5d0-9c862ba8663d"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Celular:]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

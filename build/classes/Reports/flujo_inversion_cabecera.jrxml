@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="flujo_inversion_cabecera" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="6034848f-e095-4fb9-a25c-057dfebd9eaf">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="cSerie" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT t.codigo,t.nombre AS nombretitulo,t.pagointeres,t.tasa,t.nomalias,
+t.fechaemision,t.vencimiento,t.nominal,t.moneda,t.nombreprograma AS planglobal,
+mo.nombre AS nombremoneda,e.calificadora,
+e.calificacion,ca.nombre AS nombrecalificadora
+FROM titulos t
+LEFT JOIN monedas mo
+ON mo.codigo=t.moneda
+LEFT JOIN emisores e
+ON e.codigo=t.empresa
+LEFT JOIN calificadoras ca
+ON ca.codigo=e.calificadora
+WHERE t.nomalias=$P{cSerie}
+
+]]>
+	</queryString>
+	<field name="codigo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombretitulo" class="java.lang.String"/>
+	<field name="pagointeres" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tasa" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nomalias" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fechaemision" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="vencimiento" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nominal" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="moneda" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="planglobal" class="java.lang.String"/>
+	<field name="nombremoneda" class="java.lang.String"/>
+	<field name="calificadora" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="calificacion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombrecalificadora" class="java.lang.String"/>
+	<detail>
+		<band height="83">
+			<staticText>
+				<reportElement x="107" y="59" width="68" height="11" uuid="27f8fa82-ef74-4513-99fd-df2fc63416d5"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Pago últ. Cupón: anual:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="15" width="53" height="11" uuid="7f306b26-4778-4d22-adea-c5f0a9437726"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Código ISIN:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="122" y="37" width="53" height="11" uuid="2425ba67-fd3c-4f84-91ba-1ff7288117f9"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Capital:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="122" y="48" width="53" height="11" uuid="c9b08f49-f20a-4704-8f68-a0191c6f1119"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tasa anual:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="378" y="24" width="106" height="11" uuid="c0b4da9e-c786-4c4b-9829-ea1b95c624ca"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombrecalificadora}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="38" width="53" height="11" uuid="e79e7c85-33d3-4c1b-a0eb-9661c8d1f758"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Plan Global:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="122" y="26" width="53" height="11" uuid="c2cbe16d-7e46-4cdc-8bc4-5f605f026888"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Pagos:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="175" y="14" width="106" height="11" uuid="845469df-8e8e-41a9-b33f-d03fb8e57942"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombremoneda}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="281" y="14" width="91" height="11" uuid="7b3a3dd8-1a51-4d2b-be30-75e22d2e2636"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Garantia de la Emisión:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="281" y="37" width="91" height="11" uuid="b444a8fc-adc5-4488-b52f-9d1b16e81e02"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Calificadora de Riesgo:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="378" y="37" width="106" height="11" uuid="e13f930b-dfe6-402b-a872-97c4d89b74d8"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{calificacion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="57" y="26" width="50" height="11" uuid="481808d0-6893-4235-ae00-cffb7cc69517"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nomalias}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="281" y="25" width="91" height="11" uuid="e34f509f-558e-458c-b4e6-cea8364d3532"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Calificación de Riesgo:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="26" width="53" height="11" uuid="1720d3b0-d0d7-436c-a01d-b647ea83c10f"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Serie:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="57" y="37" width="50" height="11" uuid="b2a6624b-2663-483d-a5d0-61786d631e03"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{planglobal}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="122" y="14" width="53" height="11" uuid="361a1045-2cad-4e3c-afc2-3db112a44530"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Moneda:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="175" y="26" width="106" height="11" uuid="5da233ef-1313-4a43-83bf-f0303de35f9a"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pagointeres}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00">
+				<reportElement x="175" y="48" width="50" height="11" uuid="e151973f-0145-42d0-8018-86c9fa2cbd19"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tasa}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

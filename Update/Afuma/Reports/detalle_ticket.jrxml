@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ticketrecibo_comun" pageWidth="158" pageHeight="2370" columnWidth="158" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isIgnorePagination="true" uuid="6ec5c768-9526-4b07-8c8c-ddcad75da45d">
+	<property name="ireport.zoom" value="3.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="nCliente" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT sum(saldo) as totaldeuda
+FROM cuenta_clientes
+WHERE moneda=1
+AND cliente=$P{nCliente}
+GROUP BY cliente
+ORDER BY cliente]]>
+	</queryString>
+	<field name="totaldeuda" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="50">
+			<textField pattern="#,##0">
+				<reportElement x="14" y="30" width="111" height="15" uuid="d4da695f-4e38-4966-b267-7781fd96c8cf"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totaldeuda}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="25" y="8" width="89" height="16" uuid="901b2ce2-4bfc-4113-96f9-11693e525b78"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Saldo Actual]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="pagare_garantes_crediseguro" pageWidth="572" pageHeight="752" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="8857865a-2293-4d84-bc24-d2ab0893e2e5">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="nNumeroPrestamo" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT idprestamo,codigo,ruc,direccion,telefono,clientes.nombre
+FROM garantia_aval
+INNER JOIN clientes
+ON clientes.codigo=garantia_aval.codcliente
+WHERE garantia_aval.idprestamo=$P{nNumeroPrestamo}]]>
+	</queryString>
+	<field name="idprestamo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="codigo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ruc" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="direccion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="telefono" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="2" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="1" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="4" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="85" splitType="Stretch">
+			<staticText>
+				<reportElement x="12" y="61" width="77" height="10" uuid="62df4f07-790c-49ad-b540-b7722b5c1781"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Aclaración de Firma]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="117" y="24" width="226" height="11" uuid="9f886ec3-c98f-48d3-ab7c-a3e7ac568c01"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="117" y="41" width="63" height="13" uuid="ad886090-fb9c-40d4-b076-49f8604249eb"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ruc}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="121" y="12" width="222" height="1" uuid="bdd90270-41e7-46b5-a933-f875fe83de7d"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="10" y="10" width="93" height="10" uuid="02b279b0-b0ca-4250-9dd2-4ee54de591f6"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Firma Codeudor]]></text>
+			</staticText>
+			<line>
+				<reportElement x="121" y="70" width="222" height="1" uuid="8241c8cb-08f7-4d01-bd0f-8ce1a23b8cf7"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="10" y="25" width="94" height="10" uuid="3cd0c7c8-1fa4-43cf-9fb1-93aecc31243d"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Nombre(s) y Apellido(s)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="41" width="53" height="10" uuid="8c989b7e-9dcc-4821-af3e-392031d54007"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[C.I.]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="5" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="3" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="4" splitType="Stretch"/>
+	</summary>
+</jasperReport>

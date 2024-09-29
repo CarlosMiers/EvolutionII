@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="titulo_postgrado" pageWidth="986" pageHeight="603" orientation="Landscape" columnWidth="946" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c3ad0422-6852-49df-b1da-173322e3e884">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="53"/>
+	<property name="ireport.y" value="184"/>
+	<import value="Sistemas.EvolutionII.EvolutionII.src.Reports.jasper.*"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="cNombreEmpresa" class="java.lang.String"/>
+	<parameter name="cAlumno" class="java.lang.String"/>
+	<parameter name="cCarrera" class="java.lang.String"/>
+	<parameter name="cdia" class="java.lang.String"/>
+	<parameter name="canual" class="java.lang.String"/>
+	<parameter name="cNombremes" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT clientes.nombre as nombrealumno,
+clientes.cedula,YEAR(clientes.fechaingreso) AS ingreso,
+facultad.nombre AS nombrefacultad,
+facultad.decano,facultad.rector,facultad.secretario_general,
+carreras.nombre AS nombrecarrera,carreras.titulo,
+YEAR(clientes.fechaculminacion) AS culminacion,clientes.nroregistro
+FROM clientes
+LEFT JOIN carreras
+ON carreras.codigo=clientes.carrera
+LEFT JOIN facultad
+ON facultad.codigo=carreras.facultad
+WHERE clientes.codigo=$P{cAlumno}
+AND carreras.codigo=$P{cCarrera}
+ORDER BY clientes.codigo]]>
+	</queryString>
+	<field name="nombrealumno" class="java.lang.String"/>
+	<field name="cedula" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ingreso" class="java.lang.Long"/>
+	<field name="nombrefacultad" class="java.lang.String"/>
+	<field name="decano" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="rector" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="secretario_general" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombrecarrera" class="java.lang.String"/>
+	<field name="titulo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="culminacion" class="java.lang.Long"/>
+	<field name="nroregistro" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<pageHeader>
+		<band height="550" splitType="Stretch">
+			<textField>
+				<reportElement x="113" y="142" width="744" height="30" uuid="cd90d6b2-18f0-46b0-a54f-6caf5f0c1ce9"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial Narrow" size="26" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cNombreEmpresa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="113" y="386" width="754" height="32" forecolor="#000000" backcolor="#FFFFFF" uuid="5de3248c-cf4c-4e5c-882a-103a095715b8"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Times New Roman" size="12" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Dado en la Ciudad de Luque, República del Paraguay a los "+ $P{cdia}.trim()+" días del mes de "+$P{cNombremes}.trim()+" del Año "+  $P{canual}.trim()+" y registrado bajo el número "+$F{nroregistro}.trim()+", en el libro de Grado de la Universidad."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="113" y="177" width="744" height="19" forecolor="#000000" backcolor="#FFFFFF" uuid="7f59a57b-2a88-46a8-b131-f781e891f534"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Times New Roman" size="14" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Ley de Creación N° 1.455/99"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="113" y="202" width="744" height="19" forecolor="#000000" backcolor="#FFFFFF" uuid="72acad64-7b0e-4e96-8436-0cf2750c8e70"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Times New Roman" size="14" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Por cuanto"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="113" y="226" width="744" height="29" forecolor="#000000" backcolor="#FFFFFF" uuid="d5fbb4c3-7a5c-44d7-8b12-2c324ebf3457"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Times New Roman" size="24" isBold="true" isItalic="true" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombrealumno}.trim()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="113" y="261" width="744" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="007cce34-e630-41b3-8def-745be53117b2"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Times New Roman" size="14" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["De la Carrera de : "+$F{nombrecarrera}.trim()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="113" y="286" width="744" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="c7f517d1-7094-445f-a7f0-816650edac63"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Times New Roman" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Ha acreditado, con la aprobación de los exámenes requeridos, que reune los méritos académicos suficientes para optar el Grado de: "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="113" y="308" width="744" height="28" forecolor="#000000" backcolor="#FFFFFF" uuid="6e9c1a95-dcda-4054-8ad0-b24155d8aa1a"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Times New Roman" size="20" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{titulo}.trim()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="113" y="342" width="744" height="16" forecolor="#000000" backcolor="#FFFFFF" uuid="fc76aa43-f547-442c-ba2a-22cf2780df1c"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Times New Roman" size="12" isBold="true" isItalic="true" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Por tanto; se le expide el presente Título que le Habilita para el ejercicio de los derechos y el goce de las prerrogativas que el Grado corresponda."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="113" y="365" width="744" height="17" forecolor="#000000" backcolor="#FFFFFF" uuid="5adb560c-b379-497e-8519-df9055f200d2"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Times New Roman" size="12" isBold="true" isItalic="true" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Año de Culminación de la Carrera "+$F{culminacion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="182" y="468" width="160" height="14" uuid="83f3894f-1a19-42c8-8e58-089938f7ccc6"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="12" isBold="false" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Secretario General]]></text>
+			</staticText>
+			<line>
+				<reportElement x="147" y="445" width="263" height="1" uuid="e2ce612d-5614-42f7-ac89-eec36c04eb71"/>
+			</line>
+			<staticText>
+				<reportElement x="203" y="532" width="139" height="14" uuid="a6e0605b-0951-41f4-a564-4cd4cbc0218d"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="12" isBold="false" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Egresado]]></text>
+			</staticText>
+			<line>
+				<reportElement x="147" y="514" width="263" height="1" uuid="7f976f38-7344-495e-8aee-bc3de5b3b197"/>
+			</line>
+			<line>
+				<reportElement x="558" y="515" width="245" height="1" uuid="054475b2-9a3b-45de-a722-2726825e346b"/>
+			</line>
+			<staticText>
+				<reportElement x="558" y="533" width="245" height="14" uuid="8fdf45b1-8128-4616-9d80-94683692e56c"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="12" isBold="false" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Director de Posgrado]]></text>
+			</staticText>
+			<line>
+				<reportElement x="558" y="444" width="245" height="1" uuid="a82e5b4a-a82f-49de-8c7b-00d8e671c278"/>
+			</line>
+			<staticText>
+				<reportElement x="558" y="466" width="234" height="14" uuid="ec5fda18-952e-416a-8abd-2a8e78c15708"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="12" isBold="false" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Rector]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="147" y="449" width="263" height="17" uuid="8f5600a1-90cf-41c6-be47-aa3228436358"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="12" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{secretario_general}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="558" y="449" width="245" height="17" uuid="cb0c40b0-4509-4625-a0a4-0da802ea2d6b"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="12" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{rector}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="559" y="518" width="245" height="17" uuid="e20d3ebb-5569-4e16-acbe-7ee767fcc51a"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="12" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{decano}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="13" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+</jasperReport>

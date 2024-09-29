@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Libroivaretencion" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="bbbb92bd-902b-4c6e-9b99-70fd8d6740d3">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="dFechaInicio" class="java.util.Date"/>
+	<parameter name="dFechaFinal" class="java.util.Date"/>
+	<parameter name="cNombreEmpresa" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT cabecera_retenciones_ventas.nroretencion,nrofactura,fecha,
+sucursal,cliente,valor_retencion,clientes.ruc,
+clientes.nombre AS nombrecliente,sucursales.nombre AS nombresucursal
+FROM cabecera_retenciones_ventas
+INNER JOIN sucursales
+ON sucursales.codigo=cabecera_retenciones_ventas.sucursal
+INNER JOIN clientes
+ON clientes.codigo=cabecera_retenciones_ventas.cliente
+WHERE  fecha BETWEEN $P{dFechaInicio}  AND $P{dFechaFinal}
+ORDER BY fecha]]>
+	</queryString>
+	<field name="nroretencion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nrofactura" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="sucursal" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cliente" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="valor_retencion" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ruc" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombrecliente" class="java.lang.String"/>
+	<field name="nombresucursal" class="java.lang.String"/>
+	<variable name="valor_retencion_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{valor_retencion}]]></variableExpression>
+	</variable>
+	<variable name="valor_retencion_2" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{valor_retencion}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="3" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="136" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="56" y="58" width="50" height="12" uuid="d54c8b02-1ec0-41cf-9061-4c69b92b9bb1"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dFechaInicio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="188" y="58" width="41" height="13" uuid="fd2aa2a8-d124-44cc-a612-d518e64728c3"/>
+				<textElement textAlignment="Left">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dFechaFinal}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="9" y="58" width="46" height="12" uuid="a31b6043-1a3a-462f-80dd-11f77c71655e"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DESDE EL:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="135" y="58" width="50" height="12" uuid="019e4eae-3d26-4b07-b83d-1eee0d576bdd"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[HASTA  EL:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="9" y="0" width="118" height="15" uuid="34bb4a2d-b9ae-4ae1-b74f-b8117e4c21c1"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cNombreEmpresa}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="8" y="19" width="298" height="16" uuid="1e34a2b4-275e-46b4-8b27-b9621aa0217b"/>
+				<textElement textAlignment="Justified">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[INFORME DE RETENCIÓN A VENTAS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="8" y="38" width="76" height="18" uuid="b80cdf31-f7c3-4daa-8b85-e2962f3df610"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Consolidado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="88" y="110" width="37" height="12" uuid="a8501de8-35f5-4b28-a4ec-3a84f575e9aa"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Factura]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="163" y="111" width="35" height="12" uuid="b64b7a37-97f7-4bcd-9694-75830b501e4d"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="230" y="105" width="105" height="12" uuid="f3056c64-1d03-4dc3-afdd-24c963cd4fc8"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cliente/Bienes y Servicios]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="415" y="112" width="27" height="12" uuid="8bde66ac-1a2b-487a-996c-70576428097f"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RUC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="485" y="105" width="52" height="24" uuid="a5dc0991-dd09-4595-ab2b-a1a90a750e23"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor Retención]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="235" y="117" width="97" height="12" uuid="f2f7483c-007d-494a-841f-2dbfe9ff6425"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Razón Social/Apellidos Nombres]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="65" y="96" width="76" height="12" uuid="6a21c35e-34c2-4314-917e-b0f5ed548a3b"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DOCUMENTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="19" y="108" width="43" height="24" uuid="29974cc8-00e7-4f12-b94b-1084cc6dd06c"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[N° Retención]]></text>
+			</staticText>
+			<line>
+				<reportElement x="3" y="132" width="550" height="1" uuid="fd246ee1-e755-4cb4-a099-080ba5449385"/>
+			</line>
+			<line>
+				<reportElement x="4" y="93" width="550" height="1" uuid="79b97b4d-fec3-4b8c-b567-a41aa3436dad"/>
+			</line>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField pattern="">
+				<reportElement x="1" y="2" width="61" height="10" uuid="5e22c2a3-64e5-4d2a-97c7-a8696ad5cae4"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nrofactura}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;-#,##0">
+				<reportElement x="485" y="2" width="68" height="10" uuid="65cbb9df-7e77-43c5-a779-9e9f28fded4d"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valor_retencion}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement x="416" y="2" width="44" height="10" uuid="0065cbd2-b790-4418-8735-18ef1b23655e"/>
+				<textElement>
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ruc}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="164" y="2" width="41" height="10" uuid="db6a0b71-c8e3-4e0c-a56e-50ba332fcc5d"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement x="86" y="2" width="61" height="10" uuid="59316e52-3304-4b49-acd4-22805a755bc3"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nrofactura}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement x="236" y="2" width="152" height="10" uuid="0fda9f79-788e-42dc-8d18-9d1dfb86969c"/>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombrecliente}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="5" y="2" width="61" height="10" uuid="ed36872b-6062-46a8-9b93-d46efd40f1ce"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nroretencion}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="2" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="43" splitType="Stretch">
+			<staticText>
+				<reportElement x="49" y="5" width="86" height="12" uuid="c14845ae-ad07-4c78-8063-11a9fbbfd93f"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL GENERAL]]></text>
+			</staticText>
+			<line>
+				<reportElement x="3" y="3" width="550" height="1" uuid="b8ab1d10-ac89-41df-acb9-273fbc7c8d5a"/>
+			</line>
+			<line>
+				<reportElement x="3" y="17" width="550" height="1" uuid="d6d67062-3181-4b73-a416-b867c32608c4"/>
+			</line>
+			<textField pattern="#,##0">
+				<reportElement x="460" y="5" width="93" height="12" uuid="b8f53f92-09b5-4b1a-837d-34e151606f3f"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{valor_retencion_2}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

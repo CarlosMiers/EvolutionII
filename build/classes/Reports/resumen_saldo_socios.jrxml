@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="resumen_saldo_socios" printOrder="Horizontal" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="15626d40-29b7-4762-96d3-f22a87d7f738">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.callouts" value="##Thu Nov 17 10:45:59 PYST 2016"/>
+	<parameter name="cCliente" class="java.lang.String"/>
+	<parameter name="FechaI" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[SELECT comprobantes.nombre,sum(saldo) as deuda
+FROM cuenta_clientes
+LEFT JOIN comprobantes
+ON comprobantes.codigo=cuenta_clientes.comprobante
+WHERE cuenta_clientes.cliente=$P{cCliente}
+AND cuenta_clientes.saldo<>0
+GROUP BY cuenta_clientes.comprobante]]>
+	</queryString>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="deuda" class="java.math.BigDecimal"/>
+	<variable name="deuda_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{deuda}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="19" splitType="Stretch">
+			<staticText>
+				<reportElement x="4" y="5" width="165" height="12" uuid="05ba3b5a-5f37-4857-b9e5-7ec7dab560e0"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Resumen de Saldos]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement x="4" y="2" width="165" height="16" uuid="f1e34168-15bc-4305-87f2-4733c4f35253"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="4" y="5" width="95" height="12" uuid="a2faf2ab-3e56-4913-a6d8-6772cae14734"/>
+				<textElement>
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Concepto/Servicio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="124" y="5" width="41" height="12" uuid="66c696f4-c062-4cab-9d5d-5a3559aa3185"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Saldo]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="13" splitType="Stretch">
+			<textField>
+				<reportElement x="4" y="1" width="95" height="11" uuid="8fdcf141-3235-4646-b939-e3deccfcd760"/>
+				<textElement>
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="110" y="1" width="59" height="11" uuid="26ffd861-3e6f-4792-9340-0c61e70d4ae6"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{deuda}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="3" splitType="Stretch"/>
+	</columnFooter>
+	<summary>
+		<band height="21">
+			<line>
+				<reportElement x="4" y="-1" width="165" height="1" uuid="f393f800-e4a6-442f-a36d-a1e67e81bb20"/>
+			</line>
+			<textField pattern="#,##0">
+				<reportElement x="110" y="3" width="58" height="10" uuid="d3aa7f7f-f46e-4dc4-838f-7b20f942941e"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{deuda_1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="35" y="3" width="41" height="12" uuid="a24a01ee-3376-4d9d-9e32-1a2e822f11c0"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Deuda]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

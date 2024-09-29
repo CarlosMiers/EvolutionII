@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="estadofinancierosocio" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6034848f-e095-4fb9-a25c-057dfebd9eaf">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="17"/>
+	<parameter name="cNombreEmpresa" class="java.lang.String"/>
+	<parameter name="cCliente" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Sistemas\\EvolutionII\\EvolutionII\\src\\Reports\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="FechaI" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[SELECT clientes.codigo,clientes.categoria,clientes.asesor,clientes.nombre AS nombrecliente,
+clientes.celular, clientes.direccion, clientes.mail,giradurias.nombre AS nombregiraduria,
+clientes.salario,clientes.ruc,clientes.telefono,clientes.cedula
+FROM CLIENTES
+LEFT JOIN giradurias
+ON giradurias.codigo=clientes.giraduria
+WHERE clientes.codigo= $P{cCliente}]]>
+	</queryString>
+	<field name="codigo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="categoria" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="asesor" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombrecliente" class="java.lang.String"/>
+	<field name="celular" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="direccion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="mail" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombregiraduria" class="java.lang.String"/>
+	<field name="salario" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ruc" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="telefono" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cedula" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="2" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="119" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement x="0" y="73" width="555" height="44" uuid="2573db36-a872-495a-8e12-ae93ece74e68"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="9" y="47" width="119" height="12" uuid="2f570fda-be4d-4735-b263-3632853e5c07"/>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Datos Personales del Socio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="9" y="28" width="119" height="14" uuid="1c2fec0f-e19d-4a5b-8afd-44fa5760de93"/>
+				<textElement>
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[EXTRACTO DEL SOCIO]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="9" y="8" width="181" height="15" uuid="00a6fb42-4341-4a40-995c-ba57374b48d7"/>
+				<textElement>
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cNombreEmpresa}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="477" y="31" width="31" height="11" uuid="d6936019-1819-4974-b706-2a3ba5fe6abd"/>
+				<textElement>
+					<font fontName="Arial" size="8" isUnderline="false" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[Fecha :]]></text>
+			</staticText>
+			<textField pattern="d/M/yyyy">
+				<reportElement x="511" y="30" width="45" height="12" uuid="5f33e8aa-85bd-4819-9102-ad0777ce134e"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="516" y="8" width="40" height="20" uuid="7d51b83c-330d-40df-85b5-daa9ebce86ce"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="341" y="8" width="174" height="20" uuid="8439d3d9-8a7e-450d-8de1-e40f951e6f05"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="77" y="79" width="51" height="12" uuid="6c29d597-45a5-4290-979e-5effc8426872"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="360" y="79" width="60" height="12" uuid="9c62e5a1-a84c-4396-b582-fd7479635071"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{telefono}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="312" y="92" width="38" height="10" uuid="d2a8ae9f-fa0f-4e8c-9aa1-23fa11179fbf"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Giraduría]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="9" y="104" width="60" height="10" uuid="33ada685-20e3-47e2-aeaa-9ca1c96dd89f"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Dirección]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="9" y="79" width="60" height="10" uuid="ab80003e-2ba3-4b9c-8cfe-3ed8fcee8963"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Cuenta Socio]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="77" y="92" width="225" height="12" uuid="a287872b-2fd7-41bf-8d2b-a521fcafd170"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombrecliente}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="9" y="92" width="60" height="10" uuid="8fe46d7b-a175-4f9a-b2fb-57eaecb8bc6c"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Nombre Socio]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="78" y="105" width="225" height="12" uuid="d7743e24-bc8f-4b41-8a26-924b9d9abfe6"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="312" y="79" width="38" height="10" uuid="303f01d7-80f0-45ef-a5de-b2df9ca6bed8"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Fono]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="360" y="92" width="117" height="12" uuid="9b865292-4813-405b-8d6b-77022bfba0a7"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombregiraduria}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="317" y="106" width="33" height="10" uuid="e1aa9582-8f23-4c60-ad89-1fc5f8460ea9"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Salario]]></text>
+			</staticText>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="361" y="105" width="60" height="12" uuid="6b1a2868-c7ae-4b0d-9f12-0938331493b0"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{salario}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="213" y="47" width="52" height="12" uuid="e3c7fdc7-37bb-4eea-94ac-a97e1f84db3d"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{FechaI}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="167" y="47" width="46" height="12" uuid="dc03b359-7f68-487f-b195-2a5259736191"/>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Saldos al:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="223" y="77" width="51" height="12" uuid="55724f29-7d7e-49d2-b6ee-f8dd1b3e0ea4"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cedula}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="141" y="79" width="72" height="10" uuid="cff43e43-6cbb-48d0-b4a7-0e90b36fbe28"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Cédula Identidad]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="2" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<subreport>
+				<reportElement x="-1" y="3" width="555" height="15" uuid="e00f2ae2-1d47-4b27-a927-8992b5bac6f8"/>
+				<subreportParameter name="cNombreEmpresa">
+					<subreportParameterExpression><![CDATA[$P{cNombreEmpresa}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="cCliente">
+					<subreportParameterExpression><![CDATA[$P{cCliente}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="FechaI">
+					<subreportParameterExpression><![CDATA[$P{FechaI}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "saldosocioxfecha.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="190" splitType="Stretch">
+			<subreport>
+				<reportElement x="1" y="7" width="189" height="64" uuid="0585ea92-190f-4ea0-9ce6-743e7c12e1f5"/>
+				<subreportParameter name="cCliente">
+					<subreportParameterExpression><![CDATA[$P{cCliente}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "estadocreditosocio.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="290" y="7" width="218" height="64" uuid="70516674-6337-49ce-9ea6-063a8b87357a"/>
+				<subreportParameter name="cCliente">
+					<subreportParameterExpression><![CDATA[$P{cCliente}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "estadoordencompra.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="1" y="111" width="166" height="60" uuid="2f632439-7603-4178-b22b-50d2c4be413b"/>
+				<subreportParameter name="cCliente">
+					<subreportParameterExpression><![CDATA[$P{cCliente}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="FechaI">
+					<subreportParameterExpression><![CDATA[$P{FechaI}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "estadocobranzas.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="179" y="111" width="138" height="60" uuid="9d608d92-af10-43b8-be0b-fa039bbef715"/>
+				<subreportParameter name="cCliente">
+					<subreportParameterExpression><![CDATA[$P{cCliente}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="FechaI">
+					<subreportParameterExpression><![CDATA[$P{FechaI}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "estadodeudatotal.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="342" y="111" width="213" height="60" uuid="330ce823-17ff-486b-bbbf-fabd3ca83572"/>
+				<subreportParameter name="cCliente">
+					<subreportParameterExpression><![CDATA[$P{cCliente}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="FechaI">
+					<subreportParameterExpression><![CDATA[$P{FechaI}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "estadodescuentos.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</summary>
+</jasperReport>

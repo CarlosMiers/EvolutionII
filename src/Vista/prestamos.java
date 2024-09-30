@@ -8,6 +8,7 @@ package Vista;
 import Clases.ApiBancardSuscripcion;
 import Clases.SwingBrowser;
 import Clases.Config;
+import java.util.Base64;
 import Clases.ControlGrabado;
 import Clases.UUID;
 import Clases.numero_a_letras;
@@ -34,12 +35,19 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
+import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.security.SecureRandom;
+import java.security.Security;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -48,12 +56,19 @@ import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -75,6 +90,9 @@ import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.openide.util.Exceptions;
 
 /**
@@ -90,6 +108,8 @@ public class prestamos extends javax.swing.JFrame {
     Tablas modelocustodia = new Tablas();
     Tablas modelocusto = new Tablas();
     Tablas modeloentidadcustodia = new Tablas();
+    Tablas modelobancard1 = new Tablas();
+
     JScrollPane scroll = new JScrollPane();
     private TableRowSorter trsfiltro, trsfiltrogira, trsfiltrocustodia;
     ObtenerFecha ODate = new ObtenerFecha();
@@ -148,6 +168,7 @@ public class prestamos extends javax.swing.JFrame {
         this.TituloCustodia();
         this.TituloCu();
         this.TituloEntidadCustodia();
+        this.TituloBancard();
 
         GrillaCustodia grillacm = new GrillaCustodia();
         Thread hiloca = new Thread(grillacm);
@@ -379,6 +400,14 @@ public class prestamos extends javax.swing.JFrame {
         Salircus = new javax.swing.JButton();
         bancard = new javax.swing.JDialog();
         fondo = new javax.swing.JPanel();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        tablabancard1 = new javax.swing.JTable();
+        BtnActualizar = new javax.swing.JButton();
+        BtnPagar = new javax.swing.JButton();
+        BtnReintentarPagar = new javax.swing.JButton();
+        BtnPausarPago = new javax.swing.JButton();
+        BtnReversar = new javax.swing.JButton();
+        BtnReversarPago = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -426,7 +455,10 @@ public class prestamos extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jSeparator13 = new javax.swing.JPopupMenu.Separator();
         jMenuItem3 = new javax.swing.JMenuItem();
+        jSeparator14 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem4 = new javax.swing.JMenuItem();
 
         jPanel4.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -1953,29 +1985,101 @@ public class prestamos extends javax.swing.JFrame {
 
         fondo.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
+        tablabancard1.setModel(modelobancard1);
+        jScrollPane9.setViewportView(tablabancard1);
+
+        BtnActualizar.setText("Actualizar");
+        BtnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnActualizarActionPerformed(evt);
+            }
+        });
+
+        BtnPagar.setText("Pagar");
+        BtnPagar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnPagarActionPerformed(evt);
+            }
+        });
+
+        BtnReintentarPagar.setText("Reintentar Pago");
+        BtnReintentarPagar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnReintentarPagarActionPerformed(evt);
+            }
+        });
+
+        BtnPausarPago.setText("Pausar Pago");
+        BtnPausarPago.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnPausarPagoActionPerformed(evt);
+            }
+        });
+
+        BtnReversar.setText("Cancelar Suscripción");
+        BtnReversar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnReversarActionPerformed(evt);
+            }
+        });
+
+        BtnReversarPago.setText("Reversar Pago");
+        BtnReversarPago.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnReversarPagoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout fondoLayout = new javax.swing.GroupLayout(fondo);
         fondo.setLayout(fondoLayout);
         fondoLayout.setHorizontalGroup(
             fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1492, Short.MAX_VALUE)
+            .addGroup(fondoLayout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(fondoLayout.createSequentialGroup()
+                        .addComponent(BtnReversar, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(BtnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(BtnPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(BtnReintentarPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(BtnPausarPago, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(BtnReversarPago, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 991, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         fondoLayout.setVerticalGroup(
             fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 950, Short.MAX_VALUE)
+            .addGroup(fondoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(BtnActualizar)
+                    .addComponent(BtnPagar)
+                    .addComponent(BtnReintentarPagar)
+                    .addComponent(BtnPausarPago)
+                    .addComponent(BtnReversar)
+                    .addComponent(BtnReversarPago))
+                .addContainerGap(61, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout bancardLayout = new javax.swing.GroupLayout(bancard.getContentPane());
         bancard.getContentPane().setLayout(bancardLayout);
         bancardLayout.setHorizontalGroup(
             bancardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1496, Short.MAX_VALUE)
-            .addGroup(bancardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(fondo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(bancardLayout.createSequentialGroup()
+                .addComponent(fondo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         bancardLayout.setVerticalGroup(
             bancardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 954, Short.MAX_VALUE)
-            .addGroup(bancardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bancardLayout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(fondo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -2358,20 +2462,33 @@ public class prestamos extends javax.swing.JFrame {
         jMenu2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jMenuItem2.setText("Agregar Suscripción");
+        jMenuItem2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem2ActionPerformed(evt);
             }
         });
         jMenu2.add(jMenuItem2);
+        jMenu2.add(jSeparator13);
 
         jMenuItem3.setText("Actualizar Suscripción");
+        jMenuItem3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem3ActionPerformed(evt);
             }
         });
         jMenu2.add(jMenuItem3);
+        jMenu2.add(jSeparator14);
+
+        jMenuItem4.setText("Listado Suscripciones");
+        jMenuItem4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem4);
 
         jMenuBar1.add(jMenu2);
 
@@ -3749,8 +3866,8 @@ public class prestamos extends javax.swing.JFrame {
         String cPass = config.getAuth_bancard_password();
         String cPost = "POST";
 
-        String cJson = "{\"amount\":" +String.valueOf(p.getMonto_cuota()) + ",\n"
-                + "\"first_installment_amount\":" +String.valueOf(p.getMonto_cuota()) + ",\n"
+        String cJson = "{\"amount\":" + String.valueOf(p.getMonto_cuota()) + ",\n"
+                + "\"first_installment_amount\":" + String.valueOf(p.getMonto_cuota()) + ",\n"
                 + "\"description\":\"FINANCIACION\",\n"
                 + "\"periodicity\":" + 1 + ",\n"
                 + "\"debit_day\":" + p.getDia_debito() + ",\n"
@@ -3784,15 +3901,6 @@ public class prestamos extends javax.swing.JFrame {
 
 
     private void bancardWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_bancardWindowOpened
-        try {
-            SwingBrowser browser = new SwingBrowser();
-            browser.loadURL(url);
-            // browser.setBounds(1, 1, fondo.getWidth() - 1, fondo.getHeight() - 1);
-            browser.setBounds(1, 1, 1487, 954);
-            fondo.add(browser);
-        } catch (Exception ex) {
-            System.out.println("-->CONFIG " + ex.getLocalizedMessage());
-        }        // TODO add your handling code here:
     }//GEN-LAST:event_bancardWindowOpened
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
@@ -3816,8 +3924,8 @@ public class prestamos extends javax.swing.JFrame {
         String cPass = config.getAuth_bancard_password();
         String cPost = "GET";
 
-        String cJson = "{\"amount\":" +String.valueOf(p.getMonto_cuota()) + ",\n"
-                + "\"first_installment_amount\":" +String.valueOf(p.getMonto_cuota()) + ",\n"
+        String cJson = "{\"amount\":" + String.valueOf(p.getMonto_cuota()) + ",\n"
+                + "\"first_installment_amount\":" + String.valueOf(p.getMonto_cuota()) + ",\n"
                 + "\"description\":\"FINANCIACION\",\n"
                 + "\"periodicity\":" + 1 + ",\n"
                 + "\"debit_day\":" + p.getDia_debito() + ",\n"
@@ -3832,6 +3940,283 @@ public class prestamos extends javax.swing.JFrame {
         goToURL(url);
 
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+
+        configuracionDAO UrlDao = new configuracionDAO();
+        configuracion config = new configuracion();
+        config = UrlDao.configBancard();
+        ApiBancardSuscripcion curl = new ApiBancardSuscripcion();
+        String cUrl = config.getBancard_tpago_link_suscription_recuperar();
+        String cUser = config.getAuth_bancard_user();
+        String cPass = config.getAuth_bancard_password();
+        String auth = cUser + ":" + cPass;
+        String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes());
+
+        try {
+            // URL del endpoint
+            // URL de la API
+            this.doTrustToCertificates();
+            URL obj = new URL(cUrl);
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+            // Establecer el método de la solicitud
+            con.setRequestMethod("GET");
+
+            // Añadir el encabezado de autorización
+            con.setRequestProperty("Authorization", "Basic " + encodedAuth);
+
+            // Obtener el código de respuesta
+            int responseCode = con.getResponseCode();
+            System.out.println("Response Code : " + responseCode);
+
+            // Leer la respuesta
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            StringBuilder response = new StringBuilder();
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+            // Procesar la respuesta JSON
+            JSONParser parser = new JSONParser();
+            JSONArray jsonArray = (JSONArray) parser.parse(response.toString());
+
+            for (Object objData : jsonArray) {
+                JSONObject jsonObject = (JSONObject) objData;
+                Object[] rowData = {
+                    jsonObject.get("_id"),
+                    jsonObject.get("codigo"),
+                    jsonObject.get("referencia"),
+                    jsonObject.get("enlace"),
+                    jsonObject.get("tiempo"),
+                    jsonObject.get("estado")
+                };
+                modelobancard1.addRow(rowData);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        this.AbrirBancard();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void BtnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnActualizarActionPerformed
+        int nFila = this.tablabancard1.getSelectedRow();
+        int nNumero = Integer.valueOf(tablabancard1.getValueAt(nFila, 2).toString());
+        String cID = tablabancard1.getValueAt(nFila, 1).toString();
+        prestamoDAO pDAO = new prestamoDAO();
+        prestamo p = new prestamo();
+        try {
+            p = pDAO.buscarIdBancard(nNumero);
+        } catch (SQLException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+
+        configuracionDAO UrlDao = new configuracionDAO();
+        configuracion config = new configuracion();
+        config = UrlDao.configBancard();
+        ApiBancardSuscripcion curl = new ApiBancardSuscripcion();
+        String cUrl = config.getBancard_tpago_link_suscription_actualizar();
+        String cUser = config.getAuth_bancard_user();
+        String cPass = config.getAuth_bancard_password();
+        String cPost = "PUT";
+
+        String cJson = "{\"amount\":" + p.getMonto_cuota() + ",\n"
+                + "\"debit_day\":" + p.getDia_debito() + "}";
+
+        System.out.println(cJson);
+
+        String cRespuesta = curl.ApiSuscripcion(cUrl + cID, cUser, cPass, cJson, cPost);
+
+        System.out.println(cRespuesta);
+
+        //     goToURL(url);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BtnActualizarActionPerformed
+
+    private void BtnPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPagarActionPerformed
+        int nFila = this.tablabancard1.getSelectedRow();
+        int nNumero = Integer.valueOf(tablabancard1.getValueAt(nFila, 2).toString());
+        String cID = tablabancard1.getValueAt(nFila, 1).toString();
+        prestamoDAO pDAO = new prestamoDAO();
+        prestamo p = new prestamo();
+        try {
+            p = pDAO.buscarIdBancard(nNumero);
+        } catch (SQLException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+
+        configuracionDAO UrlDao = new configuracionDAO();
+        configuracion config = new configuracion();
+        config = UrlDao.configBancard();
+        ApiBancardSuscripcion curl = new ApiBancardSuscripcion();
+        String cUrl = config.getBancard_tpago_link_suscription_adelantarpago();
+        String cUser = config.getAuth_bancard_user();
+        String cPass = config.getAuth_bancard_password();
+        String cPost = "PUT";
+
+        String cJson = "{"
+                + "\"payments_to_advance\": " + 1 + ","
+                + "\"description\": \"FINANCIACION\""
+                + "}";
+
+        String cRespuesta = curl.ApiSuscripcion(cUrl + cID, cUser, cPass, cJson, cPost);
+
+        System.out.println(cRespuesta);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BtnPagarActionPerformed
+
+    private void BtnReintentarPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnReintentarPagarActionPerformed
+        int nFila = this.tablabancard1.getSelectedRow();
+        int nNumero = Integer.valueOf(tablabancard1.getValueAt(nFila, 2).toString());
+        String cID = tablabancard1.getValueAt(nFila, 1).toString();
+
+        configuracionDAO UrlDao = new configuracionDAO();
+        configuracion config = new configuracion();
+        config = UrlDao.configBancard();
+        ApiBancardSuscripcion curl = new ApiBancardSuscripcion();
+        String cUrl = config.getBancard_tpago_link_suscription_reintentarpago();
+        String cUser = config.getAuth_bancard_user();
+        String cPass = config.getAuth_bancard_password();
+        String cPost = "POST";
+
+        String cJson = "{"
+                + "}";
+
+        String cRespuesta = curl.ApiSuscripcion(cUrl + cID, cUser, cPass, cJson, cPost);
+
+        System.out.println(cRespuesta);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BtnReintentarPagarActionPerformed
+
+    private void BtnPausarPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPausarPagoActionPerformed
+        int nFila = this.tablabancard1.getSelectedRow();
+        int nNumero = Integer.valueOf(tablabancard1.getValueAt(nFila, 2).toString());
+        String cID = tablabancard1.getValueAt(nFila, 1).toString();
+
+        configuracionDAO UrlDao = new configuracionDAO();
+        configuracion config = new configuracion();
+        config = UrlDao.configBancard();
+        ApiBancardSuscripcion curl = new ApiBancardSuscripcion();
+        String cUrl = config.getBancard_tpago_link_suscription_pausarpago();
+        String cUser = config.getAuth_bancard_user();
+        String cPass = config.getAuth_bancard_password();
+        String cPost = "PUT";
+
+        String cJson = "{"
+                + "\"months_to_pause\": " + 5
+                + "}";
+        String cRespuesta = curl.ApiSuscripcion(cUrl + cID, cUser, cPass, cJson, cPost);
+
+        System.out.println(cRespuesta);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BtnPausarPagoActionPerformed
+
+    private void BtnReversarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnReversarActionPerformed
+        int nFila = this.tablabancard1.getSelectedRow();
+        int nNumero = Integer.valueOf(tablabancard1.getValueAt(nFila, 2).toString());
+        String cID = tablabancard1.getValueAt(nFila, 1).toString();
+
+        configuracionDAO UrlDao = new configuracionDAO();
+        configuracion config = new configuracion();
+        config = UrlDao.configBancard();
+        ApiBancardSuscripcion curl = new ApiBancardSuscripcion();
+        String cUrl = config.getBancard_tpago_link_suscription_cancelar();
+        String cUser = config.getAuth_bancard_user();
+        String cPass = config.getAuth_bancard_password();
+        String cPost = "DELETE";
+
+        String cJson = "{"
+                + "}";
+
+        String cRespuesta = curl.ApiSuscripcion(cUrl + cID, cUser, cPass, cJson, cPost);
+
+        System.out.println(cRespuesta);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BtnReversarActionPerformed
+
+    private void BtnReversarPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnReversarPagoActionPerformed
+        int nFila = this.tablabancard1.getSelectedRow();
+        int nNumero = Integer.valueOf(tablabancard1.getValueAt(nFila, 2).toString());
+        String cID = tablabancard1.getValueAt(nFila, 1).toString();
+
+        configuracionDAO UrlDao = new configuracionDAO();
+        configuracion config = new configuracion();
+        config = UrlDao.configBancard();
+        ApiBancardSuscripcion curl = new ApiBancardSuscripcion();
+        String cUrl = config.getBancard_tpago_linkpago_reversar_hook_alias();
+        String cUser = config.getAuth_bancard_user();
+        String cPass = config.getAuth_bancard_password();
+        String cPost = "PUT";
+
+        String cJson = "{"
+                + "}";
+
+        String cRespuesta = curl.ApiSuscripcion(cUrl + cID, cUser, cPass, cJson, cPost);
+
+        System.out.println(cRespuesta);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BtnReversarPagoActionPerformed
+
+    private void doTrustToCertificates() throws Exception {
+        Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
+        TrustManager[] trustAllCerts = new TrustManager[]{
+            new X509TrustManager() {
+                public X509Certificate[] getAcceptedIssuers() {
+                    return null;
+                }
+
+                public void checkServerTrusted(X509Certificate[] certs, String authType) throws CertificateException {
+                    return;
+                }
+
+                public void checkClientTrusted(X509Certificate[] certs, String authType) throws CertificateException {
+                    return;
+                }
+            }
+        };
+
+        SSLContext sc = SSLContext.getInstance("SSL");
+        sc.init(null, trustAllCerts, new SecureRandom());
+        HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+        HostnameVerifier hv = new HostnameVerifier() {
+            public boolean verify(String urlHostName, SSLSession session) {
+                if (!urlHostName.equalsIgnoreCase(session.getPeerHost())) {
+                    System.out.println("Warning: URL host '" + urlHostName + "' is different to SSLSession host '" + session.getPeerHost() + "'.");
+                }
+                return true;
+            }
+        };
+        HttpsURLConnection.setDefaultHostnameVerifier(hv);
+    }
+
+    private void TituloBancard() {
+        modelobancard1.addColumn("ID");
+        modelobancard1.addColumn("Código");
+        modelobancard1.addColumn("Referencia");
+        modelobancard1.addColumn("Enlace");
+        modelobancard1.addColumn("Tiempo");
+        modelobancard1.addColumn("Estado");
+
+        int[] anchos = {100, 100, 100, 250, 150, 100};
+        for (int i = 0; i < modelobancard1.getColumnCount(); i++) {
+            tablabancard1.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
+        }
+        ((DefaultTableCellRenderer) tablabancard1.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);// Este código es para centrar las cabeceras de la tabla.
+        tablabancard1.getTableHeader().setFont(new Font("Arial Black", 1, 10));
+
+        // Hacemos Invisible la Celda de Costos de los Productos
+        Font font = new Font("Arial", Font.BOLD, 9);
+        this.tablabancard1.setFont(font);
+
+        DefaultTableCellRenderer TablaRenderer = new DefaultTableCellRenderer();
+        TablaRenderer.setHorizontalAlignment(SwingConstants.RIGHT); // aqui defines donde alinear 
+        this.tablabancard1.getColumnModel().getColumn(0).setCellRenderer(TablaRenderer);
+    }
 
     private void AbrirBancard() {
         bancard.setModal(true);
@@ -4036,6 +4421,12 @@ public class prestamos extends javax.swing.JFrame {
     private javax.swing.JButton BorrarCustodia;
     private javax.swing.JButton BotonConfirma;
     private javax.swing.JButton BotonSeleccionar;
+    private javax.swing.JButton BtnActualizar;
+    private javax.swing.JButton BtnPagar;
+    private javax.swing.JButton BtnPausarPago;
+    private javax.swing.JButton BtnReintentarPagar;
+    private javax.swing.JButton BtnReversar;
+    private javax.swing.JButton BtnReversarPago;
     private javax.swing.JButton BuscarCustodiaD;
     private javax.swing.JButton BuscarCustodiaDestino;
     private javax.swing.JButton BuscarCustodiaO;
@@ -4146,6 +4537,7 @@ public class prestamos extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JPanel jPanel1;
@@ -4174,10 +4566,13 @@ public class prestamos extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator10;
     private javax.swing.JPopupMenu.Separator jSeparator11;
     private javax.swing.JPopupMenu.Separator jSeparator12;
+    private javax.swing.JPopupMenu.Separator jSeparator13;
+    private javax.swing.JPopupMenu.Separator jSeparator14;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;
@@ -4235,6 +4630,7 @@ public class prestamos extends javax.swing.JFrame {
     private javax.swing.JButton salirfactura2;
     private javax.swing.JButton saliropcion;
     private javax.swing.JFormattedTextField seguro;
+    private javax.swing.JTable tablabancard1;
     private javax.swing.JTable tablacusto;
     private javax.swing.JTable tablacustodia;
     private javax.swing.JTable tablaentidadcustodia;

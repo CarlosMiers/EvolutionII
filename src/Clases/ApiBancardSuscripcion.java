@@ -72,7 +72,7 @@ public class ApiBancardSuscripcion {
         return response.toString();
     }
 
-    private void doTrustToCertificates() throws Exception {
+    void doTrustToCertificates() throws Exception {
         Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
         TrustManager[] trustAllCerts = new TrustManager[]{
             new X509TrustManager() {

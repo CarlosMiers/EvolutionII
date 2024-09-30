@@ -425,18 +425,21 @@ public class configuracionDAO {
                     + "auth_bancard_password "
                     + "FROM configuracion ";
 
+            
+            
             try (PreparedStatement ps = st.getConnection().prepareStatement(sql)) {
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
                     conf.setBancard_tpago_linkpago_crear(rs.getString("bancard_tpago_recepcion"));
                     conf.setBancard_tpago_linkpago_crear(rs.getString("bancard_tpago_linkpago_crear"));
                     conf.setBancard_tpago_linkpago_reversar_hook_alias(rs.getString("bancard_tpago_linkpago_reversar_hook_alias"));
+                    conf.setBancard_tpago_link_suscription_cancelar(rs.getString("bancard_tpago_link_suscription_cancelar"));
                     conf.setBancard_tpago_link_suscription_crear(rs.getString("bancard_tpago_link_suscription_crear"));
                     conf.setBancard_tpago_link_suscription_recuperar(rs.getString("bancard_tpago_link_suscription_recuperar"));
                     conf.setBancard_tpago_link_suscription_actualizar(rs.getString("bancard_tpago_link_suscription_actualizar"));
                     conf.setBancard_tpago_link_suscription_reintentarpago(rs.getString("bancard_tpago_link_suscription_reintentarpago"));
                     conf.setBancard_tpago_link_suscription_pausarpago(rs.getString("bancard_tpago_link_suscription_pausarpago"));
-                    conf.setBancard_tpago_link_suscription_adelantarpago(rs.getString("bancard_tpago_link_suscription_pausarpago"));
+                    conf.setBancard_tpago_link_suscription_adelantarpago(rs.getString("bancard_tpago_link_suscription_adelantarpago"));
                     conf.setAuth_bancard_user(rs.getString("auth_bancard_user"));
                     conf.setAuth_bancard_password(rs.getString("auth_bancard_password"));
                 }

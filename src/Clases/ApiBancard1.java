@@ -16,8 +16,56 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 public class ApiBancard1 {
+
+    public static void main(String[] args) {
+        try {
+            // URL del endpoint
+            // URL de la API
+            new ApiBancardSuscripcion().doTrustToCertificates();
+            String url = "https://api.horuscloud.net/staging/cobrador/bancard/tpago/linkSuscripcion/recuperar/1/10"; // Cambia esta URL a la de tu API
+            // Credenciales para la autenticación básica
+            String username = "testing";
+            String password = "kdghdufkf254";
+            String auth = username + ":" + password;
+            String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes());
+
+            // Crear la conexión
+            URL obj = new URL(url);
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+            // Establecer el método de la solicitud
+            con.setRequestMethod("GET");
+
+            // Añadir el encabezado de autorización
+            con.setRequestProperty("Authorization", "Basic " + encodedAuth);
+
+            // Obtener el código de respuesta
+            int responseCode = con.getResponseCode();
+            System.out.println("Response Code : " + responseCode);
+
+            // Leer la respuesta
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            StringBuilder response = new StringBuilder();
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+            System.out.println(response.toString());
+            // Procesar la respuesta JSON
+            JSONParser parser = new JSONParser();
+            JSONArray jsonArray = (JSONArray) parser.parse(response.toString());
+            // Imprimir los elementos del array
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     private void doTrustToCertificates() throws Exception {
         Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
@@ -50,73 +98,4 @@ public class ApiBancard1 {
         };
         HttpsURLConnection.setDefaultHostnameVerifier(hv);
     }
-
-    public static void main(String[] args) {
-        try {
-            // URL del endpoint
-            new ApiBancard1().doTrustToCertificates();
-            String url = "https://api.horuscloud.net/staging/cobrador/bancard/tpago/linkSuscription/crear";
-
-            // Datos de la solicitud en formato JSON
-            String json = "{\"amount\":500000,\n"
-                    + "\"first_installment_amount\":100000,\n"
-                    + "\"description\":\"PRESTAMOS\",\n"
-                    + "\"periodicity\":1,\n"
-                    + "\"debit_day\":20,\n"
-                    + "\"unlimited\":true,\n"
-                    + "\"start_date\":\"24/09/2024\",\n"
-                    + "\"end_date\":\"24/02/2025\",\n"
-                    + "\"reference_id\":\"01246400\"}";
-
-            /*            String json = "{amount:" + 500000 + ","
-                    + "first_installment_amount:" + 100000 + ","
-                    + "description:" + "PRESTAMOS" + ","
-                    + "periodicity:" + 1 + ","
-                    + "debit_day:" + 20 + ","
-                    + "unlimited:" + false + ","
-                    + "start_date:" + "24/09/2024" + ","
-                    + "end_date:" + "24/02/2025" + ","
-                    + "reference_id:" + "01246400" + "}";*/
-            // Codificación de la autorización
-            String username = "testing";
-            String password = "kdghdufkf254";
-            String auth = username + ":" + password;
-            String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes());
-
-            // Crear la conexión
-            URL obj = new URL(url);
-            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-
-            // Configurar la solicitud
-            con.setRequestMethod("POST");
-            con.setRequestProperty("Content-Type", "application/json");
-            con.setRequestProperty("Authorization", "Basic " + encodedAuth);
-
-            // Habilitar el envío de datos
-            con.setDoOutput(true);
-            try (DataOutputStream wr = new DataOutputStream(con.getOutputStream())) {
-                wr.writeBytes(json);
-                wr.flush();
-            }
-
-            // Leer la respuesta
-            int responseCode = con.getResponseCode();
-            System.out.println("Response Code: " + responseCode);
-
-            try (BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
-                String inputLine;
-                StringBuilder response = new StringBuilder();
-
-                while ((inputLine = in.readLine()) != null) {
-                    response.append(inputLine);
-                }
-
-                // Imprimir la respuesta
-                System.out.println(response.toString());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
 }

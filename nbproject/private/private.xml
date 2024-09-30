@@ -12,12 +12,10 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Sistemas/EvolutionII/EvolutionII/src/Clases/ApiBancard1.java</file>
+            <file>file:/C:/Sistemas/EvolutionII/EvolutionII/src/DAO/ventaDAO.java</file>
             <file>file:/C:/Sistemas/EvolutionII/EvolutionII/src/Vista/prestamos.java</file>
             <file>file:/C:/Sistemas/EvolutionII/EvolutionII/src/Clases/ApiBancardSuscripcion.java</file>
-            <file>file:/C:/Sistemas/EvolutionII/EvolutionII/src/Clases/CheckGC.java</file>
             <file>file:/C:/Sistemas/EvolutionII/EvolutionII/src/Conexion/Conexion.java</file>
-            <file>file:/C:/Sistemas/EvolutionII/EvolutionII/src/Vista/PortadaFais.java</file>
             <file>file:/C:/Sistemas/EvolutionII/EvolutionII/src/DAO/configuracionDAO.java</file>
             <file>file:/C:/Sistemas/EvolutionII/EvolutionII/src/Vista/Login.java</file>
         </group>

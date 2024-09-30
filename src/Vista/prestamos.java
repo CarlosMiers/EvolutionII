@@ -4108,7 +4108,7 @@ public class prestamos extends javax.swing.JFrame {
         String cPost = "PUT";
 
         String cJson = "{"
-                + "\"months_to_pause\": " + 5
+                + "\"months_to_pause\": " + 7
                 + "}";
         String cRespuesta = curl.ApiSuscripcion(cUrl + cID, cUser, cPass, cJson, cPost);
 

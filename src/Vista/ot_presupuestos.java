@@ -1686,75 +1686,71 @@ public class ot_presupuestos extends javax.swing.JFrame {
 
     private void ModificarActionPerformed(ActionEvent evt) {//GEN-FIRST:event_ModificarActionPerformed
 
-        if (Integer.valueOf(Config.cNivelUsuario) < 3) {
-            nFila = this.jTable1.getSelectedRow();
-            if (nFila < 0) {
-                JOptionPane.showMessageDialog(null,
-                        "Debe seleccionar una fila de la tabla");
-                return;
+        nFila = this.jTable1.getSelectedRow();
+        if (nFila < 0) {
+            JOptionPane.showMessageDialog(null,
+                    "Debe seleccionar una fila de la tabla");
+            return;
+        }
+
+        this.idControl.setText(this.jTable1.getValueAt(nFila, 0).toString());
+        preventaDAO veDAO = new preventaDAO();
+        preventa ve = null;
+        try {
+            ve = veDAO.buscarId(Integer.valueOf(this.idControl.getText()));
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "ERROR:" + e.getMessage());
+        }
+        BigDecimal nCantidad, nCosto, nTotal = new BigDecimal(0);
+
+        if (ve != null) {
+            //SE CARGAN LOS DATOS DE LA CABECERA
+            sucursal.setText(String.valueOf(ve.getSucursal().getCodigo()));
+            nombresucursal.setText(ve.getSucursal().getNombre());
+            numero.setText(formatosinpunto.format(ve.getNumero()));
+            fecha.setDate(ve.getFecha());
+            cliente.setText(String.valueOf(ve.getCliente().getCodigo()));
+            nombrecliente.setText(ve.getCliente().getNombre());
+            total.setText(formatea.format(ve.getTotalneto()));
+            observacion.setText(ve.getObservacion());
+            vencimiento.setDate(ve.getVencimiento());
+            tipo.setSelectedIndex(ve.getTipo() - 1);
+
+            // SE CARGAN LOS DETALLES
+            int cantidadRegistro = modelodetalle.getRowCount();
+            for (int i = 1; i <= cantidadRegistro; i++) {
+                modelodetalle.removeRow(0);
             }
 
-            this.idControl.setText(this.jTable1.getValueAt(nFila, 0).toString());
-            preventaDAO veDAO = new preventaDAO();
-            preventa ve = null;
+            detalle_preventaDAO detDAO = new detalle_preventaDAO();
             try {
-                ve = veDAO.buscarId(Integer.valueOf(this.idControl.getText()));
+                for (detalle_preventa detvta : detDAO.MostrarDetalle(Integer.valueOf(idControl.getText()))) {
+                    String Detalle[] = {detvta.getCodprod().getCodigo(), detvta.getCodprod().getNombre(), formatcantidad.format(detvta.getCantidad()), formatea.format(detvta.getPorcentaje()), formatea.format(detvta.getPrecio()), formatea.format(detvta.getMonto())};
+                    modelodetalle.addRow(Detalle);
+                }
+                this.sumatoria();
             } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "ERROR:" + e.getMessage());
+                JOptionPane.showMessageDialog(null, "ERROR: " + e.getMessage());
             }
-            BigDecimal nCantidad, nCosto, nTotal = new BigDecimal(0);
 
-            if (ve != null) {
-                //SE CARGAN LOS DATOS DE LA CABECERA
-                sucursal.setText(String.valueOf(ve.getSucursal().getCodigo()));
-                nombresucursal.setText(ve.getSucursal().getNombre());
-                numero.setText(formatosinpunto.format(ve.getNumero()));
-                fecha.setDate(ve.getFecha());
-                cliente.setText(String.valueOf(ve.getCliente().getCodigo()));
-                nombrecliente.setText(ve.getCliente().getNombre());
-                total.setText(formatea.format(ve.getTotalneto()));
-                observacion.setText(ve.getObservacion());
-                vencimiento.setDate(ve.getVencimiento());
-                tipo.setSelectedIndex(ve.getTipo() - 1);
-
-                // SE CARGAN LOS DETALLES
-                int cantidadRegistro = modelodetalle.getRowCount();
-                for (int i = 1; i <= cantidadRegistro; i++) {
-                    modelodetalle.removeRow(0);
-                }
-
-                detalle_preventaDAO detDAO = new detalle_preventaDAO();
-                try {
-                    for (detalle_preventa detvta : detDAO.MostrarDetalle(Integer.valueOf(idControl.getText()))) {
-                        String Detalle[] = {detvta.getCodprod().getCodigo(), detvta.getCodprod().getNombre(), formatcantidad.format(detvta.getCantidad()), formatea.format(detvta.getPorcentaje()), formatea.format(detvta.getPrecio()), formatea.format(detvta.getMonto())};
-                        modelodetalle.addRow(Detalle);
-                    }
-                    this.sumatoria();
-                } catch (SQLException e) {
-                    JOptionPane.showMessageDialog(null, "ERROR: " + e.getMessage());
-                }
-
-                int cantFilas = tabladetalle.getRowCount();
-                if (cantFilas > 0) {
-                    editar.setEnabled(true);
-                    eliminar.setEnabled(true);
-                } else {
-                    editar.setEnabled(false);
-                    eliminar.setEnabled(false);
-                }
-
-                detalle_orden_trabajo.setModal(true);
-                detalle_orden_trabajo.setSize(1058, 630);
-                //Establecemos un título para el jDialog
-                detalle_orden_trabajo.setTitle("Detalle de Operación");
-                detalle_orden_trabajo.setLocationRelativeTo(null);
-                detalle_orden_trabajo.setVisible(true);
-                sucursal.requestFocus();
+            int cantFilas = tabladetalle.getRowCount();
+            if (cantFilas > 0) {
+                editar.setEnabled(true);
+                eliminar.setEnabled(true);
             } else {
-                JOptionPane.showMessageDialog(null, "La Operación ya no puede Modificarse");
+                editar.setEnabled(false);
+                eliminar.setEnabled(false);
             }
+
+            detalle_orden_trabajo.setModal(true);
+            detalle_orden_trabajo.setSize(1058, 630);
+            //Establecemos un título para el jDialog
+            detalle_orden_trabajo.setTitle("Detalle de Operación");
+            detalle_orden_trabajo.setLocationRelativeTo(null);
+            detalle_orden_trabajo.setVisible(true);
+            sucursal.requestFocus();
         } else {
-            JOptionPane.showMessageDialog(null, "Usuario no Autorizado");
+            JOptionPane.showMessageDialog(null, "La Operación ya no puede Modificarse");
         }
     }//GEN-LAST:event_ModificarActionPerformed
 
@@ -1939,8 +1935,8 @@ public class ot_presupuestos extends javax.swing.JFrame {
                             + "monto : " + cMonto + ","
                             + "impiva : " + importeiva + ","
                             + "porcentaje : " + civa + ","
-                            + "comentario : '" + cComentario+"'"
-                            + "},";                    
+                            + "comentario : '" + cComentario + "'"
+                            + "},";
                     detalle += linea;
                 }
                 if (!detalle.equals("[")) {
@@ -1951,7 +1947,7 @@ public class ot_presupuestos extends javax.swing.JFrame {
 
                 if (Integer.valueOf(this.numero.getText()) == 0) {
                     try {
-                        ajDAO.InsertarPreVenta(Config.cToken,aju, detalle);
+                        ajDAO.InsertarPreVenta(Config.cToken, aju, detalle);
                     } catch (SQLException e) {
                         JOptionPane.showMessageDialog(null, "Error BD: " + e.getMessage());
                     }

@@ -23,7 +23,7 @@ public class Conexion {
 //conn = DriverManager.getConnection("jdbc:mysql://181.126.96.126/evolution2021", "root", "1541947"); //MILLARD           
 //conn = DriverManager.getConnection("jdbc:mysql://181.120.28.59/evolution2021", "root", "1541947"); //RUFINO MARIANO           
 //conn = DriverManager.getConnection("jdbc:mysql://181.126.81.250/evolution2021", "root", "1541947"); //LACASITA
-//conn = DriverManager.getConnection("jdbc:mysql://181.122.145.124/evolution2021", "root", "1541947"); //ENVASES Y MAS
+conn = DriverManager.getConnection("jdbc:mysql://181.122.145.124/evolution2021", "root", "1541947"); //ENVASES Y MAS
 //conn = DriverManager.getConnection("jdbc:mysql://181.122.120.64/evolution2021", "root", "1541947"); //SALLEMMA
 //conn = DriverManager.getConnection("jdbc:mysql://200.108.134.46/evolution", "root", "1541947"); //AFUMA
 //conn = DriverManager.getConnection("jdbc:mysql://181.120.74.131/evolution2020", "root", "1541947"); //DIORO
@@ -33,7 +33,7 @@ public class Conexion {
 //conn = DriverManager.getConnection("jdbc:mysql://45.180.183.152/evolution2021", "root", "1541947"); //SUCURSAL 2 FERREMAX   
 //conn = DriverManager.getConnection("jdbc:mysql://" + Config.cIpServer.trim() + "/Evolution", "root", "1541947");
 //  conn = DriverManager.getConnection("jdbc:mysql://" + Config.cIpServer.trim()+":3307" + "/Evolution2021", "root", "1541947");
-conn = DriverManager.getConnection("jdbc:mysql://" + Config.cIpServer.trim()+ "/Evolution2021", "root", "1541947");
+//conn = DriverManager.getConnection("jdbc:mysql://" + Config.cIpServer.trim()+ "/Evolution2021", "root", "1541947");
 //conn = DriverManager.getConnection( "jdbc:mysql://Localhost/rmachado", "root", "1541947");
 //      conn = DriverManager.getConnection("jdbc:mysql://Localhost/colegio","root", "1541947");
 //    conn = DriverManager.getConnection( "jdbc:mysql://Localhost/evolution2021", "root", "1541947");

@@ -4341,7 +4341,7 @@ public class Portada extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem55ActionPerformed
 
     private void jMenuItem17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem17ActionPerformed
-        if (Integer.valueOf(Config.cNivelUsuario) < 3) {
+//        if (Integer.valueOf(Config.cNivelUsuario) < 3) {
             if (Config.nMultiCaja == 0) {
                 new ventas().setVisible(true);
             } else if (Config.nMultiCaja == 2) {
@@ -4365,7 +4365,7 @@ public class Portada extends javax.swing.JFrame {
             } else {
                 JOptionPane.showMessageDialog(null, "Usuario no Autorizado");
             }
-        }
+  //      }
             // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem17ActionPerformed
 

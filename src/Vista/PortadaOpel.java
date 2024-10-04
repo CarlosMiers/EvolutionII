@@ -612,6 +612,8 @@ public class PortadaOpel extends javax.swing.JFrame {
         jMenuItem129 = new javax.swing.JMenuItem();
         jSeparator96 = new javax.swing.JPopupMenu.Separator();
         jMenuItem131 = new javax.swing.JMenuItem();
+        jSeparator132 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem99 = new javax.swing.JMenuItem();
         ventas = new javax.swing.JMenu();
         Cajas = new javax.swing.JMenuItem();
         jSeparator9 = new javax.swing.JPopupMenu.Separator();
@@ -1866,6 +1868,16 @@ public class PortadaOpel extends javax.swing.JFrame {
             }
         });
         jMenu11.add(jMenuItem131);
+        jMenu11.add(jSeparator132);
+
+        jMenuItem99.setText("Detalle de Compras por Obras");
+        jMenuItem99.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jMenuItem99.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem99ActionPerformed(evt);
+            }
+        });
+        jMenu11.add(jMenuItem99);
 
         compras.add(jMenu11);
 
@@ -4882,6 +4894,11 @@ public class PortadaOpel extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem263ActionPerformed
 
+    private void jMenuItem99ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem99ActionPerformed
+        new detalle_comprasxobras().setVisible(true);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem99ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -5176,6 +5193,7 @@ public class PortadaOpel extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem96;
     private javax.swing.JMenuItem jMenuItem97;
     private javax.swing.JMenuItem jMenuItem98;
+    private javax.swing.JMenuItem jMenuItem99;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator10;
@@ -5214,6 +5232,7 @@ public class PortadaOpel extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator13;
     private javax.swing.JPopupMenu.Separator jSeparator130;
     private javax.swing.JPopupMenu.Separator jSeparator131;
+    private javax.swing.JPopupMenu.Separator jSeparator132;
     private javax.swing.JPopupMenu.Separator jSeparator135;
     private javax.swing.JPopupMenu.Separator jSeparator137;
     private javax.swing.JPopupMenu.Separator jSeparator138;

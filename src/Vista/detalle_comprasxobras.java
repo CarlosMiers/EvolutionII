@@ -1204,8 +1204,7 @@ public class detalle_comprasxobras extends javax.swing.JFrame {
             try {
                 Map parameters = new HashMap();
                 //Ahora que hay parametros le enviamos uno con el mismo nombre del que creamos
-                parameters.put("cNombreEmpresa", "hoLA");
-           //   parameters.put("cNombreEmpresa", Config.cNombreEmpresa.trim());
+                parameters.put("cNombreEmpresa", Config.cNombreEmpresa.trim());
                 parameters.put("FechaInicio", FechaInicio);
                 parameters.put("FechaFinal", FechaFinal);
                 parameters.put("cProveedor", proveedor.getText());
@@ -1213,7 +1212,7 @@ public class detalle_comprasxobras extends javax.swing.JFrame {
 
                 JasperReport jr = null;
 
-                URL url = getClass().getClassLoader().getResource("Reports/detalle_comprasxproveedor.jasper");
+                URL url = getClass().getClassLoader().getResource("Reports/detalle_comprasxobras.jasper");
                 jr = (JasperReport) JRLoader.loadObject(url);
                 JasperPrint masterPrint = null;
                 //Se le incluye el parametro con el nombre parameters porque asi lo definimos

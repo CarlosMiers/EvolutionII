@@ -24,11 +24,12 @@ LEFT JOIN sucursales
 ON sucursales.codigo=cabecera_compras.sucursal
 LEFT JOIN comprobantes
 ON comprobantes.codigo=cabecera_compras.comprobante
-LEFT JOIN obras
+INNER JOIN obras
 ON obras.codigo=cabecera_compras.obra
  WHERE cabecera_compras.fecha BETWEEN $P{FechaInicio} AND $P{FechaFinal}
  AND IF($P{cObra}<>0,cabecera_compras.obra=$P{cObra},TRUE)
  AND cabecera_compras.moneda=$P{cMoneda}
+AND cabecera_compras.obra>0
 ORDER BY cabecera_compras.obra,cabecera_compras.fecha]]>
 	</queryString>
 	<field name="nombreobra" class="java.lang.String"/>
@@ -57,48 +58,78 @@ ORDER BY cabecera_compras.obra,cabecera_compras.fecha]]>
 	<field name="nombremoneda" class="java.lang.String"/>
 	<field name="nombresucursal" class="java.lang.String"/>
 	<field name="nombrecomprobante" class="java.lang.String"/>
-	<variable name="total_1" class="java.lang.Double" resetType="Group" resetGroup="obra" calculation="Sum">
+	<variable name="total_5" class="java.lang.Double" resetType="Group" resetGroup="obra" calculation="Sum">
 		<variableExpression><![CDATA[$F{totalneto}]]></variableExpression>
 	</variable>
-	<variable name="total_2" class="java.lang.Double" calculation="Sum">
-		<variableExpression><![CDATA[$F{monto}]]></variableExpression>
-	</variable>
-	<variable name="total_3" class="java.lang.Double" resetType="Group" resetGroup="obra" calculation="Sum">
-		<variableExpression><![CDATA[$F{monto}]]></variableExpression>
-	</variable>
-	<variable name="total_4" class="java.lang.Double" calculation="Sum">
-		<variableExpression><![CDATA[$F{monto}]]></variableExpression>
-	</variable>
-	<variable name="total_5" class="java.lang.Double" resetType="Group" resetGroup="obra" calculation="Sum">
-		<variableExpression><![CDATA[$F{monto}]]></variableExpression>
-	</variable>
 	<variable name="total_6" class="java.lang.Double" calculation="Sum">
-		<variableExpression><![CDATA[$F{monto}]]></variableExpression>
-	</variable>
-	<variable name="monto_1" class="java.math.BigDecimal" resetType="Group" resetGroup="nrofactura" calculation="Sum">
-		<variableExpression><![CDATA[$F{monto}]]></variableExpression>
-	</variable>
-	<variable name="impiva_1" class="java.math.BigDecimal" resetType="Group" resetGroup="nrofactura" calculation="Sum">
-		<variableExpression><![CDATA[$F{impiva}]]></variableExpression>
+		<variableExpression><![CDATA[$F{totalneto}]]></variableExpression>
 	</variable>
 	<group name="obra" isReprintHeaderOnEachPage="true">
 		<groupExpression><![CDATA[$F{obra}]]></groupExpression>
 		<groupHeader>
-			<band height="13">
+			<band height="40">
 				<staticText>
-					<reportElement x="4" y="0" width="45" height="10" uuid="b24ef488-2a1a-44f7-b9d1-fc17fe6fd231"/>
+					<reportElement x="4" y="4" width="45" height="10" uuid="b24ef488-2a1a-44f7-b9d1-fc17fe6fd231"/>
 					<textElement>
 						<font fontName="Arial" size="8" isBold="true"/>
 					</textElement>
-					<text><![CDATA[Proveedor:]]></text>
+					<text><![CDATA[Obra:]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="49" y="0" width="212" height="11" uuid="ca26ade0-0cca-40dd-9ea2-07b5b3ac00e1"/>
+					<reportElement x="49" y="4" width="212" height="11" uuid="ca26ade0-0cca-40dd-9ea2-07b5b3ac00e1"/>
 					<textElement>
 						<font fontName="Arial" size="8"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{proveedor} + "    " + $F{nombreproveedor}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{nombreobra}]]></textFieldExpression>
 				</textField>
+				<staticText>
+					<reportElement x="11" y="23" width="40" height="10" uuid="5a3cf90d-7517-4aae-84c8-c79245e227da"/>
+					<textElement>
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Factura]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="494" y="21" width="44" height="10" uuid="c1a2bcbd-e3b8-4a53-a272-0a80f1300a29"/>
+					<textElement>
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Total Factura]]></text>
+				</staticText>
+				<line>
+					<reportElement x="0" y="19" width="549" height="1" uuid="5fc73ab2-51b6-4e9d-bd20-826521e9de37"/>
+				</line>
+				<staticText>
+					<reportElement x="71" y="23" width="40" height="10" uuid="5c9663c3-702b-4019-afd9-35ca25e19135"/>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Fecha]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="329" y="25" width="89" height="10" uuid="0e0d25bd-894d-436e-82f5-02cec2520cb2"/>
+					<textElement>
+						<font fontName="Arial" size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Nombre del Proveedor]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="217" y="25" width="78" height="10" uuid="cadd0d71-ca19-4c75-814a-63a7ec34e924"/>
+					<textElement>
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Sucursal]]></text>
+				</staticText>
+				<line>
+					<reportElement x="0" y="35" width="549" height="1" uuid="8cd59194-6329-4177-a99a-4295bba42e86"/>
+				</line>
+				<staticText>
+					<reportElement x="123" y="23" width="56" height="10" uuid="4d89b7f0-f101-408e-a820-5a36acf7bdc1"/>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Comprobante]]></text>
+				</staticText>
 			</band>
 		</groupHeader>
 		<groupFooter>
@@ -107,181 +138,18 @@ ORDER BY cabecera_compras.obra,cabecera_compras.fecha]]>
 					<reportElement x="1" y="-1" width="549" height="1" uuid="38e26c93-e5a2-4d7e-94cd-40d19b437bb5"/>
 				</line>
 				<textField evaluationTime="Group" evaluationGroup="obra" pattern="#,##0.00">
-					<reportElement x="375" y="3" width="86" height="12" uuid="4ba73d0d-5eeb-4011-b8ad-d48911db90ce"/>
+					<reportElement x="458" y="3" width="86" height="12" uuid="4ba73d0d-5eeb-4011-b8ad-d48911db90ce"/>
 					<textElement textAlignment="Right">
 						<font fontName="Arial" size="8"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{total_5}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="96" y="3" width="212" height="11" uuid="89e32ee0-5d34-4e3a-8aba-4f70e8894fd1"/>
+					<reportElement x="96" y="3" width="245" height="11" uuid="89e32ee0-5d34-4e3a-8aba-4f70e8894fd1"/>
 					<textElement textAlignment="Right">
 						<font fontName="Arial" size="8" isBold="true"/>
 					</textElement>
-					<textFieldExpression><![CDATA["Total Proveedor  " + $F{nombreproveedor}]]></textFieldExpression>
-				</textField>
-			</band>
-		</groupFooter>
-	</group>
-	<group name="nrofactura" isReprintHeaderOnEachPage="true">
-		<groupExpression><![CDATA[$F{nrofactura}]]></groupExpression>
-		<groupHeader>
-			<band height="46">
-				<staticText>
-					<reportElement x="9" y="4" width="40" height="10" uuid="5a3cf90d-7517-4aae-84c8-c79245e227da"/>
-					<textElement>
-						<font fontName="Arial" size="8" isBold="true"/>
-					</textElement>
-					<text><![CDATA[Factura]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="416" y="30" width="44" height="10" uuid="c1a2bcbd-e3b8-4a53-a272-0a80f1300a29"/>
-					<textElement>
-						<font fontName="Arial" size="8" isBold="true"/>
-					</textElement>
-					<text><![CDATA[Total Item]]></text>
-				</staticText>
-				<line>
-					<reportElement x="0" y="0" width="549" height="1" uuid="e179cc01-6842-4fa2-85f5-467219e09ee7"/>
-				</line>
-				<staticText>
-					<reportElement x="186" y="33" width="43" height="10" uuid="73d7a65d-404d-4599-9b17-c21ce1c1cbf5"/>
-					<textElement textAlignment="Right">
-						<font fontName="Arial" size="8" isBold="true"/>
-					</textElement>
-					<text><![CDATA[Cantidad]]></text>
-				</staticText>
-				<line>
-					<reportElement x="0" y="28" width="549" height="1" uuid="5fc73ab2-51b6-4e9d-bd20-826521e9de37"/>
-				</line>
-				<staticText>
-					<reportElement x="241" y="33" width="44" height="10" uuid="d2cccb51-f71b-48b6-a46b-522e0f62fc46"/>
-					<textElement textAlignment="Center">
-						<font fontName="Arial" size="8" isBold="true"/>
-					</textElement>
-					<text><![CDATA[Costo]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="71" y="5" width="40" height="10" uuid="5c9663c3-702b-4019-afd9-35ca25e19135"/>
-					<textElement textAlignment="Center">
-						<font fontName="Arial" size="8" isBold="true"/>
-					</textElement>
-					<text><![CDATA[Fecha]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="3" y="34" width="45" height="10" uuid="800b7a90-4c16-44fe-94c8-a4a9143450d3"/>
-					<textElement textAlignment="Center">
-						<font fontName="Arial" size="7" isBold="true"/>
-					</textElement>
-					<text><![CDATA[Código]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="55" y="34" width="89" height="10" uuid="0e0d25bd-894d-436e-82f5-02cec2520cb2"/>
-					<textElement>
-						<font fontName="Arial" size="7" isBold="true"/>
-					</textElement>
-					<text><![CDATA[Nombre de Producto]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="271" y="4" width="78" height="10" uuid="cadd0d71-ca19-4c75-814a-63a7ec34e924"/>
-					<textElement>
-						<font fontName="Arial" size="8" isBold="true"/>
-					</textElement>
-					<text><![CDATA[Sucursal]]></text>
-				</staticText>
-				<line>
-					<reportElement x="0" y="44" width="549" height="1" uuid="8cd59194-6329-4177-a99a-4295bba42e86"/>
-				</line>
-				<textField pattern="###0">
-					<reportElement x="3" y="17" width="59" height="10" uuid="dbb80ebb-d75d-4555-92b9-f374ea149dce"/>
-					<textElement>
-						<font fontName="Arial" size="6"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{formatofactura}]]></textFieldExpression>
-				</textField>
-				<textField pattern="###0">
-					<reportElement x="68" y="17" width="47" height="10" uuid="42324b06-3d6d-4c98-ab18-0786b039ef1e"/>
-					<textElement textAlignment="Center">
-						<font fontName="Arial" size="6"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement x="271" y="15" width="102" height="10" uuid="2b112c89-afa2-4fdb-a820-cf1f901efd18"/>
-					<textElement>
-						<font fontName="Arial" size="6"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{nombresucursal}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement x="123" y="6" width="40" height="10" uuid="e103b176-cab2-4983-a7e1-b4e258f71b34"/>
-					<textElement textAlignment="Center">
-						<font fontName="Arial" size="8" isBold="true"/>
-					</textElement>
-					<text><![CDATA[Moneda]]></text>
-				</staticText>
-				<textField>
-					<reportElement x="120" y="17" width="59" height="10" uuid="e8613235-4d60-48e4-a241-e52b920bda02"/>
-					<textElement>
-						<font fontName="Arial" size="6"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{nombremoneda}]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement x="184" y="16" width="77" height="10" uuid="3c7dc5fb-d222-4c78-aba8-c437f5886480"/>
-					<textElement>
-						<font fontName="Arial" size="6"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{nombrecomprobante}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement x="187" y="5" width="56" height="10" uuid="4d89b7f0-f101-408e-a820-5a36acf7bdc1"/>
-					<textElement textAlignment="Center">
-						<font fontName="Arial" size="8" isBold="true"/>
-					</textElement>
-					<text><![CDATA[Comprobante]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="296" y="33" width="26" height="10" uuid="519d7642-3241-4aea-90e3-212229e0d2d0"/>
-					<textElement textAlignment="Center">
-						<font fontName="Arial" size="8" isBold="true"/>
-					</textElement>
-					<text><![CDATA[%IVA]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="346" y="33" width="41" height="10" uuid="49bcdade-c69d-475c-9595-29ecc731fe68"/>
-					<textElement textAlignment="Center">
-						<font fontName="Arial" size="8" isBold="true"/>
-					</textElement>
-					<text><![CDATA[IVA]]></text>
-				</staticText>
-			</band>
-		</groupHeader>
-		<groupFooter>
-			<band height="19">
-				<line>
-					<reportElement x="0" y="1" width="549" height="1" uuid="76559869-fae5-4e7d-93e2-bbc230135380"/>
-				</line>
-				<textField evaluationTime="Group" evaluationGroup="nrofactura" pattern="#,##0.00">
-					<reportElement x="404" y="5" width="57" height="11" uuid="af6184be-e1db-49f5-a30b-e0bcffeb28e2"/>
-					<textElement textAlignment="Right">
-						<font fontName="Arial" size="7"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$V{monto_1}]]></textFieldExpression>
-				</textField>
-				<textField evaluationTime="Group" evaluationGroup="nrofactura" pattern="#,##0.00">
-					<reportElement x="327" y="5" width="60" height="11" uuid="d25140d2-8773-42c6-96cd-0b71d0c7e5a2"/>
-					<textElement textAlignment="Right">
-						<font fontName="Arial" size="7"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$V{impiva_1}]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement x="96" y="5" width="212" height="11" uuid="65ed1e54-e15d-4e01-96fb-9818ebaa8f96"/>
-					<textElement textAlignment="Right">
-						<font fontName="Arial" size="8" isBold="true"/>
-					</textElement>
-					<textFieldExpression><![CDATA["Total Factura  " + $F{formatofactura}]]></textFieldExpression>
+					<textFieldExpression><![CDATA["Total Obra  " + $F{nombreobra}]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupFooter>
@@ -290,7 +158,7 @@ ORDER BY cabecera_compras.obra,cabecera_compras.fecha]]>
 		<band splitType="Stretch"/>
 	</background>
 	<pageHeader>
-		<band height="63" splitType="Stretch">
+		<band height="74" splitType="Stretch">
 			<staticText>
 				<reportElement x="9" y="21" width="208" height="16" uuid="1c2fec0f-e19d-4a5b-8afd-44fa5760de93"/>
 				<textElement textAlignment="Justified">
@@ -361,6 +229,20 @@ ORDER BY cabecera_compras.obra,cabecera_compras.fecha]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{FechaFinal}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="9" y="59" width="40" height="10" uuid="e103b176-cab2-4983-a7e1-b4e258f71b34"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Moneda]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="71" y="59" width="176" height="10" uuid="e8613235-4d60-48e4-a241-e52b920bda02"/>
+				<textElement>
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombremoneda}]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>
@@ -368,54 +250,47 @@ ORDER BY cabecera_compras.obra,cabecera_compras.fecha]]>
 	</columnHeader>
 	<detail>
 		<band height="14" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="68" y="3" width="47" height="10" uuid="42324b06-3d6d-4c98-ab18-0786b039ef1e"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
 			<textField>
-				<reportElement x="55" y="3" width="125" height="10" uuid="6c29d597-45a5-4290-979e-5effc8426872"/>
+				<reportElement x="120" y="3" width="77" height="10" uuid="3c7dc5fb-d222-4c78-aba8-c437f5886480"/>
+				<textElement>
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombrecomprobante}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="329" y="3" width="125" height="10" uuid="6c29d597-45a5-4290-979e-5effc8426872"/>
 				<textElement>
 					<font fontName="Arial" size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{nombreproducto}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{nombreproveedor}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
-				<reportElement x="186" y="3" width="43" height="10" uuid="a5a628bc-2a7f-4a7b-bbfb-736b51b4b46c"/>
-				<textElement textAlignment="Right">
-					<font fontName="Arial" size="7"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>
-			</textField>
-			<textField pattern="#,##0.00">
-				<reportElement x="241" y="3" width="44" height="10" uuid="235cb472-adbc-4d44-8c58-678bc5844aa3"/>
-				<textElement textAlignment="Right">
-					<font fontName="Arial" size="7"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{prcosto}]]></textFieldExpression>
-			</textField>
-			<textField pattern="###0">
-				<reportElement x="1" y="3" width="50" height="10" uuid="7a7e7b64-f34a-48a3-87f7-9ad791297140"/>
-				<textElement textAlignment="Right">
-					<font fontName="Arial" size="7"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{codprod}]]></textFieldExpression>
-			</textField>
-			<textField pattern="#,##0.00">
-				<reportElement x="404" y="3" width="57" height="10" uuid="ef7e11dd-9842-4b60-90f8-9124ea09b26b"/>
+				<reportElement x="458" y="3" width="86" height="10" uuid="ef7e11dd-9842-4b60-90f8-9124ea09b26b"/>
 				<textElement textAlignment="Right">
 					<font fontName="Arial" size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{totalneto}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
-				<reportElement x="296" y="3" width="26" height="10" uuid="a694b9af-a080-4173-b1c4-10c35ee01d9e"/>
-				<textElement textAlignment="Center">
-					<font fontName="Arial" size="7"/>
+			<textField pattern="###0">
+				<reportElement x="3" y="4" width="59" height="10" uuid="dbb80ebb-d75d-4555-92b9-f374ea149dce"/>
+				<textElement>
+					<font fontName="Arial" size="6"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{porcentaje}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{formatofactura}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
-				<reportElement x="335" y="3" width="52" height="10" uuid="5d23564f-904d-4f67-88e7-a14b1abe49c6"/>
-				<textElement textAlignment="Right">
-					<font fontName="Arial" size="7"/>
+			<textField>
+				<reportElement x="206" y="3" width="102" height="10" uuid="2b112c89-afa2-4fdb-a820-cf1f901efd18"/>
+				<textElement>
+					<font fontName="Arial" size="6"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{impiva}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{nombresucursal}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -441,7 +316,7 @@ ORDER BY cabecera_compras.obra,cabecera_compras.fecha]]>
 				<reportElement x="0" y="26" width="549" height="1" uuid="75418185-b6d8-4582-a0cf-04d0b1eb8e89"/>
 			</line>
 			<textField pattern="#,##0.00">
-				<reportElement x="373" y="7" width="88" height="12" uuid="41273154-6f43-489d-8626-820162ad0b71"/>
+				<reportElement x="456" y="7" width="88" height="12" uuid="41273154-6f43-489d-8626-820162ad0b71"/>
 				<textElement textAlignment="Right">
 					<font fontName="Arial" size="8"/>
 				</textElement>

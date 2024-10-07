@@ -425,7 +425,11 @@ public class PortadaFais extends javax.swing.JFrame {
         jSeparator190 = new javax.swing.JPopupMenu.Separator();
         jMenuItem223 = new javax.swing.JMenuItem();
         jSeparator22 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem58 = new javax.swing.JMenuItem();
+        jSeparator44 = new javax.swing.JPopupMenu.Separator();
         jMenuItem181 = new javax.swing.JMenuItem();
+        jSeparator49 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem33 = new javax.swing.JMenuItem();
         jSeparator40 = new javax.swing.JPopupMenu.Separator();
         jMenuItem16 = new javax.swing.JMenuItem();
         jSeparator193 = new javax.swing.JPopupMenu.Separator();
@@ -1409,6 +1413,16 @@ public class PortadaFais extends javax.swing.JFrame {
         operaciones.add(jMenu19);
         operaciones.add(jSeparator22);
 
+        jMenuItem58.setText("Requisitos Cumplimiento");
+        jMenuItem58.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jMenuItem58.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem58ActionPerformed(evt);
+            }
+        });
+        operaciones.add(jMenuItem58);
+        operaciones.add(jSeparator44);
+
         jMenuItem181.setText("Anticipos de Clientes");
         jMenuItem181.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jMenuItem181.addActionListener(new java.awt.event.ActionListener() {
@@ -1417,6 +1431,11 @@ public class PortadaFais extends javax.swing.JFrame {
             }
         });
         operaciones.add(jMenuItem181);
+        operaciones.add(jSeparator49);
+
+        jMenuItem33.setText("Orden de Operación");
+        jMenuItem33.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        operaciones.add(jMenuItem33);
         operaciones.add(jSeparator40);
 
         jMenuItem16.setText("Renta Variable");
@@ -3488,6 +3507,11 @@ public class PortadaFais extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem56ActionPerformed
 
+    private void jMenuItem58ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem58ActionPerformed
+        new cumplimiento_requisito().setVisible(true);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem58ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -3680,6 +3704,7 @@ public class PortadaFais extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem30;
     private javax.swing.JMenuItem jMenuItem31;
     private javax.swing.JMenuItem jMenuItem32;
+    private javax.swing.JMenuItem jMenuItem33;
     private javax.swing.JMenuItem jMenuItem34;
     private javax.swing.JMenuItem jMenuItem35;
     private javax.swing.JMenuItem jMenuItem36;
@@ -3706,6 +3731,7 @@ public class PortadaFais extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem55;
     private javax.swing.JMenuItem jMenuItem56;
     private javax.swing.JMenuItem jMenuItem57;
+    private javax.swing.JMenuItem jMenuItem58;
     private javax.swing.JMenuItem jMenuItem59;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem65;
@@ -3816,10 +3842,12 @@ public class PortadaFais extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator41;
     private javax.swing.JPopupMenu.Separator jSeparator42;
     private javax.swing.JPopupMenu.Separator jSeparator43;
+    private javax.swing.JPopupMenu.Separator jSeparator44;
     private javax.swing.JPopupMenu.Separator jSeparator45;
     private javax.swing.JPopupMenu.Separator jSeparator46;
     private javax.swing.JPopupMenu.Separator jSeparator47;
     private javax.swing.JPopupMenu.Separator jSeparator48;
+    private javax.swing.JPopupMenu.Separator jSeparator49;
     private javax.swing.JPopupMenu.Separator jSeparator5;
     private javax.swing.JPopupMenu.Separator jSeparator53;
     private javax.swing.JPopupMenu.Separator jSeparator55;

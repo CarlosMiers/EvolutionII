@@ -13,13 +13,14 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Sistemas/EvolutionII/EvolutionII/src/Vista/Portada.java</file>
+            <file>file:/C:/Sistemas/EvolutionII/EvolutionII/src/Vista/PortadaOpel.java</file>
             <file>file:/C:/Sistemas/EvolutionII/EvolutionII/src/Vista/prestamos.java</file>
-            <file>file:/C:/Sistemas/EvolutionII/EvolutionII/src/Clases/ApiBancardSuscripcion.java</file>
-            <file>file:/C:/Sistemas/EvolutionII/EvolutionII/src/Vista/detalle_comprasxproveedor.java</file>
+            <file>file:/C:/Sistemas/EvolutionII/EvolutionII/src/Vista/vencimiento_por_proveedor.java</file>
             <file>file:/C:/Sistemas/EvolutionII/EvolutionII/src/Conexion/Conexion.java</file>
             <file>file:/C:/Sistemas/EvolutionII/EvolutionII/src/DAO/configuracionDAO.java</file>
             <file>file:/C:/Sistemas/EvolutionII/EvolutionII/src/Vista/Login.java</file>
             <file>file:/C:/Sistemas/EvolutionII/EvolutionII/src/Vista/detalle_comprasxobras.java</file>
+            <file>file:/C:/Sistemas/EvolutionII/EvolutionII/src/Vista/facturas_pendientes_proveedor.java</file>
         </group>
     </open-files>
 </project-private>

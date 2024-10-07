@@ -19,7 +19,7 @@ import java.util.ArrayList;
  *
  * @author Usuario
  */
-public class cumplimiento_requsitosDAO {
+public class cumplimiento_requisitosDAO {
 
     Conexion con = null;
     Statement st = null;
@@ -32,7 +32,7 @@ public class cumplimiento_requsitosDAO {
         try {
 
             String sql = "SELECT id,tipo,descripcion"
-                    + " FROM cumplimiento_requisitoss "
+                    + " FROM cumplimiento_requisitos "
                     + " WHERE tipo=? "
                     + " ORDER BY id ";
 
@@ -43,7 +43,7 @@ public class cumplimiento_requsitosDAO {
                 while (rs.next()) {
                     cumplimiento_requisitos cer = new cumplimiento_requisitos();
                     cer.setId(rs.getInt("id"));
-                    cer.setDescripcion(rs.getString("nombre"));
+                    cer.setDescripcion(rs.getString("descripcion"));
                     cer.setTipo(rs.getInt("tipo"));
                     lista.add(cer);
                 }
@@ -67,7 +67,7 @@ public cumplimiento_requisitos buscarId(Double id) throws SQLException {
         try {
             String sql = "SELECT id,tipo,descripcion"
                     + "direccion,telefono,celular,correo "
-                    + "FROM cumplimiento_requisitoss "
+                    + "FROM cumplimiento_requisitos "
                     + " WHERE id=?"
                     + " ORDER BY id ";
 
@@ -77,7 +77,7 @@ public cumplimiento_requisitos buscarId(Double id) throws SQLException {
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
                     cer.setId(rs.getInt("id"));
-                    cer.setDescripcion(rs.getString("nombre"));
+                    cer.setDescripcion(rs.getString("descripcion"));
                     cer.setTipo(rs.getInt("tipo"));
                 }
                 ps.close();
@@ -97,7 +97,7 @@ public cumplimiento_requisitos buscarId(Double id) throws SQLException {
         st = con.conectar();
         PreparedStatement ps = null;
 
-        ps = st.getConnection().prepareStatement("INSERT INTO cumplimiento_requisitoss "
+        ps = st.getConnection().prepareStatement("INSERT INTO cumplimiento_requisitos "
                 + "(tipo,descripcion)"
                 + "VALUES (?,?)");
         ps.setInt(1, ca.getTipo());
@@ -116,7 +116,7 @@ public cumplimiento_requisitos buscarId(Double id) throws SQLException {
         con = new Conexion();
         st = con.conectar();
         PreparedStatement ps = null;
-        ps = st.getConnection().prepareStatement("UPDATE cumplimiento_requisitoss "
+        ps = st.getConnection().prepareStatement("UPDATE cumplimiento_requisitos "
                 + "SET descripcion?,tipo=? WHERE id=" + ca.getId());
         ps.setInt(1, ca.getTipo());
         ps.setString(2, ca.getDescripcion());
@@ -135,7 +135,7 @@ public cumplimiento_requisitos buscarId(Double id) throws SQLException {
         st = con.conectar();
         PreparedStatement ps = null;
 
-        ps = st.getConnection().prepareStatement("DELETE FROM cumplimiento_requisitoss WHERE id=?");
+        ps = st.getConnection().prepareStatement("DELETE FROM cumplimiento_requisitos WHERE id=?");
         ps.setInt(1, cod);
         int rowsUpdated = ps.executeUpdate();
         st.close();

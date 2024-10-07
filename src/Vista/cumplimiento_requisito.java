@@ -5,11 +5,14 @@
  */
 package Vista;
 
+import Clases.Config;
 import Clases.ConvertirMayusculas;
 import Conexion.Conexion;
 import Conexion.Control;
 import Conexion.ObtenerFecha;
+import DAO.cumplimiento_requisitosDAO;
 import Modelo.Tablas;
+import Modelo.cumplimiento_requisitos;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyAdapter;
@@ -75,7 +78,8 @@ public class cumplimiento_requisito extends javax.swing.JFrame {
         this.BotonSalir.setIcon(iconosalir);
 
         this.setLocationRelativeTo(null); //Centramos el formulario
-//      this.cargarTitulo();
+        this.LimpiarPFisica();
+        this.LimpiarPJuridica();
         this.TituloJuridico();
 //      this.TituloMateria();
         GrillaJuridica GrillaOC = new GrillaJuridica();
@@ -105,7 +109,7 @@ public class cumplimiento_requisito extends javax.swing.JFrame {
         descripcion0 = new javax.swing.JTextField();
         id0 = new javax.swing.JFormattedTextField();
         BotonAgregar0 = new javax.swing.JButton();
-        BotonActualizar0 = new javax.swing.JButton();
+        BotonBorrar0 = new javax.swing.JButton();
         jScrollPane6 = new javax.swing.JScrollPane();
         tablafisica = new javax.swing.JTable();
         jPanel11 = new javax.swing.JPanel();
@@ -115,7 +119,7 @@ public class cumplimiento_requisito extends javax.swing.JFrame {
         id1 = new javax.swing.JFormattedTextField();
         descripcion1 = new javax.swing.JTextField();
         BotonAgregar1 = new javax.swing.JButton();
-        BotonActualizar1 = new javax.swing.JButton();
+        BotonBorrar1 = new javax.swing.JButton();
         panel4 = new org.edisoncor.gui.panel.Panel();
         BotonSalir = new javax.swing.JButton();
         panel5 = new org.edisoncor.gui.panel.Panel();
@@ -173,12 +177,12 @@ public class cumplimiento_requisito extends javax.swing.JFrame {
             }
         });
 
-        BotonActualizar0.setText("Actualizar");
-        BotonActualizar0.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        BotonActualizar0.setName("BotonActualizar0"); // NOI18N
-        BotonActualizar0.addActionListener(new java.awt.event.ActionListener() {
+        BotonBorrar0.setText("Actualizar");
+        BotonBorrar0.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        BotonBorrar0.setName("BotonBorrar0"); // NOI18N
+        BotonBorrar0.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BotonActualizar0ActionPerformed(evt);
+                BotonBorrar0ActionPerformed(evt);
             }
         });
 
@@ -211,7 +215,7 @@ public class cumplimiento_requisito extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(BotonAgregar0, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(BotonActualizar0, javax.swing.GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE))))
+                            .addComponent(BotonBorrar0, javax.swing.GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE))))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
         jPanel10Layout.setVerticalGroup(
@@ -229,7 +233,7 @@ public class cumplimiento_requisito extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(descripcion0, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BotonActualizar0))
+                    .addComponent(BotonBorrar0))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
                 .addContainerGap())
@@ -276,7 +280,7 @@ public class cumplimiento_requisito extends javax.swing.JFrame {
             }
         });
 
-        BotonAgregar1.setText("Agregar");
+        BotonAgregar1.setText("Grabar");
         BotonAgregar1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         BotonAgregar1.setName("BotonAgregar1"); // NOI18N
         BotonAgregar1.addActionListener(new java.awt.event.ActionListener() {
@@ -285,12 +289,12 @@ public class cumplimiento_requisito extends javax.swing.JFrame {
             }
         });
 
-        BotonActualizar1.setText("Actualizar");
-        BotonActualizar1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        BotonActualizar1.setName("BotonActualizar1"); // NOI18N
-        BotonActualizar1.addActionListener(new java.awt.event.ActionListener() {
+        BotonBorrar1.setText("Borrar");
+        BotonBorrar1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        BotonBorrar1.setName("BotonBorrar1"); // NOI18N
+        BotonBorrar1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BotonActualizar1ActionPerformed(evt);
+                BotonBorrar1ActionPerformed(evt);
             }
         });
 
@@ -312,7 +316,7 @@ public class cumplimiento_requisito extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(BotonAgregar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(BotonActualizar1, javax.swing.GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE))))
+                            .addComponent(BotonBorrar1, javax.swing.GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE))))
                 .addContainerGap(18, Short.MAX_VALUE))
         );
         jPanel11Layout.setVerticalGroup(
@@ -330,7 +334,7 @@ public class cumplimiento_requisito extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(descripcion1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BotonActualizar1))
+                    .addComponent(BotonBorrar1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
                 .addContainerGap())
@@ -429,13 +433,10 @@ public class cumplimiento_requisito extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-
-
     private void limpiar() {
         this.id1.setText("0");
         this.descripcion1.setText("");
     }
-
 
     private void TituloJuridico() {
         DefaultTableCellRenderer TablaRenderer = new DefaultTableCellRenderer();
@@ -443,7 +444,7 @@ public class cumplimiento_requisito extends javax.swing.JFrame {
         modelojuridico.addColumn("Id");
         modelojuridico.addColumn("Item");
         modelojuridico.addColumn("Descripción");
-        int[] anchos = {0,100,250};
+        int[] anchos = {0, 100, 250};
         for (int i = 0; i < modelojuridico.getColumnCount(); i++) {
             tablajuridica.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
         }
@@ -482,12 +483,64 @@ public class cumplimiento_requisito extends javax.swing.JFrame {
     }//GEN-LAST:event_descripcion1FocusLost
 
     private void BotonAgregar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonAgregar1ActionPerformed
+        if (this.descripcion1.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Ingrese la descripción");
+            this.descripcion1.requestFocus();
+            return;
+        }
+
+        cumplimiento_requisitosDAO grabar = new cumplimiento_requisitosDAO();
+        cumplimiento_requisitos req = new cumplimiento_requisitos();
+        //Clase de Cliente porque tiene que hacer referencia al cliente
+        req.setId(Integer.valueOf(this.id1.getText()));
+        req.setDescripcion(this.descripcion1.getText());
+        req.setTipo(1);
+        try {
+            if (this.id1.getText().equals("0")) {
+                grabar.Insertar(req);
+            } else {
+                grabar.actualizar(req);
+            }
+            grabar.MostrarxTipo(1);
+            // TODO add your handling code here:
+        } catch (SQLException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+        GrillaJuridica GrillaOC = new GrillaJuridica();
+        Thread HiloGrilla = new Thread(GrillaOC);
+        HiloGrilla.start();
+        this.LimpiarPJuridica();;
+        this.descripcion1.requestFocus();
         // TODO add your handling code here:
     }//GEN-LAST:event_BotonAgregar1ActionPerformed
 
-    private void BotonActualizar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonActualizar1ActionPerformed
+    private void BotonBorrar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonBorrar1ActionPerformed
+        if (Config.cNivelUsuario.equals("1")) {
+            Object[] opciones = {"   Si   ", "   No   "};
+            int ret = JOptionPane.showOptionDialog(null, "Desea Eliminar el Registro ? ", "Confirmación", 0, 3, null, opciones, opciones[0]);
+            if (ret == 0) {
+                try {
+                    cumplimiento_requisitosDAO borrarDAO = new cumplimiento_requisitosDAO();
+                    cumplimiento_requisitos req = new cumplimiento_requisitos();
+                    req = borrarDAO.buscarId(Double.valueOf(id1.getText()));
+                    if (req == null) {
+                        JOptionPane.showMessageDialog(null, "Registro no Existe");
+                    } else {
+                        borrarDAO.eliminar(Integer.valueOf(id1.getText()));
+                        JOptionPane.showMessageDialog(null, "Registro Eliminado Exitosamente");
+                        this.LimpiarPJuridica();;
+                        this.descripcion1.requestFocus();
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "ERROR: " + e.getMessage());
+                }
+                GrillaJuridica GrillaOC = new GrillaJuridica();
+                Thread HiloGrilla = new Thread(GrillaOC);
+                HiloGrilla.start();
+            }
+        }
         // TODO add your handling code here:
-    }//GEN-LAST:event_BotonActualizar1ActionPerformed
+    }//GEN-LAST:event_BotonBorrar1ActionPerformed
 
     private void BotonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonSalirActionPerformed
         // TODO add your handling code here:
@@ -501,9 +554,9 @@ public class cumplimiento_requisito extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_BotonAgregar0ActionPerformed
 
-    private void BotonActualizar0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonActualizar0ActionPerformed
+    private void BotonBorrar0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonBorrar0ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_BotonActualizar0ActionPerformed
+    }//GEN-LAST:event_BotonBorrar0ActionPerformed
 
     private void tablafisicaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tablafisicaKeyPressed
         // TODO add your handling code here:
@@ -515,7 +568,7 @@ public class cumplimiento_requisito extends javax.swing.JFrame {
         modelofisica.addColumn("Id");
         modelofisica.addColumn("Item");
         modelofisica.addColumn("Descripción");
-        int[] anchos = {0,100,250};
+        int[] anchos = {0, 100, 250};
         for (int i = 0; i < modelofisica.getColumnCount(); i++) {
             tablafisica.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
         }
@@ -533,12 +586,17 @@ public class cumplimiento_requisito extends javax.swing.JFrame {
         this.tablafisica.getTableHeader().getColumnModel().getColumn(0).setMinWidth(0);
     }
 
+    private void LimpiarPJuridica() {
+        id1.setText("0");
+        descripcion1.setText("");
+    }
+
     private void LimpiarPFisica() {
         id0.setText("0");
         descripcion0.setText("");
     }
 
-  /*private void CargarMateria(int nsemestre) {
+    /*private void CargarMateria(int nsemestre) {
         int ncarrera = Integer.valueOf(this.codigo.getText());
         int cantidadRegistro = modelomateria.getRowCount();
         for (int i = 1; i <= cantidadRegistro; i++) {
@@ -563,9 +621,8 @@ public class cumplimiento_requisito extends javax.swing.JFrame {
         }
 
     }*/
-
     private void CargarSemestre() {
-     /* int cantidadRegistro = modelosemestre.getRowCount();
+        /* int cantidadRegistro = modelosemestre.getRowCount();
         for (int i = 1; i <= cantidadRegistro; i++) {
             modelosemestre.removeRow(0);
         }
@@ -586,12 +643,9 @@ public class cumplimiento_requisito extends javax.swing.JFrame {
             BotonAgregarSemestre.setEnabled(true);
             BotonBorrar.setEnabled(false);
         }
-        */
+         */
     }
 
-
-
-    
     /**
      * @param args the command line arguments
      */
@@ -616,10 +670,10 @@ public class cumplimiento_requisito extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BotonActualizar0;
-    private javax.swing.JButton BotonActualizar1;
     private javax.swing.JButton BotonAgregar0;
     private javax.swing.JButton BotonAgregar1;
+    private javax.swing.JButton BotonBorrar0;
+    private javax.swing.JButton BotonBorrar1;
     private javax.swing.JButton BotonSalir;
     private javax.swing.JTextField descripcion0;
     private javax.swing.JTextField descripcion1;
@@ -642,46 +696,43 @@ public class cumplimiento_requisito extends javax.swing.JFrame {
 
     private class GrillaJuridica extends Thread {
 
-      public void run() {
-
+        public void run() {
             //Antes de Cargar el Jtable Ajustamos el ancho de las columnas con el Ancho que se nos antoje
-           /* int cantidadRegistro = modelo.getRowCount();
+            int cantidadRegistro = modelojuridico.getRowCount();
             for (int i = 1; i <= cantidadRegistro; i++) {
-                modelo.removeRow(0);
+                modelojuridico.removeRow(0);
             }
 
-            carreraDAO DAO = new carreraDAO();
+            cumplimiento_requisitosDAO DAO = new cumplimiento_requisitosDAO();
             try {
-                for (carrera suc : DAO.todos()) {
-                    String Datos[] = {String.valueOf(suc.getCodigo()), suc.getNombre(), suc.getFacultad().getNombre(), suc.getTitulo(), String.valueOf(suc.getSemestres())};
-                    modelo.addRow(Datos);
+                int item = 0;
+                for (cumplimiento_requisitos suc : DAO.MostrarxTipo(1)) {
+                    item += 1;
+                    String Datos[] = {String.valueOf(suc.getId()), String.valueOf(item), suc.getDescripcion()};
+                    modelojuridico.addRow(Datos);
                 }
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "ERROR: " + e.getMessage());
             }
 
-            tablacarrera.setRowSorter(new TableRowSorter(modelo));
-            int cantFilas = tablacarrera.getRowCount();
+            tablajuridica.setRowSorter(new TableRowSorter(modelojuridico));
+            int cantFilas = tablajuridica.getRowCount();
             if (cantFilas > 0) {
-                BotonEditar.setEnabled(true);
-                BotonDelete.setEnabled(true);
-                BotonPrint.setEnabled(true);
+                BotonAgregar1.setEnabled(true);
+                BotonBorrar1.setEnabled(true);
             } else {
-                BotonEditar.setEnabled(false);
-                BotonDelete.setEnabled(false);
-                BotonPrint.setEnabled(false);
+                BotonAgregar1.setEnabled(true);
+                BotonBorrar1.setEnabled(false);
             }
-            
-            */
         }
     }
 
     private class GrillaFacultad extends Thread {
 
-         public void run() {
+        public void run() {
 
-          //Antes de Cargar el Jtable Ajustamos el ancho de las columnas con el Ancho que se nos antoje
-          /*  int cantidadRegistro = modelosucursal.getRowCount();
+            //Antes de Cargar el Jtable Ajustamos el ancho de las columnas con el Ancho que se nos antoje
+            /*  int cantidadRegistro = modelosucursal.getRowCount();
             for (int i = 1; i <= cantidadRegistro; i++) {
                 modelosucursal.removeRow(0);
             }
@@ -698,9 +749,8 @@ public class cumplimiento_requisito extends javax.swing.JFrame {
 
             tablasucursal.setRowSorter(new TableRowSorter(modelosucursal));
             int cantFilas = tablasucursal.getRowCount();
-            */
+             */
         }
     }
-    
+
 }
-         

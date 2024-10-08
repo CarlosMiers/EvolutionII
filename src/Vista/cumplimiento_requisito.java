@@ -75,18 +75,20 @@ public class cumplimiento_requisito extends javax.swing.JFrame {
     public cumplimiento_requisito() {
         initComponents();
         id1.setVisible(false);
+        id0.setVisible(false);
         this.BotonSalir.setIcon(iconosalir);
 
         this.setLocationRelativeTo(null); //Centramos el formulario
         this.LimpiarPFisica();
         this.LimpiarPJuridica();
         this.TituloJuridico();
-//      this.TituloMateria();
+        this.TituloFisica();
+
         GrillaJuridica GrillaOC = new GrillaJuridica();
         Thread HiloGrilla = new Thread(GrillaOC);
         HiloGrilla.start();
 
-        GrillaFacultad GrillaSe = new GrillaFacultad();
+        GrillaFisica GrillaSe = new GrillaFisica();
         Thread HiloSe = new Thread(GrillaSe);
         HiloSe.start();
     }
@@ -122,11 +124,12 @@ public class cumplimiento_requisito extends javax.swing.JFrame {
         BotonBorrar1 = new javax.swing.JButton();
         panel4 = new org.edisoncor.gui.panel.Panel();
         BotonSalir = new javax.swing.JButton();
+        BotonSalir1 = new javax.swing.JButton();
         panel5 = new org.edisoncor.gui.panel.Panel();
         jLabel19 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Ingresar Datos de Carreras");
+        setTitle("Requisitos Cumplimiento");
         setName("Form"); // NOI18N
         addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -168,7 +171,7 @@ public class cumplimiento_requisito extends javax.swing.JFrame {
         id0.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         id0.setName("id0"); // NOI18N
 
-        BotonAgregar0.setText("Agregar");
+        BotonAgregar0.setText("Grabar");
         BotonAgregar0.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         BotonAgregar0.setName("BotonAgregar0"); // NOI18N
         BotonAgregar0.addActionListener(new java.awt.event.ActionListener() {
@@ -177,7 +180,7 @@ public class cumplimiento_requisito extends javax.swing.JFrame {
             }
         });
 
-        BotonBorrar0.setText("Actualizar");
+        BotonBorrar0.setText("Borrar");
         BotonBorrar0.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         BotonBorrar0.setName("BotonBorrar0"); // NOI18N
         BotonBorrar0.addActionListener(new java.awt.event.ActionListener() {
@@ -190,9 +193,17 @@ public class cumplimiento_requisito extends javax.swing.JFrame {
 
         tablafisica.setModel(modelofisica);
         tablafisica.setName("tablafisica"); // NOI18N
+        tablafisica.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tablafisicaMousePressed(evt);
+            }
+        });
         tablafisica.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 tablafisicaKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tablafisicaKeyReleased(evt);
             }
         });
         jScrollPane6.setViewportView(tablafisica);
@@ -258,9 +269,17 @@ public class cumplimiento_requisito extends javax.swing.JFrame {
 
         tablajuridica.setModel(modelojuridico);
         tablajuridica.setName("tablajuridica"); // NOI18N
+        tablajuridica.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tablajuridicaMousePressed(evt);
+            }
+        });
         tablajuridica.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 tablajuridicaKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tablajuridicaKeyReleased(evt);
             }
         });
         jScrollPane5.setViewportView(tablajuridica);
@@ -359,20 +378,34 @@ public class cumplimiento_requisito extends javax.swing.JFrame {
             }
         });
 
+        BotonSalir1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        BotonSalir1.setText("Limpiar");
+        BotonSalir1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        BotonSalir1.setName("BotonSalir1"); // NOI18N
+        BotonSalir1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonSalir1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panel4Layout = new javax.swing.GroupLayout(panel4);
         panel4.setLayout(panel4Layout);
         panel4Layout.setHorizontalGroup(
             panel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panel4Layout.createSequentialGroup()
-                .addGap(174, 174, 174)
-                .addComponent(BotonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel4Layout.createSequentialGroup()
+                .addGap(96, 96, 96)
+                .addComponent(BotonSalir1, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(BotonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38))
         );
         panel4Layout.setVerticalGroup(
             panel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel4Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(BotonSalir)
+                .addGroup(panel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(BotonSalir)
+                    .addComponent(BotonSalir1))
                 .addContainerGap())
         );
 
@@ -444,12 +477,12 @@ public class cumplimiento_requisito extends javax.swing.JFrame {
         modelojuridico.addColumn("Id");
         modelojuridico.addColumn("Item");
         modelojuridico.addColumn("Descripción");
-        int[] anchos = {0, 100, 250};
+        int[] anchos = {0, 90, 250};
         for (int i = 0; i < modelojuridico.getColumnCount(); i++) {
             tablajuridica.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
         }
         ((DefaultTableCellRenderer) tablajuridica.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);// Este código es para centrar las cabeceras de la tabla.
-        tablajuridica.getColumnModel().getColumn(0).setCellRenderer(TablaRenderer);
+        tablajuridica.getColumnModel().getColumn(1).setCellRenderer(TablaRenderer);
         //Se usa para poner invisible una determinada celda
         tablajuridica.getTableHeader().setFont(new Font("Arial Black", 1, 10));
         Font font = new Font("Arial", Font.BOLD, 10);
@@ -479,6 +512,8 @@ public class cumplimiento_requisito extends javax.swing.JFrame {
     }//GEN-LAST:event_tablajuridicaKeyPressed
 
     private void descripcion1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_descripcion1FocusLost
+        String letras = ConvertirMayusculas.cadena(descripcion1);
+        descripcion1.setText(letras);
         // TODO add your handling code here:
     }//GEN-LAST:event_descripcion1FocusLost
 
@@ -543,18 +578,73 @@ public class cumplimiento_requisito extends javax.swing.JFrame {
     }//GEN-LAST:event_BotonBorrar1ActionPerformed
 
     private void BotonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonSalirActionPerformed
+        this.dispose();
         // TODO add your handling code here:
     }//GEN-LAST:event_BotonSalirActionPerformed
 
     private void descripcion0FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_descripcion0FocusLost
+        String letras = ConvertirMayusculas.cadena(descripcion0);
+        descripcion0.setText(letras);
         // TODO add your handling code here:
     }//GEN-LAST:event_descripcion0FocusLost
 
     private void BotonAgregar0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonAgregar0ActionPerformed
+        if (this.descripcion0.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Ingrese la descripción");
+            this.descripcion0.requestFocus();
+            return;
+        }
+
+        cumplimiento_requisitosDAO grabar = new cumplimiento_requisitosDAO();
+        cumplimiento_requisitos req = new cumplimiento_requisitos();
+        //Clase de Cliente porque tiene que hacer referencia al cliente
+        req.setId(Integer.valueOf(this.id0.getText()));
+        req.setDescripcion(this.descripcion0.getText());
+        req.setTipo(0);
+        try {
+            if (this.id0.getText().equals("0")) {
+                grabar.Insertar(req);
+            } else {
+                grabar.actualizar(req);
+            }
+            grabar.MostrarxTipo(0);
+            // TODO add your handling code here:
+        } catch (SQLException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+        GrillaFisica GrillaSe = new GrillaFisica();
+        Thread HiloSe = new Thread(GrillaSe);
+        HiloSe.start();
+        this.LimpiarPFisica();;
+        this.descripcion0.requestFocus();
         // TODO add your handling code here:
     }//GEN-LAST:event_BotonAgregar0ActionPerformed
 
     private void BotonBorrar0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonBorrar0ActionPerformed
+        if (Config.cNivelUsuario.equals("1")) {
+            Object[] opciones = {"   Si   ", "   No   "};
+            int ret = JOptionPane.showOptionDialog(null, "Desea Eliminar el Registro ? ", "Confirmación", 0, 3, null, opciones, opciones[0]);
+            if (ret == 0) {
+                try {
+                    cumplimiento_requisitosDAO borrarDAO = new cumplimiento_requisitosDAO();
+                    cumplimiento_requisitos req = new cumplimiento_requisitos();
+                    req = borrarDAO.buscarId(Double.valueOf(id0.getText()));
+                    if (req == null) {
+                        JOptionPane.showMessageDialog(null, "Registro no Existe");
+                    } else {
+                        borrarDAO.eliminar(Integer.valueOf(id0.getText()));
+                        JOptionPane.showMessageDialog(null, "Registro Eliminado Exitosamente");
+                        this.LimpiarPFisica();;
+                        this.descripcion0.requestFocus();
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "ERROR: " + e.getMessage());
+                }
+                GrillaFisica GrillaSe = new GrillaFisica();
+                Thread HiloSe = new Thread(GrillaSe);
+                HiloSe.start();
+            }
+        }
         // TODO add your handling code here:
     }//GEN-LAST:event_BotonBorrar0ActionPerformed
 
@@ -562,19 +652,53 @@ public class cumplimiento_requisito extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_tablafisicaKeyPressed
 
+    private void tablafisicaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tablafisicaKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_DOWN || evt.getKeyCode() == KeyEvent.VK_UP) {
+            int nFila = this.tablajuridica.getSelectedRow();
+            this.id1.setText(this.tablajuridica.getValueAt(nFila, 0).toString());
+            this.descripcion1.setText(this.tablajuridica.getValueAt(nFila, 2).toString());
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_tablafisicaKeyReleased
+
+    private void tablafisicaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablafisicaMousePressed
+        int nFila = this.tablajuridica.getSelectedRow();
+        this.id1.setText(this.tablajuridica.getValueAt(nFila, 0).toString());
+        this.descripcion1.setText(this.tablajuridica.getValueAt(nFila, 2).toString());
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tablafisicaMousePressed
+
+    private void tablajuridicaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tablajuridicaKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_DOWN || evt.getKeyCode() == KeyEvent.VK_UP) {
+            int nFila = this.tablajuridica.getSelectedRow();
+            this.id1.setText(this.tablajuridica.getValueAt(nFila, 0).toString());
+            this.descripcion1.setText(this.tablajuridica.getValueAt(nFila, 2).toString());
+        }        // TOD        // TODO add your handling code here:
+    }//GEN-LAST:event_tablajuridicaKeyReleased
+
+    private void tablajuridicaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablajuridicaMousePressed
+        int nFila = this.tablajuridica.getSelectedRow();
+        this.id1.setText(this.tablajuridica.getValueAt(nFila, 0).toString());
+        this.descripcion1.setText(this.tablajuridica.getValueAt(nFila, 2).toString());        // TODO add your handling code here:
+    }//GEN-LAST:event_tablajuridicaMousePressed
+
+    private void BotonSalir1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonSalir1ActionPerformed
+        this.LimpiarPJuridica();
+        this.LimpiarPFisica();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BotonSalir1ActionPerformed
+
     private void TituloFisica() {
         DefaultTableCellRenderer TablaRenderer = new DefaultTableCellRenderer();
         TablaRenderer.setHorizontalAlignment(SwingConstants.RIGHT); // aqui defines donde alinear 
         modelofisica.addColumn("Id");
         modelofisica.addColumn("Item");
         modelofisica.addColumn("Descripción");
-        int[] anchos = {0, 100, 250};
+        int[] anchos = {0, 90, 250};
         for (int i = 0; i < modelofisica.getColumnCount(); i++) {
             tablafisica.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
         }
         ((DefaultTableCellRenderer) tablafisica.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);// Este código es para centrar las cabeceras de la tabla.
-        tablafisica.getColumnModel().getColumn(0).setCellRenderer(TablaRenderer);
-        tablafisica.getColumnModel().getColumn(2).setCellRenderer(TablaRenderer);
+        tablafisica.getColumnModel().getColumn(1).setCellRenderer(TablaRenderer);
         //Se usa para poner invisible una determinada celda
         tablafisica.getTableHeader().setFont(new Font("Arial Black", 1, 10));
         Font font = new Font("Arial", Font.BOLD, 10);
@@ -675,6 +799,7 @@ public class cumplimiento_requisito extends javax.swing.JFrame {
     private javax.swing.JButton BotonBorrar0;
     private javax.swing.JButton BotonBorrar1;
     private javax.swing.JButton BotonSalir;
+    private javax.swing.JButton BotonSalir1;
     private javax.swing.JTextField descripcion0;
     private javax.swing.JTextField descripcion1;
     private javax.swing.JFormattedTextField id0;
@@ -727,29 +852,36 @@ public class cumplimiento_requisito extends javax.swing.JFrame {
         }
     }
 
-    private class GrillaFacultad extends Thread {
+    private class GrillaFisica extends Thread {
 
         public void run() {
-
             //Antes de Cargar el Jtable Ajustamos el ancho de las columnas con el Ancho que se nos antoje
-            /*  int cantidadRegistro = modelosucursal.getRowCount();
+            int cantidadRegistro = modelofisica.getRowCount();
             for (int i = 1; i <= cantidadRegistro; i++) {
-                modelosucursal.removeRow(0);
+                modelofisica.removeRow(0);
             }
 
-            facultadDAO DAOSUC = new facultadDAO();
+            cumplimiento_requisitosDAO DAO = new cumplimiento_requisitosDAO();
             try {
-                for (facultad suc : DAOSUC.todos()) {
-                    String Datos[] = {String.valueOf(suc.getCodigo()), suc.getNombre()};
-                    modelosucursal.addRow(Datos);
+                int item = 0;
+                for (cumplimiento_requisitos suc : DAO.MostrarxTipo(0)) {
+                    item += 1;
+                    String Datos[] = {String.valueOf(suc.getId()), String.valueOf(item), suc.getDescripcion()};
+                    modelofisica.addRow(Datos);
                 }
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "ERROR: " + e.getMessage());
             }
 
-            tablasucursal.setRowSorter(new TableRowSorter(modelosucursal));
-            int cantFilas = tablasucursal.getRowCount();
-             */
+            tablafisica.setRowSorter(new TableRowSorter(modelofisica));
+            int cantFilas = tablafisica.getRowCount();
+            if (cantFilas > 0) {
+                BotonAgregar0.setEnabled(true);
+                BotonBorrar0.setEnabled(true);
+            } else {
+                BotonAgregar0.setEnabled(true);
+                BotonBorrar0.setEnabled(false);
+            }
         }
     }
 

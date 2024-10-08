@@ -68,7 +68,7 @@ public cumplimiento_requisitos buscarId(Double id) throws SQLException {
             String sql = "SELECT id,tipo,descripcion"
                     + "direccion,telefono,celular,correo "
                     + "FROM cumplimiento_requisitos "
-                    + " WHERE id=?"
+                    + " WHERE id=? "
                     + " ORDER BY id ";
 
 
@@ -117,7 +117,7 @@ public cumplimiento_requisitos buscarId(Double id) throws SQLException {
         st = con.conectar();
         PreparedStatement ps = null;
         ps = st.getConnection().prepareStatement("UPDATE cumplimiento_requisitos "
-                + "SET descripcion?,tipo=? WHERE id=" + ca.getId());
+                + "SET tipo=?, descripcion=?  WHERE id=" + ca.getId());
         ps.setInt(1, ca.getTipo());
         ps.setString(2, ca.getDescripcion());
         int rowsUpdated = ps.executeUpdate();

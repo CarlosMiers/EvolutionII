@@ -39,7 +39,7 @@ public class Conexion {
 //    conn = DriverManager.getConnection( "jdbc:mysql://Localhost/evolution2021", "root", "1541947");
 //             conn = DriverManager.getConnection( "jdbc:mysql://Localhost/evolution2021", "root", "1541947");
 
-               conn = DriverManager.getConnection( "jdbc:mysql://Localhost/opel", "root", "1541947");
+               conn = DriverManager.getConnection( "jdbc:mysql://Localhost/financiera", "root", "1541947");
  //            conn = DriverManager.getConnection( "jdbc:mysql://Localhost/rmachado", "root", "1541947");
 //     conn = DriverManager.getConnection("jdbc:mysql://181.78.27.142:3307/evolution2021", "root", "1541947"); 
 

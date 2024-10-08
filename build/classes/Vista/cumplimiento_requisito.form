@@ -119,7 +119,7 @@
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                       <Component id="BotonAgregar0" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="BotonActualizar0" alignment="0" pref="96" max="32767" attributes="0"/>
+                                      <Component id="BotonBorrar0" alignment="0" pref="96" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -146,7 +146,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="descripcion0" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="BotonActualizar0" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="BotonBorrar0" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="jScrollPane6" pref="330" max="32767" attributes="0"/>
@@ -192,16 +192,16 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BotonAgregar0ActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JButton" name="BotonActualizar0">
+                <Component class="javax.swing.JButton" name="BotonBorrar0">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Actualizar"/>
                     <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                       <Color id="Cursor de Mano"/>
                     </Property>
-                    <Property name="name" type="java.lang.String" value="BotonActualizar0" noResource="true"/>
+                    <Property name="name" type="java.lang.String" value="BotonBorrar0" noResource="true"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BotonActualizar0ActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BotonBorrar0ActionPerformed"/>
                   </Events>
                 </Component>
                 <Container class="javax.swing.JScrollPane" name="jScrollPane6">
@@ -262,7 +262,7 @@
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="BotonAgregar1" max="32767" attributes="0"/>
-                                  <Component id="BotonActualizar1" pref="96" max="32767" attributes="0"/>
+                                  <Component id="BotonBorrar1" pref="96" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -289,7 +289,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="descripcion1" min="-2" max="-2" attributes="0"/>
-                          <Component id="BotonActualizar1" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="BotonBorrar1" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jScrollPane5" pref="336" max="32767" attributes="0"/>
@@ -348,7 +348,7 @@
             </Component>
             <Component class="javax.swing.JButton" name="BotonAgregar1">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Agregar"/>
+                <Property name="text" type="java.lang.String" value="Grabar"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                   <Color id="Cursor de Mano"/>
                 </Property>
@@ -358,16 +358,16 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BotonAgregar1ActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="BotonActualizar1">
+            <Component class="javax.swing.JButton" name="BotonBorrar1">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Actualizar"/>
+                <Property name="text" type="java.lang.String" value="Borrar"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                   <Color id="Cursor de Mano"/>
                 </Property>
-                <Property name="name" type="java.lang.String" value="BotonActualizar1" noResource="true"/>
+                <Property name="name" type="java.lang.String" value="BotonBorrar1" noResource="true"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BotonActualizar1ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BotonBorrar1ActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>

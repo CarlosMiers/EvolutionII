@@ -4244,9 +4244,9 @@ public class Portada extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem19ActionPerformed
 
     private void jMenuItem23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem23ActionPerformed
-        new prestamos().setVisible(true); //PRECIOS BAJOS ---- CREDI CLASS
+//      new prestamos().setVisible(true); //PRECIOS BAJOS ---- CREDI CLASS
 //        new prestamos_aso().setVisible(true); // FAPASA
-//      new prestamos_incresa().setVisible(true); // FAPASA
+       new prestamos_incresa().setVisible(true); // INCRESA
 
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem23ActionPerformed

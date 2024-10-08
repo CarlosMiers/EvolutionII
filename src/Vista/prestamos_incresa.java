@@ -364,7 +364,7 @@ public class prestamos_incresa extends javax.swing.JFrame {
         //LUEGO RESTAMOS AL VALOR NETO A ENTREGAR
         this.totalamortizacion.setText(formatea.format(suamortizacion));
         this.totalinteres.setText(formatea.format(suinteres));
-        this.ivainteres.setText(formatea.format(Math.round(suinteres*10/100)));
+        this.ivainteres.setText(formatea.format(Math.round(suinteres * 10 / 100)));
         this.totalprestamo.setText(formatea.format(suprestamo));
     }
 
@@ -627,7 +627,6 @@ public class prestamos_incresa extends javax.swing.JFrame {
         plazo = new javax.swing.JFormattedTextField();
         jLabel49 = new javax.swing.JLabel();
         tasa = new javax.swing.JFormattedTextField();
-        importecuota = new javax.swing.JFormattedTextField();
         asesor = new javax.swing.JTextField();
         BuscarAsesor = new javax.swing.JButton();
         nombreasesor = new javax.swing.JTextField();
@@ -647,11 +646,13 @@ public class prestamos_incresa extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        gastos_escritura = new javax.swing.JFormattedTextField();
-        seguro = new javax.swing.JFormattedTextField();
-        comision_acreedor = new javax.swing.JFormattedTextField();
+        gastos_administrativos = new javax.swing.JFormattedTextField();
+        segurovida = new javax.swing.JFormattedTextField();
+        comision = new javax.swing.JFormattedTextField();
         jLabel14 = new javax.swing.JLabel();
         capital = new javax.swing.JFormattedTextField();
+        importecuota = new javax.swing.JFormattedTextField();
+        jLabel52 = new javax.swing.JLabel();
         jPanel16 = new javax.swing.JPanel();
         jScrollPane9 = new javax.swing.JScrollPane();
         tablacupon = new javax.swing.JTable();
@@ -1570,24 +1571,6 @@ public class prestamos_incresa extends javax.swing.JFrame {
             }
         });
 
-        importecuota.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0"))));
-        importecuota.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        importecuota.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                importecuotaFocusLost(evt);
-            }
-        });
-        importecuota.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                importecuotaActionPerformed(evt);
-            }
-        });
-        importecuota.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                importecuotaKeyPressed(evt);
-            }
-        });
-
         asesor.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         asesor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1669,48 +1652,69 @@ public class prestamos_incresa extends javax.swing.JFrame {
 
         jLabel4.setText("Comisión");
 
-        gastos_escritura.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
-        gastos_escritura.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        gastos_escritura.addFocusListener(new java.awt.event.FocusAdapter() {
+        gastos_administrativos.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
+        gastos_administrativos.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        gastos_administrativos.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
-                gastos_escrituraFocusLost(evt);
+                gastos_administrativosFocusLost(evt);
             }
         });
-        gastos_escritura.addActionListener(new java.awt.event.ActionListener() {
+        gastos_administrativos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                gastos_escrituraActionPerformed(evt);
+                gastos_administrativosActionPerformed(evt);
             }
         });
-        gastos_escritura.addKeyListener(new java.awt.event.KeyAdapter() {
+        gastos_administrativos.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                gastos_escrituraKeyPressed(evt);
+                gastos_administrativosKeyPressed(evt);
             }
         });
 
-        seguro.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
-        seguro.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        seguro.addFocusListener(new java.awt.event.FocusAdapter() {
+        segurovida.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
+        segurovida.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        segurovida.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
-                seguroFocusLost(evt);
+                segurovidaFocusLost(evt);
             }
         });
-        seguro.addKeyListener(new java.awt.event.KeyAdapter() {
+        segurovida.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                seguroKeyPressed(evt);
+                segurovidaKeyPressed(evt);
             }
         });
 
-        comision_acreedor.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
-        comision_acreedor.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        comision_acreedor.addFocusListener(new java.awt.event.FocusAdapter() {
+        comision.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
+        comision.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        comision.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
-                comision_acreedorFocusLost(evt);
+                comisionFocusLost(evt);
             }
         });
 
-        jLabel14.setText("Total Capital");
+        jLabel14.setText("Total");
 
+        capital.setEditable(false);
         capital.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        importecuota.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0"))));
+        importecuota.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        importecuota.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                importecuotaFocusLost(evt);
+            }
+        });
+        importecuota.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                importecuotaActionPerformed(evt);
+            }
+        });
+        importecuota.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                importecuotaKeyPressed(evt);
+            }
+        });
+
+        jLabel52.setText("Cuota");
 
         javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
         jPanel15.setLayout(jPanel15Layout);
@@ -1737,73 +1741,76 @@ public class prestamos_incresa extends javax.swing.JFrame {
                                         .addComponent(tipoprestamo, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(BuscarPrestamo, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(primervencimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(fecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(fecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(primervencimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(nombreprestamo, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(40, 40, 40)
+                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel48, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel49, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel50, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(importe, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tasa, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(plazo, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(nombresocio, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel15Layout.createSequentialGroup()
+                        .addComponent(jLabel52)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(importecuota, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel15Layout.createSequentialGroup()
+                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel7))
                         .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel15Layout.createSequentialGroup()
-                                .addGap(25, 25, 25)
-                                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel48, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel49, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel50, javax.swing.GroupLayout.Alignment.TRAILING))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(importe, javax.swing.GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE)
-                                    .addComponent(tasa, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(plazo, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(importecuota)))
+                                .addGap(69, 69, 69)
+                                .addComponent(BuscarGarantia, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel15Layout.createSequentialGroup()
                                 .addGap(15, 15, 15)
-                                .addComponent(jLabel8)
-                                .addGap(6, 6, 6)
-                                .addComponent(garantia, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(BuscarGarantia, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(10, 10, 10)
-                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel11)
-                            .addComponent(jLabel9))
+                                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(garantia, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
+                                    .addComponent(destino))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(BuscarDestino, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(moneda, 0, 1, Short.MAX_VALUE)
-                                .addGroup(jPanel15Layout.createSequentialGroup()
-                                    .addComponent(destino, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(BuscarDestino, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel15Layout.createSequentialGroup()
-                                .addComponent(asesor, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(BuscarAsesor, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(nombreasesor, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(nombresocio, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(sistema_prestamo, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel15Layout.createSequentialGroup()
                         .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel15Layout.createSequentialGroup()
-                                .addGap(7, 7, 7)
+                                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel9)
+                                    .addComponent(jLabel11))
+                                .addGap(18, 18, 18)
                                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.TRAILING)))
-                            .addComponent(jLabel14))
+                                    .addGroup(jPanel15Layout.createSequentialGroup()
+                                        .addComponent(asesor, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(BuscarAsesor, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel15Layout.createSequentialGroup()
+                                        .addComponent(moneda, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(95, 95, 95)
+                                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.TRAILING)))
+                                    .addComponent(nombreasesor, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(seguro, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
-                            .addComponent(gastos_escritura)
-                            .addComponent(comision_acreedor, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
-                            .addComponent(capital)))
-                    .addGroup(jPanel15Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(sistema_prestamo, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(segurovida, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
+                            .addComponent(gastos_administrativos)
+                            .addComponent(comision, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
+                            .addComponent(capital))))
                 .addGap(20, 20, 20))
         );
 
-        jPanel15Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {comision_acreedor, gastos_escritura, seguro});
+        jPanel15Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {comision, gastos_administrativos, segurovida});
 
         jPanel15Layout.setVerticalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1811,46 +1818,49 @@ public class prestamos_incresa extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel15Layout.createSequentialGroup()
+                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(gastos_administrativos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel12))
                         .addGap(3, 3, 3)
-                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel15Layout.createSequentialGroup()
-                                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(destino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel7))
-                                    .addComponent(BuscarDestino, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(6, 6, 6)
-                                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(moneda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel9))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(asesor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel11))
-                                    .addComponent(BuscarAsesor, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel15Layout.createSequentialGroup()
-                                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(gastos_escritura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel12))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(seguro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel10))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(comision_acreedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel4))))
+                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(segurovida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel10))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(comision, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4))
                         .addGap(6, 6, 6)
-                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(nombreasesor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(capital, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel14)))
+                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(capital, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel14))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(sistema_prestamo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5)))
+                    .addGroup(jPanel15Layout.createSequentialGroup()
+                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(garantia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel8))
+                            .addComponent(BuscarGarantia, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel7)
+                                .addComponent(destino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(BuscarDestino, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel9)
+                            .addComponent(moneda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(asesor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel11))
+                            .addComponent(BuscarAsesor, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(nombreasesor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel15Layout.createSequentialGroup()
                         .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(BuscarPrestamo, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1887,15 +1897,11 @@ public class prestamos_incresa extends javax.swing.JFrame {
                         .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(plazo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel50))
-                        .addGap(5, 5, 5)
-                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(garantia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel8))
-                            .addComponent(BuscarGarantia, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(importecuota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel52)
+                            .addComponent(importecuota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         jPanel16.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -1943,9 +1949,9 @@ public class prestamos_incresa extends javax.swing.JFrame {
         jPanel21Layout.setHorizontalGroup(
             jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel21Layout.createSequentialGroup()
-                .addGap(226, 226, 226)
+                .addGap(288, 288, 288)
                 .addComponent(BotonGrabar, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(41, 41, 41)
+                .addGap(73, 73, 73)
                 .addComponent(BotonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -2039,14 +2045,13 @@ public class prestamos_incresa extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel51, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(totalamortizacion, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel51, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(totalamortizacion, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(103, 103, 103)
+                        .addGap(30, 30, 30)
                         .addComponent(jLabel1)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -2063,7 +2068,7 @@ public class prestamos_incresa extends javax.swing.JFrame {
                         .addComponent(jLabel13)
                         .addGap(82, 82, 82)
                         .addComponent(jLabel3)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(133, 133, 133))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2800,9 +2805,51 @@ public class prestamos_incresa extends javax.swing.JFrame {
         this.AbrirVentana();
     }//GEN-LAST:event_BotonAgregarActionPerformed
 
+    private void Sumar() {
+        String cImporte = importe.getText();
+        cImporte = cImporte.replace(".", "").replace(",", ".");
+
+        String cInteres = importecuota.getText();
+        cInteres = cInteres.replace(".", "").replace(",", ".");
+
+        String cGastos = gastos_administrativos.getText();
+        cGastos = cGastos.replace(".", "").replace(",", ".");
+
+        String cSeguro = segurovida.getText();
+        cSeguro = cSeguro.replace(".", "").replace(",", ".");
+
+        String cComision = comision.getText();
+        cComision = cComision.replace(".", "").replace(",", ".");
+
+        this.totalprestamo.setText(formatea.format(Double.valueOf(cImporte)
+                + Double.valueOf(cInteres)
+                + Double.valueOf(cGastos)
+                + Double.valueOf(cComision)
+                + Double.valueOf(cSeguro)));
+
+        String cTotalPrestamo = this.totalprestamo.getText();
+        cTotalPrestamo = cTotalPrestamo.replace(".", "").replace(",", ".");
+    }
+
+    private void CalcularSeguro() {
+        String Tipoprestamo = tipoprestamo.getText();
+        comprobanteDAO cmDAO = new comprobanteDAO();
+        comprobante cm = new comprobante();
+        try {
+            cm = cmDAO.buscarId(Integer.valueOf(Tipoprestamo));
+            if (cm.getTasainteresmora().doubleValue() > 0) {
+                String cAuxiliar = this.importe.getText();
+                cAuxiliar = cAuxiliar.replace(".", "").replace(",", ".");
+                this.segurovida.setText(formatea.format(Math.round(Double.valueOf(cAuxiliar) * cm.getTasainteresmora().doubleValue() / 1000 * Integer.valueOf(this.plazo.getText()))));
+            }
+        } catch (SQLException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+    }
+
     private void AbrirVentana() {
         detalle_prestamo.setModal(true);
-        detalle_prestamo.setSize(500, 700);
+        detalle_prestamo.setSize(840, 580);
         //Establecemos un título para el jDialog
         detalle_prestamo.setTitle("Detalle de Préstamo");
         detalle_prestamo.setLocationRelativeTo(null);
@@ -3731,7 +3778,8 @@ public class prestamos_incresa extends javax.swing.JFrame {
             cInteres = cInteres.replace(".", "").replace(",", ".");
             pr.setInteres(new BigDecimal(cInteres));
 
-            String cTotal = this.ivainteres.getText();
+            //String cTotal = this.ivainteres.getText();
+            String cTotal = this.capital.getText();
             cTotal = cTotal.replace(".", "").replace(",", ".");
             pr.setTotalprestamo(new BigDecimal(cTotal));
 
@@ -4089,20 +4137,6 @@ public class prestamos_incresa extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_plazoFocusLost
 
-    private void importecuotaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_importecuotaKeyPressed
-        if (evt.getKeyCode() == 10 || evt.getKeyCode() == KeyEvent.VK_DOWN) {
-            this.asesor.requestFocus();
-        }
-        if (evt.getKeyCode() == KeyEvent.VK_UP) {
-            this.plazo.requestFocus();
-        }   // TO        // TODO add your handling code here:
-        // TODO add your handling code here:
-    }//GEN-LAST:event_importecuotaKeyPressed
-
-    private void importecuotaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_importecuotaFocusLost
-        // TODO add your handling code here:
-    }//GEN-LAST:event_importecuotaFocusLost
-
     private void BuscarGarantiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarGarantiaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_BuscarGarantiaActionPerformed
@@ -4114,10 +4148,6 @@ public class prestamos_incresa extends javax.swing.JFrame {
     private void tasaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tasaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tasaActionPerformed
-
-    private void importecuotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importecuotaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_importecuotaActionPerformed
 
     private void sistema_prestamoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sistema_prestamoActionPerformed
 
@@ -4149,57 +4179,69 @@ public class prestamos_incresa extends javax.swing.JFrame {
     }//GEN-LAST:event_sistema_prestamoActionPerformed
 
     private void importeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_importeFocusLost
-        this.SumarCapital();
+        this.CalcularSeguro();
+        this.Sumar();
     }//GEN-LAST:event_importeFocusLost
 
-    private void gastos_escrituraFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_gastos_escrituraFocusLost
-        this.SumarCapital();
+    private void gastos_administrativosFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_gastos_administrativosFocusLost
+        this.Sumar();
         // TODO add your handling code here:
-    }//GEN-LAST:event_gastos_escrituraFocusLost
+    }//GEN-LAST:event_gastos_administrativosFocusLost
 
-    private void seguroFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_seguroFocusLost
-        this.SumarCapital();
+    private void segurovidaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_segurovidaFocusLost
+        this.Sumar();
         // TODO add your handling code here:
-    }//GEN-LAST:event_seguroFocusLost
+    }//GEN-LAST:event_segurovidaFocusLost
 
-    private void comision_acreedorFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_comision_acreedorFocusLost
-        this.SumarCapital();
+    private void comisionFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_comisionFocusLost
+        this.Sumar();
         // TODO add your handling code here:
-    }//GEN-LAST:event_comision_acreedorFocusLost
+    }//GEN-LAST:event_comisionFocusLost
 
-    private void gastos_escrituraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gastos_escrituraActionPerformed
-        this.SumarCapital();
+    private void gastos_administrativosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gastos_administrativosActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_gastos_escrituraActionPerformed
+    }//GEN-LAST:event_gastos_administrativosActionPerformed
 
-    private void gastos_escrituraKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_gastos_escrituraKeyPressed
+    private void gastos_administrativosKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_gastos_administrativosKeyPressed
         if (evt.getKeyCode() == 10 || evt.getKeyCode() == KeyEvent.VK_DOWN) {
-            this.seguro.requestFocus();
+            this.segurovida.requestFocus();
         }
         if (evt.getKeyCode() == KeyEvent.VK_UP) {
             this.asesor.requestFocus();
         }   // TO        // TODO add your handling code here:
         // TODO add your handling code here:
-    }//GEN-LAST:event_gastos_escrituraKeyPressed
+    }//GEN-LAST:event_gastos_administrativosKeyPressed
 
-    private void seguroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_seguroKeyPressed
+    private void segurovidaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_segurovidaKeyPressed
         if (evt.getKeyCode() == 10 || evt.getKeyCode() == KeyEvent.VK_DOWN) {
-            this.comision_acreedor.requestFocus();
+            this.comision.requestFocus();
         }
         if (evt.getKeyCode() == KeyEvent.VK_UP) {
-            this.gastos_escritura.requestFocus();
+            this.gastos_administrativos.requestFocus();
         }   // TO        // TODO add your handling code here:
         // TODO add your handling code here:
-    }//GEN-LAST:event_seguroKeyPressed
+    }//GEN-LAST:event_segurovidaKeyPressed
+
+    private void importecuotaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_importecuotaKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_importecuotaKeyPressed
+
+    private void importecuotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importecuotaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_importecuotaActionPerformed
+
+    private void importecuotaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_importecuotaFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_importecuotaFocusLost
 
     private void SumarCapital() {
         String cImporte = this.importe.getText();
         cImporte = cImporte.replace(".", "").replace(",", ".");
-        String cGastos = this.gastos_escritura.getText();
+        String cGastos = this.gastos_administrativos.getText();
         cGastos = cGastos.replace(".", "").replace(",", ".");
-        String cSeguro = this.seguro.getText();
+        String cSeguro = this.segurovida.getText();
         cSeguro = cSeguro.replace(".", "").replace(",", ".");
-        String cComision = this.comision_acreedor.getText();
+        String cComision = this.comision.getText();
         cComision = cComision.replace(".", "").replace(",", ".");
         double nCapital = 0.00;
         nCapital = Double.valueOf(cImporte) + Double.valueOf(cGastos) + Double.valueOf(cSeguro) + Double.valueOf(cComision);
@@ -4438,7 +4480,7 @@ public class prestamos_incresa extends javax.swing.JFrame {
     private javax.swing.JComboBox combocomprobante;
     private javax.swing.JComboBox combocustodia;
     private javax.swing.JComboBox combovendedor;
-    private javax.swing.JFormattedTextField comision_acreedor;
+    private javax.swing.JFormattedTextField comision;
     private javax.swing.JTextField creferencia;
     private javax.swing.JDialog custodiaPagare;
     private javax.swing.JFormattedTextField destino;
@@ -4451,7 +4493,7 @@ public class prestamos_incresa extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser fechaprocesoc;
     private com.toedter.calendar.JDateChooser fechaprocesocustodia;
     private javax.swing.JFormattedTextField garantia;
-    private javax.swing.JFormattedTextField gastos_escritura;
+    private javax.swing.JFormattedTextField gastos_administrativos;
     private javax.swing.JDialog genfacturaotros;
     private javax.swing.JButton grabarfactura2;
     private javax.swing.JTextField idmovimiento;
@@ -4497,6 +4539,7 @@ public class prestamos_incresa extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel50;
     private javax.swing.JLabel jLabel51;
+    private javax.swing.JLabel jLabel52;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -4562,7 +4605,7 @@ public class prestamos_incresa extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField plazo;
     private com.toedter.calendar.JDateChooser primervencimiento;
     private javax.swing.JButton salirfactura2;
-    private javax.swing.JFormattedTextField seguro;
+    private javax.swing.JFormattedTextField segurovida;
     private javax.swing.JComboBox<String> sistema_prestamo;
     private javax.swing.JTextField socio;
     private javax.swing.JTable tablacliente;

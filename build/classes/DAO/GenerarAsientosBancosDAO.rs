@@ -1,2 +1,0 @@
-DAO.TableAsientosBancos
-DAO.GenerarAsientosBancosDAO

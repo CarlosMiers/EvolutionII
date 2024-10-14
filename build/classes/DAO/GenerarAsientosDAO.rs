@@ -1,2 +1,0 @@
-DAO.GenerarAsientosDAO
-DAO.TableAsientos

@@ -28,12 +28,13 @@ public class pago {
     int asiento;
     int cierre;
     int codusuario;
-
+    int estado;
+    int aprobadopor;
     public pago() {
 
     }
 
-    public pago(String idpagos, int numero, sucursal sucursal, detallepago detallepago, String recibo, Date fecha, proveedor proveedor, moneda moneda, Double cotizacionmoneda, Double valores, Double totalpago, String observacion, int asiento, int cierre, int codusuario) {
+    public pago(String idpagos, int numero, sucursal sucursal, detallepago detallepago, String recibo, Date fecha, proveedor proveedor, moneda moneda, Double cotizacionmoneda, Double valores, Double totalpago, String observacion, int asiento, int cierre, int codusuario, int estado, int aprobadopor) {
         this.idpagos = idpagos;
         this.numero = numero;
         this.sucursal = sucursal;
@@ -49,6 +50,8 @@ public class pago {
         this.asiento = asiento;
         this.cierre = cierre;
         this.codusuario = codusuario;
+        this.estado = estado;
+        this.aprobadopor = aprobadopor;
     }
 
     public String getIdpagos() {
@@ -169,6 +172,22 @@ public class pago {
 
     public void setCodusuario(int codusuario) {
         this.codusuario = codusuario;
+    }
+
+    public int getEstado() {
+        return estado;
+    }
+
+    public void setEstado(int estado) {
+        this.estado = estado;
+    }
+
+    public int getAprobadopor() {
+        return aprobadopor;
+    }
+
+    public void setAprobadopor(int aprobadopor) {
+        this.aprobadopor = aprobadopor;
     }
 
  

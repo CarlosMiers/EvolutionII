@@ -70,6 +70,7 @@ public class flujo_de_inversion extends javax.swing.JFrame {
     Tablas modelotitulo = new Tablas();
     ObtenerFecha ODate = new ObtenerFecha();
     SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat formatoFecha2 = new SimpleDateFormat("yyyy,MM,dd");
     DecimalFormat formato = new DecimalFormat("#,###.##");
     Calendar c2 = new GregorianCalendar();
     private TableRowSorter trsfiltrotitulo;
@@ -166,6 +167,7 @@ public class flujo_de_inversion extends javax.swing.JFrame {
         titulo = new javax.swing.JFormattedTextField();
         jSeparator1 = new javax.swing.JSeparator();
         porcentajetir = new javax.swing.JFormattedTextField();
+        jLabel26 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
@@ -697,9 +699,12 @@ public class flujo_de_inversion extends javax.swing.JFrame {
 
         titulo.setText(org.openide.util.NbBundle.getMessage(flujo_de_inversion.class, "flujo_de_inversion.titulo.text")); // NOI18N
 
+        porcentajetir.setEditable(false);
         porcentajetir.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
         porcentajetir.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         porcentajetir.setText(org.openide.util.NbBundle.getMessage(flujo_de_inversion.class, "flujo_de_inversion.porcentajetir.text")); // NOI18N
+
+        jLabel26.setText(org.openide.util.NbBundle.getMessage(flujo_de_inversion.class, "flujo_de_inversion.jLabel26.text")); // NOI18N
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -709,18 +714,13 @@ public class flujo_de_inversion extends javax.swing.JFrame {
                 .addGap(40, 40, 40)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(bGenerar, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel14)
-                                .addComponent(jLabel15)
-                                .addComponent(jLabel16)
-                                .addComponent(jLabel17)
-                                .addComponent(jLabel18)))
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel14)
+                            .addComponent(jLabel15)
+                            .addComponent(jLabel16)
+                            .addComponent(jLabel17)
+                            .addComponent(jLabel18)
+                            .addComponent(jLabel26))
                         .addGap(23, 23, 23)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(dFechaOperacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -728,8 +728,17 @@ public class flujo_de_inversion extends javax.swing.JFrame {
                             .addComponent(precioclean_flujo)
                             .addComponent(comision)
                             .addComponent(arancel)
-                            .addComponent(porcentajetir))))
-                .addContainerGap(51, Short.MAX_VALUE))
+                            .addComponent(porcentajetir))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                        .addComponent(titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(32, 32, 32))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGap(261, 261, 261)
+                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(bGenerar, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -739,7 +748,8 @@ public class flujo_de_inversion extends javax.swing.JFrame {
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel14)
-                            .addComponent(dFechaOperacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(dFechaOperacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(titulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel15)
@@ -755,19 +765,14 @@ public class flujo_de_inversion extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel18))
                     .addComponent(arancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
-                        .addComponent(titulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(porcentajetir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(bGenerar)
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, 24))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(porcentajetir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel26))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14)
+                .addComponent(bGenerar))
         );
 
         jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -989,8 +994,9 @@ public class flujo_de_inversion extends javax.swing.JFrame {
         modelo.addColumn("N° Cupón");
         modelo.addColumn("Vencimiento");
         modelo.addColumn("Monto");
+        modelo.addColumn("Fecha");
         // 0    1   2     3   
-        int[] anchos = {100, 100, 100, 100};
+        int[] anchos = {100, 100, 100, 100, 1};
         for (int i = 0; i < modelo.getColumnCount(); i++) {
             tablacupones.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
         }
@@ -1255,15 +1261,32 @@ public class flujo_de_inversion extends javax.swing.JFrame {
         valornominal.setText("0");
         inversion.setText("0");
         precio.setText("0");
-        int cantidadRegistro = modelo.getRowCount();
-        Date FechaVence = ODate.de_java_a_sql(dFechaOperacion.getDate());
-
-        String cNombreDia = "SD";
         String cPrecio = precioclean_flujo.getText();
         cPrecio = cPrecio.replace(".", "").replace(",", ".");
 
         String cValorNominal = valornominal_flujo.getText();
         cValorNominal = cValorNominal.replace(".", "").replace(",", ".");
+
+        valornominal.setText(this.valornominal_flujo.getText());
+        precio.setText(this.precioclean_flujo.getText());
+        cValorNominal = this.valornominal.getText();
+        cValorNominal = cValorNominal.replace(".", "").replace(",", ".");
+        cPrecio = this.precioclean_flujo.getText();
+        cPrecio = cPrecio.replace(".", "").replace(",", ".");
+        this.inversion.setText(formato.format(Double.valueOf(cValorNominal) * Double.valueOf(cPrecio) / 100));
+
+        //SE CALCULA EL ARANCEL BURSATIL, AUN SIN IVA
+        String cInversion = this.inversion.getText();
+        cInversion = cInversion.replace(".", "").replace(",", ".");
+        String cArancel = this.arancel.getText();
+        cArancel = cArancel.replace(".", "").replace(",", ".");
+        //SE OBTIENE VALOR DE COMISION
+        String cComision = this.comision.getText();
+        cComision = cComision.replace(".", "").replace(",", ".");
+
+        int cantidadRegistro = modelo.getRowCount();
+
+        String cNombreDia = "SD";
 
         String cTasa = tasa.getText();
         cTasa = cTasa.replace(".", "").replace(",", ".");
@@ -1284,6 +1307,9 @@ public class flujo_de_inversion extends javax.swing.JFrame {
         int nCantidad = 0;
         detalle_cupones_titulosDAO detDAO = new detalle_cupones_titulosDAO();
         try {
+            String ValorInicial[] = {"MONTO INV.", "0", formatoFecha.format(this.dCompra.getDate()), formato.format(Double.valueOf(cInversion) * -1), formatoFecha2.format(this.dCompra.getDate())};
+            modelo.addRow(ValorInicial);
+
             for (detalle_cupones_titulos detvta : detDAO.MostrarxTituloTodos(Integer.valueOf(titulo.getText()))) {
                 LocalDate currenDate = LocalDate.parse(detvta.getFechavencimiento().toString());
                 int diaSemana = currenDate.getDayOfWeek().getValue() + 1;
@@ -1321,30 +1347,18 @@ public class flujo_de_inversion extends javax.swing.JFrame {
                 if (detvta.getEstadocupon() <= 0) {
                     nValorCupon = 0;
                 }
-                String Detalle[] = {"CUPÓN", formatea.format(detvta.getNumerocupon()), formatoFecha.format(detvta.getFechavencimiento()), formatea.format(nValorCupon)};
+                String Detalle[] = {"CUPÓN", formatea.format(detvta.getNumerocupon()),
+                    formatoFecha.format(detvta.getFechavencimiento()), formatea.format(nValorCupon), detvta.getFormatofecha()};
                 modelo.addRow(Detalle);
-
             }
+
+            String ValorFinal[] = {"CAPITAL", "0", formatoFecha.format(this.dVence.getDate()),
+                formato.format(Double.valueOf(cValorNominal)), formatoFecha2.format(this.dVence.getDate())};
+            modelo.addRow(ValorFinal);
+
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "ERROR: " + e.getMessage());
         }
-
-        valornominal.setText(this.valornominal_flujo.getText());
-        precio.setText(this.precioclean_flujo.getText());
-        cValorNominal = this.valornominal.getText();
-        cValorNominal = cValorNominal.replace(".", "").replace(",", ".");
-        cPrecio = this.precioclean_flujo.getText();
-        cPrecio = cPrecio.replace(".", "").replace(",", ".");
-        this.inversion.setText(formato.format(Double.valueOf(cValorNominal) * Double.valueOf(cPrecio) / 100));
-
-        //SE CALCULA EL ARANCEL BURSATIL, AUN SIN IVA
-        String cInversion = this.inversion.getText();
-        cInversion = cInversion.replace(".", "").replace(",", ".");
-        String cArancel = this.arancel.getText();
-        cArancel = cArancel.replace(".", "").replace(",", ".");
-        //SE OBTIENE VALOR DE COMISION
-        String cComision = this.comision.getText();
-        cComision = cComision.replace(".", "").replace(",", ".");
 
         if (Integer.valueOf(this.codmoneda.getText()) == 1) {
             this.arancelbursatil.setText(formato.format(Math.round(Double.valueOf(cInversion) * Double.valueOf(cArancel)) / 100));
@@ -1372,132 +1386,43 @@ public class flujo_de_inversion extends javax.swing.JFrame {
     }//GEN-LAST:event_bGenerarActionPerformed
 
     private void cargarValoresTir() {
-//                String dateString = formatoFecha.format(detvta.getFechavencimiento());
-//                System.out.println("Fecha Cambiada "+dateString);
 
-//            LocalDate.of(2024, 12, 15),
         int rowCount = modelo.getRowCount();
         double[] cashFlows = new double[rowCount];
         LocalDate[] dates = new LocalDate[rowCount];
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-        for (int i = 0; i < tablacupones.getRowCount(); i++) {
+        // Lista para almacenar las fechas convertidas
+        for (int i = 0; i < rowCount; i++) {
             String cImporte = String.valueOf(tablacupones.getValueAt(i, 3));
-            if (!cImporte.equals("0")) {
-                cImporte = cImporte.replace(".", "").replace(",", ".");
-                cashFlows[i] = Double.valueOf(cImporte); // Asumiendo que la columna de Cash Flow está en la posición 1
+            cImporte = cImporte.replace(".", "").replace(",", ".");
+            cashFlows[i] = Double.valueOf(cImporte);
+            //String dateString = (String) tablacupones.getValueAt(i, 4);
+            try {
+                // Parsear la fecha y crear el objeto LocalDate
+                String fecha = (String) tablacupones.getValueAt(i, 4);
+                String[] partes = fecha.split(",");
 
-                //String dateString = (String) modelo.getValueAt(i, 2); // Asumiendo que la columna de fecha está en la posición 1
-                String dateStr = (String) modelo.getValueAt(i, 2);
+                String anio = partes[0]; // "2024"
+                String mes = partes[1];  // "10"
+                String dia = partes[2];  // "14"                    
+                LocalDate date = LocalDate.of(Integer.valueOf(anio), Integer.valueOf(mes), Integer.valueOf(dia));
+                dates[i] = date; // Almacenar el objeto LocalDate
 
-                // Crear un formatter para el formato original
-                DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-                // Parsear la fecha de la cadena al objeto LocalDate
-                LocalDate date = LocalDate.parse(dateStr, inputFormatter);
-
-                // Crear un formatter para el nuevo formato
-                DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("yyyy,MM,dd");
-
-                // Convertir la fecha al nuevo formato
-                String formattedDate = date.format(outputFormatter);
-
-
-                date = LocalDate.parse(formattedDate, outputFormatter);
-
-                // Asignar el LocalDate al array en la posición deseada
-                dates[i] = LocalDate.parse(formattedDate);  // A                 
-                
-                System.out.println("FECHA CARGADA "+dates[i]);  // Salida: 2024,10,21
-                
+            } catch (DateTimeParseException e) {
+                dates[i] = null; // Manejar el error
             }
         }
 
+
         try {
-            //calculateXIRR calcular = new calculateXIRR();
-//          double tir = this.calculate(cashFlows, dates);
-
-            if (cashFlows.length != dates.length) {
-                throw new Exception("Los arrays de flujos de efectivo y fechas deben tener la misma longitud.");
-            }
-
-            double guess = 0.1; // Suposición inicial
-            double tol = 1e-6; // Tolerancia para la precisión
-            int maxIter = 1000; // Máximo número de iteraciones
-            double rate = guess;
-
-            LocalDate startDate = dates[0];
-            double tir = 0.0;
-            for (int iter = 0; iter < maxIter; iter++) {
-                double fValue = 0.0;
-                double fDerivative = 0.0;
-
-                for (int i = 0; i < cashFlows.length; i++) {
-
-                    if (startDate != null && dates[i] != null) {
-                        double fraction = ChronoUnit.DAYS.between(startDate, dates[i]) / 365.0;
-                        fValue += cashFlows[i] / Math.pow(1 + rate, fraction);
-                        fDerivative -= fraction * cashFlows[i] / Math.pow(1 + rate, fraction + 1);
-                    } else {
-                        System.out.println("StarDate " + startDate);
-                        System.out.println("dates[i] " + dates[i]);
-                    }
-
-                }
-
-                double newRate = rate - fValue / fDerivative;
-
-                if (Math.abs(newRate - rate) < tol) {
-                    tir = newRate;
-                }
-                rate = newRate;
-            }
-
+            calculateXIRR calcular = new calculateXIRR();
+            double tir = calcular.calculateXIRR(cashFlows, dates);
             this.porcentajetir.setText(formato.format(tir * 100));
         } catch (Exception ex) {
             Exceptions.printStackTrace(ex);
         }
 
-    }
-
-    public double calculate(double[] cashFlows, LocalDate[] dates) throws Exception {
-        if (cashFlows.length != dates.length) {
-            throw new Exception("Los arrays de flujos de efectivo y fechas deben tener la misma longitud.");
-        }
-
-        double guess = 0.1; // Suposición inicial
-        double tol = 1e-6; // Tolerancia para la precisión
-        int maxIter = 1000; // Máximo número de iteraciones
-        double rate = guess;
-
-        LocalDate startDate = dates[0];
-
-        for (int iter = 0; iter < maxIter; iter++) {
-            double fValue = 0.0;
-            double fDerivative = 0.0;
-
-            for (int i = 0; i < cashFlows.length; i++) {
-
-                if (startDate != null && dates[i] != null) {
-                    double fraction = ChronoUnit.DAYS.between(startDate, dates[i]) / 365.0;
-                    fValue += cashFlows[i] / Math.pow(1 + rate, fraction);
-                    fDerivative -= fraction * cashFlows[i] / Math.pow(1 + rate, fraction + 1);
-                } else {
-                    System.out.println("StarDate " + startDate);
-                    System.out.println("dates[i] " + dates[i]);
-                }
-
-            }
-
-            double newRate = rate - fValue / fDerivative;
-
-            if (Math.abs(newRate - rate) < tol) {
-                return newRate;
-            }
-
-            rate = newRate;
-        }
-
-        throw new Exception("No se pudo calcular la TIR.");
     }
 
 
@@ -1692,6 +1617,7 @@ public class flujo_de_inversion extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;

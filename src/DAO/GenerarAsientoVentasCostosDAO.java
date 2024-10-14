@@ -478,7 +478,6 @@ public class GenerarAsientoVentasCostosDAO {
                 double totalneto = gravadas10 + gravadas5 + exentas;
                 String ctadebe = costos.getString("idctacosto");
                 String ctahaber = costos.getString("idctamercaderia");
-                System.out.println("Fecha Costos " + costos.getDate("fecha"));
 
                 // Agregar cabecera
                 sql = "INSERT INTO cabecera_asientos(sucursal,fecha,debe,haber,saldo,grabado) "

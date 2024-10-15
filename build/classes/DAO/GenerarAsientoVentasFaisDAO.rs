@@ -1,0 +1,2 @@
+DAO.GenerarAsientoVentasFaisDAO
+DAO.TableAsientosVentasFais

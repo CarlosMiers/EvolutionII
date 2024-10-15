@@ -19,19 +19,21 @@ public class detalle_cupones_titulos {
     Date fechavencimiento;
     int numerocupon;
     int estadocupon;
+    String formatofecha;
     
     
     public detalle_cupones_titulos() {
 
     }
 
-    public detalle_cupones_titulos(int titulo, Date fechainicio, int plazo, Date fechavencimiento, int numerocupon, int estadocupon) {
+    public detalle_cupones_titulos(int titulo, Date fechainicio, int plazo, Date fechavencimiento, int numerocupon, int estadocupon, String formatofecha) {
         this.titulo = titulo;
         this.fechainicio = fechainicio;
         this.plazo = plazo;
         this.fechavencimiento = fechavencimiento;
         this.numerocupon = numerocupon;
         this.estadocupon = estadocupon;
+        this.formatofecha = formatofecha;
     }
 
     public int getTitulo() {
@@ -82,5 +84,13 @@ public class detalle_cupones_titulos {
         this.estadocupon = estadocupon;
     }
 
+    
+    public String getFormatofecha() {
+        return formatofecha;
+    }
+    
+    public void setFormatofecha(String formatofecha) {
+        this.formatofecha = formatofecha;
+    }
 
 }

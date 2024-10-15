@@ -144,6 +144,11 @@ public class ot_presupuestos extends javax.swing.JFrame {
         GrillaOrdenTrabajo GrillaOC = new GrillaOrdenTrabajo();
         Thread HiloGrilla = new Thread(GrillaOC);
         HiloGrilla.start();
+
+        GrillaProductos GrillaPro = new GrillaProductos();
+        Thread HiloProd = new Thread(GrillaPro);
+        HiloProd.start();
+
     }
     configuracionDAO configDAO = new configuracionDAO();
     configuracion configinicial = configDAO.consultar();

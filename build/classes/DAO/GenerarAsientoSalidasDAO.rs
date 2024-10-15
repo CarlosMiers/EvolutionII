@@ -1,0 +1,2 @@
+DAO.TableAsientosSalidas
+DAO.GenerarAsientoSalidasDAO

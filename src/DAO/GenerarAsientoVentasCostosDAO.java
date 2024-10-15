@@ -443,13 +443,15 @@ public class GenerarAsientoVentasCostosDAO {
             ps.executeUpdate();
 
             sql = "SELECT factura,cabecera_ventas.fecha,rubros.idctacosto,rubros.idctamercaderia,productos.rubro,"
-                    + "porcentaje,"
+                    + "porcentaje,comprobantes.libros,"
                     + "ROUND(SUM(IF(porcentaje=0,cantidad*prcosto,0000000000))) AS exentas,"
                     + "ROUND(SUM(IF(porcentaje=5,cantidad*prcosto,0000000000))) AS iva5,"
                     + "ROUND(SUM(IF(porcentaje=10,cantidad*prcosto,0000000000))) AS iva10"
                     + " FROM cabecera_ventas "
                     + " INNER JOIN detalle_ventas "
                     + " ON creferencia=dreferencia "
+                    + " LEFT JOIN comprobantes "
+                    + " ON comprobantes.codigo=cabecera_ventas.comprobante "
                     + " INNER JOIN productos "
                     + " ON detalle_ventas.codprod=productos.codigo "
                     + " INNER JOIN rubros "
@@ -467,12 +469,19 @@ public class GenerarAsientoVentasCostosDAO {
                 double cotizacion = 1;
                 String nrofactura = costos.getString("factura");
                 String observacion = "ASIENTO DE COSTO";
+                int nTipoIva = costos.getInt("libros");
                 int asiento = 0;
                 int sucursal = 1;
                 String moneda = "1";
-
-                double gravadas10 = Math.round(costos.getDouble("iva10") - (costos.getDouble("iva10") / 11));
-                double gravadas5 = Math.round(costos.getDouble("iva5") - (costos.getDouble("iva5") / 21));
+                double gravadas10 = 0.0;
+                double gravadas5 = 0.0;
+                if (nTipoIva == 1) {
+                    gravadas10 = Math.round(costos.getDouble("iva10") - (costos.getDouble("iva10") / 11));
+                    gravadas5 = Math.round(costos.getDouble("iva5") - (costos.getDouble("iva5") / 21));
+                } else {
+                    gravadas10 = Math.round(costos.getDouble("iva10"));
+                    gravadas5 = Math.round(costos.getDouble("iva5"));
+                }
                 double exentas = Math.round(costos.getDouble("exentas"));
 
                 double totalneto = gravadas10 + gravadas5 + exentas;

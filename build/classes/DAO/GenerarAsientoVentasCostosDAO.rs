@@ -1,2 +1,0 @@
-DAO.TableAsientosVentas
-DAO.GenerarAsientoVentasCostosDAO

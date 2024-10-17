@@ -1,2 +1,0 @@
-Clases.MarqueeTest
-Clases.MarqueePanel

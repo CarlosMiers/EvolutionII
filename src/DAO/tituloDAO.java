@@ -97,7 +97,6 @@ public class tituloDAO {
                 t.setFechacotizacion(rs.getDate("fechacotizacion"));
                 t.setPreciocotizacion(rs.getDouble("preciocotizacion"));
                 t.setNominal(rs.getBigDecimal("nominal"));
-                t.setNombreprograma(rs.getString("nombreprograma"));
                 t.setNegociable(rs.getInt("negociable"));
                 t.getMoneda().setCodigo(rs.getInt("moneda"));
                 t.getMoneda().setNombre(rs.getString("nombremoneda"));
@@ -186,7 +185,6 @@ public class tituloDAO {
                     t.setPreciocotizacion(rs.getDouble("preciocotizacion"));
                     t.setNominal(rs.getBigDecimal("nominal"));
                     t.setCorte_minimo(rs.getBigDecimal("corte_minimo"));
-                    t.setNombreprograma(rs.getString("nombreprograma"));
                     t.setNegociable(rs.getInt("negociable"));
                     t.setCupones(rs.getInt("cupones"));
 
@@ -387,7 +385,6 @@ public class tituloDAO {
                     t.setPreciocotizacion(rs.getDouble("preciocotizacion"));
                     t.setNominal(rs.getBigDecimal("nominal"));
                     t.setCorte_minimo(rs.getBigDecimal("corte_minimo"));
-                    t.setNombreprograma(rs.getString("nombreprograma"));
                     t.setNegociable(rs.getInt("negociable"));
                     t.setCupones(rs.getInt("cupones"));
 
@@ -483,7 +480,6 @@ public class tituloDAO {
                 t.setFechacotizacion(rs.getDate("fechacotizacion"));
                 t.setPreciocotizacion(rs.getDouble("preciocotizacion"));
                 t.setNominal(rs.getBigDecimal("nominal"));
-                t.setNombreprograma(rs.getString("nombreprograma"));
                 t.setNegociable(rs.getInt("negociable"));
                 t.getMoneda().setCodigo(rs.getInt("moneda"));
                 t.getMoneda().setNombre(rs.getString("nombremoneda"));

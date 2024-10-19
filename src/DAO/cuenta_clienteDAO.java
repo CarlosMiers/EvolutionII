@@ -3863,4 +3863,70 @@ public class cuenta_clienteDAO {
     }
 
 
+        public ArrayList<cuenta_clientes> MostrarSaldoxClienteDetallado(int cliente, Date dInicio) throws SQLException {
+        ArrayList<cuenta_clientes> lista = new ArrayList<cuenta_clientes>();
+        con = new Conexion();
+        st = con.conectar();
+        try {
+            String cSql = "SELECT clientes.codigo,clientes.categoria,clientes.asesor,clientes.nombre AS nombrecliente,"
+                    + "clientes.celular, clientes.direccion, clientes.mail,"
+                    + "clientes.salario,clientes.ruc,clientes.telefono,"
+                    + "cuenta_clientes.documento,cuenta_clientes.fecha,cuenta_clientes.vencimiento,"
+                    + "cuenta_clientes.comprobante,cuenta_clientes.importe,cuenta_clientes.saldo,"
+                    + "cuenta_clientes.numerocuota,cuenta_clientes.cuota,"
+                    + "comprobantes.nombre AS nombrecomprobante "
+                    + "FROM clientes "
+                    + "LEFT JOIN "
+                    + "cuenta_clientes "
+                    + "ON cuenta_clientes.cliente=clientes.codigo "
+                    + "LEFT JOIN comprobantes "
+                    + "ON comprobantes.codigo=cuenta_clientes.comprobante "
+                    + "WHERE clientes.codigo= ? "
+                    + "AND cuenta_clientes.fecha<= ?"
+                    + "AND cuenta_clientes.saldo<>0 "
+                    + "ORDER BY cuenta_clientes.cliente,cuenta_clientes.fecha,cuenta_clientes.documento,cuenta_clientes.cuota";
+
+            try (PreparedStatement ps = st.getConnection().prepareStatement(cSql)) {
+                ps.setInt(1, cliente);
+                ps.setDate(2, dInicio);
+                ResultSet rs = ps.executeQuery();
+
+                while (rs.next()) {
+
+                    giraduria giraduria = new giraduria();
+                    cliente c = new cliente();
+                    comprobante m = new comprobante();
+                    cuenta_clientes cc = new cuenta_clientes();
+
+                    cc.setGiraduria(giraduria);
+                    cc.setCliente(c);
+                    cc.setComprobante(m);
+
+                    cc.setFecha(rs.getDate("fecha"));
+                    cc.setDocumento(rs.getString("documento"));
+                    cc.setVencimiento(rs.getDate("vencimiento"));
+                    cc.setImporte(rs.getBigDecimal("importe"));
+                    cc.getCliente().setCodigo(rs.getInt("codigo"));
+                    cc.getCliente().setNombre(rs.getString("nombrecliente"));
+                    cc.getComprobante().setCodigo(rs.getInt("comprobante"));
+                    cc.getComprobante().setNombre(rs.getString("nombrecomprobante"));
+                    cc.setSaldo(rs.getBigDecimal("saldo"));
+                    cc.setCuota(rs.getInt("cuota"));
+                    cc.setNumerocuota(rs.getInt("numerocuota"));
+                    cc.setPlazo(rs.getInt("numerocuota"));
+                    lista.add(cc);
+                }
+                ps.close();
+            }
+        } catch (SQLException ex) {
+            System.out.println("--> " + ex.getLocalizedMessage());
+        }
+        st.close();
+        return lista;
+    }
+
+    
+    
+    
+    
 }

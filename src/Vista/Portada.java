@@ -5261,7 +5261,7 @@ public class Portada extends javax.swing.JFrame {
     }//GEN-LAST:event_JMenuItemLibroActionPerformed
 
     private void jMenuItem18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem18ActionPerformed
-        new resumen_saldo_clientesxfecha().setVisible(true);
+        new cuotaspendientes().setVisible(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem18ActionPerformed
 

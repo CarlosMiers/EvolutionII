@@ -1,0 +1,1 @@
+DAO.registro_operaciones_report

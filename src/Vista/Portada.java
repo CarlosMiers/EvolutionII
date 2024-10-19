@@ -235,7 +235,7 @@ public class Portada extends javax.swing.JFrame {
         //    new HilosEspias(2, 3000).start(); //VERIFICA COBROS EN LA WEB Y ACTUALIZA CADA 30 SEGUNDOS
         //  new HilosEspias(3, 300000).start(); //BORRA TODAS LAS CUENTAS CANCELADAS
 
-        // new HilosEspias(6, 5400000).start(); //ACTUALIZANDO DATOS PARA BICSA
+         new HilosEspias(6, 5400000).start(); //ACTUALIZANDO DATOS PARA BICSA
         /**
          * ************** INSTANCIAS DEL CALENDARIO ************************
          */

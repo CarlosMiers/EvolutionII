@@ -28,6 +28,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
@@ -154,6 +155,8 @@ public class flujo_de_inversion extends javax.swing.JFrame {
         pagos = new javax.swing.JTextField();
         tasa = new javax.swing.JFormattedTextField();
         capital = new javax.swing.JTextField();
+        jLabel29 = new javax.swing.JLabel();
+        dias_transcurridos = new javax.swing.JFormattedTextField();
         jPanel4 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
@@ -330,7 +333,7 @@ public class flujo_de_inversion extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -532,7 +535,7 @@ public class flujo_de_inversion extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(precio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(valornominal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7))
@@ -579,6 +582,13 @@ public class flujo_de_inversion extends javax.swing.JFrame {
         capital.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         capital.setEnabled(false);
 
+        jLabel29.setText(org.openide.util.NbBundle.getMessage(flujo_de_inversion.class, "flujo_de_inversion.jLabel29.text")); // NOI18N
+
+        dias_transcurridos.setEditable(false);
+        dias_transcurridos.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        dias_transcurridos.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        dias_transcurridos.setText(org.openide.util.NbBundle.getMessage(flujo_de_inversion.class, "flujo_de_inversion.dias_transcurridos.text")); // NOI18N
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -586,29 +596,25 @@ public class flujo_de_inversion extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel10)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel9)
                             .addComponent(jLabel13)
                             .addComponent(jLabel11)
-                            .addComponent(jLabel12))
+                            .addComponent(jLabel12)
+                            .addComponent(jLabel29))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(5, 5, 5)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(pagos)
-                                    .addComponent(moneda)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(capital))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(dUltimoCupon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(tasa))
-                                .addGap(0, 37, Short.MAX_VALUE)))))
-                .addContainerGap())
+                            .addComponent(dias_transcurridos, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(dUltimoCupon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(tasa)
+                            .addComponent(capital)
+                            .addComponent(pagos)
+                            .addComponent(moneda))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel10)
+                        .addGap(199, 199, 199))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -633,6 +639,10 @@ public class flujo_de_inversion extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel13)
                     .addComponent(dUltimoCupon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel29)
+                    .addComponent(dias_transcurridos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -696,7 +706,7 @@ public class flujo_de_inversion extends javax.swing.JFrame {
             }
         });
 
-        arancel.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
+        arancel.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.0000"))));
         arancel.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         arancel.setEnabled(false);
 
@@ -818,10 +828,12 @@ public class flujo_de_inversion extends javax.swing.JFrame {
 
         meses_restantes.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         meses_restantes.setText(org.openide.util.NbBundle.getMessage(flujo_de_inversion.class, "flujo_de_inversion.meses_restantes.text")); // NOI18N
+        meses_restantes.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         meses_restantes.setEnabled(false);
 
         totalintereses.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
         totalintereses.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        totalintereses.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         totalintereses.setEnabled(false);
         totalintereses.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -831,6 +843,7 @@ public class flujo_de_inversion extends javax.swing.JFrame {
 
         total_a_recibir.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
         total_a_recibir.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        total_a_recibir.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         total_a_recibir.setEnabled(false);
         total_a_recibir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -840,6 +853,7 @@ public class flujo_de_inversion extends javax.swing.JFrame {
 
         comision_intermediacion.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
         comision_intermediacion.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        comision_intermediacion.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         comision_intermediacion.setEnabled(false);
         comision_intermediacion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -849,6 +863,7 @@ public class flujo_de_inversion extends javax.swing.JFrame {
 
         arancelbursatil.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
         arancelbursatil.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        arancelbursatil.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         arancelbursatil.setEnabled(false);
         arancelbursatil.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -858,6 +873,7 @@ public class flujo_de_inversion extends javax.swing.JFrame {
 
         montoiva.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
         montoiva.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        montoiva.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         montoiva.setEnabled(false);
         montoiva.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -867,6 +883,7 @@ public class flujo_de_inversion extends javax.swing.JFrame {
 
         totalgastos.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
         totalgastos.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        totalgastos.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         totalgastos.setEnabled(false);
         totalgastos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -886,6 +903,7 @@ public class flujo_de_inversion extends javax.swing.JFrame {
 
         dias_restantes.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         dias_restantes.setText(org.openide.util.NbBundle.getMessage(flujo_de_inversion.class, "flujo_de_inversion.dias_restantes.text")); // NOI18N
+        dias_restantes.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         dias_restantes.setEnabled(false);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -1031,8 +1049,9 @@ public class flujo_de_inversion extends javax.swing.JFrame {
         modelo.addColumn("Vencimiento");
         modelo.addColumn("Monto");
         modelo.addColumn("Fecha");
+        modelo.addColumn("Días");
         // 0    1   2     3   
-        int[] anchos = {100, 100, 100, 100, 1};
+        int[] anchos = {100, 100, 100, 100, 1, 1};
         for (int i = 0; i < modelo.getColumnCount(); i++) {
             tablacupones.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
         }
@@ -1409,7 +1428,29 @@ public class flujo_de_inversion extends javax.swing.JFrame {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "ERROR: " + e.getMessage());
         }
+        for (int i = 1; i < tablacupones.getRowCount(); i++) {
+            Date fechaActual;
+            Date fechaHoy = ODate.de_java_a_sql(dCompra.getDate());
 
+            try {
+                fechaActual = ODate.de_java_a_sql(formatoFecha.parse(tablacupones.getValueAt(i, 2).toString()));
+                Date fechaAnterior = ODate.de_java_a_sql(formatoFecha.parse(tablacupones.getValueAt(i - 1, 2).toString()));
+                long diferenciaMilis = fechaActual.getTime() - fechaAnterior.getTime();
+                diferenciaDias = diferenciaMilis / (1000 * 60 * 60 * 24);
+                if (fechaHoy.after(fechaAnterior) && fechaHoy.before(fechaActual)) {
+                    long diferenciaHoyMilis = fechaHoy.getTime() - fechaAnterior.getTime();
+                    long diferenciaHoyDias = diferenciaHoyMilis / (1000 * 60 * 60 * 24);
+                    this.tablacupones.setValueAt(diferenciaHoyDias, i, 5);
+                    this.dias_transcurridos.setText(String.valueOf(diferenciaHoyDias));
+                    String fechaStr = (String) tablacupones.getValueAt(i - 1, 2);
+                    Date fecha = ODate.de_java_a_sql(formatoFecha.parse(fechaStr));
+                    dUltimoCupon.setDate(fecha);
+                }
+            } catch (ParseException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+
+        }
         if (Integer.valueOf(this.codmoneda.getText()) == 1) {
             this.arancelbursatil.setText(formato.format(Math.round(Double.valueOf(cInversion) * Double.valueOf(cArancel)) / 100));
             this.comision_intermediacion.setText(formato.format(Math.round(Double.valueOf(cInversion) * Double.valueOf(cComision)) / 100));
@@ -1435,12 +1476,17 @@ public class flujo_de_inversion extends javax.swing.JFrame {
 
         String cNominal = this.valornominal.getText();
         cNominal = cNominal.replace(".", "").replace(",", ".");
-
         String cInteres = this.totalintereses.getText();
         cInteres = cInteres.replace(".", "").replace(",", ".");
 
         this.total_a_recibir.setText(formatea.format(Double.valueOf(cNominal) + Double.valueOf(cInteres)));
+        //FORMULA PARA TNA
+        String cTotalRecibir = this.total_a_recibir.getText();
+        cTotalRecibir = cTotalRecibir.replace(".", "").replace(",", ".");
 
+        cTotalRecibir = cTotalRecibir.replace(".", "").replace(",", ".");
+        //
+        this.tna.setText(formatea.format((((Double.valueOf(cTotalRecibir) / Double.valueOf(cInversion)) - 1) / Integer.valueOf(dias_restantes.getText())) * Integer.valueOf(this.base.getText())));
         // TODO add your handling code here:
     }//GEN-LAST:event_bGenerarActionPerformed
 
@@ -1659,6 +1705,7 @@ public class flujo_de_inversion extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser dUltimoCupon;
     private com.toedter.calendar.JDateChooser dVence;
     private javax.swing.JFormattedTextField dias_restantes;
+    private javax.swing.JFormattedTextField dias_transcurridos;
     private org.edisoncor.gui.label.LabelMetric etiquetavacaciones;
     private javax.swing.JFormattedTextField inversion;
     private javax.swing.JTextField isin;
@@ -1684,6 +1731,7 @@ public class flujo_de_inversion extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;

@@ -35,7 +35,7 @@ public class Conexion {
 //conn = DriverManager.getConnection("jdbc:mysql://" + Config.cIpServer.trim()+":3307" + "/Evolution2021", "root", "1541947");
 //conn = DriverManager.getConnection("jdbc:mysql://" + Config.cIpServer.trim()+ "/Evolution2021", "root", "1541947");
 //conn = DriverManager.getConnection( "jdbc:mysql://Localhost/rmachado", "root", "1541947");
-      conn = DriverManager.getConnection("jdbc:mysql://Localhost/ivan","root", "1541947");
+      conn = DriverManager.getConnection("jdbc:mysql://Localhost/opel","root", "1541947");
 //    conn = DriverManager.getConnection( "jdbc:mysql://Localhost/evolution2021", "root", "1541947");
 //             conn = DriverManager.getConnection( "jdbc:mysql://Localhost/evolution2021", "root", "1541947");
 

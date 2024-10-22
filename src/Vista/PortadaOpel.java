@@ -3991,7 +3991,7 @@ public class PortadaOpel extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem102ActionPerformed
 
     private void jMenuItem103ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem103ActionPerformed
-        new pagos().setVisible(true);
+        new pagosOpel().setVisible(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem103ActionPerformed
 

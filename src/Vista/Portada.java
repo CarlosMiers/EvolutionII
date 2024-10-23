@@ -711,6 +711,7 @@ public class Portada extends javax.swing.JFrame {
         jMenuItem45 = new javax.swing.JMenuItem();
         jMenuItem247 = new javax.swing.JMenuItem();
         jSeparator67 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem273 = new javax.swing.JMenuItem();
         jMenuItem18 = new javax.swing.JMenuItem();
         jSeparator177 = new javax.swing.JPopupMenu.Separator();
         jMenuItem212 = new javax.swing.JMenuItem();
@@ -2580,7 +2581,16 @@ public class Portada extends javax.swing.JFrame {
         jMenu6.add(jMenuItem247);
         jMenu6.add(jSeparator67);
 
-        jMenuItem18.setText("Facturas Pendientes");
+        jMenuItem273.setText("Facturas Pendientes");
+        jMenuItem273.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jMenuItem273.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem273ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem273);
+
+        jMenuItem18.setText("Cuotas Pendientes");
         jMenuItem18.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jMenuItem18.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -5747,6 +5757,11 @@ public class Portada extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem272ActionPerformed
 
+    private void jMenuItem273ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem273ActionPerformed
+    new resumen_saldo_clientesxfecha().setVisible(true);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem273ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -6020,6 +6035,7 @@ public class Portada extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem270;
     private javax.swing.JMenuItem jMenuItem271;
     private javax.swing.JMenuItem jMenuItem272;
+    private javax.swing.JMenuItem jMenuItem273;
     private javax.swing.JMenuItem jMenuItem28;
     private javax.swing.JMenuItem jMenuItem29;
     private javax.swing.JMenuItem jMenuItem3;

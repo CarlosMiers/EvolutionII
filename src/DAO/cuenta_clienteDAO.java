@@ -3729,7 +3729,7 @@ public class cuenta_clienteDAO {
             cSql = cSql + " WHERE cuenta_clientes.saldo<>0 ";
             cSql = cSql + "AND cuenta_clientes.moneda= ? ";
             cSql = cSql + "AND clientes.ruc= ? ";
-            cSql = cSql + " ORDER by cuenta_clientes.comprobante,cuenta_clientes.documento,cuenta_clientes.vencimiento";
+            cSql = cSql + " ORDER by cuenta_clientes.documento,cuenta_clientes.cuota";
             //cSql = cSql + " ORDER by cuenta_clientes.fecha";
             //cSql = cSql + " ORDER by cuenta_clientes.vencimiento";            
 

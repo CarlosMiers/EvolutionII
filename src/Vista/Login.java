@@ -311,7 +311,7 @@ public class Login extends javax.swing.JFrame {
                     this.setVisible(false);
 //                   new PortadaCooperativa().setVisible(true);                    
 
- //   this.accesoCasaBolsa(rs.getInt("codasesor"));
+//  this.accesoCasaBolsa(rs.getInt("codasesor"));
  //                                          new PortadaOpel().setVisible(true);
                                              new Portada().setVisible(true);
 //                                              new PortadaFerremax().setVisible(true);
